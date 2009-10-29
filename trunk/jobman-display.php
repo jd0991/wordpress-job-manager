@@ -120,6 +120,11 @@ function jobman_display_title($title, $sep, $seploc) {
 }
 
 function jobman_display_head() {
+	global $wp_query;
+	if(!isset($wp_query->query_vars['jobman'])) {
+		return;
+	}
+	
 	if(is_feed()) {
 		return;
 	}
@@ -128,6 +133,7 @@ function jobman_display_head() {
 //<![CDATA[
 jQuery(document).ready(function() {
 	jQuery(".datepicker").datepicker({dateFormat: 'yy-mm-dd', changeMonth: true, changeYear: true, gotoCurrent: true});
+	jQuery("#ui-datepicker-div").css('display', 'none');
 });
 //]]>
 </script> 
@@ -249,6 +255,28 @@ function jobman_display_apply($jobid, $cat = NULL) {
 	
 	$page = new stdClass;
 	$content = '';
+	
+	if(isset($_REQUEST['jobman-apply'])) {
+		$err = jobman_store_application($jobid, $cat);
+		switch($err) {
+			case -1:
+				// No error, stored properly
+				$msg = __('Thank you for your application! We\'ll check it out, and get back to you soon!', 'jobman');
+				break;
+			default:
+				// Failed filter rules
+				$msg = $wpdb->get_var($wpdb->prepare('SELECT error FROM ' . $wpdb->prefix . 'jobman_application_fields WHERE id=%d', $err));
+				if($msg == NULL) {
+					$msg = __('Thank you for your application. While your application doesn\'t fit our current requirements, please contact us directly to see if we have other positions available.', 'jobman');
+				}
+				break;
+		}
+		
+		$page->post_title = __('Job Application', 'jobman');
+		$page->post_content .= '<div class="jobman-message">' . $msg . '</div>';
+		
+		return array($page);
+	}
 	
 	$sql = $wpdb->prepare('SELECT id, title FROM ' . $wpdb->prefix . 'jobman_jobs WHERE id=%d AND (displaystartdate <= NOW() OR displaystartdate = NULL) AND (displayenddate >= NOW() OR displayenddate = NULL);', $jobid);
 	$data = $wpdb->get_results($sql, ARRAY_A);
@@ -452,6 +480,173 @@ function jobman_format_abstract($text) {
 
 	$text = '<p>' . $text . '</p>';
 	return $text;
+}
+
+function jobman_store_application($jobid, $cat) {
+	$filter_err = jobman_check_filters($jobid, $cat);
+	if($filter_err != -1) {
+		// Failed filter rules
+		return $filter_err;
+	}
+
+	// No error, stored correctly
+	return -1;
+}
+
+function jobman_check_filters($jobid, $cat) {
+	global $wpdb;
+	
+	if($jobid != -1) {
+		$sql = 'SELECT af.id AS id, af.type AS type, af.filter AS filter FROM ' . $wpdb->prefix . 'jobman_application_fields AS af';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_field_categories AS afc ON afc.afid=af.id';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_jobs AS j ON j.id=%d';
+		$sql .= ' LEFT JOIN wp_jobman_job_category AS jc ON jc.jobid=j.id AND jc.categoryid=afc.categoryid';
+		$sql .= ' WHERE afc.categoryid IS NULL OR jc.categoryid=afc.categoryid ORDER BY sortorder ASC';
+		$sql = $wpdb->prepare($sql, $jobid);
+	}
+	else {
+		$sql = 'SELECT af.id AS id, af.type AS type, af.filter AS filter FROM ' . $wpdb->prefix . 'jobman_application_fields AS af';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_field_categories AS afc ON afc.afid=af.id';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_categories AS c ON c.slug=%s';
+		$sql .= ' WHERE afc.categoryid IS NULL OR c.id=afc.categoryid ORDER BY sortorder ASC';
+		$sql = $wpdb->prepare($sql, $cat);
+	}
+	$fields = $wpdb->get_results($sql, ARRAY_A);
+	
+	$matches = array();
+	foreach($fields as $field) {
+		if($field['filter'] == '') {
+			// No filter for this field
+			continue;
+		}
+		
+		$used_eq = false;
+		$eqflag = false;
+		
+		$data = $_REQUEST['jobman-field-'.$field['id']];
+		if($field['type'] != 'checkbox') {
+			$data = trim($data);
+		}
+		else if(!is_array($data)) {
+			$data = array();
+		}
+		$filters = split("\n", $field['filter']);
+		
+		foreach($filters as $filter) {
+			$filter = trim($filter);
+			
+			// Date
+			if($field['type'] == 'date') {
+				$data = strtotime($data);
+
+				// [<>][+-]P(\d+Y)?(\d+M)?(\d+D)?
+				if(preg_match('/^([<>])([+-])P(\d+Y)?(\d+M)?(\d+D)?$/', $filter, $matches)) {
+					$intervalstr = $matches[2];
+					for($ii = 3; $ii < count($matches); $ii++) {
+						$interval = array();
+						preg_match('/(\d+)([YMD])/', $matches[$ii], $interval);
+						switch($interval[2]) {
+							case 'Y':
+								$intervalstr .= $interval[1] . ' years ';
+								break;
+							case 'M':
+								$intervalstr .= $interval[1] . ' months ';
+								break;
+							case 'D':
+								$intervalstr .= $interval[1] . ' days ';
+								break;
+						}
+					}
+					
+					$cmp = strtotime($intervalstr);
+
+					switch($matches[1]) {
+						case '<':
+							if($cmp > $data) {
+								return $field['id'];
+							}
+							break;
+						case '>':
+							if($cmp < $data) {
+								return $field['id'];
+							}
+							break;
+					}
+					
+					break;
+				}
+			}
+
+			preg_match('/^([<>]=?|[!]|)(.+)/', $filter, $matches);
+			if($field['type'] == 'date') {
+				$fdata = strtotime($matches[2]);
+			}
+			else {
+				$fdata = $matches[2];
+			}
+			
+			if($field['type'] != 'checkbox') {
+				switch($matches[1]) {
+					case '<=':
+						if($data > $fdata) {
+							return $field['id'];
+						}
+						break;
+					case '>=':
+						if($data > $fdata) {
+							return $field['id'];
+						}
+						break;
+					case '<':
+						if($data >= $fdata) {
+							return $field['id'];
+						}
+						break;
+					case '>':
+						if($data <= $fdata) {
+							return $field['id'];
+						}
+						break;
+					case '!':
+						if($data == $fdata) {
+							return $field['id'];
+						}
+						break;
+					default:
+						$used_eq = true;
+						if($data == $fdata) {
+							$eqflag = true;
+							break 2;
+						}
+						break;
+				}
+			}
+			else {
+				switch($matches[1]) {
+					case '!':
+						if(in_array($fdata, $data)) {
+							return $field['id'];
+						}
+						break;
+					default:
+						$used_eq = true;
+						if(in_array($fdata, $data)) {
+							$eqflag = true;
+							break 2;
+						}
+						break;
+				}
+			}
+		}
+		
+		if($used_eq && !$eqflag) {
+			return $field['id'];
+		}
+		$used_eq = false;
+		$eqflag = false;
+	}
+
+	return -1;
 }
 
 ?>

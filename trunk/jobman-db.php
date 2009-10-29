@@ -49,6 +49,7 @@ function jobman_create_db() {
 			  type VARCHAR(255),
 			  data TEXT,
 			  filter TEXT,
+			  error TEXT,
 			  sortorder INT,
 			  PRIMARY KEY (id),
 			  KEY sortorder (sortorder));';

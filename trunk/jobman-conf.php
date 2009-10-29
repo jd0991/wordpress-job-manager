@@ -282,7 +282,7 @@ function jobman_application_setup() {
 				<th scope="col"><?php _e('Field Label/Type', 'jobman') ?></th>
 				<th scope="col"><?php _e('Categories', 'jobman') ?></th>
 				<th scope="col"><?php _e('Data', 'jobman') ?></th>
-				<th scope="col"><?php _e('Submit Filter', 'jobman') ?></th>
+				<th scope="col"><?php _e('Submit Filter/Filter Error Message', 'jobman') ?></th>
 				<th scope="col" class="jobman-fieldsortorder"><?php _e('Sort Order', 'jobman') ?></th>
 				<th scope="col" class="jobman-fielddelete"><?php _e('Delete', 'jobman') ?></th>
 			</tr>
@@ -338,7 +338,10 @@ function jobman_application_setup() {
 ?>
 				</td>
 				<td><textarea class="large-text code" name="jobman-data[]"><?php echo $field['data'] ?></textarea></td>
-				<td><textarea class="large-text code" name="jobman-filter[]"><?php echo $field['filter'] ?></textarea></td>
+				<td>
+					<textarea class="large-text code" name="jobman-filter[]"><?php echo $field['filter'] ?></textarea><br/>
+					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php echo $field['error'] ?>" />
+				</td>
 				<td><a href="#" onclick="jobman_sort_field_up(this); return false;"><?php _e('Up', 'jobman') ?></a> <a href="#" onclick="jobman_sort_field_down(this); return false;"><?php _e('Down', 'jobman') ?></a></td>
 				<td><a href="#" onclick="jobman_field_delete(this); return false;"><?php _e('Delete', 'jobman') ?></a></td>
 			</tr>
@@ -363,7 +366,8 @@ function jobman_application_setup() {
 	}
 	$template .= '</td>';
 	$template .= '<td><textarea class="large-text code" name="jobman-data[]"></textarea></td>';
-	$template .= '<td><textarea class="large-text code" name="jobman-filter[]"></textarea></td>';
+	$template .= '<td><textarea class="large-text code" name="jobman-filter[]"></textarea><br/>';
+	$template .= '<input class="regular-text code" type="text" name="jobman-error[]" /></td>';
 	$template .= '<td><a href="#" onclick="jobman_sort_field_up(this); return false;">' . __('Up', 'jobman') . '</a> <a href="#" onclick="jobman_sort_field_down(this); return false;">' . __('Down', 'jobman') . '</a></td>';
 	$template .= '<td><a href="#" onclick="jobman_field_delete(this); return false;">' . __('Delete', 'jobman') . '</a></td></tr>';
 	
@@ -429,8 +433,8 @@ function jobman_application_setup_updatedb() {
 			$newcount++;
 			// INSERT new field
 			if($_REQUEST['jobman-label'][$ii] != '' || $_REQUEST['jobman-data'][$ii] != '' || $_REQUEST['jobman-type'][$ii] == 'blank') {
-				$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_fields(label, type, data, filter, sortorder) VALUES(%s, %s, %s, %s, %d);',
-					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), $ii);
+				$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_fields(label, type, data, filter, error, sortorder) VALUES(%s, %s, %s, %s, %s, %d);',
+					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), stripslashes($_REQUEST['jobman-error'][$ii]), $ii);
 			}
 			else {
 				// No input, not a 'blank' field. Don't insert into the DB.
@@ -440,8 +444,8 @@ function jobman_application_setup_updatedb() {
 		}
 		else {
 			// UPDATE existing field
-			$sql = $wpdb->prepare('UPDATE ' . $wpdb->prefix . 'jobman_application_fields SET label=%s, type=%s, data=%s, filter=%s, sortorder=%d WHERE id=%d',
-					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), $ii, $id);
+			$sql = $wpdb->prepare('UPDATE ' . $wpdb->prefix . 'jobman_application_fields SET label=%s, type=%s, data=%s, filter=%s, error=%s, sortorder=%d WHERE id=%d',
+					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), stripslashes($_REQUEST['jobman-error'][$ii]), $ii, $id);
 		}
 		
 		$wpdb->query($sql);
