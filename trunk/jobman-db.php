@@ -66,10 +66,9 @@ function jobman_create_db() {
 	$tablename = $wpdb->prefix . 'jobman_applications';
 	$sql = 'CREATE TABLE ' . $tablename . ' (
 			  id INT NOT NULL AUTO_INCREMENT,
-			  label VARCHAR(255),
-			  type VARCHAR(255),
-			  data TEXT,			  
-			  PRIMARY KEY (id));';
+			  jobid INT,
+			  PRIMARY KEY (id),
+			  KEY job (jobid));';
 	$wpdb->query($sql);
 	
 	$tablename = $wpdb->prefix . 'jobman_application_categories';
@@ -85,7 +84,7 @@ function jobman_create_db() {
 			  id INT NOT NULL AUTO_INCREMENT,
 			  applicationid INT,
 			  fieldid INT,
-			  data TEXT,			  
+			  data TEXT,
 			  PRIMARY KEY (id),
 			  KEY appid (applicationid));';
 	$wpdb->query($sql);

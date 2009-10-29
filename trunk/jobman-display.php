@@ -293,7 +293,7 @@ function jobman_display_apply($jobid, $cat = NULL) {
 		$jj = 1;
 		if(count($catids) > 0) {
 			foreach($catids as $catid) {
-				$categoryid .= $catid;
+				$categoryid .= $catid['categoryid'];
 				if($jj < count($catids)) {
 					$categoryid .= ',';
 				}
@@ -483,14 +483,81 @@ function jobman_format_abstract($text) {
 }
 
 function jobman_store_application($jobid, $cat) {
+	global $wpdb;
 	$filter_err = jobman_check_filters($jobid, $cat);
 	if($filter_err != -1) {
 		// Failed filter rules
 		return $filter_err;
 	}
 
-	// No error, stored correctly
+	if($jobid != -1) {
+		$sql = 'SELECT af.id AS id, af.type AS type FROM ' . $wpdb->prefix . 'jobman_application_fields AS af';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_field_categories AS afc ON afc.afid=af.id';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_jobs AS j ON j.id=%d';
+		$sql .= ' LEFT JOIN wp_jobman_job_category AS jc ON jc.jobid=j.id AND jc.categoryid=afc.categoryid';
+		$sql .= ' WHERE afc.categoryid IS NULL OR jc.categoryid=afc.categoryid ORDER BY sortorder ASC';
+		$sql = $wpdb->prepare($sql, $jobid);
+	}
+	else {
+		$sql = 'SELECT af.id AS id, af.type AS type FROM ' . $wpdb->prefix . 'jobman_application_fields AS af';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_field_categories AS afc ON afc.afid=af.id';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_categories AS c ON c.slug=%s';
+		$sql .= ' WHERE afc.categoryid IS NULL OR c.id=afc.categoryid ORDER BY sortorder ASC';
+		$sql = $wpdb->prepare($sql, $cat);
+	}
+	$fields = $wpdb->get_results($sql, ARRAY_A);
+	
+	if($jobid != -1) {
+		$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_applications(jobid) VALUES(%d)', $jobid);
+	}
+	else {
+		$sql = 'INSERT INTO ' . $wpdb->prefix . 'jobman_applications VALUES();';
+	}
+	$wpdb->query($sql);
+	$appid = $wpdb->insert_id;
+	
+	$categories = split(',', $_REQUEST['jobman-categoryid']);
+	if(count($categories) > 0 && $_REQUEST['jobman-categoryid'] != '') {
+		foreach($categories as $cat) {
+			$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_categories(applicationid, categoryid) VALUES(%d, %d);', $appid, $cat);
+			$wpdb->query($sql);
+		}
+	}
+	
+	foreach($fields as $field) {
+		if($field['type'] != 'file' && (!isset($_REQUEST['jobman-field-'.$field['id']]) || $_REQUEST['jobman-field-'.$field['id']] == '')) {
+			continue;
+		}
+		
+		if($field['type'] == 'file' && !isset($_FILES['jobman-field-'.$field['id']])) {
+			continue;
+		}
+		
+		switch($field['type']) {
+			case 'file':
+				$matches = array();
+				preg_match('/.*\.(.+)$/', $_FILES['jobman-field-'.$field['id']]['name'], $matches);
+				$ext = $matches[1];
+				if(is_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'])) {
+					move_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'], WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/resumes/' . $appid . '.' . $ext);
+				}
+				$data = $appid . '.' . $ext;
+				break;
+			case 'checkbox':
+				$data = implode(',', $_REQUEST['jobman-field-'.$field['id']]);
+				break;
+			default:
+				$data = $_REQUEST['jobman-field-'.$field['id']];
+		}
+		
+		$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_data(applicationid, fieldid, data) VALUES(%d, %d, %s);', $appid, $field['id'], $data);
+		$wpdb->query($sql);
+	}
+	
+	// No error
 	return -1;
+	
+	jobman_email_application($appid);
 }
 
 function jobman_check_filters($jobid, $cat) {
