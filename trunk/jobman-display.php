@@ -539,7 +539,7 @@ function jobman_store_application($jobid, $cat) {
 				preg_match('/.*\.(.+)$/', $_FILES['jobman-field-'.$field['id']]['name'], $matches);
 				$ext = $matches[1];
 				if(is_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'])) {
-					move_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'], WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/resumes/' . $appid . '.' . $ext);
+					move_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'], WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/uploads/' . $appid . '-' . $field['id'] . '.' . $ext);
 				}
 				$data = $appid . '.' . $ext;
 				break;
