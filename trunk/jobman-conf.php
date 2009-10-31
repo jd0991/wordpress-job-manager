@@ -6,8 +6,8 @@ function jobman_admin_setup() {
 	add_menu_page(__('Job Manager', 'jobman'), __('Job Manager', 'jobman'), 'manage_options', $file, 'jobman_conf');
 	add_submenu_page($file, __('Job Manager', 'jobman'), __('Settings', 'jobman'), 'manage_options', $file, 'jobman_conf');
 	add_submenu_page($file, __('Job Manager', 'jobman'), __('App. Form Settings', 'jobman'), 'manage_options', 'jobman-application-setup', 'jobman_application_setup');
-	$pageref = add_submenu_page($file, __('Job Manager', 'jobman'), __('Jobs List', 'jobman'), 'manage_options', 'jobman-jobs-list', 'jobman_list_jobs');
-	add_submenu_page($file, __('Job Manager', 'jobman'), __('View Applications', 'jobman'), 'manage_options', 'jobman-view-applications', 'jobman_view_applications');
+	$pageref = add_submenu_page($file, __('Job Manager', 'jobman'), __('List Jobs', 'jobman'), 'manage_options', 'jobman-list-jobs', 'jobman_list_jobs');
+	add_submenu_page($file, __('Job Manager', 'jobman'), __('List Applications', 'jobman'), 'manage_options', 'jobman-list-applications', 'jobman_list_applications');
 
 	// Load our header info
 	add_action('admin_head-'.$pageref, 'jobman_admin_header');
@@ -101,8 +101,8 @@ function jobman_list_jobs() {
 		foreach($jobs as $job) {
 ?>
 			<tr>
-				<td class="post-title page-title column-title"><strong><a href="?page=jobman-jobs-list&amp;jobid=<?php echo $job['id'] ?>"><?php echo $job['title']?></a></strong>
-				<div class="row-actions"><a href="?page=jobman-jobs-list&amp;jobid=<?php echo $job['id'] ?>">Edit</a> | <a href="#">View</a></div></td>
+				<td class="post-title page-title column-title"><strong><a href="?page=jobman-jobs-list&amp;jobman-jobid=<?php echo $job['id'] ?>"><?php echo $job['title']?></a></strong>
+				<div class="row-actions"><a href="?page=jobman-jobs-list&amp;jobman-jobid=<?php echo $job['id'] ?>">Edit</a> | <a href="#">View</a></div></td>
 				<td></td>
 				<td><?php echo ($job['displaystartdate'] == '')?(__('Now', 'jobman')):($job['displaystartdate']) ?> - <?php echo ($job['displayenddate'] == '')?(__('End of Time', 'jobman')):($job['displayenddate']) ?><br/>
 				<?php echo ($job['display'])?(__('Live', 'jobman')):(__('Expired', 'jobman')) ?></td>
@@ -312,7 +312,16 @@ function jobman_application_setup() {
 <?php
 			}
 ?>
-					</select>
+					</select><br/>
+<?php
+			if($field['listdisplay'] == 1) {
+				$checked = ' checked="checked"';
+			}
+			else {
+				$checked = '';
+			}
+?>
+					<input type="checkbox" name="jobman-listdisplay[<?php echo $field['id'] ?>]" value="1"<?php echo $checked ?> /> <?php _e('Show this field in the Application List?', 'jobman') ?>
 				</td>
 				<td>
 <?php
@@ -357,7 +366,8 @@ function jobman_application_setup() {
 	foreach($fieldtypes as $type => $label) {
 		$template .= '<option value="' . $type . '">' . $label . '</option>';
 	}
-	$template .= '</select></td>';
+	$template .= '</select>';
+	$template .= '<input type="checkbox" name="jobman-listdisplay" value="1" />' . __('Show this field in the Application List?', 'jobman') . '</td>';
 	$template .= '<td>';
 	if(count($categories) > 0 ) {
 		foreach($categories as $cat) {
@@ -371,7 +381,10 @@ function jobman_application_setup() {
 	$template .= '<td><a href="#" onclick="jobman_sort_field_up(this); return false;">' . __('Up', 'jobman') . '</a> <a href="#" onclick="jobman_sort_field_down(this); return false;">' . __('Down', 'jobman') . '</a></td>';
 	$template .= '<td><a href="#" onclick="jobman_field_delete(this); return false;">' . __('Delete', 'jobman') . '</a></td></tr>';
 	
-	echo str_replace('jobman-categories', 'jobman-categories[new][0][]', $template);
+	$display_template = str_replace('jobman-categories', 'jobman-categories[new][0][]', $template);
+	$display_template = str_replace('jobman-listdisplay', 'jobman-listdisplay[new][0][]', $display_template);
+	
+	echo $display_template;
 ?>
 		<tr id="jobman-fieldnew">
 				<td colspan="6" style="text-align: right;">
@@ -390,11 +403,90 @@ function jobman_application_setup() {
 <?php
 }
 
-function jobman_view_applications() {
+function jobman_list_applications() {
+	global $wpdb;
 ?>
+	<form action="" method="post">
+	<input type="hidden" name="jobman-jobid" value="new" />
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Applications', 'jobman') ?></h2>
+<?php
+	$sql = 'SELECT id, label, type FROM ' . $wpdb->prefix . 'jobman_application_fields WHERE listdisplay=1 ORDER BY sortorder ASC';
+	$fields = $wpdb->get_results($sql, ARRAY_A);
+?>
+		<table class="widefat page fixed" cellspacing="0">
+			<thead>
+			<tr>
+				<th scope="col"><?php _e('Job', 'jobman') ?></th>
+				<th scope="col"><?php _e('Categories', 'jobman') ?></th>
+<?php
+	if(count($fields) > 0) {
+		foreach($fields as $field) {
+?>
+				<th scope="col"><?php echo $field['label'] ?></th>
+<?php
+		}
+	}
+?>
+				<th scope="col"><?php _e('View Details', 'jobman') ?></th>
+			</tr>
+			</thead>
+<?php
+	$sql = 'SELECT a.id AS id, a.jobid AS jobid';
+	$join = '';
+	if(count($fields > 0)) {
+		foreach($fields as $field) {
+			$sql .= ', d' . $field['id'] . '.data AS data' . $field['id'];
+			$join .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_data as d' . $field['id'] . ' ON d' . $field['id'] . '.applicationid=a.id AND d' . $field['id'] . '.fieldid=' . $field['id'];
+		}
+	}
+	$sql .= ' FROM ' . $wpdb->prefix . 'jobman_applications AS a';
+	$sql .= $join;
+	$sql .= ' ORDER BY a.id;';
+	$applications = $wpdb->get_results($sql, ARRAY_A);
+
+	if(count($applications) > 0) {
+		foreach($applications as $app) {
+?>
+			<tr>
+<?php
+			if($app['jobid'] > 0) {
+?>
+				<td><strong><a href="?page=jobman-jobs-list&amp;jobman-jobid=<?php echo $app['jobid'] ?>"><?php echo $app['jobid']?></a></strong></td>
+<?php
+			}
+			else {
+?>
+				<td><?php _e('No job', 'jobman') ?></td>
+<?php
+			}
+?>
+				<td></td>
+<?php
+			if(count($fields)) {
+				foreach($fields as $field) {
+?>
+				<td><?php echo $app['data'.$field['id']] ?></td>
+<?php
+				}
+			}
+?>
+				<td><a href="?page=jobman-list-applications&amp;appid=<?php echo $app['id'] ?>"><?php _e('View Details', 'jobman') ?></a></td>
+			</tr>
+<?php
+		}
+	}
+	else {
+?>
+			<tr>
+				<td colspan="<?php echo 3 + count($fields) ?>"><?php _e('There are currently no applications in the system.', 'jobman') ?></td>
+			</tr>
+<?php
+	}
+?>
+		</table>
 	</div>
+	</form>
 <?php
 }
 
@@ -425,16 +517,20 @@ function jobman_application_setup_updatedb() {
 	// Delete all the existing category records, to prepare for any updates
 	$sql = 'DELETE FROM ' . $wpdb->prefix . 'jobman_application_field_categories WHERE 1';
 	$wpdb->query($sql);
-
+	
 	$ii = 0;
 	$newcount = -1;
 	foreach($_REQUEST['jobman-fieldid'] as $id) {
 		if($id == -1) {
 			$newcount++;
+			$listdisplay = 0;
+			if(isset($_REQUEST['jobman-listdisplay']['new'][$newcount])) {
+				$listdisplay = 1;
+			}
 			// INSERT new field
 			if($_REQUEST['jobman-label'][$ii] != '' || $_REQUEST['jobman-data'][$ii] != '' || $_REQUEST['jobman-type'][$ii] == 'blank') {
-				$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_fields(label, type, data, filter, error, sortorder) VALUES(%s, %s, %s, %s, %s, %d);',
-					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), stripslashes($_REQUEST['jobman-error'][$ii]), $ii);
+				$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_fields(label, type, listdisplay, data, filter, error, sortorder) VALUES(%s, %s, %s, %s, %s, %d);',
+					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], $listdisplay, stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), stripslashes($_REQUEST['jobman-error'][$ii]), $ii);
 			}
 			else {
 				// No input, not a 'blank' field. Don't insert into the DB.
@@ -443,9 +539,13 @@ function jobman_application_setup_updatedb() {
 			}
 		}
 		else {
+			$listdisplay = 0;
+			if(isset($_REQUEST['jobman-listdisplay'][$id])) {
+				$listdisplay = 1;
+			}
 			// UPDATE existing field
-			$sql = $wpdb->prepare('UPDATE ' . $wpdb->prefix . 'jobman_application_fields SET label=%s, type=%s, data=%s, filter=%s, error=%s, sortorder=%d WHERE id=%d',
-					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), stripslashes($_REQUEST['jobman-error'][$ii]), $ii, $id);
+			$sql = $wpdb->prepare('UPDATE ' . $wpdb->prefix . 'jobman_application_fields SET label=%s, type=%s, listdisplay=%d, data=%s, filter=%s, error=%s, sortorder=%d WHERE id=%d',
+					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], $listdisplay, stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), stripslashes($_REQUEST['jobman-error'][$ii]), $ii, $id);
 		}
 		
 		$wpdb->query($sql);

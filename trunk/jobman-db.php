@@ -47,6 +47,7 @@ function jobman_create_db() {
 			  id INT NOT NULL AUTO_INCREMENT,
 			  label VARCHAR(255),
 			  type VARCHAR(255),
+			  listdisplay INT,
 			  data TEXT,
 			  filter TEXT,
 			  error TEXT,

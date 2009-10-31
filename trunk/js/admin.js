@@ -36,7 +36,7 @@ function jobman_field_new() {
 
 jobman_nameFilter = function () {
 	var name = jQuery(this).attr('name');
-	if(name == 'jobman-categories') {
+	if(name == 'jobman-categories' || name = 'jobman-listdisplay') {
 		jQuery(this).attr('name', name + '[new][' + jobman_new_count + '][]');
 	}
 }
