@@ -14,6 +14,9 @@ function jobman_admin_setup() {
 	wp_enqueue_script('jobman-admin', JOBMAN_URL.'/js/admin.js', false, JOBMAN_VERSION);
 	wp_enqueue_script('jquery-ui-datepicker', JOBMAN_URL.'/js/jquery-ui-datepicker.js', array('jquery-ui-core'), JOBMAN_VERSION);
 	wp_enqueue_style('jobman-admin', JOBMAN_URL.'/css/admin.css', false, JOBMAN_VERSION);
+
+	wp_enqueue_style('dashboard');
+	wp_enqueue_script('dashboard');
 }
 
 function jobman_admin_header() {
@@ -35,12 +38,26 @@ function jobman_conf() {
 		jobman_conf_updatedb();
 	}
 ?>
-	<form action="" method="post">
 	<input type="hidden" name="jobmanconfsubmit" value="1" />
 	<div class="wrap">
-
 		<h2><?php _e('Job Manager: Settings', 'jobman') ?></h2>
+<?php
+	$widths = array('60%', '39%');
+	$functions = array(
+					array('jobman_print_settings_box', 'jobman_print_categories_box'),
+					array('jobman_print_donate_box', 'jobman_print_about_box')
+				);
+	$titles = array(
+				array(__('Settings', 'jobman'), __('Categories', 'jobman')),
+				array(__('Donate', 'jobman'), __('About This Plugin', 'jobman'))
+			);
+	
+	jobman_create_dashboard($widths, $functions, $titles);
+}
 
+function jobman_print_settings_box() {
+?>
+		<form action="" method="post">
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('URL path', 'jobman') ?></th>
@@ -51,8 +68,13 @@ function jobman_conf() {
 		</table>
 		
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Update Settings', 'jobman') ?>" /></p>
-	</div>
-	</form>
+		</form>
+<?php
+}
+
+function jobman_print_categories_box() {
+?>
+
 <?php
 }
 
@@ -579,14 +601,24 @@ function jobman_application_setup_updatedb() {
 	}
 }
 
-function jobman_print_info() {
+function jobman_print_donate_box() {
 ?>
-<div id="ldx_status" class="postbox">
-	<div class="handlediv" title="Click to toggle"><br /></div>
-	<h3 class="hndle"><span>About This Plugin</span></h3>
-	<div class="inside"><p>LOVE ME
-	</p></div>
-</div>
+		<p><?php _e('If this plugin helps you find that perfect new employee, I\'d appreciate it if you shared the love, by way of my Donate or Amazon Wish List links below.', 'resman') ?></p>
+		<ul>
+			<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=gary%40pento%2enet&item_name=WordPress%20Plugin%20(Job%20Manager)&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8"><?php _e('Donate with PayPal', 'resman') ?></a></li>
+			<li><a href="http://www.amazon.com/wishlist/1ORKI9ZG875BL"><?php _e('My Amazon Wish List', 'resman') ?></a></li>
+		</ul>
+<?php
+}
+
+function jobman_print_about_box() {
+?>
+		<ul>
+			<li><a href="http://pento.net/"><?php _e('Gary Pendergast\'s Blog', 'resman') ?></a></li>
+			<li><a href="http://twitter.com/garypendergast"><?php _e('Follow me on Twitter!', 'resman') ?></a></li>
+			<li><a href="http://pento.net/projects/wordpress-job-manager/"><?php _e('Plugin Homepage', 'resman') ?></a></li>
+			<li><a href="http://code.google.com/p/wordpress-job-manager/issues/list"><?php _e('Submit a Bug/Feature Request', 'resman') ?></a></li>
+		</ul>
 <?php
 }
 ?>

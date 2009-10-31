@@ -21,6 +21,9 @@ define('JOBMAN_URL', get_option('siteurl').'/wp-content/plugins/' . JOBMAN_FOLDE
 // Load Jobman
 //
 
+// Jobman global functions
+require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-functions.php');
+
 // Jobman setup (for installation/upgrades)
 require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-setup.php');
 
