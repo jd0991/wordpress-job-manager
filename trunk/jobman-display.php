@@ -34,28 +34,39 @@ function jobman_display_jobs($posts) {
 	$matches = array();
 	
 	if($url == 'all') {
-		return jobman_display_jobs_list('all');
+		$posts = jobman_display_jobs_list('all');
+	}
+	else if(preg_match('/^view\/(\d+)/', $url, $matches)) {
+		$posts = jobman_display_job($matches[1]);
+	}
+	else if(preg_match('/^apply\/(\d+)/', $url, $matches)) {
+		$posts = jobman_display_apply($matches[1]);
+	}
+	else if(preg_match('/^apply\/([^\/]+)/', $url, $matches)) {
+		$posts = jobman_display_apply(-1, $matches[1]);
+	}
+	else if(preg_match('/^apply$/', $url, $matches)) {
+		$posts = jobman_display_apply(-1);
+	}
+	else if(preg_match('/^([^\/]+)/', $url, $matches)) {
+		$posts = jobman_display_jobs_list($matches[1]);
+	}
+	else {
+		return NULL;
 	}
 
-	if(preg_match('/^view\/(\d+)/', $url, $matches)) {
-		return jobman_display_job($matches[1]);
+	$hidepromo = get_option('jobman_promo_link');
+	
+	if(get_option('pento_consulting')) {
+		$hidepromo = true;
 	}
 	
-	if(preg_match('/^apply\/(\d+)/', $url, $matches)) {
-		return jobman_display_apply($matches[1]);
-	}
-	if(preg_match('/^apply\/([^\/]+)/', $url, $matches)) {
-		return jobman_display_apply(-1, $matches[1]);
-	}
-	if(preg_match('/^apply$/', $url, $matches)) {
-		return jobman_display_apply(-1);
+	if(!$hidepromo) {
+		$posts[0]->post_content .= '<p class="jobmanpromo">' . sprintf(__('This job listing was created using <a href="%s" title="%s">Job Manager</a> for WordPress, by <a href="%s">Gary Pendergast</a>.', 'resman'), 'http://pento.net/projects/wordpress-job-manager/', __('WordPress Résumé Manager', 'resman'), 'http://pento.net') . '</p>';
 	}
 	
-	if(preg_match('/^([^\/]+)/', $url, $matches)) {
-		return jobman_display_jobs_list($matches[1]);
-	}
-	
-	return NULL;
+
+	return $posts;
 }
 
 function jobman_display_init() {

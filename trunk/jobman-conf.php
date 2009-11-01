@@ -38,26 +38,38 @@ function jobman_conf() {
 		jobman_conf_updatedb();
 	}
 ?>
-	<input type="hidden" name="jobmanconfsubmit" value="1" />
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Settings', 'jobman') ?></h2>
 <?php
-	$widths = array('60%', '39%');
-	$functions = array(
-					array('jobman_print_settings_box', 'jobman_print_categories_box'),
-					array('jobman_print_donate_box', 'jobman_print_about_box')
+	if(!get_option('pento_consulting')) {
+		$widths = array('60%', '39%');
+		$functions = array(
+						array('jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box'),
+						array('jobman_print_donate_box', 'jobman_print_about_box')
+					);
+		$titles = array(
+					array(__('Settings', 'jobman'), __('Categories', 'jobman'), __('Icons', 'jobman')),
+					array(__('Donate', 'jobman'), __('About This Plugin', 'jobman'))
 				);
-	$titles = array(
-				array(__('Settings', 'jobman'), __('Categories', 'jobman')),
-				array(__('Donate', 'jobman'), __('About This Plugin', 'jobman'))
-			);
-	
+	}
+	else {
+		$widths = array('49%', '49%');
+		$functions = array(
+						array('jobman_print_settings_box', 'jobman_print_categories_box'),
+						array('jobman_print_icons_box')
+					);
+		$titles = array(
+					array(__('Settings', 'jobman'), __('Categories', 'jobman')),
+					array(__('Icons', 'jobman'))
+				);
+	}
 	jobman_create_dashboard($widths, $functions, $titles);
 }
 
 function jobman_print_settings_box() {
 ?>
 		<form action="" method="post">
+		<input type="hidden" name="jobmanconfsubmit" value="1" />
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('URL path', 'jobman') ?></th>
@@ -65,6 +77,17 @@ function jobman_print_settings_box() {
 				<td><span class="description"><?php _e('Enter the URL you want the Job Manager to use for displaying the jobs listing', 'jobman') ?></span></td>
 				</td>
 			</tr>
+<?php
+	if(!get_option('pento_consulting')) {
+?>
+			<tr>
+				<th scope="row"><?php _e('Hide "Powered By" link?', 'resman') ?></th>
+				<td><input type="checkbox" value="1" name="promo-link" <?php echo (get_option('jobman_promo_link'))?('checked="checked" '):('') ?>/></td>
+				<td><span class="description"><?php _e('If you\'re unable to donate, I would appreciate it if you left this unchecked.', 'resman') ?></span></td>
+			</tr>
+<?php
+	}
+?>
 		</table>
 		
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Update Settings', 'jobman') ?>" /></p>
@@ -73,6 +96,12 @@ function jobman_print_settings_box() {
 }
 
 function jobman_print_categories_box() {
+?>
+
+<?php
+}
+
+function jobman_print_icons_box() {
 ?>
 
 <?php
@@ -514,6 +543,13 @@ function jobman_list_applications() {
 
 function jobman_conf_updatedb() {
 	update_option('jobman_page_name', $_REQUEST['page-name']);
+
+	if($_REQUEST['promo-link']) {
+		update_option('jobman_promo_link', 1);
+	}
+	else {
+		update_option('jobman_promo_link', 0);
+	}
 }
 
 function jobman_updatedb() {
