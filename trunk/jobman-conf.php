@@ -275,11 +275,21 @@ function jobman_list_jobs() {
 <?php
 	if(count($jobs) > 0) {
 		foreach($jobs as $job) {
+			$sql = $wpdb->prepare('SELECT c.title AS title FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON c.id=jc.categoryid WHERE jc.jobid=%d;', $job['id']);
+			$data = $wpdb->get_results($sql, ARRAY_A);
+			$cats = array();
+			$catstring = '';
+			if(count($data) > 0) {
+				foreach($data as $cat) {
+					$cats[] = $cat['title'];
+				}
+			}
+			$catstring = implode(', ', $cats);
 ?>
 			<tr>
-				<td class="post-title page-title column-title"><strong><a href="?page=jobman-jobs-list&amp;jobman-jobid=<?php echo $job['id'] ?>"><?php echo $job['title']?></a></strong>
-				<div class="row-actions"><a href="?page=jobman-jobs-list&amp;jobman-jobid=<?php echo $job['id'] ?>">Edit</a> | <a href="#">View</a></div></td>
-				<td></td>
+				<td class="post-title page-title column-title"><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job['id'] ?>"><?php echo $job['title']?></a></strong>
+				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job['id'] ?>">Edit</a> | <a href="#">View</a></div></td>
+				<td><?php echo $catstring ?></td>
 				<td><?php echo ($job['displaystartdate'] == '')?(__('Now', 'jobman')):($job['displaystartdate']) ?> - <?php echo ($job['displayenddate'] == '')?(__('End of Time', 'jobman')):($job['displayenddate']) ?><br/>
 				<?php echo ($job['display'])?(__('Live', 'jobman')):(__('Expired', 'jobman')) ?></td>
 			</tr>
@@ -351,6 +361,32 @@ function jobman_edit_job($jobid) {
 				<td></td>
 			</tr>
 			<tr>
+				<th scope="row"><?php _e('Categories', 'jobman') ?></th>
+				<td>
+<?php
+	if($jobid == 'new') {
+		$sql = 'SELECT id, title, 0 AS checked FROM ' . $wpdb->prefix . 'jobman_categories;';
+	}
+	else {
+		$sql = $wpdb->prepare('SELECT c.id AS id, c.title AS title, (jc.jobid IS NOT NULL) AS checked FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON jc.categoryid=c.id AND jc.jobid=%d;', $jobid);
+	}
+	$categories = $wpdb->get_results($sql, ARRAY_A);
+	if(count($categories) > 0) {
+		foreach($categories as $cat) {
+			$checked = '';
+			if($cat['checked']) {
+				$checked = ' checked="checked"';
+			}
+?>
+					<input type="checkbox" name="jobman-categories[]" value="<?php echo $cat['id'] ?>"<?php echo $checked ?> /> <?php echo $cat['title'] ?><br/>
+<?php
+		}
+	}
+?>
+				</td>
+				<td><span class="description"><?php _e('Categories that this job belongs to. It will be displayed in the job list for each category selected.', 'jobman') ?></span></td>
+			</tr>
+			<tr>
 				<th scope="row"><?php _e('Icon', 'jobman') ?></th>
 				<td>
 <?php
@@ -363,19 +399,19 @@ function jobman_edit_job($jobid) {
 				$checked = '';
 			}
 ?>
-					<input type="radio" name="jobman-icon" value="<?php echo $icon['id']?>"<?php echo $checked ?> /><img src="<?php echo JOBMAN_URL . '/' . $icon['id'] . '.' . $icon['extension'] ?>"> <?php echo $icon['title'] ?><br/>
+					<input type="radio" name="jobman-icon" value="<?php echo $icon['id']?>"<?php echo $checked ?> /> <img src="<?php echo JOBMAN_URL . '/icons/' . $icon['id'] . '.' . $icon['extension'] ?>"> <?php echo $icon['title'] ?><br/>
 <?php
 		}
 	}
 
-	if(!isset($job['iconid']) || $job['iconid'] == '') {
+	if(!isset($job['iconid']) || $job['iconid'] == 0) {
 		$checked = ' checked="checked"';
 	}
 	else {
 		$checked = '';
 	}
 ?>
-					<input type="radio" name="jobman-icon"<?php echo $checked ?> /><?php _e('No Icon', 'jobman') ?><br/>
+					<input type="radio" name="jobman-icon"<?php echo $checked ?> /> <?php _e('No Icon', 'jobman') ?><br/>
 				</td>
 				<td><span class="description"><?php _e('Icon to display for this job in the Job List', 'jobman') ?></span></td>
 			</tr>
@@ -628,7 +664,7 @@ function jobman_list_applications() {
 <?php
 			if($app['jobid'] > 0) {
 ?>
-				<td><strong><a href="?page=jobman-jobs-list&amp;jobman-jobid=<?php echo $app['jobid'] ?>"><?php echo $app['jobid']?></a></strong></td>
+				<td><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $app['jobid'] ?>"><?php echo $app['jobid']?></a></strong></td>
 <?php
 			}
 			else {
@@ -636,8 +672,19 @@ function jobman_list_applications() {
 				<td><?php _e('No job', 'jobman') ?></td>
 <?php
 			}
+			
+			$sql = $wpdb->prepare('SELECT c.title AS title FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_application_categories AS ac ON c.id=ac.categoryid WHERE ac.applicationid=%d;', $app['id']);
+			$data = $wpdb->get_results($sql, ARRAY_A);
+			$cats = array();
+			$catstring = '';
+			if(count($data) > 0) {
+				foreach($data as $cat) {
+					$cats[] = $cat['title'];
+				}
+			}
+			$catstring = implode(', ', $cats);
 ?>
-				<td></td>
+				<td><?php echo $catstring ?></td>
 <?php
 			if(count($fields)) {
 				foreach($fields as $field) {
@@ -683,16 +730,40 @@ function jobman_updatedb() {
 
 	if($_REQUEST['jobman-jobid'] == 'new') {
 		$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_jobs(iconid, title, salary, startdate, enddate, location, displaystartdate, displayenddate, abstract) VALUES(%d, %s, %s, %s, %s, %s, %s, %s, %s)',
-								$_REQUEST['jobman-iconid'], stripslashes($_REQUEST['jobman-title']), stripslashes($_REQUEST['jobman-salary']), stripslashes($_REQUEST['jobman-startdate']), stripslashes($_REQUEST['jobman-enddate']), 
+								$_REQUEST['jobman-icon'], stripslashes($_REQUEST['jobman-title']), stripslashes($_REQUEST['jobman-salary']), stripslashes($_REQUEST['jobman-startdate']), stripslashes($_REQUEST['jobman-enddate']), 
 								stripslashes($_REQUEST['jobman-location']), stripslashes($_REQUEST['jobman-displaystartdate']), stripslashes($_REQUEST['jobman-displayenddate']), stripslashes($_REQUEST['jobman-abstract']));
 	}
 	else {
 		$sql = $wpdb->prepare('UPDATE ' . $wpdb->prefix . 'jobman_jobs SET iconid=%d, title=%s, salary=%s, startdate=%s, enddate=%s, location=%s, displaystartdate=%s, displayenddate=%s, abstract=%s WHERE id=%d;',
-								$_REQUEST['jobman-iconid'], stripslashes($_REQUEST['jobman-title']), stripslashes($_REQUEST['jobman-salary']), stripslashes($_REQUEST['jobman-startdate']), stripslashes($_REQUEST['jobman-enddate']), 
+								$_REQUEST['jobman-icon'], stripslashes($_REQUEST['jobman-title']), stripslashes($_REQUEST['jobman-salary']), stripslashes($_REQUEST['jobman-startdate']), stripslashes($_REQUEST['jobman-enddate']), 
 								stripslashes($_REQUEST['jobman-location']), stripslashes($_REQUEST['jobman-displaystartdate']), stripslashes($_REQUEST['jobman-displayenddate']), stripslashes($_REQUEST['jobman-abstract']), $_REQUEST['jobman-jobid']);
+
+		// Delete all the existing category records, to prepare for any updates
+		$delsql = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'jobman_job_category WHERE jobid=%d;', $_REQUEST['jobman-jobid']);
+		$wpdb->query($delsql);
 	}
 
 	$wpdb->query($sql);
+
+	if($_REQUEST['jobman-jobid'] == 'new') {
+		$jobid = $wpdb->insert_id;
+	}
+	else {
+		$jobid = $_REQUEST['jobman-jobid'];
+	}
+	$categories = $_REQUEST['jobman-categories'];
+	if(count($categories) > 0) {
+		$sql = 'INSERT INTO ' . $wpdb->prefix . 'jobman_job_category(jobid, categoryid) VALUES';
+		$jj = 1;
+		foreach($categories as $categoryid) {
+			$sql .= $wpdb->prepare('(%d, %d)', $jobid, $categoryid);
+			if($jj < count($categories)) {
+				$sql .= ', ';
+			}
+		}
+		$sql .= ';';
+		$wpdb->query($sql);
+	}
 }
 
 function jobman_categories_updatedb() {
