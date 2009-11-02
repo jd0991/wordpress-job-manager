@@ -552,7 +552,7 @@ function jobman_store_application($jobid, $cat) {
 				if(is_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'])) {
 					move_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'], WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/uploads/' . $appid . '-' . $field['id'] . '.' . $ext);
 				}
-				$data = $appid . '.' . $ext;
+				$data = $appid . '-' . $field['id'] . '.' . $ext;
 				break;
 			case 'checkbox':
 				$data = implode(',', $_REQUEST['jobman-field-'.$field['id']]);

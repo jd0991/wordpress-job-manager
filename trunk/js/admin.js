@@ -1,4 +1,4 @@
-jobman_field_template = '';
+jobman_templates = new Array();
 jobman_new_count = 0;
 
 function jobman_sort_field_up(div) {
@@ -9,10 +9,15 @@ function jobman_sort_field_down(div) {
 	jQuery(div).parent().parent().next().after(jQuery(div).parent().parent());
 }
 
-function jobman_field_delete(div) {
-	var id = jQuery(div).parent().parent().find('[name^=jobman-fieldid]').attr('value');
+function jobman_delete(div, idname, delete_list) {
+	var id = jQuery(div).parent().parent().find('[name^=' + idname + ']').attr('value');
 	
-	var list = jQuery('#jobman-delete-list').attr('value');
+	if(id == '-1') {
+		jQuery(div).parent().parent().remove();
+		return;
+	}
+	
+	var list = jQuery('#' + delete_list).attr('value');
 	if(list == "") {
 		list = id;
 	}
@@ -20,23 +25,23 @@ function jobman_field_delete(div) {
 		list = list + ',' + id;
 	}
 
-	jQuery('#jobman-delete-list').attr('value', list);
+	jQuery('#' + delete_list).attr('value', list);
 	
 	jQuery(div).parent().parent().remove();
 }
 
-function jobman_field_new() {
+function jobman_new(rowid, template_name) {
 	jobman_new_count++;
 
-	var htmlDOM = jQuery(jobman_field_template);
-	//jQuery('input', htmlDOM).each(jobman_nameFilter);
+	var htmlDOM = jQuery(jobman_templates[template_name]);
+	jQuery('input', htmlDOM).each(jobman_nameFilter);
 
-	jQuery('#jobman-fieldnew').before(jQuery(jobman_field_template));
+	jQuery('#' + rowid).before(htmlDOM);
 }
 
-jobman_nameFilter = function () {
-	var name = jQuery(this).attr('name');
-	if(name == 'jobman-categories' || name = 'jobman-listdisplay') {
-		jQuery(this).attr('name', name + '[new][' + jobman_new_count + '][]');
+jobman_nameFilter = function (i, el) {
+	var name = jQuery(el).attr('name');
+	if(name == 'jobman-categories' || name == 'jobman-listdisplay') {
+		jQuery(el).attr('name', name + '[new][' + jobman_new_count + '][]');
 	}
 }

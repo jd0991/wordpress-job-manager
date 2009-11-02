@@ -21,8 +21,9 @@ function jobman_create_db() {
 	$tablename = $wpdb->prefix . 'jobman_categories';
 	$sql = 'CREATE TABLE ' . $tablename . ' (
 			  id INT NOT NULL AUTO_INCREMENT,
-			  slug VARCHAR(255),
 			  title VARCHAR(255),
+			  slug VARCHAR(255),
+			  email VARCHAR(255),
 			  PRIMARY KEY (id));';
 	$wpdb->query($sql);
 	
@@ -37,8 +38,8 @@ function jobman_create_db() {
 	$tablename = $wpdb->prefix . 'jobman_icons';
 	$sql = 'CREATE TABLE ' . $tablename . ' (
 			  id INT NOT NULL AUTO_INCREMENT,
-			  extension VARCHAR(3),
 			  title VARCHAR(255),
+			  extension VARCHAR(3),
 			  PRIMARY KEY (id));';
 	$wpdb->query($sql);
 	
