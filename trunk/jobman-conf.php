@@ -618,14 +618,101 @@ function jobman_application_setup() {
 function jobman_list_applications() {
 	global $wpdb;
 ?>
-	<form action="" method="post">
-	<input type="hidden" name="jobman-jobid" value="new" />
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Applications', 'jobman') ?></h2>
 <?php
-	$sql = 'SELECT id, label, type FROM ' . $wpdb->prefix . 'jobman_application_fields WHERE listdisplay=1 ORDER BY sortorder ASC';
+	$sql = 'SELECT id, label, type, data FROM ' . $wpdb->prefix . 'jobman_application_fields WHERE listdisplay=1 ORDER BY sortorder ASC';
 	$fields = $wpdb->get_results($sql, ARRAY_A);
+
+	$sql = 'SELECT id, title FROM ' . $wpdb->prefix . 'jobman_categories;';
+	$categories = $wpdb->get_results($sql, ARRAY_A);
 ?>
+		<div id="jobman-filter">
+		<form action="" method="post">
+			<div class="jobman-filter-normal">
+				<h4><?php _e('Standard Filters', 'jobman') ?></h4>
+				<table>
+					<tr>
+						<th scope="row"><?php _e('Job ID', 'jobman') ?>:</th>
+						<td><input type="text" name="jobman-jobid" value="<?php $_REQUEST['jobman-jobid'] ?>" /></td>
+					</tr>
+					<tr>
+						<th scope="row"><?php _e('Categories', 'jobman') ?>:</th>
+						<td>
+<?php
+	if(count($categories) > 0) {
+		$ii = 0;
+		foreach($categories as $cat) {
+			$checked = '';
+			if(is_array($_REQUEST['jobman-categories']) && in_array($cat['id'], $_REQUEST['jobman-categories'])) {
+				$checked = ' checked="checked"';
+			}
+?>
+							<input type="checkbox" name="jobman-categories[]" value="<?php echo $cat['id'] ?>"<?php echo $checked ?> /> <?php echo $cat['title'] ?><br/>
+<?php
+		}
+	}
+?>
+						</td>
+				</table>
+			</div>
+			<div class="jobman-filter-custom">
+				<h4><?php _e('Custom Filters', 'jobman') ?></h4>
+<?php
+	if(count($fields) > 0) {
+?>
+				<table class="widefat page fixed" cellspacing="0">
+					<thead>
+					<tr>
+<?php
+		foreach($fields as $field) {
+?>
+						<th scope="col"><?php echo $field['label'] ?></th>
+<?php
+		}
+?>
+					</tr>
+					</thead>
+<?php
+		echo '<tr>';
+		foreach($fields as $field) {
+			switch($field['type']) {
+				case 'text':
+				case 'textarea':
+				case 'date':
+					echo '<td><input type="text" name="jobman-field-' . $field['id'] . '" value="' . $_REQUEST['jobman-field-' . $field['id']] . '" /></td>';
+					break;
+				case 'radio':
+				case 'checkbox':
+					echo '<td>';
+					$values = split("\n", $field['data']);
+					foreach($values as $value) {
+						$checked = '';
+						if(is_array($_REQUEST['jobman-field-' . $field['id']]) && in_array(trim($value), $_REQUEST['jobman-field-' . $field['id']])) {
+							$checked = ' checked="checked"';
+						}
+						echo '<input type="checkbox" name="jobman-field-' . $field['id'] . '[]" value="' . trim($value) . '"' . $checked . ' /> ' . $value . '<br/>';
+					}
+					echo '</td>';
+					break;
+				default:
+					_e('This field cannot be filtered.', 'jobman');
+			}
+		}
+		echo '</tr>';
+?>
+				</table>
+<?php
+	}
+?>
+				</div>
+			<div style="clear: both; text-align: right;"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Filter Applications', 'jobman') ?>" /></div>
+			
+		</form>
+		</div>
+		<div id="jobman-filter-link-show"><a href="#" onclick="jQuery('#jobman-filter').show('slow'); jQuery('#jobman-filter-link-show').hide(); jQuery('#jobman-filter-link-hide').show(); return false;"><?php _e('Show Filter Options') ?></a></div>
+		<div id="jobman-filter-link-hide" class="hidden"><a href="#" onclick="jQuery('#jobman-filter').hide('slow'); jQuery('#jobman-filter-link-hide').hide(); jQuery('#jobman-filter-link-show').show(); return false;"><?php _e('Hide Filter Options') ?></a></div>
+
 		<table class="widefat page fixed" cellspacing="0">
 			<thead>
 			<tr>
@@ -644,17 +731,57 @@ function jobman_list_applications() {
 			</tr>
 			</thead>
 <?php
-	$sql = 'SELECT a.id AS id, a.jobid AS jobid';
+	$sql = 'SELECT a.id AS id, a.jobid AS jobid, j.title AS jobname';
 	$join = '';
+	$filter = '';
 	if(count($fields > 0)) {
 		foreach($fields as $field) {
 			$sql .= ', d' . $field['id'] . '.data AS data' . $field['id'];
 			$join .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_data as d' . $field['id'] . ' ON d' . $field['id'] . '.applicationid=a.id AND d' . $field['id'] . '.fieldid=' . $field['id'];
+			switch($field['type']) {
+				case 'text':
+				case 'textarea':
+				case 'date':
+					if(isset($_REQUEST['jobman-field-' . $field['id']]) && $_REQUEST['jobman-field-' . $field['id']] != '') {
+						$filter .= $wpdb->prepare(' AND d' . $field['id'] . '.data=%s', $_REQUEST['jobman-field-' . $field['id']]);
+					}
+					break;
+				case 'radio':
+				case 'checkbox':
+					if(is_array($_REQUEST['jobman-field-' . $field['id']])) {
+						$filter .= ' AND (1=0';
+						$values = split("\n", $field['data']);
+						foreach($values as $value) {
+							if(in_array(trim($value), $_REQUEST['jobman-field-' . $field['id']])) {
+								$filter .= $wpdb->prepare(' OR d' . $field['id'] . '.data=%s', trim($value));
+							}
+						}
+						$filter .= ')';
+					}
+					break;
+			}
 		}
 	}
 	$sql .= ' FROM ' . $wpdb->prefix . 'jobman_applications AS a';
+	$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_jobs AS j ON j.id=a.jobid';
 	$sql .= $join;
+	
+	// Add filters in
+	$sql .= ' WHERE 1=1';
+	if(isset($_REQUEST['jobman-jobid']) && $_REQUEST['jobman-jobid'] != '') {
+		$sql .= $wpdb->prepare(' AND a.jobid=%d', $_REQUEST['jobman-jobid']);
+	}
+	if(is_array($_REQUEST['jobman-categories'])) {
+		$sql .= ' AND (1=0';
+		foreach($_REQUEST['jobman-categories'] as $cat) {
+			$sql .= $wpdb->prepare(' OR %d IN (SELECT ac.categoryid FROM ' . $wpdb->prefix . 'jobman_application_categories AS ac WHERE ac.applicationid=a.id)', $cat);
+		}
+		$sql .= ')';
+	}
+	$sql .= $filter;
+	
 	$sql .= ' ORDER BY a.id;';
+
 	$applications = $wpdb->get_results($sql, ARRAY_A);
 
 	if(count($applications) > 0) {
@@ -664,7 +791,7 @@ function jobman_list_applications() {
 <?php
 			if($app['jobid'] > 0) {
 ?>
-				<td><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $app['jobid'] ?>"><?php echo $app['jobid']?></a></strong></td>
+				<td><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $app['jobid'] ?>"><?php echo $app['jobname']?></a></strong></td>
 <?php
 			}
 			else {
@@ -709,7 +836,6 @@ function jobman_list_applications() {
 ?>
 		</table>
 	</div>
-	</form>
 <?php
 }
 
