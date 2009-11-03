@@ -178,12 +178,17 @@ function jobman_display_jobs_list($cat) {
 	
 	$page->post_title = __('Jobs Listing', 'jobman');
 	
-	$sql = 'SELECT id, title, salary, startdate, startdate <= NOW() AS asap, location FROM ' . $wpdb->prefix . 'jobman_jobs WHERE (displaystartdate <= NOW() OR displaystartdate = NULL) AND (displayenddate >= NOW() OR displayenddate = NULL) ORDER BY startdate ASC, enddate ASC';
+	$sql = 'SELECT j.id AS id, j.title AS title, j.iconid AS iconid, i.title AS icontitle, i.extension as iconext, j.salary AS salary, j.startdate AS startdate, j.startdate <= NOW() AS asap, location FROM ' . $wpdb->prefix . 'jobman_jobs AS j LEFT JOIN ' . $wpdb->prefix . 'jobman_icons AS i ON i.id=j.iconid WHERE (j.displaystartdate <= NOW() OR j.displaystartdate = NULL) AND (j.displayenddate >= NOW() OR j.displayenddate = NULL) ORDER BY j.startdate ASC, j.enddate ASC';
 	if($cat != 'all') {
 		$category = $wpdb->get_var($wpdb->prepare('SELECT title FROM ' . $wpdb->prefix . 'jobman_categories WHERE slug=%s', $cat));
 		if($category != '') {
 			$page->post_title .= ': ' . $category;
-			$sql = '';
+			$sql = 'SELECT j.id AS id, j.title AS title, j.iconid AS iconid, i.title AS icontitle, i.extension as iconext, j.salary AS salary, j.startdate AS startdate, j.startdate <= NOW() AS asap, location';
+			$sql .= ' FROM ' . $wpdb->prefix . 'jobman_jobs AS j LEFT JOIN ' . $wpdb->prefix . 'jobman_icons AS i ON i.id=j.iconid';
+			$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON jc.jobid=j.id';
+			$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_categories AS c ON c.id = jc.categoryid';
+			$sql .= $wpdb->prepare(' WHERE (j.displaystartdate <= NOW() OR j.displaystartdate = NULL) AND (j.displayenddate >= NOW() OR j.displayenddate = NULL) AND c.slug=%s', $cat);
+			$sql .= ' ORDER BY j.startdate ASC, j.enddate ASC';
 		}
 		else {
 			$cat = 'all';
@@ -196,7 +201,11 @@ function jobman_display_jobs_list($cat) {
 		$content .= '<table class="jobs-table">';
 		$content .= '<tr><th>' . __('Title', 'jobman') . '</th><th>' . __('Salary', 'jobman') . '</th><th>' . __('Start Date', 'jobman') . '</th><th>' . __('Location', 'jobman') . '</th></tr>';
 		foreach($jobs as $job) {
-			$content .= '<tr><td><a href="'. get_option('home') . "/$url/view/" . $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title'])) . '/">' . $job['title'] . '</a></td>';
+			$content .= '<tr><td><a href="'. get_option('home') . "/$url/view/" . $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title'])) . '/">';
+			if($job['iconid']) {
+				$content .= '<img src="' . JOBMAN_URL . '/icons/' . $job['iconid'] . '.' . $job['iconext'] . '" title="' . $job['icontitle'] . '" /><br/>';
+			}
+			$content .= $job['title'] . '</a></td>';
 			$content .= '<td>' . $job['salary'] . '</td>';
 			$content .= '<td>' . (($job['asap'])?(__('ASAP', 'jobman')):($job['startdate'])) . '</td>';
 			$content .= '<td>' . $job['location'] . '</td>';
@@ -244,8 +253,23 @@ function jobman_display_job($jobid) {
 	
 	$page->post_title = __('Job', 'jobman') . ': ' . $job['title'];
 	
+	$sql = $wpdb->prepare('SELECT c.title AS title, c.slug AS slug FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON jc.categoryid=c.id WHERE jc.jobid=%d;', $job['id']);
+	$categories = $wpdb->get_results($sql, ARRAY_A);
+	
 	$content .= '<table class="job-table">';
 	$content .= '<tr><th scope="row">' . __('Title', 'jobman') . '</th><td>' . $job['title'] . '</td></tr>';
+	if(count($categories) > 0) {
+		$content .= '<tr><th scope="row">' . __('Categories', 'jobman') . '</th><td>';
+		$cats = array();
+		$ii = 1;
+		foreach($categories as $cat) {
+			$slug = $cat['slug'];
+			$content .= '<a href="'. get_option('home') . "/$url/$slug/" . '" title="' . sprintf(__('Jobs for %s', 'jobman'), $cat['title']) . '">' . $cat['title'] . '</a>';
+			if($ii < count($categories)) {
+				$content .= ', ';
+			}
+		}
+	}
 	$content .= '<tr><th scope="row">' . __('Salary', 'jobman') . '</th><td>' . $job['salary'] . '</td></tr>';
 	$content .= '<tr><th scope="row">' . __('Start Date', 'jobman') . '</th><td>' . (($job['asap'])?(__('ASAP', 'jobman')):($job['startdate'])) . '</td></tr>';
 	$content .= '<tr><th scope="row">' . __('End Date', 'jobman') . '</th><td>' . (($job['enddate'] == '')?(__('Ongoing', 'jobman')):($job['enddate'])) . '</td></tr>';
