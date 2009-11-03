@@ -43,6 +43,9 @@ function jobman_conf() {
 	else if(isset($_REQUEST['jobmaniconsubmit'])) {
 		jobman_icons_updatedb();
 	}
+	else if(isset($_REQUEST['jobmanappemailsubmit'])) {
+		jobman_application_email_updatedb();
+	}
 ?>
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Settings', 'jobman') ?></h2>
@@ -50,11 +53,11 @@ function jobman_conf() {
 	if(!get_option('pento_consulting')) {
 		$widths = array('60%', '39%');
 		$functions = array(
-						array('jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box'),
+						array('jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_application_email_box'),
 						array('jobman_print_donate_box', 'jobman_print_about_box')
 					);
 		$titles = array(
-					array(__('Settings', 'jobman'), __('Categories', 'jobman'), __('Icons', 'jobman')),
+					array(__('Settings', 'jobman'), __('Categories', 'jobman'), __('Icons', 'jobman'), __('Application Email Settings', 'jobman')),
 					array(__('Donate', 'jobman'), __('About This Plugin', 'jobman'))
 				);
 	}
@@ -62,11 +65,11 @@ function jobman_conf() {
 		$widths = array('49%', '49%');
 		$functions = array(
 						array('jobman_print_settings_box', 'jobman_print_categories_box'),
-						array('jobman_print_icons_box')
+						array('jobman_print_icons_box', 'jobman_print_application_email_box')
 					);
 		$titles = array(
 					array(__('Settings', 'jobman'), __('Categories', 'jobman')),
-					array(__('Icons', 'jobman'))
+					array(__('Icons', 'jobman'), __('Application Email Settings', 'jobman'))
 				);
 	}
 	jobman_create_dashboard($widths, $functions, $titles);
@@ -81,13 +84,11 @@ function jobman_print_settings_box() {
 				<th scope="row"><?php _e('URL path', 'jobman') ?></th>
 				<td><input class="regular-text code" type="text" name="page-name" value="<?php echo get_option('jobman_page_name') ?>" /></td>
 				<td><span class="description"><?php _e('Enter the URL you want the Job Manager to use for displaying the jobs listing.', 'jobman') ?></span></td>
-				</td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Default email', 'jobman') ?></th>
 				<td><input class="regular-text code" type="text" name="default-email" value="<?php echo get_option('jobman_default_email') ?>" /></td>
 				<td><span class="description"><?php _e('The email address to notify when a new application is submitted, and there is no email address in the corresponding categories.', 'jobman') ?></span></td>
-				</td>
 			</tr>
 <?php
 	if(!get_option('pento_consulting')) {
@@ -228,6 +229,72 @@ function jobman_print_icons_box() {
 	jobman_templates['icon'] = '<?php echo $template ?>';
 //]]>
 </script> 
+		</form>
+<?php
+}
+
+function jobman_print_application_email_box() {
+	global $wpdb;
+	
+	$sql = 'SELECT id, label, type FROM ' . $wpdb->prefix . 'jobman_application_fields ORDER BY sortorder ASC;';
+	$fields = $wpdb->get_results($sql, ARRAY_A);
+?>
+		<form action="" method="post">
+		<input type="hidden" name="jobmanappemailsubmit" value="1" />
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e('From Address', 'jobman') ?></th>
+				<td><select name="jobman-from">
+					<option value=""><?php _e('None', 'jobman') ?></option>
+<?php
+	$fid = get_option('jobman_application_email_from');
+	if(count($fields) > 0) {
+		foreach($fields as $field) {
+			if($field['type'] == 'text' || $field['type'] == 'textarea') {
+				$selected = '';
+				if($field['id'] == $fid) {
+					$selected = ' selected="selected"';
+				}
+?>
+					<option value="<?php echo $field['id'] ?>"<?php echo $selected ?>><?php echo $field['label'] ?></option>
+<?php
+			}
+		}
+	}
+?>
+				</select></td>
+				<td><span class="description"><?php _e('The application field to use as the from address. If none is selected, your Default Email address will be used.', 'jobman') ?></span></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e('Subject', 'jobman') ?></th>
+				<td>
+					<input class="regular-text code" type="text" name="jobman-subject-text" value="<?php echo get_option('jobman_application_email_subject_text') ?>" /><br/>
+					<select name="jobman-subject-fields[]" multiple="multiple" size="5" class="multiselect">
+					<option value="" style="font-weight: bold; border-bottom: 1px solid black;"><?php _e('None', 'jobman') ?></option>
+<?php
+	$fid_text = get_option('jobman_application_email_subject_fields');
+	$fids = split(',', $fid_text);
+	if(count($fields) > 0) {
+		foreach($fields as $field) {
+			if($field['type'] == 'text' || $field['type'] == 'textarea') {
+				$selected = '';
+				if(in_array($field['id'], $fids)) {
+					$selected = ' selected="selected"';
+				}
+?>
+					<option value="<?php echo $field['id'] ?>"<?php echo $selected ?>><?php echo $field['label'] ?></option>
+<?php
+			}
+		}
+	}
+?>
+					</select>
+				</td>
+				<td><span class="description"><?php _e('The email subject, and any fields to include in the subject.', 'jobman') ?></span></td>
+			</tr>
+		</table>
+		
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Update Email Settings', 'jobman') ?>" /></p>
 		</form>
 <?php
 }
@@ -985,6 +1052,17 @@ function jobman_icons_updatedb() {
 	foreach($deletes as $delete) {
 		$sql = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'jobman_icons WHERE id=%d', $delete);
 		$wpdb->query($sql);
+	}
+}
+
+function jobman_application_email_updatedb() {
+	update_option('jobman_application_email_from', $_REQUEST['jobman-from']);
+	update_option('jobman_application_email_subject_text', $_REQUEST['jobman-subject-text']);
+	if(is_array($_REQUEST['jobman-subject-fields'])) {
+		update_option('jobman_application_email_subject_fields', implode(',', $_REQUEST['jobman-subject-fields']));
+	}
+	else {
+		update_option('jobman_application_email_subject_fields', '');
 	}
 }
 

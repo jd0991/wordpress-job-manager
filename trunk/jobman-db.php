@@ -69,6 +69,7 @@ function jobman_create_db() {
 	$sql = 'CREATE TABLE ' . $tablename . ' (
 			  id INT NOT NULL AUTO_INCREMENT,
 			  jobid INT,
+			  submitted DATETIME,
 			  PRIMARY KEY (id),
 			  KEY job (jobid));';
 	$wpdb->query($sql);

@@ -543,10 +543,10 @@ function jobman_store_application($jobid, $cat) {
 	$fields = $wpdb->get_results($sql, ARRAY_A);
 	
 	if($jobid != -1) {
-		$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_applications(jobid) VALUES(%d)', $jobid);
+		$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_applications(jobid, submitted) VALUES(%d, NOW())', $jobid);
 	}
 	else {
-		$sql = 'INSERT INTO ' . $wpdb->prefix . 'jobman_applications VALUES();';
+		$sql = 'INSERT INTO ' . $wpdb->prefix . 'jobman_applications VALUES(submitted) VALUES(NOW());';
 	}
 	$wpdb->query($sql);
 	$appid = $wpdb->insert_id;
@@ -589,10 +589,10 @@ function jobman_store_application($jobid, $cat) {
 		$wpdb->query($sql);
 	}
 	
+	jobman_email_application($appid);
+
 	// No error
 	return -1;
-	
-	jobman_email_application($appid);
 }
 
 function jobman_check_filters($jobid, $cat) {
@@ -749,6 +749,107 @@ function jobman_check_filters($jobid, $cat) {
 	}
 
 	return -1;
+}
+
+function jobman_email_application($appid) {
+	global $wpdb;
+	
+	$sql = $wpdb->prepare('SELECT c.email AS email FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_application_categories AS ac ON ac.categoryid=c.id WHERE ac.applicationid=%d AND c.email NOT NULL;', $appid);
+	$emails = $wpdb->get_results($sql, ARRAY_A);
+	
+	$to = '';
+	if(count($emails) > 0) {
+		$ii = 1;
+		foreach($emails as $email) {
+			$to .= $email['email'];
+			if($ii < count($emails)) {
+				$to .= ', ';
+			}
+		}
+	} else {
+		$to = get_option('jobman_default_email');
+	}
+	
+	if($to == '') {
+		return;
+	}
+	
+	$fromid = get_option('jobman_application_email_from');
+	if($fromid == '') {
+		$from = get_option('jobman_default_email');
+	}
+	else {
+		$sql = $wpdb->prepare('SELECT data FROM ' . $wpdb->prefix . 'jobman_application_data WHERE applicationid=%d AND fieldid=%d;', $appid, $fromid);
+		$from = $wpdb->get_var($sql);
+	}
+	
+	if($from == '') {
+		$from = 'NO-REPLY <NO-REPLY@fakedomain.com>';
+	}
+	
+	$subject = get_option('jobman_application_email_subject_text');
+	if($subject != '') {
+		$subject .= ' ';
+	}
+
+	$fid_text = get_option('jobman_application_email_subject_fields');
+	$fids = split(',', $fid_text);
+
+	if(count($fids) > 0) {
+		foreach($fids as $fid) {
+			$sql = $wpdb->prepare('SELECT data FROM ' . $wpdb->prefix . 'jobman_application_data WHERE applicationid=%d AND fieldid=%d;', $appid, $fid);
+			$data = $wpdb->get_var($sql);
+			
+			if($data != '') {
+				$subject .= $data . ' ';
+			}
+		}
+	}
+	
+	$msg = '';
+	
+	$url = get_option('jobman_page_name');
+	
+	$sql = $wpdb->prepare('SELECT a.jobid AS jobid, j.title AS jobtitle, a.submitted AS submitted FROM ' . $wpdb->prefix . 'jobman_applications AS a LEFT JOIN ' . $wpdb->prefix . 'jobman_jobs AS j ON j.id=a.jobid WHERE a.id=%d;', $appid);
+	$data = $wpdb->get_results($sql, ARRAY_A);
+	if(count($data) > 0) {
+		$msg .= __('Application Link', 'jobman') . ': ' . admin_url('admin.php?page=jobman-list-applications&amp;appid=' . $appid) . PHP_EOL;
+		if($data[0]['jobid'] != '') {
+			$msg .= __('Job', 'jobman') . ': ' . $data[0]['jobid'] . ' - ' . $data[0]['jobtitle'] . PHP_EOL;
+			$msg .= get_option('home') . "/$url/view/" . $data[0]['jobid'] . '-' . strtolower(str_replace(' ', '-', $data[0]['jobtitle'])) . '/' . PHP_EOL;
+		}
+		$msg .= __('Timestamp', 'jobman') . ': ' . $data[0]['submitted'] . PHP_EOL . PHP_EOL;
+	}
+	
+	$sql = $wpdb->prepare('SELECT af.label as label, af.type AS type, ad.data AS data FROM ' . $wpdb->prefix . 'jobman_application_data AS ad LEFT JOIN ' . $wpdb->prefix . 'jobman_application_fields AS af ON af.id=ad.fieldid WHERE ad.applicationid=%d ORDER BY af.sortorder ASC;', $appid);
+	echo $sql;
+	$data = $wpdb->get_results($sql, ARRAY_A);
+	
+	if(count($data) > 0) {
+		foreach($data as $item) {
+			switch($item['type']) {
+				case 'text':
+				case 'radio':
+				case 'checkbox':
+				case 'date':
+					$msg .= $item['label'] . ': ' . $item['data'] . PHP_EOL;
+					break;
+				case 'textarea':
+					$msg .= $item['label'] . ':' . PHP_EOL . $item['data'] . PHP_EOL;
+					break;
+				case 'file':
+					$msg .= $item['label'] . ': ' . JOBMAN_URL . '/uploads/' . $item['data'] . PHP_EOL;
+					break;
+			}
+		}
+	}
+
+	$header = "From: $from" . PHP_EOL;
+	$header .= "Reply-To: $from" . PHP_EOL;
+	$header .= "Return-Path: $from" . PHP_EOL;
+	$header .= 'Content-type: text/plain; charset='. get_option('blog_charset') . PHP_EOL;
+
+	wp_mail($to, $subject, $msg, $header);
 }
 
 ?>
