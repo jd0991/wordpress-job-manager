@@ -57,6 +57,26 @@ function jobman_create_db() {
 			  KEY sortorder (sortorder));';
 	$wpdb->query($sql);
 	
+	$sql = "INSERT INTO $tablename (id, label, type, listdisplay, data, filter, error, sortorder) VALUES
+			(1, 'Personal Details', 'heading', 0, '', '', '', 0),
+			(2, 'Name', 'text', 1, '', '', '', 1),
+			(3, 'Surname', 'text', 1, '', '', '', 2),
+			(4, 'Email Address', 'text', 0, '', '', '', 3),
+			(5, 'Contact Details', 'heading', 0, '', '', '', 4),
+			(6, 'Address', 'textarea', 0, '', '', '', 5),
+			(7, 'City', 'text', 0, '', '', '', 6),
+			(8, 'Post code', 'text', 0, '', '', '', 7),
+			(9, 'Country', 'text', 1, '', '', '', 8),
+			(10, 'Telephone', 'text', 0, '', '', '', 9),
+			(11, 'Cell Phone', 'text', 0, '', '', '', 10),
+			(12, 'Qualifications', 'heading', 0, '', '', '', 11),
+			(13, 'Do you have a degree?', 'radio', 1, 'Yes\r\nNo', '', '', 12),
+			(14, 'Where did you complete your degree?', 'text', 0, '', '', '', 13),
+			(15, 'Title of your degree', 'text', 1, '', '', '', 14),
+			(16, '', 'blank', 0, '', '', '', 15),
+			(17, '', 'checkbox', 0, 'I have read and understood the privacy policy.', 'I have read and understood the privacy policy.', 'You need to read and agree to our privacy policy before we can accept your application. Please click the ''Back'' button in your browser, read our privacy policy, and confirm that you accept.', 16);";
+	$wpdb->query($sql);
+	
 	$tablename = $wpdb->prefix . 'jobman_application_field_categories';
 	$sql = 'CREATE TABLE ' . $tablename . ' (
 			  afid INT,

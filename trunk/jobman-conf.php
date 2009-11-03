@@ -1075,6 +1075,7 @@ function jobman_application_setup_updatedb() {
 	
 	$ii = 0;
 	$newcount = -1;
+
 	foreach($_REQUEST['jobman-fieldid'] as $id) {
 		if($id == -1) {
 			$newcount++;
@@ -1084,7 +1085,7 @@ function jobman_application_setup_updatedb() {
 			}
 			// INSERT new field
 			if($_REQUEST['jobman-label'][$ii] != '' || $_REQUEST['jobman-data'][$ii] != '' || $_REQUEST['jobman-type'][$ii] == 'blank') {
-				$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_fields(label, type, listdisplay, data, filter, error, sortorder) VALUES(%s, %s, %s, %s, %s, %d);',
+				$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_fields(label, type, listdisplay, data, filter, error, sortorder) VALUES(%s, %s, %s, %s, %s, %s, %d);',
 					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], $listdisplay, stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), stripslashes($_REQUEST['jobman-error'][$ii]), $ii);
 			}
 			else {
@@ -1102,7 +1103,7 @@ function jobman_application_setup_updatedb() {
 			$sql = $wpdb->prepare('UPDATE ' . $wpdb->prefix . 'jobman_application_fields SET label=%s, type=%s, listdisplay=%d, data=%s, filter=%s, error=%s, sortorder=%d WHERE id=%d',
 					$_REQUEST['jobman-label'][$ii], $_REQUEST['jobman-type'][$ii], $listdisplay, stripslashes($_REQUEST['jobman-data'][$ii]), stripslashes($_REQUEST['jobman-filter'][$ii]), stripslashes($_REQUEST['jobman-error'][$ii]), $ii, $id);
 		}
-		
+
 		$wpdb->query($sql);
 		
 		if($id == -1) {
