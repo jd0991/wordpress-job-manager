@@ -42,4 +42,27 @@ function jobman_create_widget($function, $title) {
 				</div>
 <?php
 }
+
+function jobman_url($func = 'all', $data = '') {
+	$structure = get_option('permalink_structure');
+	$url = get_option('jobman_page_name');
+	
+	if($structure == '') {
+		$return = get_option('home') . '?' . $url . '=' . $func;
+		if($data != '') {
+			$return .= '&amp;data=' . $data;
+		}
+	}
+	else {
+		$return = get_option('home') . '/' . $url . '/';
+		if($func != 'all' && $func != '') {
+			$return .=  $func . '/';
+		}
+		if($data != '') {
+			$return .= $data . '/';
+		}
+	}
+
+	return $return;
+}
 ?>

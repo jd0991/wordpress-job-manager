@@ -355,7 +355,7 @@ function jobman_list_jobs() {
 ?>
 			<tr>
 				<td class="post-title page-title column-title"><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job['id'] ?>"><?php echo $job['title']?></a></strong>
-				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job['id'] ?>">Edit</a> | <a href="#">View</a></div></td>
+				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job['id'] ?>">Edit</a> | <a href="<?php echo jobman_url('view', $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title']))) ?>">View</a></div></td>
 				<td><?php echo $catstring ?></td>
 				<td><?php echo ($job['displaystartdate'] == '')?(__('Now', 'jobman')):($job['displaystartdate']) ?> - <?php echo ($job['displayenddate'] == '')?(__('End of Time', 'jobman')):($job['displayenddate']) ?><br/>
 				<?php echo ($job['display'])?(__('Live', 'jobman')):(__('Expired', 'jobman')) ?></td>

@@ -1,6 +1,11 @@
 <?php //encoding: utf-8
 function jobman_queryvars($qvars) {
-	$qvars[] = 'jobman';
+	$url = get_option('jobman_page_name');
+	if(!$url) {
+		return;
+	}
+	$qvars[] = $url;
+	$qvars[] = 'data';
 	return $qvars;
 }
 
@@ -10,9 +15,10 @@ function jobman_add_rewrite_rules($wp_rewrite) {
 		return;
 	}
 	$new_rules = array( 
-						"$url/?$" => "index.php?jobman=all",
-						"$url/(.+)" => 'index.php?jobman=' .
-						$wp_rewrite->preg_index(1) );
+						"$url/?$" => "index.php?$url=all",
+						"$url/([^/]+)/?([^/]+)?/?" => "index.php?$url=" .
+						$wp_rewrite->preg_index(1) .
+						"&data=" . $wp_rewrite->preg_index(2));
 
 	$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 }
@@ -26,33 +32,36 @@ function jobman_flush_rewrite_rules() {
 function jobman_display_jobs($posts) {
 	global $wp_query;
 
-	if(!isset($wp_query->query_vars['jobman'])) {
+	$url = get_option('jobman_page_name');
+	
+	if(!isset($wp_query->query_vars[$url])) {
 		return $posts;
 	}
 	
-	$url = $wp_query->query_vars['jobman'];
+	$func = $wp_query->query_vars[$url];
+	$data = $wp_query->query_vars['data'];
 	$matches = array();
-	
-	if($url == 'all') {
-		$posts = jobman_display_jobs_list('all');
-	}
-	else if(preg_match('/^view\/(\d+)/', $url, $matches)) {
-		$posts = jobman_display_job($matches[1]);
-	}
-	else if(preg_match('/^apply\/(\d+)/', $url, $matches)) {
-		$posts = jobman_display_apply($matches[1]);
-	}
-	else if(preg_match('/^apply\/([^\/]+)/', $url, $matches)) {
-		$posts = jobman_display_apply(-1, $matches[1]);
-	}
-	else if(preg_match('/^apply$/', $url, $matches)) {
-		$posts = jobman_display_apply(-1);
-	}
-	else if(preg_match('/^([^\/]+)/', $url, $matches)) {
-		$posts = jobman_display_jobs_list($matches[1]);
-	}
-	else {
-		return NULL;
+
+	switch($func) {
+		case 'all':
+			$posts = jobman_display_jobs_list('all');
+			break;
+		case 'view':
+			$posts = jobman_display_job($data);
+			break;
+		case 'apply':
+			if($data == '') {
+				$posts = jobman_display_apply(-1);
+			}
+			else if(is_int($data)) {
+				$posts = jobman_display_apply($data);
+			}
+			else {
+				$posts = jobman_display_apply(-1, $matches[1]);
+			}
+			break;
+		default:
+			$posts = jobman_display_jobs_list($func);
 	}
 
 	$hidepromo = get_option('jobman_promo_link');
@@ -77,7 +86,9 @@ function jobman_display_init() {
 function jobman_display_template() {
 	global $wp_query;
 	
-	if(isset($wp_query->query_vars['jobman'])) {
+	$url = get_option('jobman_page_name');
+	
+	if(isset($wp_query->query_vars[$url])) {
 		include(TEMPLATEPATH . '/page.php');
 		exit;
 	}
@@ -86,38 +97,41 @@ function jobman_display_template() {
 function jobman_display_title($title, $sep, $seploc) {
 	global $wpdb, $wp_query;
 	
-	if(!isset($wp_query->query_vars['jobman'])) {
+	$url = get_option('jobman_page_name');
+	
+	if(!isset($wp_query->query_vars[$url])) {
 		return $title;
 	}
 
-	$url = $wp_query->query_vars['jobman'];
+	$func = $wp_query->query_vars[$url];
+	$data = $wp_query->query_vars['data'];
 	$matches = array();
-	
-	if(preg_match('/^view\/(\d+)-(.*)/', $url, $matches)) {
-		$title = $wpdb->get_var($wpdb->prepare('SELECT title FROM ' . $wpdb->prefix . 'jobman_jobs WHERE id=%d AND (displaystartdate <= NOW() OR displaystartdate = NULL) AND (displayenddate >= NOW() OR displayenddate = NULL);', $matches[1]));
-		if($title != '') {
-			$newtitle = __('Job', 'jobman') . ': ' . $title;
-		}
-		else {
-			$newtitle = __('This job doesn\'t exist', 'jobman');
-			add_action('wp_head', 'jobman_display_robots_noindex');
-		}
-	}
-	else if(preg_match('/^apply/', $url, $matches)) {
-		$newtitle = __('Job Application', 'jobman');
-	}
-	else if($url == 'all') {
-		$newtitle = __('Jobs Listing', 'jobman');
-	}
-	else if(preg_match('/^([^\/]+)/', $url, $matches)) {
-		$category = $wpdb->get_var($wpdb->prepare('SELECT title FROM ' . $wpdb->prefix . 'jobman_categories WHERE slug=%s', $matches[1]));
-		$newtitle = __('Jobs Listing', 'jobman');
-		if($category != '') {
-			$newtitle .= ': ' . $category;
-		}
-	}
-	else {
-		$newtitle = __('Jobs Listing', 'jobman');
+
+	switch($func) {
+		case 'view':
+			if(preg_match('/^(\d+)-?(.*)?/', $data, $matches)) {
+				$title = $wpdb->get_var($wpdb->prepare('SELECT title FROM ' . $wpdb->prefix . 'jobman_jobs WHERE id=%d AND (displaystartdate <= NOW() OR displaystartdate = NULL) AND (displayenddate >= NOW() OR displayenddate = NULL);', $matches[1]));
+				if($title != '') {
+					$newtitle = __('Job', 'jobman') . ': ' . $title;
+				}
+				else {
+					$newtitle = __('This job doesn\'t exist', 'jobman');
+					add_action('wp_head', 'jobman_display_robots_noindex');
+				}
+			}
+			break;
+		case 'apply':
+			$newtitle = __('Job Application', 'jobman');
+			break;
+		case 'all':
+			$newtitle = __('Jobs Listing', 'jobman');
+			break;
+		default:
+			$category = $wpdb->get_var($wpdb->prepare('SELECT title FROM ' . $wpdb->prefix . 'jobman_categories WHERE slug=%s', $data));
+			$newtitle = __('Jobs Listing', 'jobman');
+			if($category != '') {
+				$newtitle .= ': ' . $category;
+			}
 	}
 
 	if($seploc == 'right') {
@@ -132,7 +146,10 @@ function jobman_display_title($title, $sep, $seploc) {
 
 function jobman_display_head() {
 	global $wp_query;
-	if(!isset($wp_query->query_vars['jobman'])) {
+
+	$url = get_option('jobman_page_name');
+	
+	if(!isset($wp_query->query_vars[$url])) {
 		return;
 	}
 	
@@ -154,15 +171,18 @@ jQuery(document).ready(function() {
 function jobman_display_edit_post_link($link) {
 	global $wp_query;
 	
-	if(!isset($wp_query->query_vars['jobman'])) {
+	$url = get_option('jobman_page_name');
+	
+	if(!isset($wp_query->query_vars[$url])) {
 		return $link;
 	}
 
-	$url = $wp_query->query_vars['jobman'];
+	$func = $wp_query->query_vars[$url];
+	$data = $wp_query->query_vars['data'];
 	$matches = array();
 	
-	if(preg_match('/^view\/(\d+)/', $url, $matches)) {
-		return admin_url('admin.php?page=jobman-jobs-list&amp;jobid=' . $matches[1]);
+	if($func == 'view' && is_int($data)) {
+		return admin_url('admin.php?page=jobman-jobs-list&amp;jobid=' . $data);
 	}
 
 	return admin_url('admin.php?page=jobman-jobs-list');
@@ -201,7 +221,7 @@ function jobman_display_jobs_list($cat) {
 		$content .= '<table class="jobs-table">';
 		$content .= '<tr><th>' . __('Title', 'jobman') . '</th><th>' . __('Salary', 'jobman') . '</th><th>' . __('Start Date', 'jobman') . '</th><th>' . __('Location', 'jobman') . '</th></tr>';
 		foreach($jobs as $job) {
-			$content .= '<tr><td><a href="'. get_option('home') . "/$url/view/" . $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title'])) . '/">';
+			$content .= '<tr><td><a href="' . jobman_url('view', $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title']))) . '">';
 			if($job['iconid']) {
 				$content .= '<img src="' . JOBMAN_URL . '/icons/' . $job['iconid'] . '.' . $job['iconext'] . '" title="' . $job['icontitle'] . '" /><br/>';
 			}
@@ -209,17 +229,17 @@ function jobman_display_jobs_list($cat) {
 			$content .= '<td>' . $job['salary'] . '</td>';
 			$content .= '<td>' . (($job['asap'])?(__('ASAP', 'jobman')):($job['startdate'])) . '</td>';
 			$content .= '<td>' . $job['location'] . '</td>';
-			$content .= '<td class="jobs-moreinfo"><a href="'. get_option('home') . "/$url/view/" . $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title'])) . '/">' . __('More Info', 'jobman') . '</a></td></tr>';
+			$content .= '<td class="jobs-moreinfo"><a href="' . jobman_url('view', $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title']))) . '">' . __('More Info', 'jobman') . '</a></td></tr>';
 		}
 		$content .= '</table>';
 	}
 	else {
 		$content .= '<p>';
 		if($cat == 'all') {
-			$content .= sprintf(__('We currently don\'t have any jobs available. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href="%s">send through your résumé</a>, which we\'ll keep on file.', 'jobman'), get_option('home') . "/$url/apply/");
+			$content .= sprintf(__('We currently don\'t have any jobs available. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href="%s">send through your résumé</a>, which we\'ll keep on file.', 'jobman'), jobman_url('apply'));
 		}
 		else {
-			$content .= sprintf(__('We currently don\'t have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href="%s">send through your résumé</a>, which we\'ll keep on file, and you can check out the <a href="%s">jobs we have available in other areas</a>.', 'jobman'), get_option('home') . "/$url/apply/", get_option('home') . "/$url/");
+			$content .= sprintf(__('We currently don\'t have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href="%s">send through your résumé</a>, which we\'ll keep on file, and you can check out the <a href="%s">jobs we have available in other areas</a>.', 'jobman'), jobman_url('apply'), jobman_url());
 		}
 	}
 	
@@ -242,7 +262,7 @@ function jobman_display_job($jobid) {
 	if(count($data) <= 0) {
 		$page->post_title = __('This job doesn\'t exist', 'jobman');
 
-		$content = sprintf(__('Perhaps you followed an out-of-date link? Please check out the <a href="%s">jobs we have currently available</a>.', 'jobman'), get_option('home') . "/$url/");;
+		$content = sprintf(__('Perhaps you followed an out-of-date link? Please check out the <a href="%s">jobs we have currently available</a>.', 'jobman'), jobman_url());;
 		
 		$page->post_content = $content;
 			
@@ -264,7 +284,7 @@ function jobman_display_job($jobid) {
 		$ii = 1;
 		foreach($categories as $cat) {
 			$slug = $cat['slug'];
-			$content .= '<a href="'. get_option('home') . "/$url/$slug/" . '" title="' . sprintf(__('Jobs for %s', 'jobman'), $cat['title']) . '">' . $cat['title'] . '</a>';
+			$content .= '<a href="'. jobman_url($slug) . '" title="' . sprintf(__('Jobs for %s', 'jobman'), $cat['title']) . '">' . $cat['title'] . '</a>';
 			if($ii < count($categories)) {
 				$content .= ', ';
 			}
@@ -275,7 +295,7 @@ function jobman_display_job($jobid) {
 	$content .= '<tr><th scope="row">' . __('End Date', 'jobman') . '</th><td>' . (($job['enddate'] == '')?(__('Ongoing', 'jobman')):($job['enddate'])) . '</td></tr>';
 	$content .= '<tr><th scope="row">' . __('Location', 'jobman') . '</th><td>' . $job['location'] . '</td></tr>';
 	$content .= '<tr><th scope="row">' . __('Information', 'jobman') . '</th><td>' . jobman_format_abstract($job['abstract']) . '</td></tr>';
-	$content .= '<tr><td></td><td class="jobs-applynow"><a href="'. get_option('home') . "/$url/apply/" . $job['id'] . '/">' . __('Apply Now!', 'jobman') . '</td></tr>';
+	$content .= '<tr><td></td><td class="jobs-applynow"><a href="'. jobman_url('apply', $job['id']) . '/">' . __('Apply Now!', 'jobman') . '</td></tr>';
 	$content .= '</table>';
 	
 	$page->post_content = $content;
@@ -348,7 +368,7 @@ function jobman_display_apply($jobid, $cat = NULL) {
 	$content .= '<input type="hidden" name="jobman-categoryid" value="' . $categoryid . '">';
 	
 	if($foundjob) {
-		$content .= __('Title', 'jobman') . ': <a href="'. get_option('home') . "/$url/view/" . $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title'])) . '/">' . $job['title'] . '</a>';
+		$content .= __('Title', 'jobman') . ': <a href="'. jobman_url('view', $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title']))) . '">' . $job['title'] . '</a>';
 	}
 
 	if($jobid != -1) {
@@ -417,7 +437,7 @@ function jobman_display_apply($jobid, $cat = NULL) {
 					else {
 						$content .= '<tr><td class="th"></td>';
 					}
-					$content .= '<td><textarea name="jobman-field-' . $field['id'] . '"> ' . $field['data'] . '</textarea></td></tr>';
+					$content .= '<td><textarea name="jobman-field-' . $field['id'] . '">' . $field['data'] . '</textarea></td></tr>';
 					break;
 				case 'date':
 					if($field['label'] != '') {

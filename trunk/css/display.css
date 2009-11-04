@@ -1,5 +1,6 @@
 table.jobs-table, table.job-table, table.job-apply-table {
 	width: 100%;
+	text-align: left;
 }
 
 table.jobs-table th, table.job-table th {
