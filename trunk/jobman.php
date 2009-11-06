@@ -2,11 +2,11 @@
 /*
 Plugin Name: Job Manager
 Plugin URI: http://code.google.com/p/wordpress-job-mananger/
-Description: A job management plugin for Wordpress.
-Version: 0.1
+Description: A job and job application management plugin for Wordpress.
+Version: 0.1.0
 Author: Gary Pendergast
 Author URI: http://pento.net/
-Tags: job, jobs, manager, jobs, list, listing, employment, employer
+Tags: job, jobs, manager, list, listing, employment, employer
 */
 
 // Version
