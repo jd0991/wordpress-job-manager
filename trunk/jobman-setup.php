@@ -27,4 +27,14 @@ function jobman_create_default_settings() {
 	update_option('jobman_application_email_subject_fields', '2,3');
 }
 
+function jobman_uninstall() {
+	delete_option('jobman_page_name');
+	delete_option('jobman_default_email');
+	delete_option('jobman_application_email_from');
+	delete_option('jobman_application_email_subject_text');
+	delete_option('jobman_application_email_subject_fields');
+	
+	jobman_drop_db();
+}
+
 ?>

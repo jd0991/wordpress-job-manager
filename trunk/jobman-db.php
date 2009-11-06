@@ -73,8 +73,9 @@ function jobman_create_db() {
 			(13, 'Do you have a degree?', 'radio', 1, 'Yes\r\nNo', '', '', 12),
 			(14, 'Where did you complete your degree?', 'text', 0, '', '', '', 13),
 			(15, 'Title of your degree', 'text', 1, '', '', '', 14),
-			(16, '', 'blank', 0, '', '', '', 15),
-			(17, '', 'checkbox', 0, 'I have read and understood the privacy policy.', 'I have read and understood the privacy policy.', 'You need to read and agree to our privacy policy before we can accept your application. Please click the ''Back'' button in your browser, read our privacy policy, and confirm that you accept.', 16);";
+			(16, 'Upload your CV', 'file', 1, '', '', '', 15),
+			(17, '', 'blank', 0, '', '', '', 16),
+			(18, '', 'checkbox', 0, 'I have read and understood the privacy policy.', 'I have read and understood the privacy policy.', 'You need to read and agree to our privacy policy before we can accept your application. Please click the ''Back'' button in your browser, read our privacy policy, and confirm that you accept.', 17);";
 	$wpdb->query($sql);
 	
 	$tablename = $wpdb->prefix . 'jobman_application_field_categories';
@@ -114,6 +115,27 @@ function jobman_create_db() {
 }
 
 function jobman_upgrade_db($oldversion) {
+}
+
+function jobman_drop_db() {
+	global $wpdb;
+	
+	$tables = array(
+				$wpdb->prefix . 'jobman_jobs',
+				$wpdb->prefix . 'jobman_categories',
+				$wpdb->prefix . 'jobman_job_category',
+				$wpdb->prefix . 'jobman_icons',
+				$wpdb->prefix . 'jobman_application_fields',
+				$wpdb->prefix . 'jobman_application_field_categories',
+				$wpdb->prefix . 'jobman_applications',
+				$wpdb->prefix . 'jobman_application_categories',
+				$wpdb->prefix . 'jobman_application_data'
+			);
+			
+	foreach($tables as $table) {
+		$sql = 'DROP TABLE IF EXISTS ' . $table;
+		$wpdb->query($sql);
+	}
 }
 
 ?>

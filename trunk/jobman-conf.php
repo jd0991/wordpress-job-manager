@@ -3,14 +3,18 @@
 function jobman_admin_setup() {
 	// Setup the admin menu item
 	$file = WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman.php';
+	$pages = array();
 	add_menu_page(__('Job Manager', 'jobman'), __('Job Manager', 'jobman'), 'manage_options', $file, 'jobman_conf');
-	add_submenu_page($file, __('Job Manager', 'jobman'), __('Settings', 'jobman'), 'manage_options', $file, 'jobman_conf');
-	add_submenu_page($file, __('Job Manager', 'jobman'), __('App. Form Settings', 'jobman'), 'manage_options', 'jobman-application-setup', 'jobman_application_setup');
-	$pageref = add_submenu_page($file, __('Job Manager', 'jobman'), __('List Jobs', 'jobman'), 'manage_options', 'jobman-list-jobs', 'jobman_list_jobs');
-	add_submenu_page($file, __('Job Manager', 'jobman'), __('List Applications', 'jobman'), 'manage_options', 'jobman-list-applications', 'jobman_list_applications');
+	$pages[] = add_submenu_page($file, __('Job Manager', 'jobman'), __('Settings', 'jobman'), 'manage_options', $file, 'jobman_conf');
+	$pages[] = add_submenu_page($file, __('Job Manager', 'jobman'), __('App. Form Settings', 'jobman'), 'manage_options', 'jobman-application-setup', 'jobman_application_setup');
+	$pages[] = add_submenu_page($file, __('Job Manager', 'jobman'), __('List Jobs', 'jobman'), 'manage_options', 'jobman-list-jobs', 'jobman_list_jobs');
+	$pages[] = add_submenu_page($file, __('Job Manager', 'jobman'), __('List Applications', 'jobman'), 'manage_options', 'jobman-list-applications', 'jobman_list_applications');
 
 	// Load our header info
-	add_action('admin_head-'.$pageref, 'jobman_admin_header');
+	foreach($pages as $page) {
+		add_action('admin_head-'.$page, 'jobman_admin_header');
+	}
+
 	wp_enqueue_script('jobman-admin', JOBMAN_URL.'/js/admin.js', false, JOBMAN_VERSION);
 	wp_enqueue_script('jquery-ui-datepicker', JOBMAN_URL.'/js/jquery-ui-datepicker.js', array('jquery-ui-core'), JOBMAN_VERSION);
 	wp_enqueue_style('jobman-admin', JOBMAN_URL.'/css/admin.css', false, JOBMAN_VERSION);
@@ -25,6 +29,7 @@ function jobman_admin_header() {
 //<![CDATA[
 addLoadEvent(function() {
 	jQuery(".datepicker").datepicker({dateFormat: 'yy-mm-dd', changeMonth: true, changeYear: true, gotoCurrent: true});
+	jQuery(".column-cb > *").click(function() { jQuery(".check-column > *").attr('checked', jQuery(this).is(':checked')) } );
 });
 //]]>
 </script> 
@@ -243,7 +248,7 @@ function jobman_print_application_email_box() {
 		<input type="hidden" name="jobmanappemailsubmit" value="1" />
 		<table class="form-table">
 			<tr>
-				<th scope="row"><?php _e('From Address', 'jobman') ?></th>
+				<th scope="row"><?php _e('Email Address', 'jobman') ?></th>
 				<td><select name="jobman-from">
 					<option value=""><?php _e('None', 'jobman') ?></option>
 <?php
@@ -263,7 +268,7 @@ function jobman_print_application_email_box() {
 	}
 ?>
 				</select></td>
-				<td><span class="description"><?php _e('The application field to use as the from address. If none is selected, your Default Email address will be used.', 'jobman') ?></span></td>
+				<td><span class="description"><?php _e('The application field to use as the email address. This will be the "From" address in the initial application, and the field used for emailing applicants.', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Subject', 'jobman') ?></th>
@@ -684,10 +689,33 @@ function jobman_application_setup() {
 
 function jobman_list_applications() {
 	global $wpdb;
+
+	$deleted = false;
+	if($_REQUEST['jobman-mass-edit'] == 'delete') {
+		if(isset($_REQUEST['jobman-delete-confirmed'])) {
+			jobman_application_delete();
+			$deleted = true;
+		}
+		else {
+			jobman_application_delete_confirm();
+			return;
+		}
+	}
+	else if($_REQUEST['jobman-mass-edit'] == 'email') {
+		jobman_application_mailout();
+		return;
+	}
+	else if(isset($_REQUEST['appid'])) {
+		jobman_application_display_details($appid);
+		return;
+	}
 ?>
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Applications', 'jobman') ?></h2>
 <?php
+	if($deleted) {
+		echo '<p class="error">' . __('Selected applications have been deleted.', 'jobman') . '</p>';
+	}
 	$sql = 'SELECT id, label, type, data FROM ' . $wpdb->prefix . 'jobman_application_fields WHERE listdisplay=1 ORDER BY sortorder ASC';
 	$fields = $wpdb->get_results($sql, ARRAY_A);
 
@@ -746,8 +774,10 @@ function jobman_list_applications() {
 			switch($field['type']) {
 				case 'text':
 				case 'textarea':
-				case 'date':
 					echo '<td><input type="text" name="jobman-field-' . $field['id'] . '" value="' . $_REQUEST['jobman-field-' . $field['id']] . '" /></td>';
+					break;
+				case 'date':
+					echo '<td><input type="text" class="datepicker" name="jobman-field-' . $field['id'] . '" value="' . $_REQUEST['jobman-field-' . $field['id']] . '" /></td>';
 					break;
 				case 'radio':
 				case 'checkbox':
@@ -779,10 +809,12 @@ function jobman_list_applications() {
 		</div>
 		<div id="jobman-filter-link-show"><a href="#" onclick="jQuery('#jobman-filter').show('slow'); jQuery('#jobman-filter-link-show').hide(); jQuery('#jobman-filter-link-hide').show(); return false;"><?php _e('Show Filter Options') ?></a></div>
 		<div id="jobman-filter-link-hide" class="hidden"><a href="#" onclick="jQuery('#jobman-filter').hide('slow'); jQuery('#jobman-filter-link-hide').hide(); jQuery('#jobman-filter-link-show').show(); return false;"><?php _e('Hide Filter Options') ?></a></div>
-
+		
+		<form action="" method="post">
 		<table class="widefat page fixed" cellspacing="0">
 			<thead>
 			<tr>
+				<th scope="col" id="cb" class="column-cb check-column"><input type="checkbox"></th>
 				<th scope="col"><?php _e('Job', 'jobman') ?></th>
 				<th scope="col"><?php _e('Categories', 'jobman') ?></th>
 <?php
@@ -797,6 +829,24 @@ function jobman_list_applications() {
 				<th scope="col"><?php _e('View Details', 'jobman') ?></th>
 			</tr>
 			</thead>
+
+			<tfoot>
+			<tr>
+				<th scope="col" class="column-cb check-column"><input type="checkbox"></th>
+				<th scope="col"><?php _e('Job', 'jobman') ?></th>
+				<th scope="col"><?php _e('Categories', 'jobman') ?></th>
+<?php
+	if(count($fields) > 0) {
+		foreach($fields as $field) {
+?>
+				<th scope="col"><?php echo $field['label'] ?></th>
+<?php
+		}
+	}
+?>
+				<th scope="col"><?php _e('View Details', 'jobman') ?></th>
+			</tr>
+			</tfoot>
 <?php
 	$sql = 'SELECT a.id AS id, a.jobid AS jobid, j.title AS jobname';
 	$join = '';
@@ -855,6 +905,7 @@ function jobman_list_applications() {
 		foreach($applications as $app) {
 ?>
 			<tr>
+				<th scope="row" class="check-column"><input type="checkbox" name="application[]" value="<?php echo $app['id'] ?>" /></th>
 <?php
 			if($app['jobid'] > 0) {
 ?>
@@ -902,8 +953,71 @@ function jobman_list_applications() {
 	}
 ?>
 		</table>
+		<div class="alignleft actions">
+			<select name="jobman-mass-edit">
+				<option value=""><?php _e('Bulk Actions', 'jobman') ?></option>
+				<option value="email"><?php _e('Email', 'jobman') ?></option>
+				<option value="delete"><?php _e('Delete', 'jobman') ?></option>
+			</select>
+			<input type="submit" value="<?php _e('Apply', 'jobman') ?>" name="submit" class="button-secondary action" />
+		</div>
+		</form>
 	</div>
 <?php
+}
+
+function jobman_application_display_details() {
+}
+
+function jobman_application_delete_confirm() {
+?>
+	<div class="wrap">
+	<form action="" method="post">
+	<input type="hidden" name="jobman-delete-confirmed" value="1" />
+	<input type="hidden" name="jobman-mass-edit" value="delete" />
+	<input type="hidden" name="jobman-app-ids" value="<?php echo implode(',', $_REQUEST['application']) ?>" />
+		<h2><?php _e('Job Manager: Applications', 'jobman') ?></h2>
+		<p class="error"><?php _e('This will permanently delete all of the selected applications. Please confirm that you want to continue.', 'jobman') ?></p>
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Delete Applications', 'jobman') ?>" /></p>
+	</form>
+	</div>
+<?php
+}
+
+function jobman_application_delete() {
+	global $wpdb;
+	
+	$apps = explode(',', $_REQUEST['jobman-app-ids']);
+	
+	foreach($apps as $app) {
+		// Delete the application record
+		$sql = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'jobman_applications WHERE id=%d;', $app);
+		$wpdb->query($sql);
+
+		// Delete associated categories
+		$sql = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'jobman_application_categories WHERE applicationid=%d;', $app);
+		$wpdb->query($sql);
+
+		// Delete any files uploaded
+		$sql = $wpdb->prepare('SELECT ac.data AS name FROM ' . $wpdb->prefix . 'jobman_application_fields AS af LEFT JOIN ' . $wpdb->prefix . 'jobman_application_data AS ad ON ad.fieldid=af.id WHERE ad.applicationid=%d AND af.type="file";', $app);
+		$files = $wpdb->get_results($sql, ARRAY_A);
+		if(count($files) > 0) {
+			foreach($files as $file) {
+				$filename = WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/uploads/' . $file['name'];
+				if(file_exists($filename)) {
+					unlink($filename);
+				}
+			}
+		}
+		
+		// Delete the application data
+		$sql = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'jobman_application_categories WHERE jobman_application_data=%d;', $app);
+		$wpdb->query($sql);
+	}
+}
+
+function jobman_application_mailout() {
+	global $wpdb;
 }
 
 function jobman_conf_updatedb() {
