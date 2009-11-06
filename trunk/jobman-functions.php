@@ -65,4 +65,9 @@ function jobman_url($func = 'all', $data = '') {
 
 	return $return;
 }
+
+function jobman_load_translation_file() {
+	load_plugin_textdomain('jobman', '', JOBMAN_FOLDER . '/translations');
+}
+
 ?>

@@ -8,6 +8,9 @@ if(is_admin()) {
 	add_action('admin_menu', 'jobman_admin_setup');
 }
 
+// Translation hook
+add_action('init', 'jobman_load_translation_file');
+
 //
 // Display Hooks
 //
