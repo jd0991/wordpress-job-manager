@@ -3,8 +3,10 @@
 // Hooks for initial setup
 register_activation_hook(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman.php', 'jobman_activate');
 
-// Admin menu
-add_action('admin_menu', 'jobman_admin_setup');
+if(is_admin()) {
+	// Admin menu
+	add_action('admin_menu', 'jobman_admin_setup');
+}
 
 //
 // Display Hooks
@@ -26,8 +28,8 @@ add_action('wp_head', 'jobman_display_head');
 add_filter('get_edit_post_link', 'jobman_display_edit_post_link');
 
 // Uninstall function
-if ( function_exists('register_uninstall_hook') )
+if (function_exists('register_uninstall_hook')) {
 	register_uninstall_hook(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman.php', 'jobman_uninstall');
-
+}
 
 ?>
