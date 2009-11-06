@@ -1,7 +1,7 @@
 <?php //encoding: utf-8
 /*
 Plugin Name: Job Manager
-Plugin URI: http://code.google.com/p/wordpress-job-mananger/
+Plugin URI: http://pento.net/projects/wordpress-job-mananger/
 Description: A job and job application management plugin for Wordpress.
 Version: 0.1.0
 Author: Gary Pendergast

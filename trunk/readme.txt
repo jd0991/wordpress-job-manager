@@ -26,11 +26,13 @@ A plugin for managing jobs on your Wordpress site. It supports all the features 
     *    List can be filtered based on any criteria in your custom application form
     *    Email individual or groups of candidates, to keep them updated on new job opportunities in your organisation
 
+Related links:
+
+* (Plugin Homepage)[http://pento.net/projects/wordpress-job-mananger/]
+* (Support Forum)[http://wordpress.org/tags/job-manager?forum_id=10]
+* (Report Bugs)[http://code.google.com/p/wordpress-job-manager/issues/list]
+
 == Installation ==
-
-This section describes how to install the plugin and get it working.
-
-e.g.
 
 1. Upload the plugin to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
