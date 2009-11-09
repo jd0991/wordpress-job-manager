@@ -28,6 +28,8 @@ function jobman_create_default_settings() {
 }
 
 function jobman_uninstall() {
+	delete_option('jobman_version');
+	delete_option('jobman_db_version');
 	delete_option('jobman_page_name');
 	delete_option('jobman_default_email');
 	delete_option('jobman_application_email_from');

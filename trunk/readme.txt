@@ -3,7 +3,7 @@ Contributors: pento
 Donate link: http://pento.net/donate/
 Tags: jobs, manager, list, employer
 Tested up to: 2.8.5
-Stable tag: trunk
+Stable tag: 0.1.0
 
 A job and job application management plugin for Wordpress.
 
@@ -19,7 +19,7 @@ A plugin for managing jobs on your Wordpress site. It supports all the features 
     *    Simple admin interface for editing, updating and creating jobs
 *    *Applications*
     *    Applicants can apply through the website, using a form that you can customize, so you get the information you need
-    *    Advanced filtering on application forms, to ensure you only get applications that match your criteria.
+    *    Advanced filtering on application forms, to ensure you only get applications that match your criteria: (Documentation)[http://code.google.com/p/wordpress-job-manager/wiki/CustomApplicationForm]
     *    Upon successful application, you can be emailed the details, so you're always up to date with new applicants
 *    *Applicant Management*
     *    Simple interface for viewing all applicants
@@ -28,7 +28,7 @@ A plugin for managing jobs on your Wordpress site. It supports all the features 
 
 Related links:
 
-* (Plugin Homepage)[http://pento.net/projects/wordpress-job-mananger/]
+* (Plugin Homepage)[http://pento.net/projects/wordpress-job-mananger-plugin/]
 * (Support Forum)[http://wordpress.org/tags/job-manager?forum_id=10]
 * (Report Bugs)[http://code.google.com/p/wordpress-job-manager/issues/list]
 

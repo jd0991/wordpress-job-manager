@@ -691,6 +691,7 @@ function jobman_list_applications() {
 	global $wpdb;
 
 	$deleted = false;
+	$emailed = false;
 	if($_REQUEST['jobman-mass-edit'] == 'delete') {
 		if(isset($_REQUEST['jobman-delete-confirmed'])) {
 			jobman_application_delete();
@@ -709,12 +710,19 @@ function jobman_list_applications() {
 		jobman_application_display_details($appid);
 		return;
 	}
+	else if(isset($_REQUEST['jobman-mailout-send'])) {
+		jobman_application_mailout_send();
+		$emailed = true;
+	}
 ?>
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Applications', 'jobman') ?></h2>
 <?php
 	if($deleted) {
 		echo '<p class="error">' . __('Selected applications have been deleted.', 'jobman') . '</p>';
+	}
+	if($emailed) {
+		echo '<p class="error">' . __('The mailout has been sent.', 'jobman') . '</p>';
 	}
 	$sql = 'SELECT id, label, type, data FROM ' . $wpdb->prefix . 'jobman_application_fields WHERE listdisplay=1 ORDER BY sortorder ASC';
 	$fields = $wpdb->get_results($sql, ARRAY_A);
@@ -1017,7 +1025,37 @@ function jobman_application_delete() {
 }
 
 function jobman_application_mailout() {
-	global $wpdb;
+	global $wpdb, $current_user;
+	get_currentuserinfo();
+?>
+	<div class="wrap">
+		<h2><?php _e('Job Manager: Application Email', 'jobman') ?></h2>
+
+		<form action="" method="post">
+		<input type="hidden" name="jobman-mailout-send" value="1" />
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e('From', 'jobman') ?></th>
+				<td><input class="regular-text code" type="text" name="jobman-from" value="<?php echo '&quot;' . $current_user->display_name . '&quot; <' . $current_user->user_email . '>' ?>" /></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e('Subject', 'jobman') ?></th>
+				<td><input class="regular-text code" type="text" name="jobman-subject" /></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e('Message', 'jobman') ?></th>
+				<td><textarea class="large-text code" name="jobman-abstract" rows="15"></textarea></td>
+			</tr>
+			
+
+<?
+?>
+		</table>
+		
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Send Email', 'jobman') ?>" /></p>
+		</form>
+	</div>
+<?php
 }
 
 function jobman_conf_updatedb() {
