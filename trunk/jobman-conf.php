@@ -715,7 +715,7 @@ function jobman_list_applications() {
 		return;
 	}
 	else if(isset($_REQUEST['appid'])) {
-		jobman_application_display_details($appid);
+		jobman_application_display_details($_REQUEST['appid']);
 		return;
 	}
 	else if(isset($_REQUEST['jobman-mailout-send'])) {
@@ -982,7 +982,58 @@ function jobman_list_applications() {
 <?php
 }
 
-function jobman_application_display_details() {
+function jobman_application_display_details($appid) {
+	global $wpdb;
+	$url = get_option('jobman_page_name');
+	$fromid = get_option('jobman_application_email_from');
+?>
+	<div class="wrap">
+		<h2><?php _e('Job Manager: Application Details', 'jobman') ?></h2>
+		<a href="?page=jobman-list-applications">&lt;--<?php _e('Back to Application List', 'jobman') ?></a>
+		<table class="form-table">
+<?php
+	
+	$sql = $wpdb->prepare('SELECT a.jobid AS jobid, j.title AS jobtitle, a.submitted AS submitted FROM ' . $wpdb->prefix . 'jobman_applications AS a LEFT JOIN ' . $wpdb->prefix . 'jobman_jobs AS j ON j.id=a.jobid WHERE a.id=%d;', $appid);
+	$data = $wpdb->get_results($sql, ARRAY_A);
+	if(count($data) > 0) {
+		if($data[0]['jobid'] != 0) {
+			echo '<tr><th scope="row"><strong>' . __('Job', 'jobman') . '</strong></th><td><strong><a href="' . jobman_url('view', $data[0]['jobid'] . '-' . strtolower(str_replace(' ', '-', $data[0]['jobtitle']))) . '">' . $data[0]['jobid'] . ' - ' . $data[0]['jobtitle'] . '</a></strong></td></tr>';
+		}
+		echo '<tr><th scope="row"><strong>' . __('Timestamp', 'jobman') . '</strong></th><td>' . $data[0]['submitted'] . '</td></tr><tr><td colspan="2">&nbsp;</td></tr>';
+	}
+	
+	$sql = $wpdb->prepare('SELECT af.id AS id, af.label as label, af.type AS type, ad.data AS data FROM ' . $wpdb->prefix . 'jobman_application_data AS ad LEFT JOIN ' . $wpdb->prefix . 'jobman_application_fields AS af ON af.id=ad.fieldid WHERE ad.applicationid=%d ORDER BY af.sortorder ASC;', $appid);
+	$data = $wpdb->get_results($sql, ARRAY_A);
+	
+	if(count($data) > 0) {
+		foreach($data as $item) {
+			echo '<tr><th scope="row" style="white-space: nowrap;"><strong>' . $item['label'] . '</strong></th><td>';
+			if($item['id'] == $fromid) {
+				echo '<a href="mailto:' . $item['data'] . '">';
+			}
+			switch($item['type']) {
+				case 'text':
+				case 'radio':
+				case 'checkbox':
+				case 'date':
+				case 'textarea':
+					echo  $item['data'];
+					break;
+				case 'file':
+					echo '<a href="' . JOBMAN_URL . '/uploads/' . $item['data'] . '">' . $item['data'] . '</a>';
+					break;
+			}
+			if($item['id'] == $fromid) {
+				echo '</a>';
+			}
+			echo '</td></tr>';
+		}
+	}
+?>
+		</table>
+		<a href="?page=jobman-list-applications">&lt;--<?php _e('Back to Application List', 'jobman') ?></a>
+	</div>
+<?php
 }
 
 function jobman_application_delete_confirm() {

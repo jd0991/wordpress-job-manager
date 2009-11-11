@@ -599,7 +599,7 @@ function jobman_store_application($jobid, $cat) {
 				$data = $appid . '-' . $field['id'] . '.' . $ext;
 				break;
 			case 'checkbox':
-				$data = implode(',', $_REQUEST['jobman-field-'.$field['id']]);
+				$data = implode(', ', $_REQUEST['jobman-field-'.$field['id']]);
 				break;
 			default:
 				$data = $_REQUEST['jobman-field-'.$field['id']];
@@ -842,7 +842,6 @@ function jobman_email_application($appid) {
 	}
 	
 	$sql = $wpdb->prepare('SELECT af.label as label, af.type AS type, ad.data AS data FROM ' . $wpdb->prefix . 'jobman_application_data AS ad LEFT JOIN ' . $wpdb->prefix . 'jobman_application_fields AS af ON af.id=ad.fieldid WHERE ad.applicationid=%d ORDER BY af.sortorder ASC;', $appid);
-	echo $sql;
 	$data = $wpdb->get_results($sql, ARRAY_A);
 	
 	if(count($data) > 0) {
