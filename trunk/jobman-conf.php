@@ -81,19 +81,27 @@ function jobman_conf() {
 }
 
 function jobman_print_settings_box() {
+	$structure = get_option('permalink_structure');
+	if($structure == '') {
+		$url_before = get_option('home') . '?' . $url;
+		$url_after = '=all';
+	}
+	else {
+		$url_before = get_option('home') . '/';
+		$url_after = '/';
+	}
+
 ?>
 		<form action="" method="post">
 		<input type="hidden" name="jobmanconfsubmit" value="1" />
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('URL path', 'jobman') ?></th>
-				<td><input class="regular-text code" type="text" name="page-name" value="<?php echo get_option('jobman_page_name') ?>" /></td>
-				<td><span class="description"><?php _e('Enter the URL you want the Job Manager to use for displaying the jobs listing.', 'jobman') ?></span></td>
+				<td><?php echo $url_before ?><input class="small-text code" type="text" name="page-name" value="<?php echo get_option('jobman_page_name') ?>" /><?php echo $url_after ?></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Default email', 'jobman') ?></th>
 				<td><input class="regular-text code" type="text" name="default-email" value="<?php echo get_option('jobman_default_email') ?>" /></td>
-				<td><span class="description"><?php _e('The email address to notify when a new application is submitted, and there is no email address in the corresponding categories.', 'jobman') ?></span></td>
 			</tr>
 <?php
 	if(!get_option('pento_consulting')) {
@@ -1027,6 +1035,18 @@ function jobman_application_delete() {
 function jobman_application_mailout() {
 	global $wpdb, $current_user;
 	get_currentuserinfo();
+	
+	$apps = implode(',', $_REQUEST['application']);
+	$fromid = get_option('jobman_application_email_from');
+	
+	$sql = $wpdb->prepare('SELECT data FROM ' . $wpdb->prefix . 'jobman_application_data WHERE applicationid IN (' . $apps . ') AND fieldid=%d;', $fromid);
+	$data = $wpdb->get_results($sql, ARRAY_A);
+	
+	$emails = array();
+	foreach($data as $email) {
+		$emails[] = $email['data'];
+	}
+	$email_str = implode(', ', $emails);
 ?>
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Application Email', 'jobman') ?></h2>
@@ -1039,23 +1059,37 @@ function jobman_application_mailout() {
 				<td><input class="regular-text code" type="text" name="jobman-from" value="<?php echo '&quot;' . $current_user->display_name . '&quot; <' . $current_user->user_email . '>' ?>" /></td>
 			</tr>
 			<tr>
+				<th scope="row"><?php _e('To', 'jobman') ?></th>
+				<td><input class="regular-text code" type="text" name="jobman-to" value="<?php echo $email_str ?>" /></td>
+			</tr>
+			<tr>
 				<th scope="row"><?php _e('Subject', 'jobman') ?></th>
 				<td><input class="regular-text code" type="text" name="jobman-subject" /></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Message', 'jobman') ?></th>
-				<td><textarea class="large-text code" name="jobman-abstract" rows="15"></textarea></td>
+				<td><textarea class="large-text code" name="jobman-message" rows="15"></textarea></td>
 			</tr>
-			
-
-<?
-?>
 		</table>
 		
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Send Email', 'jobman') ?>" /></p>
 		</form>
 	</div>
 <?php
+}
+
+function jobman_application_mailout_send() {
+	$from = $_REQUEST['jobman-from'];
+	$to = $_REQUEST['jobman-to'];
+	$subject = $_REQUEST['jobman-subject'];
+	$message = $_REQUEST['jobman-message'];
+	
+	$header = "From: $from" . PHP_EOL;
+	$header .= "Reply-To: $from" . PHP_EOL;
+	$header .= "Return-Path: $from" . PHP_EOL;
+	$header .= 'Content-type: text/plain; charset='. get_option('blog_charset') . PHP_EOL;
+
+	wp_mail($to, $subject, $message, $header);
 }
 
 function jobman_conf_updatedb() {
