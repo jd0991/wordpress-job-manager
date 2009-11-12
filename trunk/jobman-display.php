@@ -195,6 +195,7 @@ function jobman_display_jobs_list($cat) {
 	$content = '';
 	
 	$url = get_option('jobman_page_name');
+	$list_type = get_option('jobman_list_type');
 	
 	$page->post_title = __('Jobs Listing', 'jobman');
 	
@@ -218,20 +219,28 @@ function jobman_display_jobs_list($cat) {
 	$jobs = $wpdb->get_results($sql, ARRAY_A);
 
 	if(count($jobs) > 0) {
-		$content .= '<table class="jobs-table">';
-		$content .= '<tr><th>' . __('Title', 'jobman') . '</th><th>' . __('Salary', 'jobman') . '</th><th>' . __('Start Date', 'jobman') . '</th><th>' . __('Location', 'jobman') . '</th></tr>';
-		foreach($jobs as $job) {
-			$content .= '<tr><td><a href="' . jobman_url('view', $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title']))) . '">';
-			if($job['iconid']) {
-				$content .= '<img src="' . JOBMAN_URL . '/icons/' . $job['iconid'] . '.' . $job['iconext'] . '" title="' . $job['icontitle'] . '" /><br/>';
+		if($list_type == 'summary') {
+			$content .= '<table class="jobs-table">';
+			$content .= '<tr><th>' . __('Title', 'jobman') . '</th><th>' . __('Salary', 'jobman') . '</th><th>' . __('Start Date', 'jobman') . '</th><th>' . __('Location', 'jobman') . '</th></tr>';
+			foreach($jobs as $job) {
+				$content .= '<tr><td><a href="' . jobman_url('view', $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title']))) . '">';
+				if($job['iconid']) {
+					$content .= '<img src="' . JOBMAN_URL . '/icons/' . $job['iconid'] . '.' . $job['iconext'] . '" title="' . $job['icontitle'] . '" /><br/>';
+				}
+				$content .= $job['title'] . '</a></td>';
+				$content .= '<td>' . $job['salary'] . '</td>';
+				$content .= '<td>' . (($job['asap'])?(__('ASAP', 'jobman')):($job['startdate'])) . '</td>';
+				$content .= '<td>' . $job['location'] . '</td>';
+				$content .= '<td class="jobs-moreinfo"><a href="' . jobman_url('view', $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title']))) . '">' . __('More Info', 'jobman') . '</a></td></tr>';
 			}
-			$content .= $job['title'] . '</a></td>';
-			$content .= '<td>' . $job['salary'] . '</td>';
-			$content .= '<td>' . (($job['asap'])?(__('ASAP', 'jobman')):($job['startdate'])) . '</td>';
-			$content .= '<td>' . $job['location'] . '</td>';
-			$content .= '<td class="jobs-moreinfo"><a href="' . jobman_url('view', $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title']))) . '">' . __('More Info', 'jobman') . '</a></td></tr>';
+			$content .= '</table>';
 		}
-		$content .= '</table>';
+		else {
+			foreach($jobs as $job) {
+				$job_html = jobman_display_job($job['id']);
+				$content .= $job_html[0]->post_content . '<br/><br/>';
+			}
+		}
 	}
 	else {
 		$content .= '<p>';

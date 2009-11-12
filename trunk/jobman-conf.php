@@ -2,7 +2,7 @@
 
 function jobman_admin_setup() {
 	// Setup the admin menu item
-	$file = WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman.php';
+	$file = WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/job-manager.php';
 	$pages = array();
 	add_menu_page(__('Job Manager', 'jobman'), __('Job Manager', 'jobman'), 'manage_options', $file, 'jobman_conf');
 	$pages[] = add_submenu_page($file, __('Job Manager', 'jobman'), __('Settings', 'jobman'), 'manage_options', $file, 'jobman_conf');
@@ -97,19 +97,30 @@ function jobman_print_settings_box() {
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('URL path', 'jobman') ?></th>
-				<td><?php echo $url_before ?><input class="small-text code" type="text" name="page-name" value="<?php echo get_option('jobman_page_name') ?>" /><?php echo $url_after ?></td>
+				<td colspan="2"><?php echo $url_before ?><input class="small-text code" type="text" name="page-name" value="<?php echo get_option('jobman_page_name') ?>" /><?php echo $url_after ?></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Default email', 'jobman') ?></th>
-				<td><input class="regular-text code" type="text" name="default-email" value="<?php echo get_option('jobman_default_email') ?>" /></td>
+				<td colspan="2"><input class="regular-text code" type="text" name="default-email" value="<?php echo get_option('jobman_default_email') ?>" /></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e('Show summary or full jobs list?', 'jobman') ?></th>
+				<td><select name="list-type">
+					<option value="summary"<?php echo (get_option('jobman_list_type') == 'summary')?(' selected="selected"'):('') ?>><?php _e('Summary', 'jobman') ?></option>
+					<option value="full"<?php echo (get_option('jobman_list_type') == 'full')?(' selected="selected"'):('') ?>><?php _e('Full', 'jobman') ?></option>
+				</select></td>
+				<td><span class="description">
+					<?php _e('Summary: displays many jobs concisely.', 'jobman') ?><br/>
+					<?php _e('Full: allows quicker access to the application form.', 'jobman') ?>
+				</span></td>
 			</tr>
 <?php
 	if(!get_option('pento_consulting')) {
 ?>
 			<tr>
-				<th scope="row"><?php _e('Hide "Powered By" link?', 'resman') ?></th>
+				<th scope="row"><?php _e('Hide "Powered By" link?', 'jobman') ?></th>
 				<td><input type="checkbox" value="1" name="promo-link" <?php echo (get_option('jobman_promo_link'))?('checked="checked" '):('') ?>/></td>
-				<td><span class="description"><?php _e('If you\'re unable to donate, I would appreciate it if you left this unchecked.', 'resman') ?></span></td>
+				<td><span class="description"><?php _e('If you\'re unable to donate, I would appreciate it if you left this unchecked.', 'jobman') ?></span></td>
 			</tr>
 <?php
 	}
@@ -1146,6 +1157,7 @@ function jobman_application_mailout_send() {
 function jobman_conf_updatedb() {
 	update_option('jobman_page_name', $_REQUEST['page-name']);
 	update_option('jobman_default_email', $_REQUEST['default-email']);
+	update_option('jobman_list_type', $_REQUEST['list-type']);
 
 	if($_REQUEST['promo-link']) {
 		update_option('jobman_promo_link', 1);
@@ -1374,10 +1386,10 @@ function jobman_application_setup_updatedb() {
 
 function jobman_print_donate_box() {
 ?>
-		<p><?php _e('If this plugin helps you find that perfect new employee, I\'d appreciate it if you shared the love, by way of my Donate or Amazon Wish List links below.', 'resman') ?></p>
+		<p><?php _e('If this plugin helps you find that perfect new employee, I\'d appreciate it if you shared the love, by way of my Donate or Amazon Wish List links below.', 'jobman') ?></p>
 		<ul>
-			<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=gary%40pento%2enet&item_name=WordPress%20Plugin%20(Job%20Manager)&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8"><?php _e('Donate with PayPal', 'resman') ?></a></li>
-			<li><a href="http://www.amazon.com/wishlist/1ORKI9ZG875BL"><?php _e('My Amazon Wish List', 'resman') ?></a></li>
+			<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=gary%40pento%2enet&item_name=WordPress%20Plugin%20(Job%20Manager)&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8"><?php _e('Donate with PayPal', 'jobman') ?></a></li>
+			<li><a href="http://www.amazon.com/wishlist/1ORKI9ZG875BL"><?php _e('My Amazon Wish List', 'jobman') ?></a></li>
 		</ul>
 <?php
 }
@@ -1385,10 +1397,10 @@ function jobman_print_donate_box() {
 function jobman_print_about_box() {
 ?>
 		<ul>
-			<li><a href="http://pento.net/"><?php _e('Gary Pendergast\'s Blog', 'resman') ?></a></li>
-			<li><a href="http://twitter.com/garypendergast"><?php _e('Follow me on Twitter!', 'resman') ?></a></li>
-			<li><a href="http://pento.net/projects/wordpress-job-manager/"><?php _e('Plugin Homepage', 'resman') ?></a></li>
-			<li><a href="http://code.google.com/p/wordpress-job-manager/issues/list"><?php _e('Submit a Bug/Feature Request', 'resman') ?></a></li>
+			<li><a href="http://pento.net/"><?php _e('Gary Pendergast\'s Blog', 'jobman') ?></a></li>
+			<li><a href="http://twitter.com/garypendergast"><?php _e('Follow me on Twitter!', 'jobman') ?></a></li>
+			<li><a href="http://pento.net/projects/wordpress-job-manager/"><?php _e('Plugin Homepage', 'jobman') ?></a></li>
+			<li><a href="http://code.google.com/p/wordpress-job-manager/issues/list"><?php _e('Submit a Bug/Feature Request', 'jobman') ?></a></li>
 		</ul>
 <?php
 }

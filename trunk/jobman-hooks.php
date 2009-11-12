@@ -1,7 +1,7 @@
 <?php //encoding: utf-8
 
 // Hooks for initial setup
-register_activation_hook(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman.php', 'jobman_activate');
+register_activation_hook(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/job-manager.php', 'jobman_activate');
 
 if(is_admin()) {
 	// Admin menu
@@ -32,7 +32,7 @@ add_filter('get_edit_post_link', 'jobman_display_edit_post_link');
 
 // Uninstall function
 if (function_exists('register_uninstall_hook')) {
-	register_uninstall_hook(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman.php', 'jobman_uninstall');
+	register_uninstall_hook(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/job-manager.php', 'jobman_uninstall');
 }
 
 ?>

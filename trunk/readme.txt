@@ -1,13 +1,10 @@
 === Job Manager ===
 Contributors: pento
 Donate link: http://pento.net/donate/
-Author URI: http://pento.net/
-Plugin URI: http://pento.net/projects/wordpress-job-manager-plugin/
 Tags: jobs, manager, list, listing, employer, application
 Requires at least: 2.7
 Tested up to: 2.8.5
 Stable tag: trunk
-Version: 0.1.0
 
 A job listing and job application management plugin for Wordpress.
 
@@ -33,7 +30,7 @@ A plugin for managing jobs on your Wordpress site. It supports all the features 
 
 Related links:
 
-* [Plugin Homepage](http://pento.net/projects/wordpress-job-mananger-plugin/)
+* [Plugin Homepage](http://pento.net/projects/wordpress-job-manager-plugin/)
 * [Support Forum](http://wordpress.org/tags/job-manager?forum_id=10)
 * [Report Bugs](http://code.google.com/p/wordpress-job-manager/issues/list)
 
