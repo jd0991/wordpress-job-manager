@@ -3,7 +3,7 @@ Contributors: pento
 Donate link: http://pento.net/donate/
 Tags: jobs, manager, list, listing, employer, application
 Requires at least: 2.7
-Tested up to: 2.8.5
+Tested up to: 2.8.6
 Stable tag: trunk
 
 A job listing and job application management plugin for Wordpress.
@@ -47,6 +47,9 @@ Related links:
 For a full description of how to use the application form customization features, please read [this page in the documentation](http://code.google.com/p/wordpress-job-manager/wiki/CustomApplicationForm).
 
 == Changelog ==
+
+= 0.2.0 =
+* ADDED: Ability to switch between summary and full view for the Job List
 
 = 0.1.0 =
 * Initial release
