@@ -48,6 +48,9 @@ For a full description of how to use the application form customization features
 
 == Changelog ==
 
+= 0.2.1 =
+* FIXED: Bad homepage link
+
 = 0.2.0 =
 * ADDED: Ability to switch between summary and full view for the Job List
 
