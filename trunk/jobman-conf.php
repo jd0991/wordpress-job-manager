@@ -1386,10 +1386,10 @@ function jobman_application_setup_updatedb() {
 
 function jobman_print_donate_box() {
 ?>
-		<p><?php _e('If this plugin helps you find that perfect new employee, I\'d appreciate it if you shared the love, by way of my Donate link below.', 'jobman') ?></p>
-		<p><?php printf(__('Alternatively, if you\'re after some custom functionality in this plugin, please <a href="%s">contact me directly</a>.', 'jobman'), 'http://pento.net/contact/') ?></p>
+		<p><?php _e('If this plugin helps you find that perfect new employee, I\'d appreciate it if you shared the love, by way of my Donate or Amazon Wish List links below.', 'jobman') ?></p>
 		<ul>
-			<li><a href="http://pento.net/donate/"><?php _e('My Donations Page', 'jobman') ?></a></li>
+			<li><a href="http://www.amazon.com/wishlist/1ORKI9ZG875BL"><?php _e('My Amazon Wish List', 'jobman') ?></a></li>
+			<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=gary%40pento%2enet&item_name=WordPress%20Plugin%20(Job%20Manager)&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8"><?php _e('Donate with PayPal', 'jobman') ?></a></li>
 		</ul>
 <?php
 }
