@@ -6,6 +6,7 @@ Description: A job and job application management plugin for Wordpress.
 Version: 0.2.1
 Author: Gary Pendergast
 Author URI: http://pento.net/
+Text domain: jobman
 Tags: job, jobs, manager, list, listing, employment, employer
 */
 
