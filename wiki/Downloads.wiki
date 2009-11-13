@@ -1,0 +1,3 @@
+#summary Download instructions.
+
+This project is available for download from the [http://wordpress.org/extend/plugins/job-manager/ WordPress Plugin Directory].
