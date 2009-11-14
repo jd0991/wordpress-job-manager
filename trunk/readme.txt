@@ -10,7 +10,7 @@ A job listing and job application management plugin for Wordpress.
 
 == Description ==
 
-A plugin for managing jobs on your Wordpress site. It supports all the features you need to manage your organisation's jobs:
+A plugin for managing job lists and job applications on your Wordpress site. It supports all the features you need to manage your organisation's jobs.
 
 *    *Job Listing*
     *    Categories to create multiple job lists
