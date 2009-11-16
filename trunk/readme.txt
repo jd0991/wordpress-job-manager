@@ -48,6 +48,13 @@ For a full description of how to use the application form customization features
 
 == Changelog ==
 
+= 0.2.2 =
+
+This upgrade is recommended for all users.
+
+* FIXED: Applications without an associated job were not being stored correctly.
+* FIXED: Minor bugs with filtering applications.
+
 = 0.2.1 =
 * FIXED: Bad homepage link
 
