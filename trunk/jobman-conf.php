@@ -820,7 +820,7 @@ function jobman_list_applications() {
 					echo '</td>';
 					break;
 				default:
-					_e('This field cannot be filtered.', 'jobman');
+					'<td>' . __('This field cannot be filtered.', 'jobman') . '</td>';
 			}
 		}
 		echo '</tr>';
@@ -878,7 +878,7 @@ function jobman_list_applications() {
 	$sql = 'SELECT a.id AS id, a.jobid AS jobid, j.title AS jobname';
 	$join = '';
 	$filter = '';
-	if(count($fields > 0)) {
+	if(count($fields) > 0) {
 		foreach($fields as $field) {
 			$sql .= ', d' . $field['id'] . '.data AS data' . $field['id'];
 			$join .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_data as d' . $field['id'] . ' ON d' . $field['id'] . '.applicationid=a.id AND d' . $field['id'] . '.fieldid=' . $field['id'];

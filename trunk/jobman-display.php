@@ -575,7 +575,7 @@ function jobman_store_application($jobid, $cat) {
 		$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_applications(jobid, submitted) VALUES(%d, NOW())', $jobid);
 	}
 	else {
-		$sql = 'INSERT INTO ' . $wpdb->prefix . 'jobman_applications VALUES(submitted) VALUES(NOW());';
+		$sql = 'INSERT INTO ' . $wpdb->prefix . 'jobman_applications(submitted) VALUES(NOW());';
 	}
 	$wpdb->query($sql);
 	$appid = $wpdb->insert_id;
