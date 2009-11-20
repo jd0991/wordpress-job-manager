@@ -3,7 +3,7 @@
 Plugin Name: Job Manager
 Plugin URI: http://pento.net/projects/wordpress-job-manager-plugin/
 Description: A job and job application management plugin for Wordpress.
-Version: 0.2.2
+Version: 0.2.3
 Author: Gary Pendergast
 Author URI: http://pento.net/
 Text domain: jobman
@@ -11,7 +11,7 @@ Tags: job, jobs, manager, list, listing, employment, employer
 */
 
 // Version
-define('JOBMAN_VERSION', '0.2.2');
+define('JOBMAN_VERSION', '0.2.3');
 define('JOBMAN_DB_VERSION', 2);
 
 // Define the URL to the plugin folder

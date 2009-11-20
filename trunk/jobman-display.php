@@ -199,7 +199,7 @@ function jobman_display_jobs_list($cat) {
 	
 	$page->post_title = __('Jobs Listing', 'jobman');
 	
-	$sql = 'SELECT j.id AS id, j.title AS title, j.iconid AS iconid, i.title AS icontitle, i.extension as iconext, j.salary AS salary, j.startdate AS startdate, j.startdate <= NOW() AS asap, location FROM ' . $wpdb->prefix . 'jobman_jobs AS j LEFT JOIN ' . $wpdb->prefix . 'jobman_icons AS i ON i.id=j.iconid WHERE (j.displaystartdate <= NOW() OR j.displaystartdate = NULL) AND (j.displayenddate >= NOW() OR j.displayenddate = NULL) ORDER BY j.startdate ASC, j.enddate ASC';
+	$sql = 'SELECT j.id AS id, j.title AS title, j.iconid AS iconid, i.title AS icontitle, i.extension as iconext, j.salary AS salary, j.startdate AS startdate, j.startdate <= NOW() AS asap, location FROM ' . $wpdb->prefix . 'jobman_jobs AS j LEFT JOIN ' . $wpdb->prefix . 'jobman_icons AS i ON i.id=j.iconid WHERE (j.displaystartdate <= NOW() OR j.displaystartdate = "") AND (j.displayenddate >= NOW() OR j.displayenddate = "") ORDER BY j.startdate ASC, j.enddate ASC';
 	if($cat != 'all') {
 		$category = $wpdb->get_var($wpdb->prepare('SELECT title FROM ' . $wpdb->prefix . 'jobman_categories WHERE slug=%s', $cat));
 		if($category != '') {

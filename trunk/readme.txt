@@ -48,6 +48,10 @@ For a full description of how to use the application form customization features
 
 == Changelog ==
 
+= 0.2.3 =
+
+* FIXED: Jobs were not displaying if the start or end date was empty.
+
 = 0.2.2 =
 
 This upgrade is recommended for all users.

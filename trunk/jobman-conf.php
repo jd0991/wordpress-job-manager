@@ -352,7 +352,7 @@ function jobman_list_jobs() {
 			break;
 	}
 	
-	$sql = 'SELECT id, title, displaystartdate, displayenddate, displayenddate > NOW() AS display FROM ' . $wpdb->prefix . 'jobman_jobs ORDER BY displayenddate DESC, displaystartdate DESC';
+	$sql = 'SELECT id, title, displaystartdate, displayenddate, (displayenddate > NOW() OR displayenddate = "") AS display FROM ' . $wpdb->prefix . 'jobman_jobs ORDER BY displayenddate DESC, displaystartdate DESC';
 	$jobs = $wpdb->get_results($sql, ARRAY_A);
 ?>
 		<table class="widefat page fixed" cellspacing="0">
