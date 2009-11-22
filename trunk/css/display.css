@@ -8,8 +8,6 @@ table.jobs-table th, table.job-table th {
 }
 
 td.jobs-moreinfo, td.jobs-applynow {
-	background-color: #6C6;
-	color: #FFF;
 	font-weight: bold;
 	text-align: center;
 	vertical-align: middle;
@@ -17,10 +15,6 @@ td.jobs-moreinfo, td.jobs-applynow {
 
 td.jobs-moreinfo a, td.jobs-applynow  a{
 	width: 100%;
-}
-
-td.jobs-moreinfo a:hover, td.jobs-applynow a:hover {
-	color: #FFF;
 }
 
 table.job-apply-table th, table.job-apply-table td.th {
