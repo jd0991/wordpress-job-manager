@@ -48,8 +48,11 @@ For a full description of how to use the application form customization features
 
 == Changelog ==
 
-= 0.2.3 =
+= 0.2.4 =
+* FIXED: Still some circumstances where jobs weren't displaying
+* FIXED: Removed some CSS that should be in a site's main.css
 
+= 0.2.3 =
 * FIXED: Jobs were not displaying if the start or end date was empty.
 
 = 0.2.2 =
