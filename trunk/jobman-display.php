@@ -50,14 +50,15 @@ function jobman_display_jobs($posts) {
 			$posts = jobman_display_job($data);
 			break;
 		case 'apply':
+			$jobid = (int) $data;
 			if($data == '') {
 				$posts = jobman_display_apply(-1);
 			}
-			else if(is_int($data)) {
-				$posts = jobman_display_apply($data);
+			else if($jobid > 0) {
+				$posts = jobman_display_apply($jobid);
 			}
 			else {
-				$posts = jobman_display_apply(-1, $matches[1]);
+				$posts = jobman_display_apply(-1, $data);
 			}
 			break;
 		default:
@@ -265,7 +266,7 @@ function jobman_display_job($jobid) {
 	$page = new stdClass;
 	$content = '';
 	
-	$sql = $wpdb->prepare('SELECT id, title, salary, startdate, startdate <= NOW() AS asap, enddate, location, abstract FROM ' . $wpdb->prefix . 'jobman_jobs WHERE id=%d AND (displaystartdate <= NOW() OR displaystartdate = NULL) AND (displayenddate >= NOW() OR displayenddate = NULL);', $jobid);
+	$sql = $wpdb->prepare('SELECT id, title, salary, startdate, startdate <= NOW() AS asap, enddate, location, abstract FROM ' . $wpdb->prefix . 'jobman_jobs WHERE id=%d AND (displaystartdate <= NOW() OR displaystartdate = "") AND (displayenddate >= NOW() OR displayenddate = "");', $jobid);
 	$data = $wpdb->get_results($sql, ARRAY_A);
 	
 	if(count($data) <= 0) {
@@ -304,7 +305,7 @@ function jobman_display_job($jobid) {
 	$content .= '<tr><th scope="row">' . __('End Date', 'jobman') . '</th><td>' . (($job['enddate'] == '')?(__('Ongoing', 'jobman')):($job['enddate'])) . '</td></tr>';
 	$content .= '<tr><th scope="row">' . __('Location', 'jobman') . '</th><td>' . $job['location'] . '</td></tr>';
 	$content .= '<tr><th scope="row">' . __('Information', 'jobman') . '</th><td>' . jobman_format_abstract($job['abstract']) . '</td></tr>';
-	$content .= '<tr><td></td><td class="jobs-applynow"><a href="'. jobman_url('apply', $job['id']) . '/">' . __('Apply Now!', 'jobman') . '</td></tr>';
+	$content .= '<tr><td></td><td class="jobs-applynow"><a href="'. jobman_url('apply', $job['id']) . '">' . __('Apply Now!', 'jobman') . '</td></tr>';
 	$content .= '</table>';
 	
 	$page->post_content = $content;
@@ -342,7 +343,7 @@ function jobman_display_apply($jobid, $cat = NULL) {
 		return array($page);
 	}
 	
-	$sql = $wpdb->prepare('SELECT id, title FROM ' . $wpdb->prefix . 'jobman_jobs WHERE id=%d AND (displaystartdate <= NOW() OR displaystartdate = NULL) AND (displayenddate >= NOW() OR displayenddate = NULL);', $jobid);
+	$sql = $wpdb->prepare('SELECT id, title FROM ' . $wpdb->prefix . 'jobman_jobs WHERE id=%d AND (displaystartdate <= NOW() OR displaystartdate = "") AND (displayenddate >= NOW() OR displayenddate = "");', $jobid);
 	$data = $wpdb->get_results($sql, ARRAY_A);
 	
 	if(count($data) > 0) {
