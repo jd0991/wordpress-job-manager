@@ -72,7 +72,7 @@ function jobman_display_jobs($posts) {
 	}
 	
 	if(!$hidepromo) {
-		$posts[0]->post_content .= '<p class="jobmanpromo">' . sprintf(__('This job listing was created using <a href="%s" title="%s">Job Manager</a> for WordPress, by <a href="%s">Gary Pendergast</a>.', 'resman'), 'http://pento.net/projects/wordpress-job-manager/', __('WordPress Résumé Manager', 'resman'), 'http://pento.net') . '</p>';
+		$posts[0]->post_content .= '<p class="jobmanpromo">' . sprintf(__('This job listing was created using <a href="%s" title="%s">Job Manager</a> for WordPress, by <a href="%s">Gary Pendergast</a>.', 'resman'), 'http://pento.net/projects/wordpress-job-manager/', __('WordPress Job Manager', 'resman'), 'http://pento.net') . '</p>';
 	}
 	
 
