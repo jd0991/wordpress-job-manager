@@ -589,34 +589,36 @@ function jobman_store_application($jobid, $cat) {
 		}
 	}
 	
-	foreach($fields as $field) {
-		if($field['type'] != 'file' && (!isset($_REQUEST['jobman-field-'.$field['id']]) || $_REQUEST['jobman-field-'.$field['id']] == '')) {
-			continue;
+	if(count($fields) > 0) {
+		foreach($fields as $field) {
+			if($field['type'] != 'file' && (!isset($_REQUEST['jobman-field-'.$field['id']]) || $_REQUEST['jobman-field-'.$field['id']] == '')) {
+				continue;
+			}
+			
+			if($field['type'] == 'file' && !isset($_FILES['jobman-field-'.$field['id']])) {
+				continue;
+			}
+			
+			switch($field['type']) {
+				case 'file':
+					$matches = array();
+					preg_match('/.*\.(.+)$/', $_FILES['jobman-field-'.$field['id']]['name'], $matches);
+					$ext = $matches[1];
+					if(is_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'])) {
+						move_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'], WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/uploads/' . $appid . '-' . $field['id'] . '.' . $ext);
+					}
+					$data = $appid . '-' . $field['id'] . '.' . $ext;
+					break;
+				case 'checkbox':
+					$data = implode(', ', $_REQUEST['jobman-field-'.$field['id']]);
+					break;
+				default:
+					$data = $_REQUEST['jobman-field-'.$field['id']];
+			}
+			
+			$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_data(applicationid, fieldid, data) VALUES(%d, %d, %s);', $appid, $field['id'], $data);
+			$wpdb->query($sql);
 		}
-		
-		if($field['type'] == 'file' && !isset($_FILES['jobman-field-'.$field['id']])) {
-			continue;
-		}
-		
-		switch($field['type']) {
-			case 'file':
-				$matches = array();
-				preg_match('/.*\.(.+)$/', $_FILES['jobman-field-'.$field['id']]['name'], $matches);
-				$ext = $matches[1];
-				if(is_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'])) {
-					move_uploaded_file($_FILES['jobman-field-'.$field['id']]['tmp_name'], WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/uploads/' . $appid . '-' . $field['id'] . '.' . $ext);
-				}
-				$data = $appid . '-' . $field['id'] . '.' . $ext;
-				break;
-			case 'checkbox':
-				$data = implode(', ', $_REQUEST['jobman-field-'.$field['id']]);
-				break;
-			default:
-				$data = $_REQUEST['jobman-field-'.$field['id']];
-		}
-		
-		$sql = $wpdb->prepare('INSERT INTO ' . $wpdb->prefix . 'jobman_application_data(applicationid, fieldid, data) VALUES(%d, %d, %s);', $appid, $field['id'], $data);
-		$wpdb->query($sql);
 	}
 	
 	jobman_email_application($appid);
@@ -646,136 +648,138 @@ function jobman_check_filters($jobid, $cat) {
 	$fields = $wpdb->get_results($sql, ARRAY_A);
 	
 	$matches = array();
-	foreach($fields as $field) {
-		if($field['filter'] == '') {
-			// No filter for this field
-			continue;
-		}
-		
-		$used_eq = false;
-		$eqflag = false;
-		
-		$data = $_REQUEST['jobman-field-'.$field['id']];
-		if($field['type'] != 'checkbox') {
-			$data = trim($data);
-		}
-		else if(!is_array($data)) {
-			$data = array();
-		}
-		$filters = split("\n", $field['filter']);
-		
-		foreach($filters as $filter) {
-			$filter = trim($filter);
+	if(count($fields) > 0) {
+		foreach($fields as $field) {
+			if($field['filter'] == '') {
+				// No filter for this field
+				continue;
+			}
 			
-			// Date
-			if($field['type'] == 'date') {
-				$data = strtotime($data);
+			$used_eq = false;
+			$eqflag = false;
+			
+			$data = $_REQUEST['jobman-field-'.$field['id']];
+			if($field['type'] != 'checkbox') {
+				$data = trim($data);
+			}
+			else if(!is_array($data)) {
+				$data = array();
+			}
+			$filters = split("\n", $field['filter']);
+			
+			foreach($filters as $filter) {
+				$filter = trim($filter);
+				
+				// Date
+				if($field['type'] == 'date') {
+					$data = strtotime($data);
 
-				// [<>][+-]P(\d+Y)?(\d+M)?(\d+D)?
-				if(preg_match('/^([<>])([+-])P(\d+Y)?(\d+M)?(\d+D)?$/', $filter, $matches)) {
-					$intervalstr = $matches[2];
-					for($ii = 3; $ii < count($matches); $ii++) {
-						$interval = array();
-						preg_match('/(\d+)([YMD])/', $matches[$ii], $interval);
-						switch($interval[2]) {
-							case 'Y':
-								$intervalstr .= $interval[1] . ' years ';
+					// [<>][+-]P(\d+Y)?(\d+M)?(\d+D)?
+					if(preg_match('/^([<>])([+-])P(\d+Y)?(\d+M)?(\d+D)?$/', $filter, $matches)) {
+						$intervalstr = $matches[2];
+						for($ii = 3; $ii < count($matches); $ii++) {
+							$interval = array();
+							preg_match('/(\d+)([YMD])/', $matches[$ii], $interval);
+							switch($interval[2]) {
+								case 'Y':
+									$intervalstr .= $interval[1] . ' years ';
+									break;
+								case 'M':
+									$intervalstr .= $interval[1] . ' months ';
+									break;
+								case 'D':
+									$intervalstr .= $interval[1] . ' days ';
+									break;
+							}
+						}
+						
+						$cmp = strtotime($intervalstr);
+
+						switch($matches[1]) {
+							case '<':
+								if($cmp > $data) {
+									return $field['id'];
+								}
 								break;
-							case 'M':
-								$intervalstr .= $interval[1] . ' months ';
-								break;
-							case 'D':
-								$intervalstr .= $interval[1] . ' days ';
+							case '>':
+								if($cmp < $data) {
+									return $field['id'];
+								}
 								break;
 						}
+						
+						break;
 					}
-					
-					$cmp = strtotime($intervalstr);
+				}
 
+				preg_match('/^([<>]=?|[!]|)(.+)/', $filter, $matches);
+				if($field['type'] == 'date') {
+					$fdata = strtotime($matches[2]);
+				}
+				else {
+					$fdata = $matches[2];
+				}
+				
+				if($field['type'] != 'checkbox') {
 					switch($matches[1]) {
+						case '<=':
+							if($data > $fdata) {
+								return $field['id'];
+							}
+							break;
+						case '>=':
+							if($data > $fdata) {
+								return $field['id'];
+							}
+							break;
 						case '<':
-							if($cmp > $data) {
+							if($data >= $fdata) {
 								return $field['id'];
 							}
 							break;
 						case '>':
-							if($cmp < $data) {
+							if($data <= $fdata) {
 								return $field['id'];
 							}
 							break;
+						case '!':
+							if($data == $fdata) {
+								return $field['id'];
+							}
+							break;
+						default:
+							$used_eq = true;
+							if($data == $fdata) {
+								$eqflag = true;
+								break 2;
+							}
+							break;
 					}
-					
-					break;
 				}
-			}
-
-			preg_match('/^([<>]=?|[!]|)(.+)/', $filter, $matches);
-			if($field['type'] == 'date') {
-				$fdata = strtotime($matches[2]);
-			}
-			else {
-				$fdata = $matches[2];
+				else {
+					switch($matches[1]) {
+						case '!':
+							if(in_array($fdata, $data)) {
+								return $field['id'];
+							}
+							break;
+						default:
+							$used_eq = true;
+							if(in_array($fdata, $data)) {
+								$eqflag = true;
+								break 2;
+							}
+							break;
+					}
+				}
 			}
 			
-			if($field['type'] != 'checkbox') {
-				switch($matches[1]) {
-					case '<=':
-						if($data > $fdata) {
-							return $field['id'];
-						}
-						break;
-					case '>=':
-						if($data > $fdata) {
-							return $field['id'];
-						}
-						break;
-					case '<':
-						if($data >= $fdata) {
-							return $field['id'];
-						}
-						break;
-					case '>':
-						if($data <= $fdata) {
-							return $field['id'];
-						}
-						break;
-					case '!':
-						if($data == $fdata) {
-							return $field['id'];
-						}
-						break;
-					default:
-						$used_eq = true;
-						if($data == $fdata) {
-							$eqflag = true;
-							break 2;
-						}
-						break;
-				}
+			if($used_eq && !$eqflag) {
+				return $field['id'];
 			}
-			else {
-				switch($matches[1]) {
-					case '!':
-						if(in_array($fdata, $data)) {
-							return $field['id'];
-						}
-						break;
-					default:
-						$used_eq = true;
-						if(in_array($fdata, $data)) {
-							$eqflag = true;
-							break 2;
-						}
-						break;
-				}
-			}
+			$used_eq = false;
+			$eqflag = false;
 		}
-		
-		if($used_eq && !$eqflag) {
-			return $field['id'];
-		}
-		$used_eq = false;
-		$eqflag = false;
 	}
 
 	return -1;
