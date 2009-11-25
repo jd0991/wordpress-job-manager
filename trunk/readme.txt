@@ -46,7 +46,25 @@ Related links:
 
 For a full description of how to use the application form customization features, please read [this page in the documentation](http://code.google.com/p/wordpress-job-manager/wiki/CustomApplicationForm).
 
+== Other Plugin Support ==
+
+The Job Manager supports added functionality when other plugins are installed. If you think your plugin could add some functionality to Job Manager, please [submit a feature request](http://code.google.com/p/wordpress-job-manager/issues/list).
+
+= Google XML Sitemaps =
+
+Job Manager will add all of your job lists and job detail pages to your sitemap, when [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) is installed on your site.
+
 == Changelog ==
+
+= 0.3.0 =
+* ADDED: Framework for supporting extra functionality through other plugins
+* ADDED: Google Sitemap support, through the [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) plugin.
+* ADDED: POT file, for translations
+* FIXED: Potential Application submission error
+* FIXED: Storing incorrect information if no file was uploaded
+* FIXED: Logic bug in plugin activation
+* FIXED: Options upgrade function wasn't being called
+* FIXED: Minor string fixes
 
 = 0.2.4 =
 * FIXED: Still some circumstances where jobs weren't displaying
