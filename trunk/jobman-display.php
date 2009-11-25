@@ -385,7 +385,7 @@ function jobman_display_apply($jobid, $cat = NULL) {
 		$sql = 'SELECT af.id AS id, af.label AS label, af.type AS type, af.data AS data FROM ' . $wpdb->prefix . 'jobman_application_fields AS af';
 		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_field_categories AS afc ON afc.afid=af.id';
 		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_jobs AS j ON j.id=' . $jobid;
-		$sql .= ' LEFT JOIN wp_jobman_job_category AS jc ON jc.jobid=j.id AND jc.categoryid=afc.categoryid';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON jc.jobid=j.id AND jc.categoryid=afc.categoryid';
 		$sql .= ' WHERE afc.categoryid IS NULL OR jc.categoryid=afc.categoryid ORDER BY sortorder ASC';
 	}
 	else {
@@ -559,7 +559,7 @@ function jobman_store_application($jobid, $cat) {
 		$sql = 'SELECT af.id AS id, af.type AS type FROM ' . $wpdb->prefix . 'jobman_application_fields AS af';
 		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_field_categories AS afc ON afc.afid=af.id';
 		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_jobs AS j ON j.id=%d';
-		$sql .= ' LEFT JOIN wp_jobman_job_category AS jc ON jc.jobid=j.id AND jc.categoryid=afc.categoryid';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON jc.jobid=j.id AND jc.categoryid=afc.categoryid';
 		$sql .= ' WHERE afc.categoryid IS NULL OR jc.categoryid=afc.categoryid ORDER BY sortorder ASC';
 		$sql = $wpdb->prepare($sql, $jobid);
 	}
@@ -637,7 +637,7 @@ function jobman_check_filters($jobid, $cat) {
 		$sql = 'SELECT af.id AS id, af.type AS type, af.filter AS filter FROM ' . $wpdb->prefix . 'jobman_application_fields AS af';
 		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_application_field_categories AS afc ON afc.afid=af.id';
 		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_jobs AS j ON j.id=%d';
-		$sql .= ' LEFT JOIN wp_jobman_job_category AS jc ON jc.jobid=j.id AND jc.categoryid=afc.categoryid';
+		$sql .= ' LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON jc.jobid=j.id AND jc.categoryid=afc.categoryid';
 		$sql .= ' WHERE afc.categoryid IS NULL OR jc.categoryid=afc.categoryid ORDER BY sortorder ASC';
 		$sql = $wpdb->prepare($sql, $jobid);
 	}

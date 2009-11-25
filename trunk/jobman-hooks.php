@@ -30,6 +30,12 @@ add_action('wp_head', 'jobman_display_head');
 // Set the edit post link
 add_filter('get_edit_post_link', 'jobman_display_edit_post_link');
 
+//
+// Plugins
+//
+// Google XML Sitemap
+add_action('sm_buildmap', 'jobman_gxs_buildmap');
+
 // Uninstall function
 if (function_exists('register_uninstall_hook')) {
 	register_uninstall_hook(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/job-manager.php', 'jobman_uninstall');

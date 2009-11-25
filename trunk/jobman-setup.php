@@ -4,7 +4,7 @@ function jobman_activate() {
 	$version = get_option('jobman_version');
 	$dbversion = get_option('jobman_db_version');
 	
-	if($dbversion == "" || 1) {
+	if($dbversion == "") {
 		// Never been run, create the database.
 		jobman_create_db();
 		jobman_create_default_settings();
@@ -12,6 +12,7 @@ function jobman_activate() {
 	elseif($dbversion != JOBMAN_DB_VERSION) {
 		// New version, upgrade
 		jobman_upgrade_db($dbversion);
+		jobman_upgrade_settings($dbversion);
 	}
 
 	update_option('jobman_version', JOBMAN_VERSION);
@@ -29,8 +30,11 @@ function jobman_create_default_settings() {
 }
 
 function jobman_upgrade_settings($oldversion) {
-	if($oldversion <= 1) {
+	if($oldversion < 2) {
 		update_option('jobman_list_type', 'full');
+	}
+	if($oldversion < 3) {
+		update_option('jobman_plugin_gxs', 1);
 	}
 }
 

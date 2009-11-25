@@ -51,6 +51,9 @@ function jobman_conf() {
 	else if(isset($_REQUEST['jobmanappemailsubmit'])) {
 		jobman_application_email_updatedb();
 	}
+	else if(isset($_REQUEST['jobmanotherpluginssubmit'])) {
+		jobman_other_plugins_updatedb();
+	}
 ?>
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Settings', 'jobman') ?></h2>
@@ -58,22 +61,22 @@ function jobman_conf() {
 	if(!get_option('pento_consulting')) {
 		$widths = array('60%', '39%');
 		$functions = array(
-						array('jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_application_email_box'),
+						array('jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_application_email_box', 'jobman_print_other_plugins_box'),
 						array('jobman_print_donate_box', 'jobman_print_about_box')
 					);
 		$titles = array(
-					array(__('Settings', 'jobman'), __('Categories', 'jobman'), __('Icons', 'jobman'), __('Application Email Settings', 'jobman')),
+					array(__('Settings', 'jobman'), __('Categories', 'jobman'), __('Icons', 'jobman'), __('Application Email Settings', 'jobman'), __('Other Plugins', 'jobman')),
 					array(__('Donate', 'jobman'), __('About This Plugin', 'jobman'))
 				);
 	}
 	else {
 		$widths = array('49%', '49%');
 		$functions = array(
-						array('jobman_print_settings_box', 'jobman_print_categories_box'),
+						array('jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_other_plugins_box'),
 						array('jobman_print_icons_box', 'jobman_print_application_email_box')
 					);
 		$titles = array(
-					array(__('Settings', 'jobman'), __('Categories', 'jobman')),
+					array(__('Settings', 'jobman'), __('Categories', 'jobman'), __('Other Plugins', 'jobman')),
 					array(__('Icons', 'jobman'), __('Application Email Settings', 'jobman'))
 				);
 	}
@@ -321,6 +324,48 @@ function jobman_print_application_email_box() {
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Update Email Settings', 'jobman') ?>" /></p>
 		</form>
 <?php
+}
+
+function jobman_print_other_plugins_box() {
+?>
+	<p><?php _e('Job Manager provides extra functionality through the use of other plugins available for WordPress. These plugins are not required for Job Manager to function, but do provide enhancements.', 'jobman') ?></p>
+	<form action="" method="post">
+	<input type="hidden" name="jobmanotherpluginssubmit" value="1" />
+<?php
+	if(class_exists('GoogleSitemapGeneratorLoader')) {
+		$gxs = true;
+		$gxs_status = __('Installed', 'jobman');
+		$gxs_version = GoogleSitemapGeneratorLoader::GetVersion();
+	}
+	else {
+		$gxs = false;
+		$gxs_status = __('Not Installed', 'jobman');
+	}
+?>
+		<h4><?php _e('Google XML Sitemaps', 'jobman') ?></h4>
+		<p><?php _e('Allows you to automatically add all your job listing and job detail pages to your sitemap.', 'jobman') ?></p>
+		<p>
+			<a href="http://wordpress.org/extend/plugins/google-sitemap-generator/"><?php _e('Download', 'jobman') ?></a><br/>
+			<?php _e('Status', 'jobman') ?>: <span class="<?php echo ($gxs)?('pluginokay'):('pluginwarning') ?>"><?php echo $gxs_status ?></span><br/>
+			<?php echo ($gxs)?(__('Version', 'jobman') . ': ' . $gxs_version):('') ?>
+			<?php echo (!$gxs || version_compare($gxs_version, '3.2', '<'))?(' <span class="pluginwarning">' . __('Job Manager requires Google XML Sitemaps version 3.2 or later.', 'jobman') . '</span>'):('') ?>
+		</p>
+<?php
+	if($gxs && version_compare($gxs_version, '3.2', '>=')) {
+?>
+		<strong><?php _e('Options', 'jobman') ?></strong>
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e('Add Job pages to your Sitemap?', 'jobman') ?></th>
+				<td><input type="checkbox" value="1" name="plugin-gxs"<?php echo (get_option('jobman_plugin_gxs'))?(' checked="checked"'):('') ?> /></td>
+			</tr>
+		</table>
+<?php
+	}
+?>
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Update Plugin Settings', 'jobman') ?>" /></p>
+	</form>
+<?
 }
 
 function jobman_list_jobs() {
@@ -591,7 +636,7 @@ function jobman_application_setup() {
 			</tr>
 			</thead>
 <?php
-	$sql = 'SELECT af.*, (SELECT COUNT(*) FROM wp_jobman_application_field_categories AS afc WHERE afc.afid=af.id) AS categories FROM ' . $wpdb->prefix . 'jobman_application_fields AS af ORDER BY af.sortorder ASC;';
+	$sql = 'SELECT af.*, (SELECT COUNT(*) FROM ' . $wpdb->prefix . 'jobman_application_field_categories AS afc WHERE afc.afid=af.id) AS categories FROM ' . $wpdb->prefix . 'jobman_application_fields AS af ORDER BY af.sortorder ASC;';
 	$fields = $wpdb->get_results($sql, ARRAY_A);
 
 	if(count($fields) > 0 ) {
@@ -1165,6 +1210,10 @@ function jobman_conf_updatedb() {
 	else {
 		update_option('jobman_promo_link', 0);
 	}
+	
+	if(get_option('jobman_plugin_gxs')) {
+		do_action('sm_rebuild');
+	}
 }
 
 function jobman_updatedb() {
@@ -1206,6 +1255,10 @@ function jobman_updatedb() {
 		$sql .= ';';
 		$wpdb->query($sql);
 	}
+
+	if(get_option('jobman_plugin_gxs')) {
+		do_action('sm_rebuild');
+	}
 }
 
 function jobman_categories_updatedb() {
@@ -1241,6 +1294,10 @@ function jobman_categories_updatedb() {
 	foreach($deletes as $delete) {
 		$sql = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'jobman_categories WHERE id=%d', $delete);
 		$wpdb->query($sql);
+	}
+
+	if(get_option('jobman_plugin_gxs')) {
+		do_action('sm_rebuild');
 	}
 }
 
@@ -1312,6 +1369,15 @@ function jobman_application_email_updatedb() {
 	}
 	else {
 		update_option('jobman_application_email_subject_fields', '');
+	}
+}
+
+function jobman_other_plugins_updatedb() {
+	if($_REQUEST['plugin-gxs']) {
+		update_option('jobman_plugin_gxs', 1);
+	}
+	else {
+		update_option('jobman_plugin_gxs', 0);
 	}
 }
 
