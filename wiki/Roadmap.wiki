@@ -4,16 +4,108 @@
 
 == Abstract ==
 
-Bringing the plugin into line with WordPress data storage and coding standards.
+Bringing the plugin into line with !WordPress data storage and coding standards.
 
 == Due ==
 
-Mid-Late December
+Late December 2009
 
 == New Features ==
 
 == Changes to Existing Features ==
 
-  * Re-write data storage to use existing WordPress tables: Bug #30
+  * Re-write data storage to use existing !WordPress tables: Issue #30
+  * Store options in a single wp_options entry: Issue #13
+
+== Bug Fixes ==
+
+  * Warn when data directories are not writeable: Issue #7
+  * Add Nonce support to all admin forms: Issue #12
+  * Jobs/lists should show in normal page lists: Issue #17
+  * Files in Application list should be a link: Issue #10
+  * Protect uploaded files: Issue #18
+
+----
+
+= 0.5.0 =
+
+== Abstract ==
+
+Allow user registration, application tracking and feedback
+
+== Due ==
+
+Mid-Late January 2010
+
+== New Features ==
+
+  * Allow users to register: Issue #8
+  * Keep an archive of all communication: Issue #2
+
+== Changes to Existing Features ==
+
+== Bug Fixes ==
+
+----
+
+= 0.6.0 =
+
+== Abstract ==
+
+Add some polish
+
+== Due ==
+
+Early-Mid February 2010
+
+== New Features ==
+
+  * Settings link in Plugin List: Issue #14
+  * Widget to show latest jobs: Issue #11
+  * Add a new filter to block applications if no data is entered: Issue #27
+
+== Changes to Existing Features ==
+
+== Bug Fixes ==
+
+----
+
+= 0.7.0 =
+
+== Abstract ==
+
+M-m-m-multi-user!
+
+== Due ==
+
+Late February 2010
+
+== New Features ==
+
+  * Allow anyone to post jobs: Issue #16
+
+== Changes to Existing Features ==
+
+  * Add more fields to job list: Issue #29
+
+== Bug Fixes ==
+
+----
+
+= 1.0.0 =
+
+== Abstract ==
+
+Polish++
+
+== Due ==
+
+Mid March 2010
+
+== New Features ==
+
+  * Add Scribd Support: Issue #31
+
+== Changes to Existing Features ==
 
 == Bug Fixes ==
