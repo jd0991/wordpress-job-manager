@@ -7,7 +7,7 @@ Version: 0.3.0
 Author: Gary Pendergast
 Author URI: http://pento.net/
 Text Domain: jobman
-Tags: job, jobs, manager, list, listing, employment, employer
+Tags: job, jobs, manager, list, listing, employment, employer, career
 */
 
 // Version
