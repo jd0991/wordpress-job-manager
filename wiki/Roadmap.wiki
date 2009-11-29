@@ -10,8 +10,6 @@ Bringing the plugin into line with !WordPress data storage and coding standards.
 
 Late December 2009
 
-== New Features ==
-
 == Changes to Existing Features ==
 
   * Re-write data storage to use existing !WordPress tables: Issue #30
@@ -42,10 +40,6 @@ Late January 2010
   * Allow users to register: Issue #8
   * Keep an archive of all communication: Issue #2
 
-== Changes to Existing Features ==
-
-== Bug Fixes ==
-
 ----
 
 = 0.6.0 =
@@ -63,10 +57,6 @@ Mid February 2010
   * Settings link in Plugin List: Issue #14
   * Widget to show latest jobs: Issue #11
   * Add a new filter to block applications if no data is entered: Issue #27
-
-== Changes to Existing Features ==
-
-== Bug Fixes ==
 
 ----
 
@@ -88,8 +78,6 @@ Late February 2010
 
   * Add more fields to job list: Issue #29
 
-== Bug Fixes ==
-
 ----
 
 = 1.0.0 =
@@ -105,7 +93,3 @@ Mid March 2010
 == New Features ==
 
   * Add Scribd Support: Issue #31
-
-== Changes to Existing Features ==
-
-== Bug Fixes ==
