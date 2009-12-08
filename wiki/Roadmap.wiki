@@ -10,6 +10,10 @@ Bringing the plugin into line with !WordPress data storage and coding standards.
 
 Late December 2009
 
+== Features ==
+
+  * Allow admin to select page template: Issue #37
+
 == Changes to Existing Features ==
 
   * Re-write data storage to use existing !WordPress tables: Issue #30
