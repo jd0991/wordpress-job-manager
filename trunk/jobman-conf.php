@@ -365,7 +365,7 @@ function jobman_print_other_plugins_box() {
 ?>
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Update Plugin Settings', 'jobman') ?>" /></p>
 	</form>
-<?
+<?php
 }
 
 function jobman_list_jobs() {
