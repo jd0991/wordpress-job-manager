@@ -58,6 +58,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 = 0.3.1 =
 * FIXED: A default value for Category slugs is now inserted. Upgrading will create default slugs if no slug exists.
+* FIXED: Bug preventing icons from being deleted.
 * FIXED: Code cleanup
 
 = 0.3.0 =
