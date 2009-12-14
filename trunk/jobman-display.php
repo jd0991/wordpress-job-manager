@@ -791,7 +791,7 @@ function jobman_check_filters($jobid, $cat) {
 function jobman_email_application($appid) {
 	global $wpdb;
 	
-	$sql = $wpdb->prepare('SELECT c.email AS email FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_application_categories AS ac ON ac.categoryid=c.id WHERE ac.applicationid=%d AND c.email NOT NULL;', $appid);
+	$sql = $wpdb->prepare('SELECT c.email AS email FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_application_categories AS ac ON ac.categoryid=c.id WHERE ac.applicationid=%d AND c.email IS NOT NULL;', $appid);
 	$emails = $wpdb->get_results($sql, ARRAY_A);
 	
 	$to = '';
