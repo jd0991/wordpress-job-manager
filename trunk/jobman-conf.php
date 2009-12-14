@@ -1282,8 +1282,15 @@ function jobman_categories_updatedb() {
 		}
 		else {
 			// UPDATE existing field
+			if($_REQUEST['slug'][$ii] != '') {
+				$slug = $_REQUEST['slug'][$ii];
+			}
+			else {
+				$slug = strtolower($_REQUEST['title'][$ii]);
+				$slug = str_replace(' ', '-', $slug);
+			}
 			$sql = $wpdb->prepare('UPDATE ' . $wpdb->prefix . 'jobman_categories SET title=%s, slug=%s, email=%s WHERE id=%d;',
-							$_REQUEST['title'][$ii], $_REQUEST['slug'][$ii], $_REQUEST['email'][$ii], $id);
+							$_REQUEST['title'][$ii], $slug, $_REQUEST['email'][$ii], $id);
 		}
 		
 		$wpdb->query($sql);

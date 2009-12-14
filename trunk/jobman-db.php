@@ -115,6 +115,25 @@ function jobman_create_db() {
 }
 
 function jobman_upgrade_db($oldversion) {
+	global $wpdb;
+	
+	if($oldversion < 4) {
+		// Fix any empty slugs in the category list.
+		$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_categories ORDER BY id;';
+		$categories = $wpdb->get_results($sql, ARRAY_A);
+		
+		if(count($categories) > 0 ) {
+			foreach($categories as $cat) {
+				if($cat['slug'] == '') {
+					$slug = strtolower($cat['title']);
+					$slug = str_replace(' ', '-', $slug);
+					
+					$sql = $wpdb->prepare('UPDATE ' . $wpdb->prefix . 'jobman_categories SET slug=%s WHERE id=%d;', $slug, $id);
+					$wpdb->query($sql);
+				}
+			}
+		}
+	}
 }
 
 function jobman_drop_db() {

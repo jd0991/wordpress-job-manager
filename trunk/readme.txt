@@ -56,6 +56,10 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 == Changelog ==
 
+= 0.3.1 =
+* FIXED: A default value for Category slugs is now inserted. Upgrading will create default slugs if no slug exists.
+* FIXED: Code cleanup
+
 = 0.3.0 =
 * ADDED: Framework for supporting extra functionality through other plugins
 * ADDED: Google Sitemap support, through the [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) plugin.
