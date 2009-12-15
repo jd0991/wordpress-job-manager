@@ -7,8 +7,9 @@
 // Intercept the sitemap build and add all our URLs to it.
 function jobman_gxs_buildmap() {
 	global $wpdb;
+	$options = get_option('jobman_options');
 
-	if(!get_option('jobman_plugin_gxs')) {
+	if(!$options['plugins']['gxs']) {
 		return;
 	}
 

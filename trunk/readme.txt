@@ -10,6 +10,8 @@ A job listing and job application management plugin for Wordpress.
 
 == Description ==
 
+*Important Note*: If you're upgrading from version 0.3.3 or earlier, please read the [upgrade documentation](http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x).
+
 A plugin for managing job lists and job applications on your Wordpress site. It supports all the features you need to manage your organisation's jobs.
 
 *    *Job Listing*
@@ -59,6 +61,10 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 = 0.4.0 =
 * CHANGED: Job Manager now requires WordPress 2.9 or higher
 * CHANGED: All data is now stored in default WordPress tables
+* CHANGED: 
+
+= 0.3.3 =
+* FIXED: SQL errors when deleting applications
 
 = 0.3.2 =
 * FIXED: SQL error when submitting an application
@@ -86,9 +92,6 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * FIXED: Jobs were not displaying if the start or end date was empty.
 
 = 0.2.2 =
-
-This upgrade is recommended for all users.
-
 * FIXED: Applications without an associated job were not being stored correctly.
 * FIXED: Minor bugs with filtering applications.
 

@@ -1,6 +1,8 @@
 <?php //encoding: utf-8
 function jobman_queryvars($qvars) {
-	$url = get_option('jobman_page_name');
+	$options = get_option('jobman_options');
+
+	$url = $options['page_name'];
 	if(!$url) {
 		return;
 	}
@@ -10,7 +12,9 @@ function jobman_queryvars($qvars) {
 }
 
 function jobman_add_rewrite_rules($wp_rewrite) {
-	$url = get_option('jobman_page_name');
+	$options = get_option('jobman_options');
+	
+	$url = $options['page_name'];
 	if(!$url) {
 		return;
 	}
@@ -31,8 +35,9 @@ function jobman_flush_rewrite_rules() {
 
 function jobman_display_jobs($posts) {
 	global $wp_query;
+	$options = get_option('jobman_options');
 
-	$url = get_option('jobman_page_name');
+	$url = $options['page_name'];
 	
 	if(!isset($wp_query->query_vars[$url])) {
 		return $posts;
@@ -65,7 +70,7 @@ function jobman_display_jobs($posts) {
 			$posts = jobman_display_jobs_list($func);
 	}
 
-	$hidepromo = get_option('jobman_promo_link');
+	$hidepromo = $options['promo_link'];
 	
 	if(get_option('pento_consulting')) {
 		$hidepromo = true;
@@ -86,8 +91,9 @@ function jobman_display_init() {
 
 function jobman_display_template() {
 	global $wp_query;
-	
-	$url = get_option('jobman_page_name');
+	$options = get_option('jobman_options');
+
+	$url = $options['page_name'];
 	
 	if(isset($wp_query->query_vars[$url])) {
 		include(TEMPLATEPATH . '/page.php');
@@ -97,8 +103,9 @@ function jobman_display_template() {
 
 function jobman_display_title($title, $sep, $seploc) {
 	global $wpdb, $wp_query;
-	
-	$url = get_option('jobman_page_name');
+	$options = get_option('jobman_options');
+
+	$url = $options['page_name'];
 	
 	if(!isset($wp_query->query_vars[$url])) {
 		return $title;
@@ -147,8 +154,9 @@ function jobman_display_title($title, $sep, $seploc) {
 
 function jobman_display_head() {
 	global $wp_query;
+	$options = get_option('jobman_options');
 
-	$url = get_option('jobman_page_name');
+	$url = $options['page_name'];
 	
 	if(!isset($wp_query->query_vars[$url])) {
 		return;
@@ -171,8 +179,9 @@ jQuery(document).ready(function() {
 
 function jobman_display_edit_post_link($link) {
 	global $wp_query;
-	
-	$url = get_option('jobman_page_name');
+	$options = get_option('jobman_options');
+
+	$url = $options['page_name'];
 	
 	if(!isset($wp_query->query_vars[$url])) {
 		return $link;
@@ -191,12 +200,13 @@ function jobman_display_edit_post_link($link) {
 
 function jobman_display_jobs_list($cat) {
 	global $wpdb;
-	
+	$options = get_option('jobman_options');
+
 	$page = new stdClass;
 	$content = '';
 	
-	$url = get_option('jobman_page_name');
-	$list_type = get_option('jobman_list_type');
+	$url = $options['page_name'];
+	$list_type = $options['list_type'];
 	
 	$page->post_title = __('Jobs Listing', 'jobman');
 	
@@ -260,8 +270,9 @@ function jobman_display_jobs_list($cat) {
 
 function jobman_display_job($jobid) {
 	global $wpdb;
-	
-	$url = get_option('jobman_page_name');
+	$options = get_option('jobman_options');
+
+	$url = $options['page_name'];
 	
 	$page = new stdClass;
 	$content = '';
@@ -315,8 +326,9 @@ function jobman_display_job($jobid) {
 
 function jobman_display_apply($jobid, $cat = NULL) {
 	global $wpdb;
+	$options = get_option('jobman_options');
 
-	$url = get_option('jobman_page_name');
+	$url = $options['page_name'];
 	
 	$page = new stdClass;
 	$content = '';
@@ -790,7 +802,8 @@ function jobman_check_filters($jobid, $cat) {
 
 function jobman_email_application($appid) {
 	global $wpdb;
-	
+	$options = get_option('jobman_options');
+
 	$sql = $wpdb->prepare('SELECT c.email AS email FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_application_categories AS ac ON ac.categoryid=c.id WHERE ac.applicationid=%d AND c.email IS NOT NULL;', $appid);
 	$emails = $wpdb->get_results($sql, ARRAY_A);
 	
@@ -804,16 +817,16 @@ function jobman_email_application($appid) {
 			}
 		}
 	} else {
-		$to = get_option('jobman_default_email');
+		$to = $options['default_email'];
 	}
 	
 	if($to == '') {
 		return;
 	}
 	
-	$fromid = get_option('jobman_application_email_from');
+	$fromid = $options['application_email_from'];
 	if($fromid == '') {
-		$from = get_option('jobman_default_email');
+		$from = $options['default_email'];
 	}
 	else {
 		$sql = $wpdb->prepare('SELECT data FROM ' . $wpdb->prefix . 'jobman_application_data WHERE applicationid=%d AND fieldid=%d;', $appid, $fromid);
@@ -824,13 +837,12 @@ function jobman_email_application($appid) {
 		$from = 'NO-REPLY <NO-REPLY@fakedomain.com>';
 	}
 	
-	$subject = get_option('jobman_application_email_subject_text');
+	$subject = $options['application_email_subject_text'];
 	if($subject != '') {
 		$subject .= ' ';
 	}
 
-	$fid_text = get_option('jobman_application_email_subject_fields');
-	$fids = split(',', $fid_text);
+	$fids = $options['application_email_subject_fields'];
 
 	if(count($fids) > 0) {
 		foreach($fids as $fid) {
@@ -845,7 +857,7 @@ function jobman_email_application($appid) {
 	
 	$msg = '';
 	
-	$url = get_option('jobman_page_name');
+	$url = $options['page_name'];
 	
 	$sql = $wpdb->prepare('SELECT a.jobid AS jobid, j.title AS jobtitle, a.submitted AS submitted FROM ' . $wpdb->prefix . 'jobman_applications AS a LEFT JOIN ' . $wpdb->prefix . 'jobman_jobs AS j ON j.id=a.jobid WHERE a.id=%d;', $appid);
 	$data = $wpdb->get_results($sql, ARRAY_A);
