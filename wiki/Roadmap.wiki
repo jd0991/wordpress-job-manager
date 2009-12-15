@@ -4,7 +4,7 @@
 
 == Abstract ==
 
-Bringing the plugin into line with !WordPress data storage and coding standards.
+Bringing the plugin into line with !WordPress data storage and coding standards. This version will require WordPress 2.9 or higher. The comment meta and Trash features are necessary to implementing Issue #30.
 
 == Due ==
 
