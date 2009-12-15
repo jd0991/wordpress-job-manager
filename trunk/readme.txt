@@ -2,7 +2,7 @@
 Contributors: pento
 Donate link: http://pento.net/donate/
 Tags: jobs, manager, list, listing, employer, application
-Requires at least: 2.7
+Requires at least: 2.9
 Tested up to: 2.9
 Stable tag: trunk
 
@@ -55,6 +55,10 @@ The Job Manager supports added functionality when other plugins are installed. I
 Job Manager will add all of your job lists and job detail pages to your sitemap, when [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) is installed on your site.
 
 == Changelog ==
+
+= 0.4.0 =
+* CHANGED: Job Manager now requires WordPress 2.9 or higher
+* CHANGED: All data is now stored in default WordPress tables
 
 = 0.3.2 =
 * FIXED: SQL error when submitting an application

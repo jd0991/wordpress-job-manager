@@ -134,6 +134,65 @@ function jobman_upgrade_db($oldversion) {
 			}
 		}
 	}
+	if($oldversion < 5) {
+		// Re-write the database to use the existing WP tables
+		
+		$pages = array();
+		
+		// Create the root jobs page
+		$page = array(
+					'comment_status' => 'closed',
+					'ping_status' => 'closed',
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'post_content' => '',
+					'post_name' => get_option('home'),
+					'post_title' => __('Jobs Listing', 'jobman'),
+					'post_type' => 'page');
+		$id = wp_insert_post($page);
+		$pages[] = $id;
+		add_post_meta($id, '_jobman', 1, true);
+
+		// Move the categories to WP categories
+		// Create the jobs category pages
+		
+		// Move the jobs to posts
+		$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_jobs;';
+		$jobs = $wpdb->get_results($sql, ARRAY_A);
+		if(count($jobs) > 0) {
+			foreach($jobs as $job) {
+				$page = array(
+							'comment_status' => 'closed',
+							'ping_status' => 'closed',
+							'post_status' => 'publish',
+							'post_author' => 1,
+							'post_content' => $job['abstract'],
+							'post_name' => get_option('home'),
+							'post_title' => __('Job', 'jobman') . ': ' . $job['title'],
+							'post_type' => 'page',
+							'post_date' => $job['displaystartdate']);
+				$id = wp_insert_post($page);
+				$pages[] = $id;
+				add_post_meta($id, '_jobman', 1, true);
+				
+				add_post_meta($id, '_salary', $job['salary'], true);
+				add_post_meta($id, '_startdate', $job['startdate'], true);
+				add_post_meta($id, '_enddate', $job['enddate'], true);
+				add_post_meta($id, '_location', $job['location'], true);
+				add_post_meta($id, '_displayenddate', $job['displayenddate'], true);
+			}
+		}
+		// Update the job posts to include the categories
+		// Move the icons (should be a conf setting)
+		// Update the job posts with our meta data
+		//   - jobman flag
+		//   - icon
+		// Move the application fields to conf settings
+		// Create the apply page
+		
+		// Drop the old tables
+		// jobman_drop_db();
+	}
 }
 
 function jobman_drop_db() {
