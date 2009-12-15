@@ -118,7 +118,7 @@ function jobman_display_title($title, $sep, $seploc) {
 	switch($func) {
 		case 'view':
 			if(preg_match('/^(\d+)-?(.*)?/', $data, $matches)) {
-				$title = $wpdb->get_var($wpdb->prepare('SELECT title FROM ' . $wpdb->prefix . 'jobman_jobs WHERE id=%d AND (displaystartdate <= NOW() OR displaystartdate = NULL) AND (displayenddate >= NOW() OR displayenddate = NULL);', $matches[1]));
+				$title = $wpdb->get_var($wpdb->prepare('SELECT title FROM ' . $wpdb->prefix . 'jobman_jobs WHERE id=%d AND (displaystartdate <= NOW() OR displaystartdate IS NULL) AND (displayenddate >= NOW() OR displayenddate IS NULL);', $matches[1]));
 				if($title != '') {
 					$newtitle = __('Job', 'jobman') . ': ' . $title;
 				}

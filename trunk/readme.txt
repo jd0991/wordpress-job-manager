@@ -61,7 +61,8 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 = 0.4.0 =
 * CHANGED: Job Manager now requires WordPress 2.9 or higher
 * CHANGED: All data is now stored in default WordPress tables
-* CHANGED: 
+* CHANGED: All options are now stored in a single wp_options entry
+* FIXED: A job being displayed could include an incorrect <title>
 
 = 0.3.3 =
 * FIXED: SQL errors when deleting applications
@@ -103,3 +104,9 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 = 0.1.0 =
 * Initial release
+
+== Upgrade Notice ==
+
+= 0.4.0 =
+
+This release contains significant database changes. If you're upgrading from version 0.3.3 or earlier, please read the upgrade documentation: http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x .
