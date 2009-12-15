@@ -1122,7 +1122,7 @@ function jobman_application_delete() {
 		$wpdb->query($sql);
 
 		// Delete any files uploaded
-		$sql = $wpdb->prepare('SELECT ac.data AS name FROM ' . $wpdb->prefix . 'jobman_application_fields AS af LEFT JOIN ' . $wpdb->prefix . 'jobman_application_data AS ad ON ad.fieldid=af.id WHERE ad.applicationid=%d AND af.type="file";', $app);
+		$sql = $wpdb->prepare('SELECT ad.data AS name FROM ' . $wpdb->prefix . 'jobman_application_fields AS af LEFT JOIN ' . $wpdb->prefix . 'jobman_application_data AS ad ON ad.fieldid=af.id WHERE ad.applicationid=%d AND af.type="file";', $app);
 		$files = $wpdb->get_results($sql, ARRAY_A);
 		if(count($files) > 0) {
 			foreach($files as $file) {
@@ -1134,7 +1134,7 @@ function jobman_application_delete() {
 		}
 		
 		// Delete the application data
-		$sql = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'jobman_application_categories WHERE jobman_application_data=%d;', $app);
+		$sql = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'jobman_application_data WHERE applicationid=%d;', $app);
 		$wpdb->query($sql);
 	}
 }

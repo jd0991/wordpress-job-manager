@@ -56,6 +56,9 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 == Changelog ==
 
+= 0.3.3 =
+* FIXED: SQL errors when deleting applications
+
 = 0.3.2 =
 * FIXED: SQL error when submitting an application
 
