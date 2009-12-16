@@ -116,6 +116,7 @@ function jobman_create_db() {
 
 function jobman_upgrade_db($oldversion) {
 	global $wpdb;
+	$options = get_option('jobman_options');
 	
 	if($oldversion < 4) {
 		// Fix any empty slugs in the category list.
@@ -152,6 +153,7 @@ function jobman_upgrade_db($oldversion) {
 		$mainid = wp_insert_post($page);
 		$pages[] = $mainid;
 		add_post_meta($mainid, '_jobman', 1, true);
+		add_post_meta($mainid, '_jobman_mainpage', 1, true);
 
 		// Move the categories to WP categories
 		$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_categories;';
@@ -222,9 +224,70 @@ function jobman_upgrade_db($oldversion) {
 		}
 		
 		// Move the icons to jobman_options
+		$options['icons'] = array();
+		$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_icons ORDER BY id;';
+		$icons = $wpdb->get_results($sql, ARRAY_A);
+		
+		if(count($icons) > 0 ) {
+			foreach($icons as $icon) {
+				$options['icons'][$icon['id']] = array(
+													'title' => $icon['title'],
+													'extension' => $icon['extension']
+												);
+			}
+		}
 		
 		// Move the application fields to jobman_options
+		$options['fields'] = array();
+		$sql = 'SELECT af.*, (SELECT COUNT(*) FROM ' . $wpdb->prefix . 'jobman_application_field_categories AS afc WHERE afc.afid=af.id) AS categories FROM ' . $wpdb->prefix . 'jobman_application_fields AS af ORDER BY af.sortorder ASC;';
+		$fields = $wpdb->get_results($sql, ARRAY_A);
+
+		if(count($fields) > 0 ) {
+			foreach($fields as $field) {
+				$options['fields'][$field['id']] = array(
+													'label' => $field['label'],
+													'type' => $field['type'],
+													'listdisplay' => $field['listdisplay'],
+													'data' => $field['data'],
+													'filter' => $field['filter'],
+													'error' => $field['error'],
+													'sortorder' => $field['sortorder'],
+													'categories' => array()
+												);
+				if($field['categories'] > 0) {
+					// This field is restricted to certain categories
+					$sql = 'SELECT categoryid FROM ' . $wpdb->prefix . 'jobman_application_field_categories WHERE afid=' . $field['id'] . ';';
+					$field_categories = $wpdb->get_results($sql, ARRAY_A);
+					
+					if(count($categories) > 0) {
+						foreach($categories as $cat) {
+							foreach($field_categories as $fc) {
+								if(in_array($cat['id'], $fc)) {
+									$options['fields'][$field['id']]['categories'] = $newcats[array_search($cat['id'], $oldcats)]
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
 		// Create the apply page
+		$page = array(
+					'comment_status' => 'closed',
+					'ping_status' => 'closed',
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'post_content' => '',
+					'post_name' => get_option('home'),
+					'post_title' => __('Job Application', 'jobman'),
+					'post_type' => 'page',
+					'post_parent' => $mainid);
+		$id = wp_insert_post($page);
+		$pages[] = $id;
+		add_post_meta($mainid, '_jobman', 1, true);
+		add_post_meta($mainid, '_jobman_applypage', 1, true);
 		
 		// Drop the old tables
 		$tables = array(

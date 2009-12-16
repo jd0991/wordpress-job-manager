@@ -66,6 +66,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * CHANGED: All data is now stored in default WordPress tables
 * CHANGED: All options are now stored in a single wp_options entry
 * FIXED: A job being displayed could include an incorrect <title>
+* FIXED: No longer re-write the .htaccess file. Unnecessary, and was causing problems on 1&1 hosting.
 
 = 0.3.3 =
 * FIXED: SQL errors when deleting applications
