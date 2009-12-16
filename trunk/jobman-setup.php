@@ -7,6 +7,7 @@ function jobman_activate() {
 		$dbversion = $options['db_version'];
 	}
 	else {
+		// For folks upgrading from 0.3.x or earlier
 		$version = get_option('jobman_version');
 		$dbversion = get_option('jobman_db_version');
 	}

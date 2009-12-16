@@ -1,117 +1,242 @@
 <?php //encoding: utf-8
 	
 function jobman_create_db() {
-	global $wpdb;
+	$options = get_option('jobman_options');
 	
-	$tablename = $wpdb->prefix . 'jobman_jobs';
-	$sql = 'CREATE TABLE ' . $tablename . ' (
-			  id INT NOT NULL AUTO_INCREMENT,
-			  iconid INT,
-			  title VARCHAR(255),
-			  salary VARCHAR(255),
-			  startdate VARCHAR(255),
-			  enddate VARCHAR(255),
-			  location TEXT,
-			  displaystartdate VARCHAR(10),
-			  displayenddate VARCHAR(10),
-			  abstract TEXT,
-			  PRIMARY KEY (id));';
-	$wpdb->query($sql);
+	$options['icons'] = array();
+	$options['fields'] = array();
 	
-	$tablename = $wpdb->prefix . 'jobman_categories';
-	$sql = 'CREATE TABLE ' . $tablename . ' (
-			  id INT NOT NULL AUTO_INCREMENT,
-			  title VARCHAR(255),
-			  slug VARCHAR(255),
-			  email VARCHAR(255),
-			  PRIMARY KEY (id));';
-	$wpdb->query($sql);
-	
-	$tablename = $wpdb->prefix . 'jobman_job_category';
-	$sql = 'CREATE TABLE ' . $tablename . ' (
-			  jobid INT,
-			  categoryid INT,
-			  KEY job (jobid),
-			  KEY category (categoryid));';
-	$wpdb->query($sql);
-	
-	$tablename = $wpdb->prefix . 'jobman_icons';
-	$sql = 'CREATE TABLE ' . $tablename . ' (
-			  id INT NOT NULL AUTO_INCREMENT,
-			  title VARCHAR(255),
-			  extension VARCHAR(3),
-			  PRIMARY KEY (id));';
-	$wpdb->query($sql);
-	
-	$tablename = $wpdb->prefix . 'jobman_application_fields';
-	$sql = 'CREATE TABLE ' . $tablename . ' (
-			  id INT NOT NULL AUTO_INCREMENT,
-			  label VARCHAR(255),
-			  type VARCHAR(255),
-			  listdisplay INT,
-			  data TEXT,
-			  filter TEXT,
-			  error TEXT,
-			  sortorder INT,
-			  PRIMARY KEY (id),
-			  KEY sortorder (sortorder));';
-	$wpdb->query($sql);
-	
-	$sql = "INSERT INTO $tablename (id, label, type, listdisplay, data, filter, error, sortorder) VALUES
-			(1, 'Personal Details', 'heading', 0, '', '', '', 0),
-			(2, 'Name', 'text', 1, '', '', '', 1),
-			(3, 'Surname', 'text', 1, '', '', '', 2),
-			(4, 'Email Address', 'text', 0, '', '', '', 3),
-			(5, 'Contact Details', 'heading', 0, '', '', '', 4),
-			(6, 'Address', 'textarea', 0, '', '', '', 5),
-			(7, 'City', 'text', 0, '', '', '', 6),
-			(8, 'Post code', 'text', 0, '', '', '', 7),
-			(9, 'Country', 'text', 1, '', '', '', 8),
-			(10, 'Telephone', 'text', 0, '', '', '', 9),
-			(11, 'Cell Phone', 'text', 0, '', '', '', 10),
-			(12, 'Qualifications', 'heading', 0, '', '', '', 11),
-			(13, 'Do you have a degree?', 'radio', 1, 'Yes\r\nNo', '', '', 12),
-			(14, 'Where did you complete your degree?', 'text', 0, '', '', '', 13),
-			(15, 'Title of your degree', 'text', 1, '', '', '', 14),
-			(16, 'Upload your CV', 'file', 1, '', '', '', 15),
-			(17, '', 'blank', 0, '', '', '', 16),
-			(18, '', 'checkbox', 0, 'I have read and understood the privacy policy.', 'I have read and understood the privacy policy.', 'You need to read and agree to our privacy policy before we can accept your application. Please click the ''Back'' button in your browser, read our privacy policy, and confirm that you accept.', 17);";
-	$wpdb->query($sql);
-	
-	$tablename = $wpdb->prefix . 'jobman_application_field_categories';
-	$sql = 'CREATE TABLE ' . $tablename . ' (
-			  afid INT,
-			  categoryid INT,
-			  KEY af (afid),
-			  KEY category (categoryid));';
-	$wpdb->query($sql);
-	
-	$tablename = $wpdb->prefix . 'jobman_applications';
-	$sql = 'CREATE TABLE ' . $tablename . ' (
-			  id INT NOT NULL AUTO_INCREMENT,
-			  jobid INT,
-			  submitted DATETIME,
-			  PRIMARY KEY (id),
-			  KEY job (jobid));';
-	$wpdb->query($sql);
-	
-	$tablename = $wpdb->prefix . 'jobman_application_categories';
-	$sql = 'CREATE TABLE ' . $tablename . ' (
-			  applicationid INT,
-			  categoryid INT,
-			  KEY application (applicationid),
-			  KEY category (categoryid));';
-	$wpdb->query($sql);
-	
-	$tablename = $wpdb->prefix . 'jobman_application_data';
-	$sql = 'CREATE TABLE ' . $tablename . ' (
-			  id INT NOT NULL AUTO_INCREMENT,
-			  applicationid INT,
-			  fieldid INT,
-			  data TEXT,
-			  PRIMARY KEY (id),
-			  KEY appid (applicationid));';
-	$wpdb->query($sql);
+	$options['fields'][1] = array(
+								'label' => 'Personal Details',
+								'type' => 'heading',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 0,
+								'categories' => array()
+							);
+	$options['fields'][2] = array(
+								'label' => 'Name',
+								'type' => 'text',
+								'listdisplay' => 1,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 1,
+								'categories' => array()
+							);
+	$options['fields'][3] = array(
+								'label' => 'Surname',
+								'type' => 'text',
+								'listdisplay' => 1,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 2,
+								'categories' => array()
+							);
+	$options['fields'][4] = array(
+								'label' => 'Email Address',
+								'type' => 'text',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 3,
+								'categories' => array()
+							);
+	$options['fields'][5] = array(
+								'label' => 'Contact Details',
+								'type' => 'heading',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 4,
+								'categories' => array()
+							);
+	$options['fields'][6] = array(
+								'label' => 'Address',
+								'type' => 'textarea',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 5,
+								'categories' => array()
+							);
+	$options['fields'][7] = array(
+								'label' => 'City',
+								'type' => 'text',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 6,
+								'categories' => array()
+							);
+	$options['fields'][8] = array(
+								'label' => 'Post code',
+								'type' => 'text',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 7,
+								'categories' => array()
+							);
+	$options['fields'][9] = array(
+								'label' => 'Country',
+								'type' => 'text',
+								'listdisplay' => 1,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 8,
+								'categories' => array()
+							);
+	$options['fields'][10] = array(
+								'label' => 'Telephone',
+								'type' => 'text',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 9,
+								'categories' => array()
+							);
+	$options['fields'][11] = array(
+								'label' => 'Cell phone',
+								'type' => 'text',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 10,
+								'categories' => array()
+							);
+	$options['fields'][12] = array(
+								'label' => 'Qualifications',
+								'type' => 'heading',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 11,
+								'categories' => array()
+							);
+	$options['fields'][13] = array(
+								'label' => 'Do you have a degree?',
+								'type' => 'radio',
+								'listdisplay' => 1,
+								'data' => 'Yes\r\nNo',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 12,
+								'categories' => array()
+							);
+	$options['fields'][14] = array(
+								'label' => 'Where did you complete your degree?',
+								'type' => 'text',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 13,
+								'categories' => array()
+							);
+	$options['fields'][15] = array(
+								'label' => 'Title of your degree',
+								'type' => 'text',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 14,
+								'categories' => array()
+							);
+	$options['fields'][16] = array(
+								'label' => 'Upload your CV',
+								'type' => 'file',
+								'listdisplay' => 1,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 15,
+								'categories' => array()
+							);
+	$options['fields'][17] = array(
+								'label' => '',
+								'type' => 'blank',
+								'listdisplay' => 0,
+								'data' => '',
+								'filter' => '',
+								'error' => '',
+								'sortorder' => 16,
+								'categories' => array()
+							);
+	$options['fields'][18] = array(
+								'label' => '',
+								'type' => 'checkbox',
+								'listdisplay' => 0,
+								'data' => 'I have read and understood the privacy policy.',
+								'filter' => 'I have read and understood the privacy policy.',
+								'error' => 'You need to read and agree to our privacy policy before we can accept your application. Please click the \'Back\' button in your browser, read our privacy policy, and confirm that you accept.',
+								'sortorder' => 17,
+								'categories' => array()
+							);
+
+	// Create the root jobs page
+	$page = array(
+				'comment_status' => 'closed',
+				'ping_status' => 'closed',
+				'post_status' => 'publish',
+				'post_author' => 1,
+				'post_content' => '',
+				'post_name' => $options['page_name'],
+				'post_title' => __('Jobs Listing', 'jobman'),
+				'post_type' => 'page');
+	$mainid = wp_insert_post($page);
+	add_post_meta($mainid, '_jobman', 1, true);
+	add_post_meta($mainid, '_jobman_mainpage', 1, true);
+							
+	// Create the apply page
+	$page = array(
+				'comment_status' => 'closed',
+				'ping_status' => 'closed',
+				'post_status' => 'publish',
+				'post_author' => 1,
+				'post_content' => '',
+				'post_name' => 'apply',
+				'post_title' => __('Job Application', 'jobman'),
+				'post_type' => 'page',
+				'post_parent' => $mainid);
+	$id = wp_insert_post($page);
+	add_post_meta($id, '_jobman', 1, true);
+	add_post_meta($id, '_jobman_applypage', 1, true);
+
+	// Create a page for each category
+	$wp_cats = get_categories();
+	$catpages = array();
+	foreach($wp_cats as $cat) {
+		$page = array(
+					'comment_status' => 'closed',
+					'ping_status' => 'closed',
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'post_content' => '',
+					'post_name' => $cat->category_nicename,
+					'post_title' => $cat->cat_name,
+					'post_type' => 'page',
+					'post_parent' => $mainid);
+		$id = wp_insert_post($page);
+		add_post_meta($id, '_jobman', 1, true);
+		add_post_meta($id, '_jobman_catpage', 1, true);
+		add_post_meta($id, '_jobman_cat', $cat->term_id, true);
+	}
+
+	update_option('jobman_options', $options);
 }
 
 function jobman_upgrade_db($oldversion) {
@@ -138,8 +263,6 @@ function jobman_upgrade_db($oldversion) {
 	if($oldversion < 5) {
 		// Re-write the database to use the existing WP tables
 		
-		$pages = array();
-		
 		// Create the root jobs page
 		$page = array(
 					'comment_status' => 'closed',
@@ -147,11 +270,10 @@ function jobman_upgrade_db($oldversion) {
 					'post_status' => 'publish',
 					'post_author' => 1,
 					'post_content' => '',
-					'post_name' => get_option('home'),
+					'post_name' => $options['page_name'],
 					'post_title' => __('Jobs Listing', 'jobman'),
 					'post_type' => 'page');
 		$mainid = wp_insert_post($page);
-		$pages[] = $mainid;
 		add_post_meta($mainid, '_jobman', 1, true);
 		add_post_meta($mainid, '_jobman_mainpage', 1, true);
 
@@ -180,12 +302,36 @@ function jobman_upgrade_db($oldversion) {
 				}
 			}
 		}
+		
+		// Create a page for each category, so we have somewhere to store the applications
+		$wp_cats = get_categories();
+		$catpages = array();
+		foreach($wp_cats as $cat) {
+			$page = array(
+						'comment_status' => 'closed',
+						'ping_status' => 'closed',
+						'post_status' => 'publish',
+						'post_author' => 1,
+						'post_content' => '',
+						'post_name' => $cat->category_nicename,
+						'post_title' => $cat->cat_name,
+						'post_type' => 'page',
+						'post_parent' => $mainid);
+			$id = wp_insert_post($page);
+			$catpages[] = $id;
+			add_post_meta($id, '_jobman', 1, true);
+			add_post_meta($id, '_jobman_catpage', 1, true);
+			add_post_meta($id, '_jobman_cat', $cat->term_id, true);
+		}
 
 		// Move the jobs to posts
+		$oldjobids = array();
+		$newjobids = array();
 		$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_jobs;';
 		$jobs = $wpdb->get_results($sql, ARRAY_A);
 		if(count($jobs) > 0) {
 			foreach($jobs as $job) {
+				$oldjobids[] = $job['id'];
 				// Get the old category ids
 				$sql = $wpdb->prepare('SELECT c.id AS id FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON c.id=jc.categoryid WHERE jc.jobid=%d;', $job['id']);
 				$data = $wpdb->get_results($sql, ARRAY_A);
@@ -205,13 +351,13 @@ function jobman_upgrade_db($oldversion) {
 							'post_author' => 1,
 							'post_content' => $job['abstract'],
 							'post_category' => $cats,
-							'post_name' => get_option('home'),
+							'post_name' => strtolower(str_replace(' ', '-', $job['title']))),
 							'post_title' => __('Job', 'jobman') . ': ' . $job['title'],
 							'post_type' => 'page',
 							'post_date' => $job['displaystartdate'],
 							'post_parent' => $mainid);
 				$id = wp_insert_post($page);
-				$pages[] = $id;
+				$newjobids[] = $id;
 				add_post_meta($id, '_jobman', 1, true);
 				
 				add_post_meta($id, '_jobman_salary', $job['salary'], true);
@@ -263,12 +409,58 @@ function jobman_upgrade_db($oldversion) {
 						foreach($categories as $cat) {
 							foreach($field_categories as $fc) {
 								if(in_array($cat['id'], $fc)) {
-									$options['fields'][$field['id']]['categories'] = $newcats[array_search($cat['id'], $oldcats)]
+									$options['fields'][$field['id']]['categories'][] = $newcats[array_search($cat['id'], $oldcats)]
 									break;
 								}
 							}
 						}
 					}
+				}
+			}
+		}
+		
+		// Move the applications to comments
+		$time = current_time('mysql', $gmt = 0);
+		
+		$sql .= 'SELECT a.*, (SELECT COUNT(*) FROM ' . $wpdb->prefix . 'jobman_application_categories AS ac WHERE ac.applicationid=a.id) AS categories FROM ' . $wpdb->prefix . 'jobman_applications AS a;';
+		$apps = $wpdb->get_results($sql, ARRAY_A);
+		if(count($apps) > 0) {
+			foreach($apps as $app) {
+				$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_application_data WHERE applicationid=' . $app['id'] . ';';
+				$data = $wpdb->get_results($sql, ARRAY_A);
+				if(count($data) > 0) {
+					$content = array();
+					foreach($data as $item) {
+						$content[$item['fieldid']] = $item['data'];
+					}
+					
+					$comment = array(
+									'comment_content' => $content,
+									'comment_date' => $app['submitted']
+								);
+					
+					if($app['jobid'] > 0) {
+						// Store against the job
+						$comment['comment_post_ID'] = $newjobids[array_search($app['jobid'], $oldjobids)];
+					} 
+					else if($app['categories'] > 0) {
+						// Store against the category
+						if(count($categories) > 0) {
+							$cat = reset($categories);
+							$comment['comment_post_ID'] = $newcats[array_search($cat['id'], $oldcats)];
+						}
+						else {
+							$comment['comment_post_ID'] = $mainid;
+						}
+					}
+					else {
+						// Store against main
+						$comment['comment_post_ID'] = $mainid;
+					}
+					
+					$id = wp_insert_comment($comment);
+					
+					add_comment_meta($id, '_jobman', 1, true);
 				}
 			}
 		}
@@ -280,14 +472,13 @@ function jobman_upgrade_db($oldversion) {
 					'post_status' => 'publish',
 					'post_author' => 1,
 					'post_content' => '',
-					'post_name' => get_option('home'),
+					'post_name' => 'apply',
 					'post_title' => __('Job Application', 'jobman'),
 					'post_type' => 'page',
 					'post_parent' => $mainid);
 		$id = wp_insert_post($page);
-		$pages[] = $id;
-		add_post_meta($mainid, '_jobman', 1, true);
-		add_post_meta($mainid, '_jobman_applypage', 1, true);
+		add_post_meta($id, '_jobman', 1, true);
+		add_post_meta($id, '_jobman_applypage', 1, true);
 		
 		// Drop the old tables
 		$tables = array(
@@ -307,6 +498,8 @@ function jobman_upgrade_db($oldversion) {
 			// $wpdb->query($sql);
 		}
 	}
+	
+	update_option('jobman_options', $options);
 }
 
 function jobman_drop_db() {
