@@ -29,7 +29,7 @@ function jobman_add_rewrite_rules($wp_rewrite) {
 
 function jobman_flush_rewrite_rules() {
 	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
+	$wp_rewrite->flush_rules(false);
 }
 
 
