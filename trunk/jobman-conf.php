@@ -84,7 +84,7 @@ function jobman_conf() {
 }
 
 function jobman_print_settings_box() {
-	$options = get_option['jobman_options'];
+	$options = get_option('jobman_options');
 	$structure = get_option('permalink_structure');
 	if($structure == '') {
 		$url_before = get_option('home') . '/?' . $url;

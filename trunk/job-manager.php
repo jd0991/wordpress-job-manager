@@ -12,7 +12,7 @@ Tags: job, jobs, manager, list, listing, employment, employer, career
 
 // Version
 define('JOBMAN_VERSION', '0.4.0');
-define('JOBMAN_DB_VERSION', 4);
+define('JOBMAN_DB_VERSION', 5);
 
 // Define the URL to the plugin folder
 define('JOBMAN_FOLDER', dirname(plugin_basename(__FILE__)));
@@ -21,9 +21,6 @@ define('JOBMAN_URL', get_option('siteurl').'/wp-content/plugins/' . JOBMAN_FOLDE
 //
 // Load Jobman
 //
-
-global $wpdb;
-$wpdb->show_errors();
 
 // Jobman global functions
 require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-functions.php');

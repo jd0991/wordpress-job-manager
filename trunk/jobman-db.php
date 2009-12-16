@@ -149,71 +149,104 @@ function jobman_upgrade_db($oldversion) {
 					'post_name' => get_option('home'),
 					'post_title' => __('Jobs Listing', 'jobman'),
 					'post_type' => 'page');
-		$id = wp_insert_post($page);
-		$pages[] = $id;
-		add_post_meta($id, '_jobman', 1, true);
+		$mainid = wp_insert_post($page);
+		$pages[] = $mainid;
+		add_post_meta($mainid, '_jobman', 1, true);
 
 		// Move the categories to WP categories
-		// Create the jobs category pages
+		$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_categories;';
+		$categories = $wpdb->get_results($sql, ARRAY_A);
 		
+		$oldcats = array();
+		$newcats = array();
+		
+		if(count($categories) > 0 ) {
+			foreach($categories as $cat) {
+				$oldcats[] = $cat['id'];
+				// Check if a category with this slug exists
+				$catid = get_category_by_slug($cat['slug'])->term_id;
+				if($catid) {
+					// Category already exists
+					$newcats[] = $catid;
+				}
+				else {
+					$newcat = array(
+									'cat_name' => $cat['title'],
+									'category_nicename' => $cat['slug']);
+					$catid = wp_insert_category($newcat);
+					$newcats[] = $catid;
+				}
+			}
+		}
+
 		// Move the jobs to posts
 		$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_jobs;';
 		$jobs = $wpdb->get_results($sql, ARRAY_A);
 		if(count($jobs) > 0) {
 			foreach($jobs as $job) {
+				// Get the old category ids
+				$sql = $wpdb->prepare('SELECT c.id AS id FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON c.id=jc.categoryid WHERE jc.jobid=%d;', $job['id']);
+				$data = $wpdb->get_results($sql, ARRAY_A);
+				$cats = array();
+				$catstring = '';
+				if(count($data) > 0) {
+					foreach($data as $cat) {
+						// Make an array of the new category ids
+						$cats[] = $newcats[array_search($cat['id'], $oldcats)];
+					}
+				}
+
 				$page = array(
 							'comment_status' => 'closed',
 							'ping_status' => 'closed',
 							'post_status' => 'publish',
 							'post_author' => 1,
 							'post_content' => $job['abstract'],
+							'post_category' => $cats,
 							'post_name' => get_option('home'),
 							'post_title' => __('Job', 'jobman') . ': ' . $job['title'],
 							'post_type' => 'page',
-							'post_date' => $job['displaystartdate']);
+							'post_date' => $job['displaystartdate'],
+							'post_parent' => $mainid);
 				$id = wp_insert_post($page);
 				$pages[] = $id;
 				add_post_meta($id, '_jobman', 1, true);
 				
-				add_post_meta($id, '_salary', $job['salary'], true);
-				add_post_meta($id, '_startdate', $job['startdate'], true);
-				add_post_meta($id, '_enddate', $job['enddate'], true);
-				add_post_meta($id, '_location', $job['location'], true);
-				add_post_meta($id, '_displayenddate', $job['displayenddate'], true);
+				add_post_meta($id, '_jobman_salary', $job['salary'], true);
+				add_post_meta($id, '_jobman_startdate', $job['startdate'], true);
+				add_post_meta($id, '_jobman_enddate', $job['enddate'], true);
+				add_post_meta($id, '_jobman_location', $job['location'], true);
+				add_post_meta($id, '_jobman_displayenddate', $job['displayenddate'], true);
+				add_post_meta($id, '_jobman_iconid', $job['iconid'], true);
 			}
 		}
-		// Update the job posts to include the categories
-		// Move the icons (should be a conf setting)
-		// Update the job posts with our meta data
-		//   - jobman flag
-		//   - icon
-		// Move the application fields to conf settings
+		
+		// Move the icons to jobman_options
+		
+		// Move the application fields to jobman_options
 		// Create the apply page
 		
 		// Drop the old tables
-		// jobman_drop_db();
+		$tables = array(
+					$wpdb->prefix . 'jobman_jobs',
+					$wpdb->prefix . 'jobman_categories',
+					$wpdb->prefix . 'jobman_job_category',
+					$wpdb->prefix . 'jobman_icons',
+					$wpdb->prefix . 'jobman_application_fields',
+					$wpdb->prefix . 'jobman_application_field_categories',
+					$wpdb->prefix . 'jobman_applications',
+					$wpdb->prefix . 'jobman_application_categories',
+					$wpdb->prefix . 'jobman_application_data'
+				);
+				
+		foreach($tables as $table) {
+			$sql = 'DROP TABLE IF EXISTS ' . $table;
+			// $wpdb->query($sql);
+		}
 	}
 }
 
 function jobman_drop_db() {
-	global $wpdb;
-	
-	$tables = array(
-				$wpdb->prefix . 'jobman_jobs',
-				$wpdb->prefix . 'jobman_categories',
-				$wpdb->prefix . 'jobman_job_category',
-				$wpdb->prefix . 'jobman_icons',
-				$wpdb->prefix . 'jobman_application_fields',
-				$wpdb->prefix . 'jobman_application_field_categories',
-				$wpdb->prefix . 'jobman_applications',
-				$wpdb->prefix . 'jobman_application_categories',
-				$wpdb->prefix . 'jobman_application_data'
-			);
-			
-	foreach($tables as $table) {
-		$sql = 'DROP TABLE IF EXISTS ' . $table;
-		$wpdb->query($sql);
-	}
 }
 
 ?>

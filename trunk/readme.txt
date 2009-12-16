@@ -12,9 +12,9 @@ A job listing and job application management plugin for WordPress.
 
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's jobs.
 
-**Important Note**: If you're upgrading from version 0.3.3 or earlier, please read the [upgrade documentation](http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x).
+***Important Note***: If you're upgrading from version 0.3.3 or earlier, please read the [upgrade documentation](http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x).
 
-**"Still important, but not as important as the previous note" Note**: With all the wonderful new features in WordPress 2.9, versions 0.4.0 and above of this plugin require WordPress 2.9 or above. If you're using an older version of WordPress, I recommend either upgrading your WordPress installation, or using [Job Manager 0.3.3](http://downloads.wordpress.org/plugin/job-manager.0.3.3.zip). The 0.3.x series will only receive serious bug fixes until the end of January 2010, after which it will be EOLed.
+With all the wonderful new features in WordPress 2.9, versions 0.4.0 and above of this plugin require WordPress 2.9 or above. If you're using an older version of WordPress, I recommend either upgrading your WordPress installation, or using [Job Manager 0.3.3](http://downloads.wordpress.org/plugin/job-manager.0.3.3.zip). The 0.3.x series will receive updates for serious bug fixes until the end of January 2010, after which it will be EOLed.
 
 *    *Job Listing*
     *    Categories to create multiple job lists
