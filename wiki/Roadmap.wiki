@@ -62,6 +62,7 @@ Mid February 2010
   * Widget to show latest jobs: Issue #11
   * Add a new filter to block applications if no data is entered: Issue #27
   * Add related jobs links to job lists: Issue #42
+  * Export data to CSV: Issue #44
 
 ----
 
