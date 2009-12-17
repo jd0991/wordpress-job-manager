@@ -187,6 +187,14 @@ function jobman_create_db() {
 								'categories' => array()
 							);
 
+	// Create our new page types
+	register_post_type('jobman_job', array('exclude_from_search' => false));
+	register_post_type('jobman_joblist', array('exclude_from_search' => false));
+	register_post_type('jobman_app_form', array('exclude_from_search' => false));
+	register_post_type('jobman_app', array('exclude_from_search' => false));
+
+	register_taxonomy('jobman_category', 'jobman_job', array('hierarchical' => false, 'label' => __('Category', 'series')));
+
 	// Create the root jobs page
 	$page = array(
 				'comment_status' => 'closed',
@@ -196,10 +204,9 @@ function jobman_create_db() {
 				'post_content' => '',
 				'post_name' => $options['page_name'],
 				'post_title' => __('Jobs Listing', 'jobman'),
-				'post_type' => 'page');
+				'post_type' => 'jobman_joblist');
 	$mainid = wp_insert_post($page);
-	add_post_meta($mainid, '_jobman', 1, true);
-	add_post_meta($mainid, '_jobman_mainpage', 1, true);
+	add_post_meta($mainid, '_mainpage', 1, true);
 							
 	// Create the apply page
 	$page = array(
@@ -208,13 +215,11 @@ function jobman_create_db() {
 				'post_status' => 'publish',
 				'post_author' => 1,
 				'post_content' => '',
-				'post_name' => 'apply',
+				'post_name' => 'jobman_app_form',
 				'post_title' => __('Job Application', 'jobman'),
 				'post_type' => 'page',
 				'post_parent' => $mainid);
 	$id = wp_insert_post($page);
-	add_post_meta($id, '_jobman', 1, true);
-	add_post_meta($id, '_jobman_applypage', 1, true);
 
 	// Create a page for each category
 	$wp_cats = get_categories();
@@ -263,6 +268,12 @@ function jobman_upgrade_db($oldversion) {
 	if($oldversion < 5) {
 		// Re-write the database to use the existing WP tables
 		
+		// Create our new page types
+		register_post_type('jobman_job', array('exclude_from_search' => false));
+		register_post_type('jobman_joblist', array('exclude_from_search' => false));
+		register_post_type('jobman_app_form', array('exclude_from_search' => false));
+		register_post_type('jobman_app', array('exclude_from_search' => false));
+		
 		// Create the root jobs page
 		$page = array(
 					'comment_status' => 'closed',
@@ -272,10 +283,9 @@ function jobman_upgrade_db($oldversion) {
 					'post_content' => '',
 					'post_name' => $options['page_name'],
 					'post_title' => __('Jobs Listing', 'jobman'),
-					'post_type' => 'page');
+					'post_type' => 'jobman_joblist');
 		$mainid = wp_insert_post($page);
-		add_post_meta($mainid, '_jobman', 1, true);
-		add_post_meta($mainid, '_jobman_mainpage', 1, true);
+		add_post_meta($mainid, '_mainpage', 1, true);
 
 		// Move the categories to WP categories
 		$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_categories;';
@@ -284,47 +294,32 @@ function jobman_upgrade_db($oldversion) {
 		$oldcats = array();
 		$newcats = array();
 		
+		register_taxonomy('jobman_category', 'jobman_job', array('hierarchical' => false, 'label' => __('Category', 'series')));
 		if(count($categories) > 0 ) {
 			foreach($categories as $cat) {
 				$oldcats[] = $cat['id'];
-				// Check if a category with this slug exists
-				$existing_cat = get_category_by_slug($cat['slug']);
-				if(isset($existing_cat->term_id)) {
-					// Category already exists
-					$newcats[] = $existing_cat->term_id;
-				}
-				else {
-					$newcat = array(
-									'cat_name' => $cat['title'],
-									'category_nicename' => $cat['slug']);
-					$catid = wp_insert_category($newcat);
-					$newcats[] = $catid;
-				}
+				$catid = wp_insert_term($cat['title'], 'jobman_category', array('slug' => $cat['slug']));
+				$newcats[] = $catid;
 			}
 		}
 		
 		// Create a page for each category, so we have somewhere to store the applications
-		$wp_cats = get_categories();
 		$catpages = array();
-		foreach($wp_cats as $cat) {
-			if($cat->category_nicename == 'uncategorized') {
-				continue;
-			}
+		foreach($categories as $cat) {
 			$page = array(
 						'comment_status' => 'closed',
 						'ping_status' => 'closed',
 						'post_status' => 'publish',
 						'post_author' => 1,
 						'post_content' => '',
-						'post_name' => $cat->category_nicename,
-						'post_title' => $cat->cat_name,
-						'post_type' => 'page',
+						'post_name' => $cat['slug'],
+						'post_title' => $cat['title'],
+						'post_type' => 'jobman_joblist',
 						'post_parent' => $mainid);
 			$id = wp_insert_post($page);
 			$catpages[] = $id;
-			add_post_meta($id, '_jobman', 1, true);
-			add_post_meta($id, '_jobman_catpage', 1, true);
-			add_post_meta($id, '_jobman_cat', $cat->term_id, true);
+			add_post_meta($id, '_catpage', 1, true);
+			add_post_meta($id, '_cat', $cat['id'], true);
 		}
 
 		// Move the jobs to posts
@@ -335,17 +330,6 @@ function jobman_upgrade_db($oldversion) {
 		if(count($jobs) > 0) {
 			foreach($jobs as $job) {
 				$oldjobids[] = $job['id'];
-				// Get the old category ids
-				$sql = $wpdb->prepare('SELECT c.id AS id FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON c.id=jc.categoryid WHERE jc.jobid=%d;', $job['id']);
-				$data = $wpdb->get_results($sql, ARRAY_A);
-				$cats = array();
-				$catstring = '';
-				if(count($data) > 0) {
-					foreach($data as $cat) {
-						// Make an array of the new category ids
-						$cats[] = $newcats[array_search($cat['id'], $oldcats)];
-					}
-				}
 
 				$page = array(
 							'comment_status' => 'closed',
@@ -353,23 +337,33 @@ function jobman_upgrade_db($oldversion) {
 							'post_status' => 'publish',
 							'post_author' => 1,
 							'post_content' => $job['abstract'],
-							'post_category' => $cats,
 							'post_name' => strtolower(str_replace(' ', '-', $job['title'])),
 							'post_title' => $job['title'],
-							'post_type' => 'page',
+							'post_type' => 'jobman_job',
 							'post_date' => $job['displaystartdate'],
 							'post_parent' => $mainid);
 				$id = wp_insert_post($page);
 				$newjobids[] = $id;
-				add_post_meta($id, '_jobman', 1, true);
-				add_post_meta($id, '_jobman_jobpage', 1, true);
 				
-				add_post_meta($id, '_jobman_salary', $job['salary'], true);
-				add_post_meta($id, '_jobman_startdate', $job['startdate'], true);
-				add_post_meta($id, '_jobman_enddate', $job['enddate'], true);
-				add_post_meta($id, '_jobman_location', $job['location'], true);
-				add_post_meta($id, '_jobman_displayenddate', $job['displayenddate'], true);
-				add_post_meta($id, '_jobman_iconid', $job['iconid'], true);
+				add_post_meta($id, 'salary', $job['salary'], true);
+				add_post_meta($id, 'startdate', $job['startdate'], true);
+				add_post_meta($id, 'enddate', $job['enddate'], true);
+				add_post_meta($id, 'location', $job['location'], true);
+				add_post_meta($id, 'displayenddate', $job['displayenddate'], true);
+				add_post_meta($id, 'iconid', $job['iconid'], true);
+
+				// Get the old category ids
+				$cats = array();
+				$sql = $wpdb->prepare('SELECT c.id AS id FROM ' . $wpdb->prefix . 'jobman_categories AS c LEFT JOIN ' . $wpdb->prefix . 'jobman_job_category AS jc ON c.id=jc.categoryid WHERE jc.jobid=%d;', $job['id']);
+				$data = $wpdb->get_results($sql, ARRAY_A);
+				if(count($data) > 0) {
+					foreach($data as $cat) {
+						// Make an array of the new category ids
+						$cats[] = $newcats[array_search($cat['id'], $oldcats)];
+					}
+				}
+				
+				wp_set_object_terms($id, $cats, 'jobman_category');
 			}
 		}
 		
@@ -423,7 +417,7 @@ function jobman_upgrade_db($oldversion) {
 			}
 		}
 		
-		// Move the applications to comments
+		// Move the applications to sub-pages of the relevant job or category
 		$sql = 'SELECT a.*, (SELECT COUNT(*) FROM ' . $wpdb->prefix . 'jobman_application_categories AS ac WHERE ac.applicationid=a.id) AS categories FROM ' . $wpdb->prefix . 'jobman_applications AS a;';
 		$apps = $wpdb->get_results($sql, ARRAY_A);
 		if(count($apps) > 0) {
@@ -432,37 +426,40 @@ function jobman_upgrade_db($oldversion) {
 				$data = $wpdb->get_results($sql, ARRAY_A);
 				if(count($data) > 0) {
 					$content = array();
-					foreach($data as $item) {
-						$content[$item['fieldid']] = $item['data'];
-					}
 					
-					$comment = array(
-									'comment_content' => serialize($content),
-									'comment_date' => $app['submitted']
-								);
+					$page = array(
+								'comment_status' => 'closed',
+								'ping_status' => 'closed',
+								'post_status' => 'publish',
+								'post_author' => 1,
+								'post_type' => 'jobman_app',
+								'post_date' => $app['submitted']);
 					
 					if($app['jobid'] > 0) {
 						// Store against the job
-						$comment['comment_post_ID'] = $newjobids[array_search($app['jobid'], $oldjobids)];
+						$page['post_parent'] = $newjobids[array_search($app['jobid'], $oldjobids)];
 					} 
 					else if($app['categories'] > 0) {
 						// Store against the category
 						if(count($categories) > 0) {
 							$cat = reset($categories);
-							$comment['comment_post_ID'] = $newcats[array_search($cat['id'], $oldcats)];
+							$page['post_parent'] = $newcats[array_search($cat['id'], $oldcats)];
 						}
 						else {
-							$comment['comment_post_ID'] = $mainid;
+							$page['post_parent'] = $mainid;
 						}
 					}
 					else {
 						// Store against main
-						$comment['comment_post_ID'] = $mainid;
+						$page['post_parent'] = $mainid;
 					}
 					
-					$id = wp_insert_comment($comment);
+					$id = wp_insert_post($page);
 					
-					add_comment_meta($id, '_jobman', 1, true);
+					foreach($data as $item) {
+						add_post_meta($id, 'data' . $item['fieldid'], $item['data'], true);
+					}
+
 				}
 			}
 		}
@@ -476,12 +473,9 @@ function jobman_upgrade_db($oldversion) {
 					'post_content' => '',
 					'post_name' => 'apply',
 					'post_title' => __('Job Application', 'jobman'),
-					'post_type' => 'page',
+					'post_type' => 'jobman_app_form',
 					'post_parent' => $mainid);
-		$id = wp_insert_post($page);
-		add_post_meta($id, '_jobman', 1, true);
-		add_post_meta($id, '_jobman_applypage', 1, true);
-		
+		$id = wp_insert_post($page);		
 	}
 	if($oldversion > 10) {
 		// Drop the old tables... at a later date.
