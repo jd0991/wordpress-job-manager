@@ -288,10 +288,10 @@ function jobman_upgrade_db($oldversion) {
 			foreach($categories as $cat) {
 				$oldcats[] = $cat['id'];
 				// Check if a category with this slug exists
-				$catid = get_category_by_slug($cat['slug'])->term_id;
-				if($catid) {
+				$existing_cat = get_category_by_slug($cat['slug']);
+				if(isset($existing_cat->term_id)) {
 					// Category already exists
-					$newcats[] = $catid;
+					$newcats[] = $existing_cat->term_id;
 				}
 				else {
 					$newcat = array(
@@ -307,6 +307,9 @@ function jobman_upgrade_db($oldversion) {
 		$wp_cats = get_categories();
 		$catpages = array();
 		foreach($wp_cats as $cat) {
+			if($cat->category_nicename == 'uncategorized') {
+				continue;
+			}
 			$page = array(
 						'comment_status' => 'closed',
 						'ping_status' => 'closed',
@@ -351,14 +354,15 @@ function jobman_upgrade_db($oldversion) {
 							'post_author' => 1,
 							'post_content' => $job['abstract'],
 							'post_category' => $cats,
-							'post_name' => strtolower(str_replace(' ', '-', $job['title']))),
-							'post_title' => __('Job', 'jobman') . ': ' . $job['title'],
+							'post_name' => strtolower(str_replace(' ', '-', $job['title'])),
+							'post_title' => $job['title'],
 							'post_type' => 'page',
 							'post_date' => $job['displaystartdate'],
 							'post_parent' => $mainid);
 				$id = wp_insert_post($page);
 				$newjobids[] = $id;
 				add_post_meta($id, '_jobman', 1, true);
+				add_post_meta($id, '_jobman_jobpage', 1, true);
 				
 				add_post_meta($id, '_jobman_salary', $job['salary'], true);
 				add_post_meta($id, '_jobman_startdate', $job['startdate'], true);
@@ -409,7 +413,7 @@ function jobman_upgrade_db($oldversion) {
 						foreach($categories as $cat) {
 							foreach($field_categories as $fc) {
 								if(in_array($cat['id'], $fc)) {
-									$options['fields'][$field['id']]['categories'][] = $newcats[array_search($cat['id'], $oldcats)]
+									$options['fields'][$field['id']]['categories'][] = $newcats[array_search($cat['id'], $oldcats)];
 									break;
 								}
 							}
@@ -420,9 +424,7 @@ function jobman_upgrade_db($oldversion) {
 		}
 		
 		// Move the applications to comments
-		$time = current_time('mysql', $gmt = 0);
-		
-		$sql .= 'SELECT a.*, (SELECT COUNT(*) FROM ' . $wpdb->prefix . 'jobman_application_categories AS ac WHERE ac.applicationid=a.id) AS categories FROM ' . $wpdb->prefix . 'jobman_applications AS a;';
+		$sql = 'SELECT a.*, (SELECT COUNT(*) FROM ' . $wpdb->prefix . 'jobman_application_categories AS ac WHERE ac.applicationid=a.id) AS categories FROM ' . $wpdb->prefix . 'jobman_applications AS a;';
 		$apps = $wpdb->get_results($sql, ARRAY_A);
 		if(count($apps) > 0) {
 			foreach($apps as $app) {
@@ -435,7 +437,7 @@ function jobman_upgrade_db($oldversion) {
 					}
 					
 					$comment = array(
-									'comment_content' => $content,
+									'comment_content' => serialize($content),
 									'comment_date' => $app['submitted']
 								);
 					
@@ -480,7 +482,9 @@ function jobman_upgrade_db($oldversion) {
 		add_post_meta($id, '_jobman', 1, true);
 		add_post_meta($id, '_jobman_applypage', 1, true);
 		
-		// Drop the old tables
+	}
+	if($oldversion > 10) {
+		// Drop the old tables... at a later date.
 		$tables = array(
 					$wpdb->prefix . 'jobman_jobs',
 					$wpdb->prefix . 'jobman_categories',
@@ -495,7 +499,7 @@ function jobman_upgrade_db($oldversion) {
 				
 		foreach($tables as $table) {
 			$sql = 'DROP TABLE IF EXISTS ' . $table;
-			// $wpdb->query($sql);
+			$wpdb->query($sql);
 		}
 	}
 	
