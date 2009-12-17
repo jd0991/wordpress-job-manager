@@ -43,6 +43,7 @@ Late January 2010
 
   * Allow users to register: Issue #8
   * Keep an archive of all communication: Issue #2
+  * Rank applicants for easy filtering: Issue #45
 
 ----
 
