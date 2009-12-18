@@ -30,6 +30,9 @@ add_action('wp_head', 'jobman_display_head');
 // Set the edit post link
 add_filter('get_edit_post_link', 'jobman_display_edit_post_link');
 
+// Our custom page/taxonomy setup
+add_action('init', 'jobman_page_taxonomy_setup');
+
 //
 // Plugins
 //

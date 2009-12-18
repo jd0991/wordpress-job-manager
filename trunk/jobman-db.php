@@ -187,14 +187,6 @@ function jobman_create_db() {
 								'categories' => array()
 							);
 
-	// Create our new page types
-	register_post_type('jobman_job', array('exclude_from_search' => false));
-	register_post_type('jobman_joblist', array('exclude_from_search' => false));
-	register_post_type('jobman_app_form', array('exclude_from_search' => false));
-	register_post_type('jobman_app', array('exclude_from_search' => false));
-
-	register_taxonomy('jobman_category', 'jobman_job', array('hierarchical' => false, 'label' => __('Category', 'series')));
-
 	// Create the root jobs page
 	$page = array(
 				'comment_status' => 'closed',
@@ -268,12 +260,6 @@ function jobman_upgrade_db($oldversion) {
 	if($oldversion < 5) {
 		// Re-write the database to use the existing WP tables
 		
-		// Create our new page types
-		register_post_type('jobman_job', array('exclude_from_search' => false));
-		register_post_type('jobman_joblist', array('exclude_from_search' => false));
-		register_post_type('jobman_app_form', array('exclude_from_search' => false));
-		register_post_type('jobman_app', array('exclude_from_search' => false));
-		
 		// Create the root jobs page
 		$page = array(
 					'comment_status' => 'closed',
@@ -294,7 +280,6 @@ function jobman_upgrade_db($oldversion) {
 		$oldcats = array();
 		$newcats = array();
 		
-		register_taxonomy('jobman_category', 'jobman_job', array('hierarchical' => false, 'label' => __('Category', 'series')));
 		if(count($categories) > 0 ) {
 			foreach($categories as $cat) {
 				$oldcats[] = $cat['id'];

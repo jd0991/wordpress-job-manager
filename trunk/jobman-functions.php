@@ -71,4 +71,16 @@ function jobman_load_translation_file() {
 	load_plugin_textdomain('jobman', '', JOBMAN_FOLDER . '/translations');
 }
 
+function jobman_page_taxonomy_setup() {
+	// Create our new page types
+	register_post_type('jobman_job', array('exclude_from_search' => false));
+	register_post_type('jobman_joblist', array('exclude_from_search' => false));
+	register_post_type('jobman_app_form', array('exclude_from_search' => false));
+	register_post_type('jobman_app', array('exclude_from_search' => false));
+
+	// Create our new taxonomy thing
+		register_taxonomy('jobman_category', 'jobman_job', array('hierarchical' => false, 'label' => __('Category', 'series')));
+}
+
+
 ?>

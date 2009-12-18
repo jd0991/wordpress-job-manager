@@ -137,7 +137,6 @@ function jobman_print_settings_box() {
 }
 
 function jobman_print_categories_box() {
-	global $wpdb;
 ?>
 		<p>
 			<strong><?php _e('Title', 'jobman') ?></strong> - <?php _e('The display name of the category', 'jobman') ?><br/>
@@ -156,19 +155,18 @@ function jobman_print_categories_box() {
 			</tr>
 			</thead>
 <?php
-	$sql = 'SELECT * FROM ' . $wpdb->prefix . 'jobman_categories ORDER BY id;';
-	$categories = $wpdb->get_results($sql, ARRAY_A);
+	$categories = get_terms('jobman_category', 'hide_empty=0');
 	
 	if(count($categories) > 0 ) {
 		foreach($categories as $cat) {
 ?>
 			<tr>
 				<td>
-					<input type="hidden" name="id[]" value="<?php echo $cat['id'] ?>" />
-					<input class="regular-text code" type="text" name="title[]" value="<?php echo $cat['title'] ?>" />
+					<input type="hidden" name="id[]" value="<?php echo $cat->term_id ?>" />
+					<input class="regular-text code" type="text" name="title[]" value="<?php echo $cat->name ?>" />
 				</td>
-				<td><input class="regular-text code" type="text" name="slug[]" value="<?php echo $cat['slug'] ?>" /></td>
-				<td><input class="regular-text code" type="text" name="email[]" value="<?php echo $cat['email'] ?>" /></td>
+				<td><input class="regular-text code" type="text" name="slug[]" value="<?php echo $cat->slug ?>" /></td>
+				<td><input class="regular-text code" type="text" name="email[]" value="<?php //echo $cat['email'] ?>" /></td>
 				<td><a href="#" onclick="jobman_delete(this, 'id', 'jobman-delete-category-list'); return false;"><?php _e('Delete', 'jobman') ?></a></td>
 			</tr>
 <?php
