@@ -11,6 +11,8 @@ function jobman_activate() {
 		$version = get_option('jobman_version');
 		$dbversion = get_option('jobman_db_version');
 	}
+
+	jobman_page_taxonomy_setup();
 	
 	if($dbversion == "") {
 		// Never been run, create the database.

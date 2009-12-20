@@ -79,7 +79,7 @@ function jobman_page_taxonomy_setup() {
 	register_post_type('jobman_app', array('exclude_from_search' => false));
 
 	// Create our new taxonomy thing
-		register_taxonomy('jobman_category', 'jobman_job', array('hierarchical' => false, 'label' => __('Category', 'series')));
+	register_taxonomy('jobman_category', array('jobman_job', 'jobman_app'), array('hierarchical' => false, 'label' => __('Category', 'series')));
 }
 
 

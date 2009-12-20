@@ -15,7 +15,7 @@ define('JOBMAN_VERSION', '0.4.0');
 define('JOBMAN_DB_VERSION', 5);
 
 // Define the URL to the plugin folder
-define('JOBMAN_FOLDER', dirname(plugin_basename(__FILE__)));
+define('JOBMAN_FOLDER', 'job-manager');
 define('JOBMAN_URL', get_option('siteurl').'/wp-content/plugins/' . JOBMAN_FOLDER);
 
 //
@@ -23,26 +23,26 @@ define('JOBMAN_URL', get_option('siteurl').'/wp-content/plugins/' . JOBMAN_FOLDE
 //
 
 // Jobman global functions
-require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-functions.php');
+require_once(dirname(__FILE__).'/jobman-functions.php');
 
 // Jobman setup (for installation/upgrades)
-require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-setup.php');
+require_once(dirname(__FILE__).'/jobman-setup.php');
 
 // Jobman database
-require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-db.php');
+require_once(dirname(__FILE__).'/jobman-db.php');
 
 if(is_admin()) {
 	// Jobman admin
-	require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-conf.php');
+	require_once(dirname(__FILE__).'/jobman-conf.php');
 }
 
 // Support for other plugins
-require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-plugins.php');
+require_once(dirname(__FILE__).'/jobman-plugins.php');
 
 // Jobman frontend
-require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-display.php');
+require_once(dirname(__FILE__).'/jobman-display.php');
 
 // Add hooks at the end
-require_once(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/jobman-hooks.php');
+require_once(dirname(__FILE__).'/jobman-hooks.php');
 
 ?>
