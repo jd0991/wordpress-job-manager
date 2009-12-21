@@ -6,8 +6,8 @@ In Job Manager 0.4.0, there were signification changes made to how data is store
 
 = Before Upgrading =
 
-  * *!WordPress 2.9 or higher is a requirement*
-  As part of JM 0.4.0, the entire data storage has been re-written to use only the !WordPress default tables. In order to do this, the comment meta functionality was needed, which was introduced in !WordPress 2.9.
+  * *!WordPress 2.8 or higher is a requirement*
+  As part of JM 0.4.0, the entire data storage has been re-written to use only the !WordPress default tables. Some of the job searching routines require !WordPress 2.8.
   * *Test before upgrading production*
   As mentioned, significant changes have been made to the data storage. Similar changes have been made to the plugin settings, leaving virtually no data untouched. In order to make sure there are no problems with your !WordPress/Job Manager installation, please test the upgrade before doing it in your production environment.
   * *Backup before you upgrade*
@@ -16,5 +16,10 @@ In Job Manager 0.4.0, there were signification changes made to how data is store
   JM now stores everything as pages in your database. If you have a page that uses the same slug as JM, it is strongly recommended that you change one of them before upgrading. JM will take control of this page during the upgrade process.
 
 = Feature Changes =
-  * *Categories*
-  You will notice in the Job Manager Settings that there is no longer a section for editing categories. JM has moved to using !WordPress' built-in category functionality. This does mean, however, that we no longer send emails by category. Instead, they're sent to the user who created the job. For existing jobs and for applications that aren't associated with jobs, this defaults to the admin email.
+  * *Access URLs*
+  Along with the data changes, you will notice several changes to the URLs used for accessing Job Manager.
+
+  _Current Nice URLs_:
+    * View a job: `http://yoursite.com/jobs/view/1-job-name/`
+  _New Nice URLs_:
+    * View a job: `http://yoursite.com/jobs/job-name/`
