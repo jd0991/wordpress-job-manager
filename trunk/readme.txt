@@ -34,8 +34,8 @@ Related links:
 
 * [Plugin Homepage](http://pento.net/projects/wordpress-job-manager-plugin/)
 * [Support Forum](http://wordpress.org/tags/job-manager?forum_id=10)
-* [Report Bugs](http://code.google.com/p/wordpress-job-manager/issues/list)
-* [Roadmap](http://code.google.com/p/wordpress-job-manager/wiki/Roadmap)
+* [Report Bugs and Request Features](http://code.google.com/p/wordpress-job-manager/issues/list)
+* [Development Roadmap](http://code.google.com/p/wordpress-job-manager/wiki/Roadmap)
 
 == Installation ==
 
@@ -65,6 +65,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * CHANGED: All options are now stored in a single wp_options entry
 * FIXED: A job being displayed could include an incorrect <title>
 * FIXED: No longer re-write the .htaccess file. Unnecessary, and was causing problems on 1&1 hosting.
+* FIXED: Problem with including symlinked files
 
 = 0.3.3 =
 * FIXED: SQL errors when deleting applications

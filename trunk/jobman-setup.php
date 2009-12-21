@@ -33,7 +33,6 @@ function jobman_activate() {
 
 function jobman_create_default_settings() {
 	$options = array(
-					'page_name' => 'jobs',
 					'default_email' => get_option('admin_email'),
 					'list_type' => 'full',
 					'application_email_from' => 4,

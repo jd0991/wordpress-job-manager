@@ -1182,7 +1182,7 @@ function jobman_application_delete() {
 	}
 	
 	foreach($apps as $app) {
-		$appmeta = get_posts_meta($app);
+		$appmeta = get_post_custom($app);
 		$appdata = array();
 		foreach($appmeta as $key => $value) {
 			if(is_array($value)) {
@@ -1400,6 +1400,15 @@ function jobman_categories_updatedb() {
 		$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$id);
 		wp_delete_post($data[0]->ID);
 		wp_delete_term($delete, 'jobman_category');
+		
+		// Delete the category from any fields
+		foreach($options['fields'] as $fid => $field) {
+			$loc = array_search($delete, $field['categories']);
+			if($loc !== false) {
+				unset($options['fields'][$fid]['categories'][$loc]);
+				$options['fields'][$fid]['categories'] = array_values($options['fields'][$fid]['categories']);
+			}
+		}
 	}
 
 	if(get_option('jobman_plugin_gxs')) {
@@ -1461,6 +1470,12 @@ function jobman_icons_updatedb() {
 	$deletes = explode(',', $_REQUEST['jobman-delete-list']);
 	foreach($deletes as $delete) {
 		unset($options['icons'][$delete]);
+		
+		// Remove the icon from any jobs that have it
+		$jobs = get_posts('post_type=jobman_job&meta_key=iconid&meta_value='.$delete);
+		foreach($jobs as $job) {
+			update_post_meta($job->ID, 'iconid', '');
+		}
 	}
 	
 	update_option('jobman_options', $options);
