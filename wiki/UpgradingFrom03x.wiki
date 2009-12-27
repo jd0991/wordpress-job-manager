@@ -40,3 +40,11 @@ In Job Manager 0.4.0, there were signification changes made to how data is store
     * View a Job: `http://yoursite.com/?p=n`
     * Application Form: `http://yoursite.com/?p=n`
     * Application Form for a Job: `http://yoursite.com/?p=n&job=m`
+
+= Help! Something Went Wrong! =
+
+Okay, take a deep breath. Don't panic. First of all, download [http://wordpress.org/extend/plugins/job-manager/download/ version 0.3.3] and install it in your plugin directory. Restore the database backup you took at the start. You're now back to where your site was before the upgrade.
+
+Next, [http://code.google.com/p/wordpress-job-manager/issues/list submit a bug report]. Please include as much information as you can. Error messages, screen shots, Apache error logs, anything you think might help.
+
+Finally, relax. I'm planning on getting through any bug reports on 0.4.0 as quickly as possible, to ensure you have a stable, quality release to play with.
