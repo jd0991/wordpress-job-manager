@@ -43,6 +43,16 @@ function jobman_create_widget($function, $title) {
 <?php
 }
 
+function jobman_check_upload_dirs() {
+	if(!is_writeable(__DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR)) {
+		return false;
+	}
+	if(!is_writeable(__DIR__ . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR)) {
+		return false;
+	}
+	return true;
+}
+
 function jobman_url($func = 'all', $data = '') {
 	$options = get_option('jobman_options');
 	$structure = get_option('permalink_structure');

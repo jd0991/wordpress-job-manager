@@ -58,6 +58,16 @@ function jobman_conf() {
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Settings', 'jobman') ?></h2>
 <?php
+	$writeable = jobman_check_upload_dirs();
+	if(!$writeable) {
+		echo '<div class="error">';
+		echo '<p>' . __('It seems the Job Manager data directories are not writeable. In order to allow applicants to upload resumes, and for you to upload icons, please make the following directories writeable.', 'jobman') . '</p>';
+		echo '<pre>' . __DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . "\n";
+		echo __DIR__ . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . '</pre>';
+		echo '<p>' . sprintf(__('For help with changing directory permissions, please see <a href="%1s">this page</a> in the WordPress documentation.', 'jobman'), 'http://codex.wordpress.org/Changing_File_Permissions') . '</p>';
+		echo '</div>';
+	}
+
 	if(!get_option('pento_consulting')) {
 		$widths = array('60%', '39%');
 		$functions = array(
@@ -1213,10 +1223,6 @@ function jobman_application_mailout() {
 	get_currentuserinfo();
 	
 	$fromid = $options['application_email_from'];
-	/*$apps = implode(',', $_REQUEST['application']);
-	
-	$sql = $wpdb->prepare('SELECT data FROM ' . $wpdb->prefix . 'jobman_application_data WHERE applicationid IN (' . $apps . ') AND fieldid=%d;', $fromid);
-	$data = $wpdb->get_results($sql, ARRAY_A);*/
 	
 	$apps = get_posts(array('post_type' => 'jobman_app', 'post__in' => $_REQUEST['application']));
 	

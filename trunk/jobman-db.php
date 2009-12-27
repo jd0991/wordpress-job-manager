@@ -196,6 +196,7 @@ function jobman_create_db() {
 				'post_content' => '',
 				'post_name' => 'jobs',
 				'post_title' => __('Jobs Listing', 'jobman'),
+				'post_content' => __('Hi! This page is used by your Job Manager plugin as a base. Feel free to change settings here, but please do not delete this page. Also note that any content you enter here will not show up when this page is displayed on your site.', 'jobman'),
 				'post_type' => 'page');
 	$mainid = wp_insert_post($page);
 
@@ -269,6 +270,7 @@ function jobman_upgrade_db($oldversion) {
 					'post_content' => '',
 					'post_name' => $options['page_name'],
 					'post_title' => __('Jobs Listing', 'jobman'),
+					'post_content' => __('Hi! This page is used by your Job Manager plugin as a base. Feel free to change settings here, but please do not delete this page. Also note that any content you enter here will not show up when this page is displayed on your site.', 'jobman'),
 					'post_type' => 'page');
 		$mainid = wp_insert_post($page);
 		
