@@ -40,18 +40,23 @@ function jobman_conf() {
 	global $jobman_formats;
 	if(isset($_REQUEST['jobmanconfsubmit'])) {
 		// Configuration form as been submitted. Updated the database.
+		check_admin_referer('jobman-conf-updatedb');
 		jobman_conf_updatedb();
 	}
 	else if(isset($_REQUEST['jobmancatsubmit'])) {
+		check_admin_referer('jobman-categories-updatedb');
 		jobman_categories_updatedb();
 	}
 	else if(isset($_REQUEST['jobmaniconsubmit'])) {
+		check_admin_referer('jobman-icons-updatedb');
 		jobman_icons_updatedb();
 	}
 	else if(isset($_REQUEST['jobmanappemailsubmit'])) {
+		check_admin_referer('jobman-application-email-updatedb');
 		jobman_application_email_updatedb();
 	}
 	else if(isset($_REQUEST['jobmanotherpluginssubmit'])) {
+		check_admin_referer('jobman-other-plugins-updatedb');
 		jobman_other_plugins_updatedb();
 	}
 ?>
@@ -108,6 +113,9 @@ function jobman_print_settings_box() {
 ?>
 		<form action="" method="post">
 		<input type="hidden" name="jobmanconfsubmit" value="1" />
+<?php 
+	wp_nonce_field('jobman-conf-updatedb'); 
+?>
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('URL path', 'jobman') ?></th>
@@ -155,6 +163,9 @@ function jobman_print_categories_box() {
 		</p>
 		<form action="" method="post">
 		<input type="hidden" name="jobmancatsubmit" value="1" />
+<?php 
+	wp_nonce_field('jobman-categories-updatedb'); 
+?>
 		<table class="widefat page fixed" cellspacing="0">
 			<thead>
 			<tr>
@@ -217,6 +228,9 @@ function jobman_print_icons_box() {
 		</p>
 		<form action="" enctype="multipart/form-data" method="post">
 		<input type="hidden" name="jobmaniconsubmit" value="1" />
+<?php 
+	wp_nonce_field('jobman-icons-updatedb'); 
+?>
 		<table class="widefat page fixed" cellspacing="0">
 			<thead>
 			<tr>
@@ -275,6 +289,9 @@ function jobman_print_application_email_box() {
 ?>
 		<form action="" method="post">
 		<input type="hidden" name="jobmanappemailsubmit" value="1" />
+<?php 
+	wp_nonce_field('jobman-application-email-updatedb'); 
+?>
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('Email Address', 'jobman') ?></th>
@@ -339,6 +356,8 @@ function jobman_print_other_plugins_box() {
 	<form action="" method="post">
 	<input type="hidden" name="jobmanotherpluginssubmit" value="1" />
 <?php
+	wp_nonce_field('jobman-other-plugins-updatedb');
+
 	if(class_exists('GoogleSitemapGeneratorLoader')) {
 		$gxs = true;
 		$gxs_status = __('Installed', 'jobman');
@@ -466,6 +485,7 @@ function jobman_edit_job($jobid) {
 	
 	if(isset($_REQUEST['jobmansubmit'])) {
 		// Job form has been submitted. Update the database.
+		check_admin_referer('jobman-edit-job-'.$jobid);
 		jobman_updatedb();
 		if($jobid == 'new') {
 			return 2;
@@ -516,6 +536,9 @@ function jobman_edit_job($jobid) {
 	<form action="" method="post">
 	<input type="hidden" name="jobmansubmit" value="1" />
 	<input type="hidden" name="jobman-jobid" value="<?php echo $jobid ?>" />
+<?php 
+	wp_nonce_field('jobman-edit-job-'.$jobid); 
+?>
 	<div class="wrap">
 		<h2><?php echo $title ?></h2>
 		<table class="form-table">
@@ -630,6 +653,7 @@ function jobman_application_setup() {
 	$options = get_option('jobman_options');
 	
 	if(isset($_REQUEST['jobmansubmit'])) {
+		check_admin_referer('jobman-application-setup');
 		jobman_application_setup_updatedb();
 	}
 	
@@ -648,6 +672,9 @@ function jobman_application_setup() {
 ?>
 	<form action="" method="post">
 	<input type="hidden" name="jobmansubmit" value="1" />
+<?php 
+	wp_nonce_field('jobman-application-setup'); 
+?>
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Application Setup', 'jobman') ?></h2>
 		<table class="widefat page fixed">
@@ -778,15 +805,18 @@ function jobman_list_applications() {
 	$emailed = false;
 	if(array_key_exists('jobman-mass-edit', $_REQUEST) && $_REQUEST['jobman-mass-edit'] == 'delete') {
 		if(array_key_exists('jobman-delete-confirmed', $_REQUEST)) {
+			check_admin_referer('jobman-mass-delete');
 			jobman_application_delete();
 			$deleted = true;
 		}
 		else {
+			check_admin_referer('jobman-mass-edit');
 			jobman_application_delete_confirm();
 			return;
 		}
 	}
 	else if(array_key_exists('jobman-mass-edit', $_REQUEST) && $_REQUEST['jobman-mass-edit'] == 'email') {
+		check_admin_referer('jobman-mass-edit');
 		jobman_application_mailout();
 		return;
 	}
@@ -795,6 +825,7 @@ function jobman_list_applications() {
 		return;
 	}
 	else if(isset($_REQUEST['jobman-mailout-send'])) {
+		check_admin_referer('jobman-mailout-send');
 		jobman_application_mailout_send();
 		$emailed = true;
 	}
@@ -913,6 +944,9 @@ function jobman_list_applications() {
 		<div id="jobman-filter-link-hide" class="hidden"><a href="#" onclick="jQuery('#jobman-filter').hide('slow'); jQuery('#jobman-filter-link-hide').hide(); jQuery('#jobman-filter-link-show').show(); return false;"><?php _e('Hide Filter Options') ?></a></div>
 		
 		<form action="" method="post">
+<?php 
+	wp_nonce_field('jobman-mass-edit'); 
+?>
 		<table class="widefat page fixed" cellspacing="0">
 			<thead>
 			<tr>
@@ -1181,6 +1215,9 @@ function jobman_application_delete_confirm() {
 	<input type="hidden" name="jobman-delete-confirmed" value="1" />
 	<input type="hidden" name="jobman-mass-edit" value="delete" />
 	<input type="hidden" name="jobman-app-ids" value="<?php echo implode(',', $_REQUEST['application']) ?>" />
+<?php
+	wp_nonce_field('jobman-mass-delete');
+?>
 		<h2><?php _e('Job Manager: Applications', 'jobman') ?></h2>
 		<p class="error"><?php _e('This will permanently delete all of the selected applications. Please confirm that you want to continue.', 'jobman') ?></p>
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Delete Applications', 'jobman') ?>" /></p>
@@ -1239,7 +1276,7 @@ function jobman_application_mailout() {
 	
 	$emails = array();
 	foreach($apps as $app) {
-		$appmeta = get_post_meta($app->ID);
+		$appmeta = get_post_custom($app->ID);
 		if(!array_key_exists('data'.$fromid, $appmeta)) {
 			// No email for this application
 			continue;
@@ -1258,6 +1295,9 @@ function jobman_application_mailout() {
 
 		<form action="" method="post">
 		<input type="hidden" name="jobman-mailout-send" value="1" />
+<?php
+	wp_nonce_field('jobman-mailout-send');
+?>
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('From', 'jobman') ?></th>

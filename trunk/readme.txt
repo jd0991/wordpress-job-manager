@@ -61,6 +61,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 = 0.4.0 =
 * ADDED: Check to make sure data directories are writeable by the plugin
+* ADDED: Nonce fields are now in all Admin forms, for added security
 * CHANGED: Job Manager now requires WordPress 2.8 or higher
 * CHANGED: All data is now stored in default WordPress tables
 * CHANGED: All options are now stored in a single wp_options entry
@@ -115,4 +116,4 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 = 0.4.0 =
 
-This release contains significant database changes. If you're upgrading from version 0.3.3 or earlier, please read the upgrade documentation: http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x .
+This release contains significant database and compatibility changes. If you're upgrading from version 0.3.3 or earlier, please read the upgrade documentation: http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x .
