@@ -20,6 +20,23 @@ In Job Manager 0.4.0, there were signification changes made to how data is store
   Along with the data changes, you will notice several changes to the URLs used for accessing Job Manager.
 
   _Current Nice URLs_:
-    * View a job: `http://yoursite.com/jobs/view/1-job-name/`
+    * View a Job: `http://yoursite.com/jobs/view/1-job-name/`
   _New Nice URLs_:
-    * View a job: `http://yoursite.com/jobs/job-name/`
+    * View a Job: `http://yoursite.com/jobs/job-name/`
+
+  All other Nice URLs will stay the same.
+
+  Because Job Manager is changing to store everything as pages, the default URL scheme will change significantly, to simply load the page numbers (_n_ in the URL represents the page number):
+
+  _Current Default URLs_:
+    * Job List: `http://yoursite.com/?jobs=all`
+    * Job List by Category: `http://yoursite.com/?jobs=category-slug`
+    * View a Job: `http://yoursite.com?jobs=view&data=1-job-slug`
+    * Application Form: `http://yoursite.com?jobs=apply`
+    * Application Form for a Job: `http://yoursite.com?jobs=apply&data=1`
+  _New Default URLs_:
+    * Job List: `http://yoursite.com/?p=n`
+    * Job List by Category: `http://yoursite.com/?p=n`
+    * View a Job: `http://yoursite.com/?p=n`
+    * Application Form: `http://yoursite.com/?p=n`
+    * Application Form for a Job: `http://yoursite.com/?p=n&job=m`
