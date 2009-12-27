@@ -923,7 +923,7 @@ function jobman_email_application($appid) {
 	
 	$url = $options['page_name'];
 	
-	$msg .= __('Application Link', 'jobman') . ': ' . admin_url('admin.php?page=jobman-list-applications&amp;appid=' . $appid) . PHP_EOL;
+	$msg .= __('Application Link', 'jobman') . ': ' . admin_url('admin.php?page=jobman-list-applications&amp;appid=' . $app->ID) . PHP_EOL;
 
 	$parent = get_post($app->post_parent);
 	if($parent != NULL && $parent->post_type == 'jobman_job') {
@@ -951,7 +951,8 @@ function jobman_email_application($appid) {
 					$msg .= $field['label'] . ':' . PHP_EOL . $appdata['data'.$id] . PHP_EOL;
 					break;
 				case 'file':
-					$msg .= $field['label'] . ': ' . JOBMAN_URL . '/uploads/' . $appdata['data'.$id] . PHP_EOL;
+					$msg = $field['label'] . ': ' . admin_url('admin.php?page=jobman-list-applications&amp;appid=' . $app->ID . '&amp;getfile=' . $appdata['data'.$id]) . PHP_EOL;
+					//$msg .= $field['label'] . ': ' . JOBMAN_URL . '/uploads/' . $appdata['data'.$id] . PHP_EOL;
 					break;
 			}
 		}

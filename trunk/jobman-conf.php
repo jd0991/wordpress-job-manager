@@ -1055,7 +1055,18 @@ function jobman_list_applications() {
 					if($field['listdisplay']) {
 						$data = '';
 						if(array_key_exists('data' . $id, $appdata)) {
-							$data = $appdata['data'.$id];
+							switch($field['type']) {
+								case 'text':
+								case 'radio':
+								case 'checkbox':
+								case 'date':
+								case 'textarea':
+									$data = $appdata['data'.$id];
+									break;
+								case 'file':
+									$data = '<a href="' . admin_url('admin.php?page=jobman-list-applications&amp;appid=' . $app->ID . '&amp;getfile=' . $appdata['data'.$id]) . '">' . $appdata['data'.$id] . '</a>';
+									break;
+							}
 						}
 ?>
 				<td><?php echo $data ?></td>
@@ -1141,10 +1152,10 @@ function jobman_application_display_details($appid) {
 				case 'checkbox':
 				case 'date':
 				case 'textarea':
-					echo  $item;
+					echo $item;
 					break;
 				case 'file':
-					echo '<a href="' . JOBMAN_URL . '/uploads/' . $item . '">' . $item . '</a>';
+					echo '<a href="' . admin_url('admin.php?page=jobman-list-applications&amp;appid=' . $app->ID . '&amp;getfile=' . $item) . '">' . $item . '</a>';
 					break;
 			}
 			if($fid == $fromid) {
@@ -1229,7 +1240,7 @@ function jobman_application_mailout() {
 	$emails = array();
 	foreach($apps as $app) {
 		$appmeta = get_post_meta($app->ID);
-		if(!array_key_defined('data'.$fromid, $appmeta)) {
+		if(!array_key_exists('data'.$fromid, $appmeta)) {
 			// No email for this application
 			continue;
 		}
@@ -1552,7 +1563,7 @@ function jobman_application_setup_updatedb() {
 				$listdisplay = 1;
 			}
 			// UPDATE existing field
-			if(array_key_defined($id, $options['fields'])) {
+			if(array_key_exists($id, $options['fields'])) {
 				$options['fields'][$id]['label'] = $_REQUEST['jobman-label'][$ii];
 				$options['fields'][$id]['type'] = $_REQUEST['jobman-type'][$ii];
 				$options['fields'][$id]['listdisplay'] = $listdisplay;
@@ -1571,7 +1582,7 @@ function jobman_application_setup_updatedb() {
 		else {
 			$categories = $_REQUEST['jobman-categories'][$id];
 		}
-		if(count($categories) > 0 && array_key_defined($id, $options['fields'])) {
+		if(count($categories) > 0 && array_key_exists($id, $options['fields'])) {
 			$options['fields'][$ii]['categories'] = array();
 			foreach($categories as $categoryid) {
 				$options['fields'][$ii]['categories'][] = $categoryid;
@@ -1585,6 +1596,50 @@ function jobman_application_setup_updatedb() {
 	foreach($deletes as $delete) {
 		unset($options['fields'][$delete]);
 	}
+}
+
+function jobman_get_uploaded_file($filename) {
+	require_once(ABSPATH . WPINC . '/pluggable.php');
+
+	header("Cache-Control: no-cache");
+	header("Expires: -1");
+
+	if(!current_user_can('manage_options')) {
+		header($_SERVER["SERVER_PROTOCOL"] . ' 403 Forbidden');
+		header('Refresh: 0; url=' . admin_url());
+		echo '<html><head><title>403 Forbidden</title></head><body><p>Access is forbidden.</p></body></html>';
+		exit;
+	}
+	$ext = pathinfo($filename, PATHINFO_EXTENSION);
+	
+	switch($ext) {
+		case 'doc':
+			$type = 'application/msword';
+			break;
+		case 'docx':
+			$type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+			break;
+		case 'odt':
+			$type = 'application/vnd.oasis.opendocument.text';
+			break;
+		case 'pdf':
+			$type = 'application/pdf';
+			break;
+		case 'rtf':
+			$type = 'application/rtf';
+			break;
+		default:
+			$type = 'application/octet-stream';
+	}
+	header("Content-Type: application/force-download");
+	header('Content-type: ' . $type);
+	header("Content-Type: application/download");
+	header('Content-Disposition: attachment; filename="' . $filename . '"');
+	header('Content-Transfer-Encoding: binary');	
+
+	readfile(WP_PLUGIN_DIR.'/'.JOBMAN_FOLDER.'/uploads/'.$filename);
+	
+	exit;
 }
 
 function jobman_print_donate_box() {

@@ -45,4 +45,9 @@ require_once(dirname(__FILE__).'/jobman-display.php');
 // Add hooks at the end
 require_once(dirname(__FILE__).'/jobman-hooks.php');
 
+// If the user is after an uploaded file, give it to them
+if(array_key_exists('getfile', $_GET)) {
+	jobman_get_uploaded_file($_GET['getfile']);
+}
+
 ?>

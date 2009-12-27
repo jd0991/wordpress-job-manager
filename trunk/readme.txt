@@ -67,6 +67,8 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * FIXED: A job being displayed could include an incorrect <title>
 * FIXED: No longer re-write the .htaccess file. Unnecessary, and was causing problems on 1&1 hosting.
 * FIXED: Problem with including symlinked files
+* FIXED: Secured the uploaded files directory
+* FIXED: Link to files in the Application List
 
 = 0.3.3 =
 * FIXED: SQL errors when deleting applications
