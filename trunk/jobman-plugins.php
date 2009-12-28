@@ -19,7 +19,7 @@ function jobman_gxs_buildmap() {
 		return;
 	}
 	
-	// Add the main list.
+	/*// Add the main list.
 	$generatorObject->AddUrl(jobman_url(), time(), "daily", 0.5);
 
 	// Add category list.
@@ -40,6 +40,6 @@ function jobman_gxs_buildmap() {
 		foreach($jobs as $job) {
 			$generatorObject->AddUrl(jobman_url('view', $job['id'] . '-' . strtolower(str_replace(' ', '-', $job['title']))), time(), "daily", 0.5);
 		}
-	}
+	}*/
 }
 ?>

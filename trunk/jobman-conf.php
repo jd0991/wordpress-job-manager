@@ -101,9 +101,11 @@ function jobman_conf() {
 function jobman_print_settings_box() {
 	$options = get_option('jobman_options');
 	$structure = get_option('permalink_structure');
+	
+	$root = get_page($options['main_page']);
 	if($structure == '') {
-		$url_before = get_option('home') . '/?' . $url;
-		$url_after = '=all';
+		$url_before = get_option('home') . '/?p=' . $root->ID;
+		$url_after = '';
 	}
 	else {
 		$url_before = get_option('home') . '/';
@@ -119,7 +121,18 @@ function jobman_print_settings_box() {
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('URL path', 'jobman') ?></th>
-				<td colspan="2"><?php echo $url_before ?><input class="small-text code" type="text" name="page-name" value="<?php echo $options['page_name'] ?>" /><?php echo $url_after ?></td>
+				<td colspan="2">
+<?php 
+	echo $url_before;
+	if($structure == '') {
+		echo '<input type="hidden" name="page-name" value="' . $root->post_name . '" />';
+	}
+	else {
+		echo '<input class="small-text code" type="text" name="page-name" value="' . $root->post_name . '" />';
+	}
+	echo $url_after; 
+?>
+				</td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Default email', 'jobman') ?></th>
@@ -307,7 +320,7 @@ function jobman_print_application_email_box() {
 					$selected = ' selected="selected"';
 				}
 ?>
-					<option value="<?php echo $field['id'] ?>"<?php echo $selected ?>><?php echo $field['label'] ?></option>
+					<option value="<?php echo $id ?>"<?php echo $selected ?>><?php echo $field['label'] ?></option>
 <?php
 			}
 		}
@@ -323,8 +336,7 @@ function jobman_print_application_email_box() {
 					<select name="jobman-subject-fields[]" multiple="multiple" size="5" class="multiselect">
 					<option value="" style="font-weight: bold; border-bottom: 1px solid black;"><?php _e('None', 'jobman') ?></option>
 <?php
-	$fid_text = $options['application_email_subject_fields'];
-	$fids = split(',', $fid_text);
+	$fids = $options['application_email_subject_fields'];
 	if(count($fields) > 0) {
 		foreach($fields as $id => $field) {
 			if($field['type'] == 'text' || $field['type'] == 'textarea') {
@@ -333,7 +345,7 @@ function jobman_print_application_email_box() {
 					$selected = ' selected="selected"';
 				}
 ?>
-					<option value="<?php echo $field['id'] ?>"<?php echo $selected ?>><?php echo $field['label'] ?></option>
+					<option value="<?php echo $id ?>"<?php echo $selected ?>><?php echo $field['label'] ?></option>
 <?php
 			}
 		}
@@ -458,7 +470,7 @@ function jobman_list_jobs() {
 ?>
 			<tr>
 				<td class="post-title page-title column-title"><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php echo $job->post_title ?></a></strong>
-				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>">Edit</a> | <a href="<?php echo jobman_url('view', $job->post_name) ?>">View</a></div></td>
+				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>">Edit</a> | <a href="<?php echo get_page_link($job->ID) ?>">View</a></div></td>
 				<td><?php echo $catstring ?></td>
 				<td><?php echo date('Y-m-d', strtotime($job->post_date)) ?> - <?php echo ($displayenddate == '')?(__('End of Time', 'jobman')):($displayenddate) ?><br/>
 				<?php echo ($display)?(__('Live/Upcoming', 'jobman')):(__('Expired', 'jobman')) ?></td>
@@ -564,7 +576,7 @@ function jobman_edit_job($jobid) {
 				}
 			}
 ?>
-					<input type="checkbox" name="jobman-categories[]" value="<?php echo $cat->term_id ?>"<?php echo $checked ?> /> <?php echo $cat->name ?><br/>
+					<input type="checkbox" name="jobman-categories[]" value="<?php echo $cat->slug ?>"<?php echo $checked ?> /> <?php echo $cat->name ?><br/>
 <?php
 		}
 	}
@@ -1163,7 +1175,7 @@ function jobman_application_display_details($appid) {
 		
 		$parent = get_post($app->post_parent);
 		if($parent != NULL && $parent->post_type == 'jobman_job') {
-			echo '<tr><th scope="row"><strong>' . __('Job', 'jobman') . '</strong></th><td><strong><a href="' . jobman_url('view', $parent->post_name) . '">' . $parent->ID . ' - ' . $parent->post_title . '</a></strong></td></tr>';
+			echo '<tr><th scope="row"><strong>' . __('Job', 'jobman') . '</strong></th><td><strong><a href="' . get_page_link($parent->ID) . '">' . $parent->ID . ' - ' . $parent->post_title . '</a></strong></td></tr>';
 		}
 		echo '<tr><th scope="row"><strong>' . __('Timestamp', 'jobman') . '</strong></th><td>' . $app->post_date . '</td></tr><tr><td colspan="2">&nbsp;</td></tr>';
 		
@@ -1340,11 +1352,14 @@ function jobman_application_mailout_send() {
 function jobman_conf_updatedb() {
 	$options = get_option('jobman_options');
 	
-	$options['page_name'] = $_REQUEST['page-name'];
+	$root = get_page($options['main_page']);
+	$root->post_name = $_REQUEST['page-name'];
+	wp_update_post($root);
+	
 	$options['default_email'] = $_REQUEST['default-email'];
 	$options['list_type'] = $_REQUEST['list-type'];
 
-	if($_REQUEST['promo-link']) {
+	if(array_key_exists('promo-link', $_REQUEST) && $_REQUEST['promo-link']) {
 		$options['promo_link'] = 1;
 	}
 	else {
@@ -1353,7 +1368,7 @@ function jobman_conf_updatedb() {
 
 	update_option('jobman_options', $options);
 	
-	if($options['plugin']['gxs']) {
+	if($options['plugins']['gxs']) {
 		do_action('sm_rebuild');
 	}
 }
@@ -1367,7 +1382,7 @@ function jobman_updatedb() {
 				'ping_status' => 'closed',
 				'post_status' => 'publish',
 				'post_content' => stripslashes($_REQUEST['jobman-abstract']),
-				'post_name' => strtolower(str_replace(' ', '-', $job['title'])),
+				'post_name' => strtolower(str_replace(' ', '-', $_REQUEST['jobman-title'])),
 				'post_title' => stripslashes($_REQUEST['jobman-title']),
 				'post_type' => 'jobman_job',
 				'post_date' => stripslashes($_REQUEST['jobman-displaystartdate']),
@@ -1397,7 +1412,7 @@ function jobman_updatedb() {
 
 	wp_set_object_terms($id, $_REQUEST['jobman-categories'], 'jobman_category', false);
 
-	if($options['plugin']['gxs']) {
+	if($options['plugins']['gxs']) {
 		do_action('sm_rebuild');
 	}
 }
@@ -1437,11 +1452,13 @@ function jobman_categories_updatedb() {
 		else {
 			// UPDATE existing field
 			$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$id);
-			$page = get_post($data[0]->ID, ARRAY_A);
-			$page['post_title'] = $_REQUEST['title'][$ii];
-			$page['post_name'] = $_REQUEST['slug'][$ii];
-			wp_update_post($page);
-			
+			if(count($data) > 0) {
+				$page = get_post($data[0]->ID, ARRAY_A);
+				$page['post_title'] = $_REQUEST['title'][$ii];
+				$page['post_name'] = $_REQUEST['slug'][$ii];
+				wp_update_post($page);
+			}	
+
 			if($_REQUEST['slug'][$ii] != '') {
 				wp_update_term($id, 'jobman_category', array('slug' => $_REQUEST['slug'][$ii], 'description' => $_REQUEST['email'][$ii]));
 			}
@@ -1455,7 +1472,9 @@ function jobman_categories_updatedb() {
 	$deletes = explode(',', $_REQUEST['jobman-delete-list']);
 	foreach($deletes as $delete) {
 		$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$id);
-		wp_delete_post($data[0]->ID);
+		if(count($data) > 0) {
+			wp_delete_post($data[0]->ID);
+		}
 		wp_delete_term($delete, 'jobman_category');
 		
 		// Delete the category from any fields

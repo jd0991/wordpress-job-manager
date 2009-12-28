@@ -307,7 +307,7 @@ function jobman_upgrade_db($oldversion) {
 			$id = wp_insert_post($page);
 			$catpages[] = $id;
 			add_post_meta($id, '_catpage', 1, true);
-			add_post_meta($id, '_cat', $cat['id'], true);
+			add_post_meta($id, '_cat', $newcats[array_search($cat['id'], $oldcats)], true);
 		}
 
 		// Move the jobs to posts

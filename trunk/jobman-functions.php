@@ -53,30 +53,6 @@ function jobman_check_upload_dirs() {
 	return true;
 }
 
-function jobman_url($func = 'all', $data = '') {
-	$options = get_option('jobman_options');
-	$structure = get_option('permalink_structure');
-	$url = $options['page_name'];
-	
-	if($structure == '') {
-		$return = get_option('home') . '?' . $url . '=' . $func;
-		if($data != '') {
-			$return .= '&amp;data=' . $data;
-		}
-	}
-	else {
-		$return = get_option('home') . '/' . $url . '/';
-		if($func != 'all' && $func != '') {
-			$return .=  $func . '/';
-		}
-		if($data != '') {
-			$return .= $data . '/';
-		}
-	}
-
-	return $return;
-}
-
 function jobman_load_translation_file() {
 	load_plugin_textdomain('jobman', '', JOBMAN_FOLDER . '/translations');
 }
