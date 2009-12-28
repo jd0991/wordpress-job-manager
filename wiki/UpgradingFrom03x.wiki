@@ -34,12 +34,14 @@ In Job Manager 0.4.0, there were signification changes made to how data is store
     * View a Job: `http://yoursite.com?jobs=view&data=1-job-slug`
     * Application Form: `http://yoursite.com?jobs=apply`
     * Application Form for a Job: `http://yoursite.com?jobs=apply&data=1`
+    * Application Form for a Category: `http://yoursite.com?jobs=apply&data=category-slug`
   _New Default URLs_:
     * Job List: `http://yoursite.com/?p=n`
     * Job List by Category: `http://yoursite.com/?p=n`
     * View a Job: `http://yoursite.com/?p=n`
     * Application Form: `http://yoursite.com/?p=n`
     * Application Form for a Job: `http://yoursite.com/?p=n&job=m`
+    * Application Form for a Category: `http://yoursite.com/?p=n&cat=m`
 
 = Help! Something Went Wrong! =
 
