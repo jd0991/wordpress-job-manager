@@ -181,7 +181,7 @@ function jobman_display_template() {
 		}
 	}
 	
-	if($template == '') {
+	if($template == '' || $template == 'default') {
 		include(TEMPLATEPATH . '/page.php');
 	} else {
 		include(TEMPLATEPATH . '/' . $template);
