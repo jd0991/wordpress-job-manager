@@ -64,6 +64,7 @@ Mid February 2010
   * Add a new filter to block applications if no data is entered: Issue #27
   * Add related jobs links to job lists: Issue #42
   * Export data to CSV: Issue #44
+  * Sticky Jobs: Issue #46
 
 ----
 
