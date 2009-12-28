@@ -135,6 +135,10 @@ function jobman_print_settings_box() {
 				</td>
 			</tr>
 			<tr>
+				<th scope="row"><?php _e('Job Manager Page Template', 'jobman') ?></th>
+				<td colspan="2"><?php printf(__('You can edit the page template used by Job Manager, by editing the Template Attribute of <a href="%s">this page</a>.', 'jobman'), admin_url('page.php?action=edit&post=' . $options['main_page'])) ?></td>
+			</tr>
+			<tr>
 				<th scope="row"><?php _e('Default email', 'jobman') ?></th>
 				<td colspan="2"><input class="regular-text code" type="text" name="default-email" value="<?php echo $options['default_email'] ?>" /></td>
 			</tr>
@@ -408,18 +412,34 @@ function jobman_print_other_plugins_box() {
 
 function jobman_list_jobs() {
 	$displayed = 1;
-	if(isset($_REQUEST['jobman-jobid'])) {
+
+	if(array_key_exists('jobman-mass-edit-jobs', $_REQUEST) && $_REQUEST['jobman-mass-edit-jobs'] == 'delete') {
+		if(array_key_exists('jobman-delete-confirmed', $_REQUEST)) {
+			check_admin_referer('jobman-mass-delete-jobs');
+			jobman_job_delete();
+			$deleted = true;
+		}
+		else {
+			check_admin_referer('jobman-mass-edit-jobs');
+			jobman_job_delete_confirm();
+			return;
+		}
+	}
+	else if(isset($_REQUEST['jobman-jobid'])) {
 		$displayed = jobman_edit_job($_REQUEST['jobman-jobid']);
 		if($displayed == 1) {
 			return;
 		}
 	}
+
+
 ?>
-	<form action="" method="post">
-	<input type="hidden" name="jobman-jobid" value="new" />
 	<div class="wrap">
 		<h2><?php _e('Job Manager: Jobs List', 'jobman') ?></h2>
+		<form action="" method="post">
+		<input type="hidden" name="jobman-jobid" value="new" />
 		<p class="submit"><input type="submit" name="submit" class="button-primary" value="<?php _e('New Job', 'jobman') ?>" /></p>
+		</form>
 <?php
 	switch($displayed) {
 		case 0:
@@ -435,9 +455,14 @@ function jobman_list_jobs() {
 	
 	$jobs = get_posts('post_type=jobman_job');
 ?>
+		<form action="" method="post">
+<?php 
+	wp_nonce_field('jobman-mass-edit-jobs'); 
+?>
 		<table class="widefat page fixed" cellspacing="0">
 			<thead>
 			<tr>
+				<th scope="col" id="cb" class="column-cb check-column"><input type="checkbox"></th>
 				<th scope="col"><?php _e('Title', 'jobman') ?></th>
 				<th scope="col"><?php _e('Categories', 'jobman') ?></th>
 				<th scope="col"><?php _e('Display Dates', 'jobman') ?></th>
@@ -469,6 +494,7 @@ function jobman_list_jobs() {
 			}
 ?>
 			<tr>
+				<th scope="row" class="check-column"><input type="checkbox" name="job[]" value="<?php echo $job->ID ?>" /></th>
 				<td class="post-title page-title column-title"><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php echo $job->post_title ?></a></strong>
 				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>">Edit</a> | <a href="<?php echo get_page_link($job->ID) ?>">View</a></div></td>
 				<td><?php echo $catstring ?></td>
@@ -487,8 +513,15 @@ function jobman_list_jobs() {
 	}
 ?>
 		</table>
+		<div class="alignleft actions">
+			<select name="jobman-mass-edit-jobs">
+				<option value=""><?php _e('Bulk Actions', 'jobman') ?></option>
+				<option value="delete"><?php _e('Delete', 'jobman') ?></option>
+			</select>
+			<input type="submit" value="<?php _e('Apply', 'jobman') ?>" name="submit" class="button-secondary action" />
+		</div>
+		</form>
 	</div>
-	</form>
 <?php
 }
 
@@ -661,6 +694,35 @@ function jobman_edit_job($jobid) {
 	return 1;
 }
 
+function jobman_job_delete_confirm() {
+?>
+	<div class="wrap">
+	<form action="" method="post">
+	<input type="hidden" name="jobman-delete-confirmed" value="1" />
+	<input type="hidden" name="jobman-mass-edit-jobs" value="delete" />
+	<input type="hidden" name="jobman-job-ids" value="<?php echo implode(',', $_REQUEST['job']) ?>" />
+<?php
+	wp_nonce_field('jobman-mass-delete-jobs');
+?>
+		<h2><?php _e('Job Manager: Jobs', 'jobman') ?></h2>
+		<p class="error"><?php _e('This will permanently delete all of the selected jobs. Please confirm that you want to continue.', 'jobman') ?></p>
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Delete Jobs', 'jobman') ?>" /></p>
+	</form>
+	</div>
+<?php
+}
+
+function jobman_job_delete() {
+	$options = get_option('jobman_options');
+	
+	$jobs = explode(',', $_REQUEST['jobman-job-ids']);
+	
+	foreach($jobs as $job) {
+		// Delete the job
+		wp_delete_post($job);
+	}
+}
+
 function jobman_application_setup() {
 	$options = get_option('jobman_options');
 	
@@ -817,18 +879,18 @@ function jobman_list_applications() {
 	$emailed = false;
 	if(array_key_exists('jobman-mass-edit', $_REQUEST) && $_REQUEST['jobman-mass-edit'] == 'delete') {
 		if(array_key_exists('jobman-delete-confirmed', $_REQUEST)) {
-			check_admin_referer('jobman-mass-delete');
+			check_admin_referer('jobman-mass-delete-applications');
 			jobman_application_delete();
 			$deleted = true;
 		}
 		else {
-			check_admin_referer('jobman-mass-edit');
+			check_admin_referer('jobman-mass-edit-applications');
 			jobman_application_delete_confirm();
 			return;
 		}
 	}
 	else if(array_key_exists('jobman-mass-edit', $_REQUEST) && $_REQUEST['jobman-mass-edit'] == 'email') {
-		check_admin_referer('jobman-mass-edit');
+		check_admin_referer('jobman-mass-edit-applications');
 		jobman_application_mailout();
 		return;
 	}
@@ -957,7 +1019,7 @@ function jobman_list_applications() {
 		
 		<form action="" method="post">
 <?php 
-	wp_nonce_field('jobman-mass-edit'); 
+	wp_nonce_field('jobman-mass-edit-applications'); 
 ?>
 		<table class="widefat page fixed" cellspacing="0">
 			<thead>
@@ -1228,7 +1290,7 @@ function jobman_application_delete_confirm() {
 	<input type="hidden" name="jobman-mass-edit" value="delete" />
 	<input type="hidden" name="jobman-app-ids" value="<?php echo implode(',', $_REQUEST['application']) ?>" />
 <?php
-	wp_nonce_field('jobman-mass-delete');
+	wp_nonce_field('jobman-mass-delete-applications');
 ?>
 		<h2><?php _e('Job Manager: Applications', 'jobman') ?></h2>
 		<p class="error"><?php _e('This will permanently delete all of the selected applications. Please confirm that you want to continue.', 'jobman') ?></p>

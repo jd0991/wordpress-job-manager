@@ -2,7 +2,7 @@
 Contributors: pento
 Donate link: http://pento.net/donate/
 Tags: jobs, manager, list, listing, employer, application
-Requires at least: 2.8
+Requires at least: 2.9
 Tested up to: 2.9
 Stable tag: 0.3.3
 
@@ -62,7 +62,9 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 = 0.4.0 =
 * ADDED: Check to make sure data directories are writeable by the plugin
 * ADDED: Nonce fields are now in all Admin forms, for added security
-* CHANGED: Job Manager now requires WordPress 2.8 or higher
+* ADDED: Ability to delete jobs
+* ADDED: Ability to change the page template used
+* CHANGED: Job Manager now requires WordPress 2.9 or higher
 * CHANGED: All data is now stored in default WordPress tables
 * CHANGED: All options are now stored in a single wp_options entry
 * FIXED: A job being displayed could include an incorrect <title>

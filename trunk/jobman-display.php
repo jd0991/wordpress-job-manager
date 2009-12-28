@@ -1,4 +1,7 @@
 <?php //encoding: utf-8
+global $jobman_displaying;
+$jobman_displaying = false;
+
 function jobman_queryvars($qvars) {
 	$qvars[] = 'j';
 	$qvars[] = 'c';
@@ -31,9 +34,11 @@ function jobman_flush_rewrite_rules() {
 
 
 function jobman_display_jobs($posts) {
-	global $wp_query, $wpdb;
+	global $wp_query, $wpdb, $jobman_displaying;
 	
 	$options = get_option('jobman_options');
+	
+	$post = NULL;
 	
 	if(count($posts) > 0) {
 		$post = $posts[0];
@@ -45,6 +50,8 @@ function jobman_display_jobs($posts) {
 	if($post != NULL && !isset($wp_query->query_vars['jobman_page']) && $post->ID != $options['main_page'] && !in_array($post->post_type, array('jobman_job', 'jobman_joblist', 'jobman_app_form'))) {
 		return $posts;
 	}
+	
+	$jobman_displaying = true;
 
 	if($post != NULL) {
 		$postmeta = get_post_custom($post->ID);
@@ -156,15 +163,30 @@ function jobman_display_init() {
 }
 
 function jobman_display_template() {
-	global $wp_query;
+	global $wp_query, $jobman_displaying;
 	$options = get_option('jobman_options');
-
-	$url = $options['page_name'];
 	
-	if(isset($wp_query->query_vars[$url])) {
-		include(TEMPLATEPATH . '/page.php');
-		exit;
+	if(!$jobman_displaying) {
+		return;
 	}
+
+	$root = get_page($options['main_page']);
+	$rootmeta = get_post_custom($root->ID);
+	$template = '';
+	if(array_key_exists('_wp_page_template', $rootmeta)) {
+		if(is_array($rootmeta['_wp_page_template'])) {
+			$template = $rootmeta['_wp_page_template'][0];
+		} else {
+			$template = $rootmeta['_wp_page_template'];
+		}
+	}
+	
+	if($template == '') {
+		include(TEMPLATEPATH . '/page.php');
+	} else {
+		include(TEMPLATEPATH . '/' . $template);
+	}
+	exit;
 }
 
 function jobman_display_title($title, $sep, $seploc) {
