@@ -399,7 +399,7 @@ function jobman_print_other_plugins_box() {
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('Add Job pages to your Sitemap?', 'jobman') ?></th>
-				<td><input type="checkbox" value="1" name="plugin-gxs"<?php echo ($options['plugin']['gxs'])?(' checked="checked"'):('') ?> /></td>
+				<td><input type="checkbox" value="1" name="plugin-gxs"<?php echo ($options['plugins']['gxs'])?(' checked="checked"'):('') ?> /></td>
 			</tr>
 		</table>
 <?php

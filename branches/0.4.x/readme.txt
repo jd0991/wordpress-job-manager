@@ -59,6 +59,9 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 == Changelog ==
 
+= 0.4.2 =
+* FIXED: Google XML Sitemap option not showing correctly
+
 = 0.4.1 =
 * FIXED: Application fields not saving properly
 * FIXED: Miscellaneous PHP warnings
