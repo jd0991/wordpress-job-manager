@@ -67,8 +67,8 @@ function jobman_conf() {
 	if(!$writeable) {
 		echo '<div class="error">';
 		echo '<p>' . __('It seems the Job Manager data directories are not writeable. In order to allow applicants to upload resumes, and for you to upload icons, please make the following directories writeable.', 'jobman') . '</p>';
-		echo '<pre>' . __DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . "\n";
-		echo __DIR__ . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . '</pre>';
+		echo '<pre>' . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . "\n";
+		echo dirname(__FILE__) . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . '</pre>';
 		echo '<p>' . sprintf(__('For help with changing directory permissions, please see <a href="%1s">this page</a> in the WordPress documentation.', 'jobman'), 'http://codex.wordpress.org/Changing_File_Permissions') . '</p>';
 		echo '</div>';
 	}
