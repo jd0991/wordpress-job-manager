@@ -44,10 +44,10 @@ function jobman_create_widget($function, $title) {
 }
 
 function jobman_check_upload_dirs() {
-	if(!is_writeable(__DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR)) {
+	if(!is_writeable(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR)) {
 		return false;
 	}
-	if(!is_writeable(__DIR__ . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR)) {
+	if(!is_writeable(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR)) {
 		return false;
 	}
 	return true;

@@ -67,8 +67,8 @@ function jobman_conf() {
 	if(!$writeable) {
 		echo '<div class="error">';
 		echo '<p>' . __('It seems the Job Manager data directories are not writeable. In order to allow applicants to upload resumes, and for you to upload icons, please make the following directories writeable.', 'jobman') . '</p>';
-		echo '<pre>' . __DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . "\n";
-		echo __DIR__ . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . '</pre>';
+		echo '<pre>' . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . "\n";
+		echo dirname(__FILE__) . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . '</pre>';
 		echo '<p>' . sprintf(__('For help with changing directory permissions, please see <a href="%1s">this page</a> in the WordPress documentation.', 'jobman'), 'http://codex.wordpress.org/Changing_File_Permissions') . '</p>';
 		echo '</div>';
 	}
@@ -724,12 +724,12 @@ function jobman_job_delete() {
 }
 
 function jobman_application_setup() {
-	$options = get_option('jobman_options');
-	
 	if(isset($_REQUEST['jobmansubmit'])) {
 		check_admin_referer('jobman-application-setup');
 		jobman_application_setup_updatedb();
 	}
+	
+	$options = get_option('jobman_options');
 	
 	$fieldtypes = array(
 						'text' => __('Text Input', 'jobman'),
@@ -795,18 +795,15 @@ function jobman_application_setup() {
 				$checked = '';
 			}
 ?>
-					<input type="checkbox" name="jobman-listdisplay[<?php echo $field['id'] ?>]" value="1"<?php echo $checked ?> /> <?php _e('Show this field in the Application List?', 'jobman') ?>
+					<input type="checkbox" name="jobman-listdisplay[<?php echo $id ?>]" value="1"<?php echo $checked ?> /> <?php _e('Show this field in the Application List?', 'jobman') ?>
 				</td>
 				<td>
 <?php
 			if(count($categories) > 0 ) {
 				foreach($categories as $cat) {
 					$checked = '';
-					foreach($field['categories'] as $fc) {
-						if(in_array($cat->term_id, $fc)) {
-							$checked = ' checked="checked"';
-							break;
-						}
+					if(in_array($cat->term_id, $field['categories'])) {
+						$checked = ' checked="checked"';
 					}
 ?>
 					<input type="checkbox" name="jobman-categories[<?php echo $id ?>][]" value="<?php echo $cat->term_id ?>"<?php echo $checked ?> /> <?php echo $cat->name ?><br/>
@@ -1695,19 +1692,29 @@ function jobman_application_setup_updatedb() {
 			}
 		}
 
-		if($id == -1) {
-			$categories = $_REQUEST['jobman-categories']['new'][$newcount];
-			$keys = array_keys($options['fields']);
-			$id = end($keys);
-		}
-		else {
-			$categories = $_REQUEST['jobman-categories'][$id];
-		}
-		if(count($categories) > 0 && array_key_exists($id, $options['fields'])) {
-			$options['fields'][$ii]['categories'] = array();
-			foreach($categories as $categoryid) {
-				$options['fields'][$ii]['categories'][] = $categoryid;
+		$categories = array();
+		if(array_key_exists('jobman-categories', $_REQUEST)) {
+			if($id == -1) {
+				if(array_key_exists('new', $_REQUEST['jobman-categories']) && array_key_exists($newcount, $_REQUEST['jobman-categories']['new'])) {
+					$categories = $_REQUEST['jobman-categories']['new'][$newcount];
+					$keys = array_keys($options['fields']);
+					$id = end($keys);
+				}
 			}
+			else if(array_key_exists($id, $_REQUEST['jobman-categories'])) {
+				$categories = $_REQUEST['jobman-categories'][$id];
+			}
+		}
+		if(count($categories) > 0) {
+			if(array_key_exists($id, $options['fields'])) {
+				$options['fields'][$id]['categories'] = array();
+				foreach($categories as $categoryid) {
+					$options['fields'][$id]['categories'][] = $categoryid;
+				}
+			}
+		}
+		else if(array_key_exists($id, $options['fields'])) {
+			$options['fields'][$id]['categories'] = array();
 		}
 		
 		$ii++;
@@ -1717,6 +1724,8 @@ function jobman_application_setup_updatedb() {
 	foreach($deletes as $delete) {
 		unset($options['fields'][$delete]);
 	}
+
+	update_option('jobman_options', $options);
 }
 
 function jobman_get_uploaded_file($filename) {
