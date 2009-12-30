@@ -59,6 +59,10 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 == Changelog ==
 
+= 0.4.1 =
+* FIXED: Application fields not saving properly
+* FIXED: Miscellaneous PHP warnings
+
 = 0.4.0 =
 * ADDED: Check to make sure data directories are writeable by the plugin
 * ADDED: Nonce fields are now in all Admin forms, for added security
@@ -115,6 +119,10 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * Initial release
 
 == Upgrade Notice ==
+
+= 0.4.1 =
+
+This release contains significant database and compatibility changes. If you're upgrading from version 0.3.3 or earlier, please read the upgrade documentation: http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x .
 
 = 0.4.0 =
 
