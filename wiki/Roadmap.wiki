@@ -1,34 +1,5 @@
 #summary Roadmap for upcoming releases of Job Manager
 
-= 0.4.0 =
-
-== Abstract ==
-
-Bringing the plugin into line with !WordPress data storage and coding standards. This version will require !WordPress 2.9 or higher. The custom page type features are necessary to implementing Issue #30.
-
-== Due ==
-
-Late December 2009
-
-== Features ==
-
-  * Allow admin to select page template: Issue #37
-
-== Changes to Existing Features ==
-
-  * Re-write data storage to use existing !WordPress tables: Issue #30
-  * Store options in a single wp_options entry: Issue #13
-
-== Bug Fixes ==
-
-  * Warn when data directories are not writeable: Issue #7
-  * Add Nonce support to all admin forms: Issue #12
-  * Jobs/lists should show in normal page lists: Issue #17
-  * Files in Application list should be a link: Issue #10
-  * Protect uploaded files: Issue #18
-
-----
-
 = 0.5.0 =
 
 == Abstract ==
