@@ -189,77 +189,11 @@ function jobman_display_template() {
 	exit;
 }
 
-function jobman_display_title($title, $sep, $seploc) {
-	$wp_query;
-	$options = get_option('jobman_options');
-
-	$url = $options['page_name'];
-	
-	if(!isset($wp_query->query_vars[$url])) {
-		return $title;
-	}
-
-	$func = $wp_query->query_vars[$url];
-	$data = $wp_query->query_vars['data'];
-	$matches = array();
-
-	switch($func) {
-		case 'view':
-			if(preg_match('/^(\d+)-?(.*)?/', $data, $matches)) {
-				$title = '';
-				$job = get_post($matches[1]);
-				$jobmeta = get_post_meta($job->ID);
-				
-				if(is_array($jobmeta['displayenddate'])) {
-					$displayenddate = $jobmeta['displayenddate'][0];
-				}
-				else {
-					$displayenddate = $jobmeta['displayenddate'];
-				}
-				
-				if(strtotime($job->post_date) < time() || $displayenddate == '' || strtotime($displayenddate) > time()) {
-					$title = $job->post_title;
-				}
-				if($title != '') {
-					$newtitle = __('Job', 'jobman') . ': ' . $title;
-				}
-				else {
-					$newtitle = __('This job doesn\'t exist', 'jobman');
-					add_action('wp_head', 'jobman_display_robots_noindex');
-				}
-			}
-			break;
-		case 'apply':
-			$newtitle = __('Job Application', 'jobman');
-			break;
-		case 'all':
-			$newtitle = __('Jobs Listing', 'jobman');
-			break;
-		default:
-			$category = get_term_by('slug', $data, 'jobman_category')->name;
-			$newtitle = __('Jobs Listing', 'jobman');
-			if($category != '') {
-				$newtitle .= ': ' . $category;
-			}
-	}
-
-	if($seploc == 'right') {
-		$title = "$newtitle $sep ";
-	}
-	else {
-		$title = " $sep $newtitle";
-	}
-	
-	return $title;
-}
-
 function jobman_display_head() {
-	global $wp_query;
+	global $wp_query, $jobman_displaying;
 	$options = get_option('jobman_options');
 
-	$url = $options['page_name'];
-	
-	if(!isset($wp_query->query_vars[$url])) {
+	if(!$jobman_displaying) {
 		return;
 	}
 	
@@ -276,27 +210,6 @@ jQuery(document).ready(function() {
 //]]>
 </script> 
 <?php
-}
-
-function jobman_display_edit_post_link($link) {
-	global $wp_query;
-	$options = get_option('jobman_options');
-
-	$url = $options['page_name'];
-	
-	if(!isset($wp_query->query_vars[$url])) {
-		return $link;
-	}
-
-	$func = $wp_query->query_vars[$url];
-	$data = $wp_query->query_vars['data'];
-	$matches = array();
-	
-	if($func == 'view' && is_int($data)) {
-		return admin_url('admin.php?page=jobman-jobs-list&amp;jobid=' . $data);
-	}
-
-	return admin_url('admin.php?page=jobman-jobs-list');
 }
 
 function jobman_display_jobs_list($cat) {
