@@ -36,6 +36,7 @@ Mid February 2010
   * Add related jobs links to job lists: Issue #42
   * Export data to CSV: Issue #44
   * Sticky Jobs: Issue #46
+  * Job List sort order: Issue #49
 
 ----
 
