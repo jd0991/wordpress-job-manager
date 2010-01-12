@@ -26,6 +26,11 @@ add_action('template_redirect', 'jobman_display_template');
 // Add our own <head> information
 add_action('wp_head', 'jobman_display_head');
 
+// For the slugs (treat jobman pages as WP pages)
+add_filter('hierarchical_post_types', 'jobman_page_hierarchical_setup');
+// For the page links
+add_filter('post_link', 'jobman_page_link', 10, 2);
+
 // Our custom page/taxonomy setup
 add_action('init', 'jobman_page_taxonomy_setup');
 

@@ -5,6 +5,7 @@ $jobman_displaying = false;
 function jobman_queryvars($qvars) {
 	$qvars[] = 'j';
 	$qvars[] = 'c';
+	$qvars[] = 'jobman_root_id';
 	$qvars[] = 'jobman_page';
 	$qvars[] = 'jobman_data';
 	return $qvars;
@@ -14,13 +15,13 @@ function jobman_add_rewrite_rules($wp_rewrite) {
 	$options = get_option('jobman_options');
 	
 	$root = get_page($options['main_page']);
-	$url = $root->post_name;
+	$url = get_page_uri($root->ID);
 	if(!$url) {
 		return;
 	}
 	$new_rules = array( 
-						"$url/?$" => "index.php?page_id=" . $root->ID,
-						"$url/([^/]+)/?([^/]+)?/?" => "index.php?page_id=" . $root->ID .
+						"$url/?$" => "index.php?jobman_root_id=" . $root->ID,
+						"$url/?([^/]+)/?([^/]+)?/?" => "index.php?jobman_root_id=" . $root->ID .
 						"&jobman_page=" . $wp_rewrite->preg_index(1) .
 						"&jobman_data=" . $wp_rewrite->preg_index(2));
 
@@ -32,6 +33,17 @@ function jobman_flush_rewrite_rules() {
 	$wp_rewrite->flush_rules(false);
 }
 
+function jobman_page_link($link, $page = NULL) {
+	if($page == NULL) {
+		return $link;
+	}
+
+	if(!in_array($page->post_type, array('jobman_job', 'jobman_joblist', 'jobman_app_form'))) {
+		return $link;
+	}
+	
+	return get_page_link($page->ID);
+}
 
 function jobman_display_jobs($posts) {
 	global $wp_query, $wpdb, $jobman_displaying;
@@ -43,11 +55,11 @@ function jobman_display_jobs($posts) {
 	if(count($posts) > 0) {
 		$post = $posts[0];
 	}
-	else if(isset($wp_query->query_vars['page_id'])) {
-		$post = get_post($wp_query->query_vars['page_id']);
+	else if(isset($wp_query->query_vars['jobman_root_id'])) {
+		$post = get_post($wp_query->query_vars['jobman_root_id']);
 	}
 	
-	if($post != NULL && !isset($wp_query->query_vars['jobman_page']) && $post->ID != $options['main_page'] && !in_array($post->post_type, array('jobman_job', 'jobman_joblist', 'jobman_app_form'))) {
+	if($post == NULL || (!isset($wp_query->query_vars['jobman_page']) && $post->ID != $options['main_page'] && !in_array($post->post_type, array('jobman_job', 'jobman_joblist', 'jobman_app_form')))) {
 		return $posts;
 	}
 	
@@ -67,7 +79,6 @@ function jobman_display_jobs($posts) {
 			}
 		}
 	}
-	
 
 	$jobman_data = '';
 	if(array_key_exists('jobman_data', $wp_query->query_vars)) {
@@ -141,8 +152,6 @@ function jobman_display_jobs($posts) {
 		$posts = array();
 	}
 
-
-	
 	$hidepromo = $options['promo_link'];
 	
 	if(get_option('pento_consulting')) {
