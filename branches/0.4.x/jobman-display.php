@@ -52,11 +52,11 @@ function jobman_display_jobs($posts) {
 	
 	$post = NULL;
 	
-	if(count($posts) > 0) {
-		$post = $posts[0];
-	}
-	else if(isset($wp_query->query_vars['jobman_root_id'])) {
+	if(isset($wp_query->query_vars['jobman_root_id'])) {
 		$post = get_post($wp_query->query_vars['jobman_root_id']);
+	}
+	else if(count($posts) > 0) {
+		$post = $posts[0];
 	}
 	else if(isset($wp_query->query_vars['page_id'])) {
 		$post = get_post($wp_query->query_vars['page_id']);
@@ -258,11 +258,20 @@ function jobman_display_jobs_list($cat) {
 		}
 	}
 	
-	if($cat == 'all') {
-		$jobs = get_posts('post_type=jobman_job');
-	}
-	else {
-		$jobs = get_posts('post_type=jobman_job&jobman_category='.$category->slug);
+	$jobs = get_posts('post_type=jobman_job');
+	if($cat != 'all') {
+		foreach($jobs as $key => $job) {
+			$cats = wp_get_object_terms($job->ID, 'jobman_category');
+			$cats_arr = array();
+			if(count($cats) > 0) {
+				foreach($cats as $cat) {
+					$cats_arr[] = $cat->term_id;
+				}
+			}
+			if(!isset($category->term_id) || !in_array($category->term_id, $cats_arr)) {
+				unset($jobs[$key]);
+			}
+		}
 	}
 
 	if(count($jobs) > 0) {
@@ -311,20 +320,20 @@ function jobman_display_jobs_list($cat) {
 			$applypage = $data[0];
 		}
 		$content .= '<p>';
-		if($cat == 'all') {
+		if($cat == 'all' || !isset($category->term_id)) {
 			$content .= sprintf(__('We currently don\'t have any jobs available. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href="%s">send through your résumé</a>, which we\'ll keep on file.', 'jobman'), get_page_link($applypage->ID));
 		}
 		else {
 			$url = get_page_link($applypage->ID);
 			$structure = get_option('permalink_structure');
 			if($structure == '') {
-				$url .= '&amp;c=' . $cat;
+				$url .= '&amp;c=' . $category->term_id;
 			}
 			else {
 				if(substr($url, -1) == '/') {
-					$url .= get_term($cat, 'jobman_category')->slug . '/';
+					$url .= $category->slug . '/';
 				} else {
-					$url .= '/' . get_term($cat, 'jobman_category')->slug;
+					$url .= '/' . $category->slug;
 				}
 			}
 			$content .= sprintf(__('We currently don\'t have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href="%s">send through your résumé</a>, which we\'ll keep on file, and you can check out the <a href="%s">jobs we have available in other areas</a>.', 'jobman'), $url, get_page_link($options['main_page']));

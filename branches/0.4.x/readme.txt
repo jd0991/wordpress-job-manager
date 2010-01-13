@@ -59,6 +59,10 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 == Changelog ==
 
+= 0.4.5 =
+* FIXED: Job list not displaying under some circumstances
+* FIXED: Not retrieving job list in category pages
+
 = 0.4.4 =
 * FIXED: Job permalinks now being treated as pages
 * FIXED: Jobs/application form not showing if main jobs page was set as a child page

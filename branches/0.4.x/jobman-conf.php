@@ -1507,7 +1507,7 @@ function jobman_categories_updatedb() {
 							'post_parent' => $options['main_page']);
 				$id = wp_insert_post($page);
 				add_post_meta($id, '_catpage', 1, true);
-				add_post_meta($id, '_cat', $cat->term_id, true);
+				add_post_meta($id, '_cat', $cat['term_id'], true);
 			}
 			else {
 				// No input. Don't insert into the DB.
