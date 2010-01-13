@@ -66,6 +66,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * FIXED: Permalinks now allow for a lack of trailing '/'
 * FIXED: Application field sort order not being obeyed
 * FIXED: Job link not being display in application list
+* FIXED: Category pages not storing correctly
 
 = 0.4.3 =
 * FIXED: Removed some references to the old code removed in 0.4.2

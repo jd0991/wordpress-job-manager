@@ -388,11 +388,11 @@ function jobman_display_job($job) {
 		foreach($categories as $cat) {
 			$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$cat->term_id);
 			if(count($data) > 0) {
-				$content .= '<a href="'. get_page_link($data[0]->ID) . '" title="' . sprintf(__('Jobs for %s', 'jobman'), $cat->name) . '">' . $cat->name . '</a>';
-				if($ii < count($categories)) {
-					$content .= ', ';
-				}
+				$cats[] = '<a href="'. get_page_link($data[0]->ID) . '" title="' . sprintf(__('Jobs for %s', 'jobman'), $cat->name) . '">' . $cat->name . '</a>';
 			}
+		}
+		if(count($cats) > 0) {
+			$content .= implode(', ', $cats);
 		}
 	}
 	$content .= '<tr><th scope="row">' . __('Salary', 'jobman') . '</th><td>' . $jobdata['salary'] . '</td></tr>';

@@ -1493,7 +1493,7 @@ function jobman_categories_updatedb() {
 			$newcount++;
 			// INSERT new field
 			if($_REQUEST['title'][$ii] != '') {
-				$catid = wp_insert_term($_REQUEST['title'][$ii], 'jobman_category', array('slug' => $_REQUEST['slug'][$ii], 'description' => $_REQUEST['email'][$ii]));
+				$cat = wp_insert_term($_REQUEST['title'][$ii], 'jobman_category', array('slug' => $_REQUEST['slug'][$ii], 'description' => $_REQUEST['email'][$ii]));
 
 				$page = array(
 							'comment_status' => 'closed',
@@ -1507,7 +1507,7 @@ function jobman_categories_updatedb() {
 							'post_parent' => $options['main_page']);
 				$id = wp_insert_post($page);
 				add_post_meta($id, '_catpage', 1, true);
-				add_post_meta($id, '_cat', $catid, true);
+				add_post_meta($id, '_cat', $cat->term_id, true);
 			}
 			else {
 				// No input. Don't insert into the DB.
@@ -1604,7 +1604,6 @@ function jobman_icons_updatedb() {
 				move_uploaded_file($_FILES['icon']['tmp_name'][$ii], WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/icons/' . $id . '.' . $ext);
 			}
 		}
-
 
 		$ii++;
 	}
