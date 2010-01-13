@@ -766,6 +766,7 @@ function jobman_application_setup() {
 	$fields = $options['fields'];
 
 	if(count($fields) > 0 ) {
+		uasort($fields, 'jobman_sort_fields');
 		foreach($fields as $id => $field) {
 ?>
 			<tr class="form-table">
@@ -947,6 +948,7 @@ function jobman_list_applications() {
 				<h4><?php _e('Custom Filters', 'jobman') ?></h4>
 <?php
 	if(count($fields) > 0) {
+		uasort($fields, 'jobman_sort_fields');
 ?>
 				<table class="widefat page fixed" cellspacing="0">
 					<thead>
@@ -1061,6 +1063,7 @@ function jobman_list_applications() {
 <?php
 	$args = array();
 	$args['post_type'] = 'jobman_app';
+	$args['offset'] = 0;
 	
 	// Add job filter
 	if(array_key_exists('jobman-jobid', $_REQUEST)) {
@@ -1076,9 +1079,9 @@ function jobman_list_applications() {
 	}
 	
 	$applications = get_posts($args);
-
+	
 	$app_displayed = false;
-	if(count($applications) > 0) {
+	while(count($applications) > 0) {
 		foreach($applications as $app) {
 			$appmeta = get_post_custom($app->ID);
 
@@ -1134,7 +1137,7 @@ function jobman_list_applications() {
 				<th scope="row" class="check-column"><input type="checkbox" name="application[]" value="<?php echo $app->ID ?>" /></th>
 <?php
 			$parent = get_post($app->post_parent);
-			if($parent != NULL && $parent->post_type == 'jobman_app') {
+			if($parent != NULL && $parent->post_type == 'jobman_job') {
 ?>
 				<td><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $parent->ID ?>"><?php echo $parent->post_title ?></a></strong></td>
 <?php
@@ -1184,6 +1187,10 @@ function jobman_list_applications() {
 			</tr>
 <?php
 		}
+		
+		$args['offset'] += count($applications);
+		
+		$applications = get_posts($args);
 	}
 	if(!$app_displayed) {
 ?>

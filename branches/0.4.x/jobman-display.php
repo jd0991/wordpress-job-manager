@@ -58,6 +58,9 @@ function jobman_display_jobs($posts) {
 	else if(isset($wp_query->query_vars['jobman_root_id'])) {
 		$post = get_post($wp_query->query_vars['jobman_root_id']);
 	}
+	else if(isset($wp_query->query_vars['page_id'])) {
+		$post = get_post($wp_query->query_vars['page_id']);
+	}
 	
 	if($post == NULL || (!isset($wp_query->query_vars['jobman_page']) && $post->ID != $options['main_page'] && !in_array($post->post_type, array('jobman_job', 'jobman_joblist', 'jobman_app_form')))) {
 		return $posts;
@@ -318,7 +321,11 @@ function jobman_display_jobs_list($cat) {
 				$url .= '&amp;c=' . $cat;
 			}
 			else {
-				$url .= get_term($cat, 'jobman_category')->slug . '/';
+				if(substr($url, -1) == '/') {
+					$url .= get_term($cat, 'jobman_category')->slug . '/';
+				} else {
+					$url .= '/' . get_term($cat, 'jobman_category')->slug;
+				}
 			}
 			$content .= sprintf(__('We currently don\'t have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href="%s">send through your résumé</a>, which we\'ll keep on file, and you can check out the <a href="%s">jobs we have available in other areas</a>.', 'jobman'), $url, get_page_link($options['main_page']));
 		}
@@ -410,7 +417,11 @@ function jobman_display_job($job) {
 		$url .= '&amp;j=' . $job->ID;
 	}
 	else {
-		$url .= $job->ID . '/';
+		if(substr($url, -1) == '/') {
+			$url .= $job->ID . '/';
+		} else {
+			$url .= '/' . $job->ID;
+		}
 	}
 
 	$content .= '<tr><td></td><td class="jobs-applynow"><a href="'. $url . '">' . __('Apply Now!', 'jobman') . '</td></tr>';
@@ -506,6 +517,7 @@ function jobman_display_apply($jobid, $cat = NULL) {
 	$start = true;
 	
 	if(count($fields) > 0 ) {
+		uasort($fields, 'jobman_sort_fields');
 		foreach($fields as $id => $field) {
 			if(count($field['categories']) > 0) {
 				// If there are cats defined for this field, check that either the job has one of those categories, or we're submitting to that category
@@ -678,7 +690,7 @@ function jobman_store_application($jobid, $cat) {
 		}
 	}
 	
-	if($job != NULL && $cat != NULL) {
+	if($job == NULL && $cat != NULL) {
 		$cat = get_term_by('slug', $cat, 'jobman_category');
 		if($cat != NULL) {
 			$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$cat->term_id);
@@ -687,7 +699,7 @@ function jobman_store_application($jobid, $cat) {
 			}
 		}
 	}
-
+	
 	$fields = $options['fields'];
 	
 	$page = array(

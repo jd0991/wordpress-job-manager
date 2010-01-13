@@ -62,6 +62,10 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 = 0.4.4 =
 * FIXED: Job permalinks now being treated as pages
 * FIXED: Jobs/application form not showing if main jobs page was set as a child page
+* FIXED: Not all applications displaying in application list
+* FIXED: Permalinks now allow for a lack of trailing '/'
+* FIXED: Application field sort order not being obeyed
+* FIXED: Job link not being display in application list
 
 = 0.4.3 =
 * FIXED: Removed some references to the old code removed in 0.4.2
@@ -132,11 +136,3 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * Initial release
 
 == Upgrade Notice ==
-
-= 0.4.1 =
-
-This release contains significant database and compatibility changes. If you're upgrading from version 0.3.3 or earlier, please read the upgrade documentation: http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x .
-
-= 0.4.0 =
-
-This release contains significant database and compatibility changes. If you're upgrading from version 0.3.3 or earlier, please read the upgrade documentation: http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x .

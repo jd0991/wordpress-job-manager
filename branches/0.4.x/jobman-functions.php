@@ -76,4 +76,12 @@ function jobman_page_hierarchical_setup($types) {
 	return $types;
 }
 
+function jobman_sort_fields($a, $b) {
+	if($a['sortorder'] == $b['sortorder']) {
+		return 0;
+	}
+	
+	return ($a['sortorder'] < $b['sortorder']) ? -1 : 1;
+}
+
 ?>
