@@ -59,6 +59,18 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 == Changelog ==
 
+= 0.4.6 =
+* FIXED: Application email not being sent correctly
+* FIXED: Not displaying if used with a theme that doesn't have a page.php
+* FIXED: Broken XHTML tag in admin
+* FIXED: Jobs with no icon had a broken icon displaying
+* FIXED: 'Job: ' job title prefix displaying in wrong place
+* FIXED: Escape error message in application form setup
+* FIXED: Escape default values in application form display
+* FIXED: Custom filter error messages not displaying
+* FIXED: `<title>` not being displayed correctly
+* FIXED: Some PHP notices
+
 = 0.4.5 =
 * FIXED: Job list not displaying under some circumstances
 * FIXED: Not retrieving job list in category pages

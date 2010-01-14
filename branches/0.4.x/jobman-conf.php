@@ -630,7 +630,7 @@ function jobman_edit_job($jobid) {
 				$checked = '';
 			}
 ?>
-					<input type="radio" name="jobman-icon" value="<?php echo $id ?>"<?php echo $checked ?> /> <img src="<?php echo JOBMAN_URL . '/icons/' . $id . '.' . $icon['extension'] ?>"> <?php echo $icon['title'] ?><br/>
+					<input type="radio" name="jobman-icon" value="<?php echo $id ?>"<?php echo $checked ?> /> <img src="<?php echo JOBMAN_URL . '/icons/' . $id . '.' . $icon['extension'] ?>" /> <?php echo $icon['title'] ?><br/>
 <?php
 		}
 	}
@@ -642,7 +642,7 @@ function jobman_edit_job($jobid) {
 		$checked = '';
 	}
 ?>
-					<input type="radio" name="jobman-icon"<?php echo $checked ?> /> <?php _e('No Icon', 'jobman') ?><br/>
+					<input type="radio" name="jobman-icon"<?php echo $checked ?> value="" /> <?php _e('No Icon', 'jobman') ?><br/>
 				</td>
 				<td><span class="description"><?php _e('Icon to display for this job in the Job List', 'jobman') ?></span></td>
 			</tr>
@@ -816,7 +816,7 @@ function jobman_application_setup() {
 				<td><textarea class="large-text code" name="jobman-data[]"><?php echo $field['data'] ?></textarea></td>
 				<td>
 					<textarea class="large-text code" name="jobman-filter[]"><?php echo $field['filter'] ?></textarea><br/>
-					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php echo $field['error'] ?>" />
+					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php echo str_replace('"', '&quot;', $field['error']) ?>" />
 				</td>
 				<td><a href="#" onclick="jobman_sort_field_up(this); return false;"><?php _e('Up', 'jobman') ?></a> <a href="#" onclick="jobman_sort_field_down(this); return false;"><?php _e('Down', 'jobman') ?></a></td>
 				<td><a href="#" onclick="jobman_delete(this, 'jobman-fieldid', 'jobman-delete-list'); return false;"><?php _e('Delete', 'jobman') ?></a></td>
