@@ -101,18 +101,7 @@ function jobman_conf() {
 function jobman_print_settings_box() {
 	$options = get_option('jobman_options');
 	$structure = get_option('permalink_structure');
-	
-	$root = get_page($options['main_page']);
-	if($structure == '') {
-		$url_before = get_option('home') . '/?p=' . $root->ID;
-		$url_after = '';
-	}
-	else {
-		$url_before = get_option('home') . '/';
-		$url_after = '/';
-	}
-
-?>
+	?>
 		<form action="" method="post">
 		<input type="hidden" name="jobmanconfsubmit" value="1" />
 <?php 
@@ -122,16 +111,8 @@ function jobman_print_settings_box() {
 			<tr>
 				<th scope="row"><?php _e('URL path', 'jobman') ?></th>
 				<td colspan="2">
-<?php 
-	echo $url_before;
-	if($structure == '') {
-		echo '<input type="hidden" name="page-name" value="' . $root->post_name . '" />';
-	}
-	else {
-		echo '<input class="small-text code" type="text" name="page-name" value="' . $root->post_name . '" />';
-	}
-	echo $url_after; 
-?>
+					<a href="<?php echo get_page_link($options['main_page']) ?>"><?php echo get_page_link($options['main_page']) ?></a> 
+					(<a href="<?php echo admin_url('page.php?action=edit&post=' . $options['main_page']) ?>"><?php _e('edit', 'jobman') ?></a>)
 				</td>
 			</tr>
 			<tr>
@@ -172,11 +153,14 @@ function jobman_print_settings_box() {
 }
 
 function jobman_print_categories_box() {
+	$options = get_option('jobman_options');
 ?>
+		<p><?php _e('Similar to the normal WordPress Categories, Job Manager categories can be used to split jobs into different groups. They can also be used to customise how the Application Form appears for jobs in different categories.', 'jobman') ?></p>
 		<p>
 			<strong><?php _e('Title', 'jobman') ?></strong> - <?php _e('The display name of the category', 'jobman') ?><br/>
 			<strong><?php _e('Slug', 'jobman') ?></strong> - <?php _e('The URL of the category', 'jobman') ?><br/>
-			<strong><?php _e('Email', 'jobman') ?></strong> - <?php _e('The address to notify when new applications are submitted in this category', 'jobman') ?>
+			<strong><?php _e('Email', 'jobman') ?></strong> - <?php _e('The address to notify when new applications are submitted in this category', 'jobman') ?><br/>
+			<strong><?php _e('Link', 'jobman') ?></strong> - <?php _e('The URL of the list of jobs in this category', 'jobman') ?>
 		</p>
 		<form action="" method="post">
 		<input type="hidden" name="jobmancatsubmit" value="1" />
@@ -189,14 +173,27 @@ function jobman_print_categories_box() {
 				<th scope="col"><?php _e('Title', 'jobman') ?></th>
 				<th scope="col"><?php _e('Slug', 'jobman') ?></th>
 				<th scope="col"><?php _e('Email', 'jobman') ?></th>
+				<th scope="col"><?php _e('Link', 'jobman') ?></th>
 				<th scope="col" class="jobman-fielddelete"><?php _e('Delete', 'jobman') ?></th>
 			</tr>
 			</thead>
 <?php
 	$categories = get_terms('jobman_category', 'hide_empty=0');
+	$structure = get_option('permalink_structure');
 	
 	if(count($categories) > 0 ) {
 		foreach($categories as $cat) {
+		if($structure == '') {
+			$url = get_option('home') . '/?jcat=' . $cat->term_id;
+		}
+		else {
+			$url = get_page_link($options['main_page']);
+			if(substr($url, -1) == '/') {
+				$url .= $cat->slug . '/';
+			} else {
+				$url .= '/' . $cat->slug;
+			}
+		}
 ?>
 			<tr>
 				<td>
@@ -205,6 +202,7 @@ function jobman_print_categories_box() {
 				</td>
 				<td><input class="regular-text code" type="text" name="slug[]" value="<?php echo $cat->slug ?>" /></td>
 				<td><input class="regular-text code" type="text" name="email[]" value="<?php echo $cat->description ?>" /></td>
+				<td><a href="<?php echo $url ?>"><?php _e('Link', 'jobman') ?></a></td>
 				<td><a href="#" onclick="jobman_delete(this, 'id', 'jobman-delete-category-list'); return false;"><?php _e('Delete', 'jobman') ?></a></td>
 			</tr>
 <?php
@@ -215,12 +213,13 @@ function jobman_print_categories_box() {
 	$template .= '<input class="regular-text code" type="text" name="title[]" /></td>';
 	$template .= '<td><input class="regular-text code" type="text" name="slug[]" /></td>';
 	$template .= '<td><input class="regular-text code" type="text" name="email[]" /></td>';
+	$template .= '<td>&nbsp;</td>';
 	$template .= '<td><a href="#" onclick="jobman_delete(this, \\\'id\\\', \\\'jobman-delete-category-list\\\'); return false;">' . __('Delete', 'jobman') . '</a></td>';
 	
 	echo $template;
 ?>
 		<tr id="jobman-catnew">
-				<td colspan="4" style="text-align: right;">
+				<td colspan="5" style="text-align: right;">
 					<input type="hidden" name="jobman-delete-list" id="jobman-delete-category-list" value="" />
 					<a href="#" onclick="jobman_new('jobman-catnew', 'category'); return false;"><?php _e('Add New Category', 'jobman') ?></a>
 				</td>
@@ -238,6 +237,7 @@ function jobman_print_categories_box() {
 function jobman_print_icons_box() {
 	$options = get_option('jobman_options');
 ?>
+		<p><?php _e('Icons can be assigned to jobs that you want to draw attention to. These icons will only be displayed when using the "Summary" jobs list type.', 'jobman') ?></p>
 		<p>
 			<strong><?php _e('Icon', 'jobman') ?></strong> - <?php _e('The current icon', 'jobman') ?><br/>
 			<strong><?php _e('Title', 'jobman') ?></strong> - <?php _e('The display name of the icon', 'jobman') ?><br/>
@@ -304,6 +304,7 @@ function jobman_print_application_email_box() {
 	
 	$fields = $options['fields'];
 ?>
+		<p><?php _e('When an application successfully submits an application, an email will be sent to the appropriate user. These options allow you to customise that email.', 'jobman') ?></p>
 		<form action="" method="post">
 		<input type="hidden" name="jobmanappemailsubmit" value="1" />
 <?php 
@@ -399,7 +400,7 @@ function jobman_print_other_plugins_box() {
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e('Add Job pages to your Sitemap?', 'jobman') ?></th>
-				<td><input type="checkbox" value="1" name="plugin-gxs"<?php echo ($options['plugin']['gxs'])?(' checked="checked"'):('') ?> /></td>
+				<td><input type="checkbox" value="1" name="plugin-gxs"<?php echo ($options['plugins']['gxs'])?(' checked="checked"'):('') ?> /></td>
 			</tr>
 		</table>
 <?php
@@ -507,7 +508,7 @@ function jobman_list_jobs() {
 	else {
 ?>
 			<tr>
-				<td colspan="1"><?php _e('There are currently no jobs in the system.', 'jobman') ?></td>
+				<td colspan="4"><?php _e('There are currently no jobs in the system.', 'jobman') ?></td>
 			</tr>
 <?php
 	}
@@ -630,7 +631,7 @@ function jobman_edit_job($jobid) {
 				$checked = '';
 			}
 ?>
-					<input type="radio" name="jobman-icon" value="<?php echo $id ?>"<?php echo $checked ?> /> <img src="<?php echo JOBMAN_URL . '/icons/' . $id . '.' . $icon['extension'] ?>"> <?php echo $icon['title'] ?><br/>
+					<input type="radio" name="jobman-icon" value="<?php echo $id ?>"<?php echo $checked ?> /> <img src="<?php echo JOBMAN_URL . '/icons/' . $id . '.' . $icon['extension'] ?>" /> <?php echo $icon['title'] ?><br/>
 <?php
 		}
 	}
@@ -642,48 +643,48 @@ function jobman_edit_job($jobid) {
 		$checked = '';
 	}
 ?>
-					<input type="radio" name="jobman-icon"<?php echo $checked ?> /> <?php _e('No Icon', 'jobman') ?><br/>
+					<input type="radio" name="jobman-icon"<?php echo $checked ?> value="" /> <?php _e('No Icon', 'jobman') ?><br/>
 				</td>
 				<td><span class="description"><?php _e('Icon to display for this job in the Job List', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Title', 'jobman') ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-title" value="<?php echo $job->post_title ?>" /></td>
+				<td><input class="regular-text code" type="text" name="jobman-title" value="<?php echo (isset($job->post_title))?($job->post_title):('') ?>" /></td>
 				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Salary', 'jobman') ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-salary" value="<?php echo $jobdata['salary'] ?>" /></td>
+				<td><input class="regular-text code" type="text" name="jobman-salary" value="<?php echo (array_key_exists('salary', $jobdata))?($jobdata['salary']):('') ?>" /></td>
 				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Start Date', 'jobman') ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-startdate" value="<?php echo $jobdata['startdate'] ?>" /></td>
+				<td><input class="regular-text code datepicker" type="text" name="jobman-startdate" value="<?php echo (array_key_exists('startdate', $jobdata))?($jobdata['startdate']):('') ?>" /></td>
 				<td><span class="description"><?php _e('The date that the job starts. For positions available immediately, leave blank.', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('End Date', 'jobman') ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-enddate" value="<?php echo $jobdata['enddate'] ?>" /></td>
+				<td><input class="regular-text code datepicker" type="text" name="jobman-enddate" value="<?php echo (array_key_exists('enddate', $jobdata))?($jobdata['enddate']):('') ?>" /></td>
 				<td><span class="description"><?php _e('The date that the job finishes. For ongoing positions, leave blank.', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Location', 'jobman') ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-location" value="<?php echo $jobdata['location'] ?>" /></td>
+				<td><input class="regular-text code" type="text" name="jobman-location" value="<?php echo (array_key_exists('location', $jobdata))?($jobdata['location']):('') ?>" /></td>
 				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Display Start Date', 'jobman') ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-displaystartdate" value="<?php echo date('Y-m-d', strtotime($job->post_date)) ?>" /></td>
+				<td><input class="regular-text code datepicker" type="text" name="jobman-displaystartdate" value="<?php echo ($jobid != 'new')?(date('Y-m-d', strtotime($job->post_date))):('') ?>" /></td>
 				<td><span class="description"><?php _e('The date this job should start being displayed on the site. To start displaying immediately, leave blank.', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Display End Date', 'jobman') ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-displayenddate" value="<?php echo $jobdata['displayenddate'] ?>" /></td>
+				<td><input class="regular-text code datepicker" type="text" name="jobman-displayenddate" value="<?php echo (array_key_exists('displayenddate', $jobdata))?($jobdata['displayenddate']):('') ?>" /></td>
 				<td><span class="description"><?php _e('The date this job should start being displayed on the site. To display indefinitely, leave blank.', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Job Information', 'jobman') ?></th>
-				<td><textarea class="large-text code" name="jobman-abstract" rows="6"><?php echo $job->post_content ?></textarea></td>
+				<td><textarea class="large-text code" name="jobman-abstract" rows="6"><?php echo (isset($job->post_content))?($job->post_content):('') ?></textarea></td>
 				<td></td>
 			</tr>
 		</table>
@@ -766,6 +767,7 @@ function jobman_application_setup() {
 	$fields = $options['fields'];
 
 	if(count($fields) > 0 ) {
+		uasort($fields, 'jobman_sort_fields');
 		foreach($fields as $id => $field) {
 ?>
 			<tr class="form-table">
@@ -815,7 +817,7 @@ function jobman_application_setup() {
 				<td><textarea class="large-text code" name="jobman-data[]"><?php echo $field['data'] ?></textarea></td>
 				<td>
 					<textarea class="large-text code" name="jobman-filter[]"><?php echo $field['filter'] ?></textarea><br/>
-					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php echo $field['error'] ?>" />
+					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php echo str_replace('"', '&quot;', $field['error']) ?>" />
 				</td>
 				<td><a href="#" onclick="jobman_sort_field_up(this); return false;"><?php _e('Up', 'jobman') ?></a> <a href="#" onclick="jobman_sort_field_down(this); return false;"><?php _e('Down', 'jobman') ?></a></td>
 				<td><a href="#" onclick="jobman_delete(this, 'jobman-fieldid', 'jobman-delete-list'); return false;"><?php _e('Delete', 'jobman') ?></a></td>
@@ -947,6 +949,7 @@ function jobman_list_applications() {
 				<h4><?php _e('Custom Filters', 'jobman') ?></h4>
 <?php
 	if(count($fields) > 0) {
+		uasort($fields, 'jobman_sort_fields');
 ?>
 				<table class="widefat page fixed" cellspacing="0">
 					<thead>
@@ -1061,6 +1064,7 @@ function jobman_list_applications() {
 <?php
 	$args = array();
 	$args['post_type'] = 'jobman_app';
+	$args['offset'] = 0;
 	
 	// Add job filter
 	if(array_key_exists('jobman-jobid', $_REQUEST)) {
@@ -1076,9 +1080,9 @@ function jobman_list_applications() {
 	}
 	
 	$applications = get_posts($args);
-
+	
 	$app_displayed = false;
-	if(count($applications) > 0) {
+	while(count($applications) > 0) {
 		foreach($applications as $app) {
 			$appmeta = get_post_custom($app->ID);
 
@@ -1134,7 +1138,7 @@ function jobman_list_applications() {
 				<th scope="row" class="check-column"><input type="checkbox" name="application[]" value="<?php echo $app->ID ?>" /></th>
 <?php
 			$parent = get_post($app->post_parent);
-			if($parent != NULL && $parent->post_type == 'jobman_app') {
+			if($parent != NULL && $parent->post_type == 'jobman_job') {
 ?>
 				<td><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $parent->ID ?>"><?php echo $parent->post_title ?></a></strong></td>
 <?php
@@ -1184,6 +1188,10 @@ function jobman_list_applications() {
 			</tr>
 <?php
 		}
+		
+		$args['offset'] += count($applications);
+		
+		$applications = get_posts($args);
 	}
 	if(!$app_displayed) {
 ?>
@@ -1411,10 +1419,6 @@ function jobman_application_mailout_send() {
 function jobman_conf_updatedb() {
 	$options = get_option('jobman_options');
 	
-	$root = get_page($options['main_page']);
-	$root->post_name = $_REQUEST['page-name'];
-	wp_update_post($root);
-	
 	$options['default_email'] = $_REQUEST['default-email'];
 	$options['list_type'] = $_REQUEST['list-type'];
 
@@ -1486,7 +1490,7 @@ function jobman_categories_updatedb() {
 			$newcount++;
 			// INSERT new field
 			if($_REQUEST['title'][$ii] != '') {
-				$catid = wp_insert_term($_REQUEST['title'][$ii], 'jobman_category', array('slug' => $_REQUEST['slug'][$ii], 'description' => $_REQUEST['email'][$ii]));
+				$cat = wp_insert_term($_REQUEST['title'][$ii], 'jobman_category', array('slug' => $_REQUEST['slug'][$ii], 'description' => $_REQUEST['email'][$ii]));
 
 				$page = array(
 							'comment_status' => 'closed',
@@ -1500,7 +1504,7 @@ function jobman_categories_updatedb() {
 							'post_parent' => $options['main_page']);
 				$id = wp_insert_post($page);
 				add_post_meta($id, '_catpage', 1, true);
-				add_post_meta($id, '_cat', $catid, true);
+				add_post_meta($id, '_cat', $cat['term_id'], true);
 			}
 			else {
 				// No input. Don't insert into the DB.
@@ -1597,7 +1601,6 @@ function jobman_icons_updatedb() {
 				move_uploaded_file($_FILES['icon']['tmp_name'][$ii], WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/icons/' . $id . '.' . $ext);
 			}
 		}
-
 
 		$ii++;
 	}

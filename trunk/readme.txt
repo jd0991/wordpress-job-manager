@@ -3,7 +3,7 @@ Contributors: pento
 Donate link: http://pento.net/donate/
 Tags: jobs, manager, list, listing, employer, application
 Requires at least: 2.9
-Tested up to: 2.9
+Tested up to: 2.9.1
 Stable tag: trunk
 
 A job listing and job application management plugin for WordPress.
@@ -58,6 +58,51 @@ The Job Manager supports added functionality when other plugins are installed. I
 Job Manager will add all of your job lists and job detail pages to your sitemap, when [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) is installed on your site.
 
 == Changelog ==
+
+= 0.5 =
+* ADDED: Nicer explanations of settings
+* ADDED: Links to categories from settings page
+* CHANGED: Removed main URL editing from settings
+* FIXED: Category listing now significantly more efficient
+
+= 0.4.7 =
+* FIXED: Empty job list message not displaying correctly
+* FIXED: New job showing a bad start date
+* FIXED: Some PHP notices
+* FIXED: Template from main page not being used correctly
+
+= 0.4.6 =
+* FIXED: Application email not being sent correctly
+* FIXED: Not displaying if used with a theme that doesn't have a page.php
+* FIXED: Broken XHTML tag in admin
+* FIXED: Jobs with no icon had a broken icon displaying
+* FIXED: 'Job: ' job title prefix displaying in wrong place
+* FIXED: Escape error message in application form setup
+* FIXED: Escape default values in application form display
+* FIXED: Custom filter error messages not displaying
+* FIXED: `<title>` not being displayed correctly
+* FIXED: Some PHP notices
+
+= 0.4.5 =
+* FIXED: Job list not displaying under some circumstances
+* FIXED: Not retrieving job list in category pages
+
+= 0.4.4 =
+* FIXED: Job permalinks now being treated as pages
+* FIXED: Jobs/application form not showing if main jobs page was set as a child page
+* FIXED: Not all applications displaying in application list
+* FIXED: Permalinks now allow for a lack of trailing '/'
+* FIXED: Application field sort order not being obeyed
+* FIXED: Job link not being display in application list
+* FIXED: Category pages not storing correctly
+
+= 0.4.3 =
+* FIXED: Removed some references to the old code removed in 0.4.2
+
+= 0.4.2 =
+* FIXED: Google XML Sitemap option not showing correctly
+* FIXED: Incorrect check could cause plugin activation to fail
+* FIXED: Removed some dead code
 
 = 0.4.1 =
 * FIXED: Application fields not saving properly
@@ -120,11 +165,3 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * Initial release
 
 == Upgrade Notice ==
-
-= 0.4.1 =
-
-This release contains significant database and compatibility changes. If you're upgrading from version 0.3.3 or earlier, please read the upgrade documentation: http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x .
-
-= 0.4.0 =
-
-This release contains significant database and compatibility changes. If you're upgrading from version 0.3.3 or earlier, please read the upgrade documentation: http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x .

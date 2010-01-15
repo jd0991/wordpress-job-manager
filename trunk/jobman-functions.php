@@ -59,14 +59,29 @@ function jobman_load_translation_file() {
 
 function jobman_page_taxonomy_setup() {
 	// Create our new page types
-	register_post_type('jobman_job', array('exclude_from_search' => true));
+	register_post_type('jobman_job', array('exclude_from_search' => false));
 	register_post_type('jobman_joblist', array('exclude_from_search' => true));
 	register_post_type('jobman_app_form', array('exclude_from_search' => true));
 	register_post_type('jobman_app', array('exclude_from_search' => true));
 
 	// Create our new taxonomy thing
-	register_taxonomy('jobman_category', array('jobman_job', 'jobman_app'), array('hierarchical' => false, 'label' => __('Category', 'series')));
+	register_taxonomy('jobman_category', array('jobman_job', 'jobman_app'), array('hierarchical' => false, 'label' => __('Category', 'series'), 'query_var' => 'jcat'));
 }
 
+function jobman_page_hierarchical_setup($types) {
+	$types[] = 'jobman_job';
+	$types[] = 'jobman_joblist';
+	$types[] = 'jobman_app_form';
+
+	return $types;
+}
+
+function jobman_sort_fields($a, $b) {
+	if($a['sortorder'] == $b['sortorder']) {
+		return 0;
+	}
+	
+	return ($a['sortorder'] < $b['sortorder']) ? -1 : 1;
+}
 
 ?>

@@ -485,6 +485,34 @@ function jobman_upgrade_db($oldversion) {
 					'post_parent' => $mainid);
 		$id = wp_insert_post($page);		
 	}
+	if($oldversion < 6) {
+		// Fix category pages not having the correct _cat meta value
+		$data = get_posts('post_type=jobman_joblist');
+		if(count($data) > 0) {
+			foreach($data as $catpage) {
+				$pagemeta = get_post_custom($catpage->ID);
+				if(!array_key_exists('_cat', $pagemeta)) {
+					// Page doesn't have a _cat
+					continue;
+				}
+				if(is_array($pagemeta['_cat'])) {
+					$catid = $pagemeta['_cat'][0];
+				}
+				else {
+					$catid = $pagemeta['_cat'];
+				}
+				
+				if(preg_match('/^\d+$/', $catid)) {
+					// _cat seems to be set properly
+					continue;
+				}
+				
+				$matches = array();
+				preg_match('/"term_id"[^"]+"(\d+)"/', $catid, $matches);
+				update_post_meta($catpage->ID, '_cat', $matches[1]);
+			}
+		}
+	}
 	if($oldversion > 10) {
 		// Drop the old tables... at a later date.
 		$tables = array(
