@@ -173,6 +173,40 @@ function jobman_display_init() {
 	wp_enqueue_style('jobman-display', JOBMAN_URL.'/css/display.css', false, JOBMAN_VERSION);
 }
 
+function jobman_display_template() {
+	global $wp_query, $jobman_displaying;
+	$options = get_option('jobman_options');
+	
+	if(!$jobman_displaying) {
+		return;
+	}
+	
+	// Code gleefully copied from wp-includes/theme.php
+
+	$root = get_page($options['main_page']);
+	$id = $root->ID;
+	$template = get_post_meta($id, '_wp_page_template', true);
+	$pagename = get_query_var('pagename');
+
+	if ( 'default' == $template )
+		$template = '';
+
+	$templates = array();
+	if ( !empty($template) && !validate_file($template) )
+		$templates[] = $template;
+	if ( $pagename )
+		$templates[] = "page-$pagename.php";
+	if ( $id )
+		$templates[] = "page-$id.php";
+	$templates[] = "page.php";
+	
+	$template = apply_filters('page_template', locate_template($templates));
+
+	if($template != '') {
+		load_template($template);
+	}
+}
+
 function jobman_display_title($title, $sep, $seploc) {
 	global $jobman_displaying, $wp_query;
 	

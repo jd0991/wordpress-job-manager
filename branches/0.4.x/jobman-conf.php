@@ -507,7 +507,7 @@ function jobman_list_jobs() {
 	else {
 ?>
 			<tr>
-				<td colspan="1"><?php _e('There are currently no jobs in the system.', 'jobman') ?></td>
+				<td colspan="4"><?php _e('There are currently no jobs in the system.', 'jobman') ?></td>
 			</tr>
 <?php
 	}
@@ -648,42 +648,42 @@ function jobman_edit_job($jobid) {
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Title', 'jobman') ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-title" value="<?php echo $job->post_title ?>" /></td>
+				<td><input class="regular-text code" type="text" name="jobman-title" value="<?php echo (isset($job->post_title))?($job->post_title):('') ?>" /></td>
 				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Salary', 'jobman') ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-salary" value="<?php echo $jobdata['salary'] ?>" /></td>
+				<td><input class="regular-text code" type="text" name="jobman-salary" value="<?php echo (array_key_exists('salary', $jobdata))?($jobdata['salary']):('') ?>" /></td>
 				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Start Date', 'jobman') ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-startdate" value="<?php echo $jobdata['startdate'] ?>" /></td>
+				<td><input class="regular-text code datepicker" type="text" name="jobman-startdate" value="<?php echo (array_key_exists('startdate', $jobdata))?($jobdata['startdate']):('') ?>" /></td>
 				<td><span class="description"><?php _e('The date that the job starts. For positions available immediately, leave blank.', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('End Date', 'jobman') ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-enddate" value="<?php echo $jobdata['enddate'] ?>" /></td>
+				<td><input class="regular-text code datepicker" type="text" name="jobman-enddate" value="<?php echo (array_key_exists('enddate', $jobdata))?($jobdata['enddate']):('') ?>" /></td>
 				<td><span class="description"><?php _e('The date that the job finishes. For ongoing positions, leave blank.', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Location', 'jobman') ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-location" value="<?php echo $jobdata['location'] ?>" /></td>
+				<td><input class="regular-text code" type="text" name="jobman-location" value="<?php echo (array_key_exists('location', $jobdata))?($jobdata['location']):('') ?>" /></td>
 				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Display Start Date', 'jobman') ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-displaystartdate" value="<?php echo date('Y-m-d', strtotime($job->post_date)) ?>" /></td>
+				<td><input class="regular-text code datepicker" type="text" name="jobman-displaystartdate" value="<?php echo ($jobid != 'new')?(date('Y-m-d', strtotime($job->post_date))):('') ?>" /></td>
 				<td><span class="description"><?php _e('The date this job should start being displayed on the site. To start displaying immediately, leave blank.', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Display End Date', 'jobman') ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-displayenddate" value="<?php echo $jobdata['displayenddate'] ?>" /></td>
+				<td><input class="regular-text code datepicker" type="text" name="jobman-displayenddate" value="<?php echo (array_key_exists('displayenddate', $jobdata))?($jobdata['displayenddate']):('') ?>" /></td>
 				<td><span class="description"><?php _e('The date this job should start being displayed on the site. To display indefinitely, leave blank.', 'jobman') ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e('Job Information', 'jobman') ?></th>
-				<td><textarea class="large-text code" name="jobman-abstract" rows="6"><?php echo $job->post_content ?></textarea></td>
+				<td><textarea class="large-text code" name="jobman-abstract" rows="6"><?php echo (isset($job->post_content))?($job->post_content):('') ?></textarea></td>
 				<td></td>
 			</tr>
 		</table>
