@@ -204,6 +204,7 @@ function jobman_display_template() {
 
 	if($template != '') {
 		load_template($template);
+		exit;
 	}
 }
 
