@@ -41,6 +41,7 @@ Mid February 2010
   * Editable `<title>` prefix: Issue #51
   * Use the text stored in the Jobs Page on that or other pages: Issue #56
   * Customise the Thankyou For Applying text: Issue #57
+  * Make the Job Editing page more like WP's Post/Page editing: Issue #62, Issue #63
 
 ----
 
