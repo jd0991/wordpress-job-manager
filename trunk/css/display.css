@@ -1,3 +1,16 @@
+#jobman_login, #jobman_loggedin {
+	text-align: left;
+	padding: 10px 0;
+}
+
+#jobman_login label input {
+	width: 100px;
+}
+
+#jobman_login br {
+	display: none;
+}
+
 table.jobs-table, table.job-table, table.job-apply-table {
 	width: 100%;
 	text-align: left;

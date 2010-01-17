@@ -51,6 +51,10 @@ function jobman_conf() {
 		check_admin_referer('jobman-icons-updatedb');
 		jobman_icons_updatedb();
 	}
+	else if(isset($_REQUEST['jobmanusersubmit'])) {
+		check_admin_referer('jobman-users-updatedb');
+		jobman_users_updatedb();
+	}
 	else if(isset($_REQUEST['jobmanappemailsubmit'])) {
 		check_admin_referer('jobman-application-email-updatedb');
 		jobman_application_email_updatedb();
@@ -74,13 +78,13 @@ function jobman_conf() {
 	}
 
 	if(!get_option('pento_consulting')) {
-		$widths = array('60%', '39%');
+		$widths = array('78%', '20%');
 		$functions = array(
-						array('jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_application_email_box', 'jobman_print_other_plugins_box'),
+						array('jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_other_plugins_box'),
 						array('jobman_print_donate_box', 'jobman_print_about_box')
 					);
 		$titles = array(
-					array(__('Settings', 'jobman'), __('Categories', 'jobman'), __('Icons', 'jobman'), __('Application Email Settings', 'jobman'), __('Other Plugins', 'jobman')),
+					array(__('Settings', 'jobman'), __('Categories', 'jobman'), __('Icons', 'jobman'), __('User Settings', 'jobman'), __('Application Email Settings', 'jobman'), __('Other Plugins', 'jobman')),
 					array(__('Donate', 'jobman'), __('About This Plugin', 'jobman'))
 				);
 	}
@@ -88,11 +92,11 @@ function jobman_conf() {
 		$widths = array('49%', '49%');
 		$functions = array(
 						array('jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_other_plugins_box'),
-						array('jobman_print_icons_box', 'jobman_print_application_email_box')
+						array('jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box')
 					);
 		$titles = array(
 					array(__('Settings', 'jobman'), __('Categories', 'jobman'), __('Other Plugins', 'jobman')),
-					array(__('Icons', 'jobman'), __('Application Email Settings', 'jobman'))
+					array(__('Icons', 'jobman'), __('User Settings', 'jobman'), __('Application Email Settings', 'jobman'))
 				);
 	}
 	jobman_create_dashboard($widths, $functions, $titles);
@@ -295,6 +299,36 @@ function jobman_print_icons_box() {
 	jobman_templates['icon'] = '<?php echo $template ?>';
 //]]>
 </script> 
+		</form>
+<?php
+}
+
+function jobman_print_user_box() {
+	$options = get_option('jobman_options');
+?>
+		<p><?php _e('Allowing users to register means that they and you can more easily keep track of jobs they\'ve applied for.', 'jobman') ?></p>
+		<form action="" method="post">
+		<input type="hidden" name="jobmanusersubmit" value="1" />
+<?php 
+	wp_nonce_field('jobman-users-updatedb'); 
+?>
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e('Enable User Registration', 'jobman') ?></th>
+				<td><input type="checkbox" value="1" name="user-registration" <?php echo ($options['user_registration'])?('checked="checked" '):('') ?>/></td>
+				<td><span class="description"><?php _e('This will allow users to register for the Jobs system, even if user registration is disabled for your blog.', 'jobman') ?></span></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e('Which pages should the login form be displayed on?', 'jobman') ?></th>
+				<td colspan="2">
+					<input type="checkbox" value="1" name="loginform-main" <?php echo ($options['loginform_main'])?('checked="checked" '):('') ?>/> <?php _e('The main jobs list', 'jobman') ?><br />
+					<input type="checkbox" value="1" name="loginform-category" <?php echo ($options['loginform_category'])?('checked="checked" '):('') ?>/> <?php _e('Category jobs lists', 'jobman') ?><br />
+					<input type="checkbox" value="1" name="loginform-job" <?php echo ($options['loginform_job'])?('checked="checked" '):('') ?>/> <?php _e('Individual jobs', 'jobman') ?><br />
+					<input type="checkbox" value="1" name="loginform-apply" <?php echo ($options['loginform_apply'])?('checked="checked" '):('') ?>/> <?php _e('The application form', 'jobman') ?><br />
+				</td>
+			</tr>
+		</table>
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e('Update User Settings', 'jobman') ?>" /></p>
 		</form>
 <?php
 }
@@ -1619,6 +1653,24 @@ function jobman_icons_updatedb() {
 	update_option('jobman_options', $options);
 }
 
+function jobman_users_updatedb() {
+	$options = get_option('jobman_options');
+
+	$postnames = array('user-registration', 'loginform-main', 'loginform-category', 'loginform-job', 'loginform-apply');
+	$optionnames = array('user_registration', 'loginform_main', 'loginform_category', 'loginform_job', 'loginform_apply');
+	
+	foreach($postnames as $key => $var) {
+		if($_REQUEST[$var]) {
+			$options[$optionnames[$key]] = 1;
+		}
+		else {
+			$options[$optionnames[$key]] = 0;
+		}
+	}
+	
+	update_option('jobman_options', $options);
+}
+
 function jobman_application_email_updatedb() {
 	$options = get_option('jobman_options');
 	
@@ -1638,10 +1690,10 @@ function jobman_other_plugins_updatedb() {
 	$options = get_option('jobman_options');
 
 	if($_REQUEST['plugin-gxs']) {
-		$option['plugins']['gxs'] = 1;
+		$options['plugins']['gxs'] = 1;
 	}
 	else {
-		$option['plugins']['gxs'] = 1;
+		$options['plugins']['gxs'] = 0;
 	}
 	
 	update_option('jobman_options', $options);

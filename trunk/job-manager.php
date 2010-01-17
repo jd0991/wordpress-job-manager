@@ -12,7 +12,7 @@ Tags: job, jobs, manager, list, listing, employment, employer, career
 
 // Version
 define('JOBMAN_VERSION', '0.5-dev');
-define('JOBMAN_DB_VERSION', 6);
+define('JOBMAN_DB_VERSION', 7);
 
 // Define the URL to the plugin folder
 define('JOBMAN_FOLDER', 'job-manager');

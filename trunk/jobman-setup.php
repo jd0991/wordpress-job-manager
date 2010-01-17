@@ -84,6 +84,17 @@ function jobman_upgrade_settings($oldversion) {
 		delete_option('jobman_promo_link');
 		delete_option('jobman_plugin_gxs');
 	}
+	if($oldversion < 7) {
+		$options = get_option('jobman_options');
+		
+		$options['user_registration'] = 0;
+		$options['loginform_main'] = 1;
+		$options['loginform_category'] = 1;
+		$options['loginform_job'] = 1;
+		$options['loginform_apply'] = 1;
+		
+		update_option('jobman_options', $options);
+	}
 }
 
 function jobman_uninstall() {
