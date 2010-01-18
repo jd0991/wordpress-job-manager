@@ -280,7 +280,7 @@ function jobman_display_jobs_list($cat) {
 		$page = get_post($options['main_page']);
 	}
 	else {
-		$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$cat);
+		$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$cat.'&numberposts=-1');
 		if(count($data) > 0) {
 			$page = get_post($data[0]->ID, OBJECT);
 		}
@@ -302,7 +302,7 @@ function jobman_display_jobs_list($cat) {
 		}
 	}
 	
-	$jobs = get_posts('post_type=jobman_job');
+	$jobs = get_posts('post_type=jobman_job&numberposts=-1');
 	if($cat != 'all') {
 		foreach($jobs as $key => $job) {
 			$cats = wp_get_object_terms($job->ID, 'jobman_category');
@@ -359,7 +359,7 @@ function jobman_display_jobs_list($cat) {
 		}
 	}
 	else {
-		$data = get_posts('post_type=jobman_app_form');
+		$data = get_posts('post_type=jobman_app_form&numberposts=-1');
 		if(count($data > 0)) {
 			$applypage = $data[0];
 		}
@@ -435,7 +435,7 @@ function jobman_display_job($job) {
 		$cats = array();
 		$ii = 1;
 		foreach($categories as $cat) {
-			$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$cat->term_id);
+			$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$cat->term_id.'&numberposts=-1');
 			if(count($data) > 0) {
 				$cats[] = '<a href="'. get_page_link($data[0]->ID) . '" title="' . sprintf(__('Jobs for %s', 'jobman'), $cat->name) . '">' . $cat->name . '</a>';
 			}
@@ -456,7 +456,7 @@ function jobman_display_job($job) {
 	$content .= '<tr><th scope="row">' . __('Location', 'jobman') . '</th><td>' . $jobdata['location'] . '</td></tr>';
 	$content .= '<tr><th scope="row">' . __('Information', 'jobman') . '</th><td>' . jobman_format_abstract($job->post_content) . '</td></tr>';
 
-	$data = get_posts('post_type=jobman_app_form');
+	$data = get_posts('post_type=jobman_app_form&numberposts=-1');
 	if(count($data > 0)) {
 		$applypage = $data[0];
 	}
@@ -492,7 +492,7 @@ function jobman_display_apply($jobid, $cat = NULL) {
 	
 	$content = '';
 	
-	$data = get_posts('post_type=jobman_app_form');
+	$data = get_posts('post_type=jobman_app_form&numberposts=-1');
 	if(count($data > 0)) {
 		$page = $data[0];
 	}
@@ -749,7 +749,7 @@ function jobman_store_application($jobid, $cat) {
 	if($job == NULL && $cat != NULL) {
 		$cat = get_term_by('slug', $cat, 'jobman_category');
 		if($cat != NULL) {
-			$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$cat->term_id);
+			$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$cat->term_id.'&numberposts=-1');
 			if(count($data) > 0) {
 				$parent = $data[0]->ID;
 			}
