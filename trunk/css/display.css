@@ -11,6 +11,11 @@
 	display: none;
 }
 
+#jobman_login span {
+	display: block;
+	text-align: right;
+}
+
 table.jobs-table, table.job-table, table.job-apply-table {
 	width: 100%;
 	text-align: left;
