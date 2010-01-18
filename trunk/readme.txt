@@ -73,6 +73,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * FIXED: New job showing a bad start date
 * FIXED: Some PHP notices
 * FIXED: Template from main page not being used correctly
+* FIXED: Removed 5 job limit from display code
 
 = 0.4.6 =
 * FIXED: Application email not being sent correctly

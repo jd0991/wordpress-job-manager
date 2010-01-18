@@ -488,7 +488,7 @@ function jobman_list_jobs() {
 			break;
 	}
 	
-	$jobs = get_posts('post_type=jobman_job');
+	$jobs = get_posts('post_type=jobman_job&numberposts=-1');
 ?>
 		<form action="" method="post">
 <?php 
@@ -1099,6 +1099,7 @@ function jobman_list_applications() {
 	$args = array();
 	$args['post_type'] = 'jobman_app';
 	$args['offset'] = 0;
+	$args['numberposts'] = -1;
 	
 	// Add job filter
 	if(array_key_exists('jobman-jobid', $_REQUEST)) {
@@ -1385,7 +1386,7 @@ function jobman_application_mailout() {
 	
 	$fromid = $options['application_email_from'];
 	
-	$apps = get_posts(array('post_type' => 'jobman_app', 'post__in' => $_REQUEST['application']));
+	$apps = get_posts(array('post_type' => 'jobman_app', 'post__in' => $_REQUEST['application'], 'numberposts' => -1));
 	
 	$emails = array();
 	foreach($apps as $app) {
@@ -1548,7 +1549,7 @@ function jobman_categories_updatedb() {
 		}
 		else {
 			// UPDATE existing field
-			$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$id);
+			$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$id.'&numberposts=-1');
 			if(count($data) > 0) {
 				$page = get_post($data[0]->ID, ARRAY_A);
 				$page['post_title'] = $_REQUEST['title'][$ii];
@@ -1568,7 +1569,7 @@ function jobman_categories_updatedb() {
 
 	$deletes = explode(',', $_REQUEST['jobman-delete-list']);
 	foreach($deletes as $delete) {
-		$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$id);
+		$data = get_posts('post_type=jobman_joblist&meta_key=_cat&meta_value='.$id.'&numberposts=-1');
 		if(count($data) > 0) {
 			wp_delete_post($data[0]->ID);
 		}
@@ -1644,7 +1645,7 @@ function jobman_icons_updatedb() {
 		unset($options['icons'][$delete]);
 		
 		// Remove the icon from any jobs that have it
-		$jobs = get_posts('post_type=jobman_job&meta_key=iconid&meta_value='.$delete);
+		$jobs = get_posts('post_type=jobman_job&meta_key=iconid&meta_value='.$delete.'&numberposts=-1');
 		foreach($jobs as $job) {
 			update_post_meta($job->ID, 'iconid', '');
 		}
