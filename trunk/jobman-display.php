@@ -703,6 +703,8 @@ function jobman_display_login() {
 	global $current_user;
 	get_currentuserinfo();
 	
+	$options = get_option('jobman_options');
+	
 	$content = '';
 	
 	if( is_user_logged_in() ) {
@@ -717,7 +719,8 @@ function jobman_display_login() {
 		$content .= '<input type="text" name="jobman_username" id="jobman_username" /></label>';
 		$content .= '<label class="password" for="jobman_password">' . __('Password', 'jobman') . ': ';
 		$content .= '<input type="password" name="jobman_password" id="jobman_password" /></label>';
-		$content .= '<input type="submit" name="submit" value="' . __('Login', 'jobman') . '" /></div>';
+		$content .= '<input type="submit" name="submit" value="' . __('Login', 'jobman') . '" />';
+		$content .= '<span><a href="' . get_page_link($options['register_page']) . '">' . __('Register', 'jobman') . '</a> | <a href="">' . __('Forgot your password?', 'jobman') . '</a></span></div>';
 		$content .= '</form>';
 	}
 	

@@ -12,7 +12,7 @@ A job listing and job application management plugin for WordPress.
 
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
 
-***Important Note***: If you're upgrading from version 0.3.3 or earlier, *please* read the [upgrade documentation](http://code.google.com/p/wordpress-job-manager/wiki/UpgradingFrom03x). There have been significant changes that you need to know about.
+Do you speak a language other than English? Do you have some time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
 *    *Job Listing*
     *    Categories to create multiple job lists
