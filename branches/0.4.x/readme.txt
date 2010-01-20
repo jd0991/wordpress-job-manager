@@ -59,6 +59,9 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 == Changelog ==
 
+= 0.4.8 =
+* FIXED: Timeout problem on Application List page, if there are <5 applications
+
 = 0.4.7 =
 * FIXED: Empty job list message not displaying correctly
 * FIXED: New job showing a bad start date

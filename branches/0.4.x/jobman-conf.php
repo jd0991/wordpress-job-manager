@@ -1082,7 +1082,7 @@ function jobman_list_applications() {
 	$applications = get_posts($args);
 	
 	$app_displayed = false;
-	while(count($applications) > 0) {
+	if(count($applications) > 0) {
 		foreach($applications as $app) {
 			$appmeta = get_post_custom($app->ID);
 
@@ -1188,10 +1188,6 @@ function jobman_list_applications() {
 			</tr>
 <?php
 		}
-		
-		$args['offset'] += count($applications);
-		
-		$applications = get_posts($args);
 	}
 	if(!$app_displayed) {
 ?>
