@@ -79,3 +79,4 @@ Mid March 2010
 
   * Add Scribd Support: Issue #31
   * Search: Issue #47
+  * Import/Export: Issue #64
