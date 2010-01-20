@@ -215,6 +215,21 @@ function jobman_create_db() {
 				'post_parent' => $mainid);
 	$id = wp_insert_post($page);
 
+	// Create the register page
+	$page = array(
+				'comment_status' => 'closed',
+				'ping_status' => 'closed',
+				'post_status' => 'publish',
+				'post_author' => 1,
+				'post_content' => '',
+				'post_name' => 'register',
+				'post_title' => __('Register', 'jobman'),
+				'post_type' => 'jobman_register',
+				'post_parent' => $mainid);
+	$id = wp_insert_post($page);
+	
+	$options['register_page'] = $id;
+
 	// Create a page for each category
 	$wp_cats = get_categories();
 	$catpages = array();

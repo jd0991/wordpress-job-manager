@@ -63,10 +63,16 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * ADDED: New settings for user registration
 * ADDED: Nicer explanations of settings
 * ADDED: Links to categories from settings page
+* ADDED: Applicant filter on Applications list
+* CHANGED: User permissions: 'publish_posts' capability (author) is required for posting jobs, 'read_private_pages' capability (editor) is required for viewing applications
 * CHANGED: Removed main URL editing from settings
 * CHANGED: Settings page layout, for readability
 * FIXED: Category listing now significantly more efficient
 * FIXED: Google XML Sitemaps option not saving correctly
+* FIXED: Some strings not going through i18n functions
+
+= 0.4.8 =
+* FIXED: Timeout problem on Application List page, if there are <5 applications
 
 = 0.4.7 =
 * FIXED: Empty job list message not displaying correctly
