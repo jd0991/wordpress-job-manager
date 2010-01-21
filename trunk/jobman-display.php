@@ -694,18 +694,22 @@ function jobman_display_login() {
 	
 	if( is_user_logged_in() ) {
 		$content .= '<div id="jobman_loggedin"><span class="message">';
-		$content .= sprintf( __(' Welcome back, %1s!', 'jobman' ), $current_user->display_name );
+		$content .= apply_filters( 'jobman_loggedin_msg', sprintf( __( 'Welcome back, %1s!', 'jobman' ), $current_user->display_name ) );
 		$content .= '</span>';
 		$content .= '</div>';
 	}
 	else {
 		$content .= '<form action="" method="post">';
-		$content .= '<div id="jobman_login"><label class="username" for="jobman_username">' . __( 'Username', 'jobman' ) . ': ';
+		$content .= '<div id="jobman_login">';
+		$content .= '<span class="message">';
+		$content .= apply_filters( 'jobman_login_msg', __( "If you've registered with us previously, please login now. If you'd like to register, please click the 'Register' link below.", 'jobman' ) );
+		$content .= '</span>';
+		$content .= '<label class="username" for="jobman_username">' . __( 'Username', 'jobman' ) . ': ';
 		$content .= '<input type="text" name="jobman_username" id="jobman_username" /></label>';
 		$content .= '<label class="password" for="jobman_password">' . __( 'Password', 'jobman' ) . ': ';
 		$content .= '<input type="password" name="jobman_password" id="jobman_password" /></label>';
 		$content .= '<input type="submit" name="submit" value="' . __( 'Login', 'jobman' ) . '" />';
-		$content .= '<span><a href="' . get_page_link( $options['register_page'] ) . '">' . __( 'Register', 'jobman' ) . '</a> | <a href="">' . __( 'Forgot your password?', 'jobman' ) . '</a></span></div>';
+		$content .= '<span><a href="' . get_page_link( $options['register_page'] ) . '">' . __( 'Register', 'jobman' ) . '</a> | <a href="' . wp_lostpassword_url( jobman_current_url() ) . '">' . __( 'Forgot your password?', 'jobman' ) . '</a></span></div>';
 		$content .= '</form>';
 	}
 	
@@ -726,19 +730,7 @@ function jobman_login() {
 				);
 		wp_signon( $creds );
 		
-		$pageURL = 'http';
-		if( $_SERVER["HTTPS"] == "on" ) {
-			$pageURL .= "s";
-		}
-		$pageURL .= "://";
-		if( $_SERVER["SERVER_PORT"] != "80" ) {
-			$pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
-		} 
-		else {
-			$pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
-		}	
-		
-		wp_redirect( $pageURL );
+		wp_redirect( jobman_current_url() );
 		exit;
 	}
 	else {
@@ -747,6 +739,11 @@ function jobman_login() {
 }
 
 function jobman_display_register() {
+	$options = get_option( 'jobman_options' );
+	
+	$page = get_post( $options['register_page'] );
+	
+	return array( $page );
 }
 
 function jobman_format_abstract( $text ) {
