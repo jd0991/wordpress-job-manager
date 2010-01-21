@@ -43,6 +43,7 @@ Mid February 2010
   * Customise the Thankyou For Applying text: Issue #57
   * Make the Job Editing page more like WP's Post/Page editing: Issue #62, Issue #63
   * Customize the application method: Issue #66
+  * Make the admin Jobs List prettier: Issue #67
 
 ----
 
