@@ -42,6 +42,7 @@ Mid February 2010
   * Use the text stored in the Jobs Page on that or other pages: Issue #56
   * Customise the Thankyou For Applying text: Issue #57
   * Make the Job Editing page more like WP's Post/Page editing: Issue #62, Issue #63
+  * Customize the application method: Issue #66
 
 ----
 
@@ -58,6 +59,8 @@ Late February 2010
 == New Features ==
 
   * Allow anyone to post jobs: Issue #16
+  * Company Profile: Issue #66
+  * List jobs by employer: Issue #66
 
 == Changes to Existing Features ==
 
@@ -80,3 +83,4 @@ Mid March 2010
   * Add Scribd Support: Issue #31
   * Search: Issue #47
   * Import/Export: Issue #64
+  * Advanced application features: Issue #66
