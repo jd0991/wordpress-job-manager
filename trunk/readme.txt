@@ -14,6 +14,8 @@ A plugin for managing job lists and job applications on your WordPress site. It 
 
 Do you speak a language other than English? Do you have some time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
+***WARNING***: This is a beta release of Job Manager, so may contain bugs. The full release should be out in a few days, but I'd appreciate it you could install it on your test system and give it a spin! If you run into any problems, please [submit a bug report](http://code.google.com/p/wordpress-job-manager/issues/list)! If you'd like to try the stable version, please download [Version 0.4.8](http://downloads.wordpress.org/plugin/job-manager.0.4.8.zip).
+
 *    *Job Listing*
     *    Categories to create multiple job lists
     *    Jobs can be filed under multiple categories
@@ -69,10 +71,14 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * CHANGED: Settings page layout, for readability
 * FIXED: Category listing now significantly more efficient
 * FIXED: Google XML Sitemaps option not saving correctly
+* FIXED: Google XML Sitemaps code updated to use new data storage format
 * FIXED: Some strings not going through i18n functions
+* FIXED: A handful of grammar/spelling mistakes
+* FIXED: Code cleanup, to conform more closely with [WordPress Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards)
+* FIXED: Job Lists not obeying Display End Date
 
 = 0.4.8 =
-* FIXED: Timeout problem on Application List page, if there are <5 applications
+* FIXED: Timeout problem on Application List page, if there are less than 5 applications
 
 = 0.4.7 =
 * FIXED: Empty job list message not displaying correctly
@@ -175,3 +181,6 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * Initial release
 
 == Upgrade Notice ==
+
+= 0.5-beta1 =
+This is a beta release. Please only install it in a test environment.

@@ -321,7 +321,7 @@ function jobman_print_user_box() {
 			<tr>
 				<th scope="row"><?php _e( 'Require User Registration', 'jobman' ) ?></th>
 				<td><input type="checkbox" value="1" name="user-registration-required" <?php echo ( $options['user_registration_required'] )?( 'checked="checked" ' ):( '' ) ?>/></td>
-				<td><span class="description"><?php _e( 'If the above option is checked, this will require users to login before they can complete the application form.', 'jobman' ) ?></span></td>
+				<td><span class="description"><?php _e( 'If the previous option is checked, this option will require users to login before they can complete the application form.', 'jobman' ) ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Which pages should the login form be displayed on?', 'jobman' ) ?></th>
@@ -509,36 +509,8 @@ function jobman_list_jobs() {
 			</thead>
 <?php
 	if( count( $jobs ) > 0 ) {
-		foreach( $jobs as $job ) {
-			$jobmeta = get_post_custom( $job->ID );
-			$cats = wp_get_object_terms( $job->ID, 'jobman_category' );
-			$cats_arr = array();
-			if( count( $cats ) > 0 ) {
-				foreach( $cats as $cat ) {
-					$cats_arr[] = $cat->name;
-				}
-			}
-			$catstring = implode( ', ', $cats_arr );
-			
-			if( is_array( $jobmeta['displayenddate'] ) )
-				$displayenddate = $jobmeta['displayenddate'][0];
-			else
-				$displayenddate = $jobmeta['displayenddate'];
-			
-			$display = false;
-			if( '' == $displayenddate || strtotime($displayenddate) > time() )
-				$display = true;
-?>
-			<tr>
-				<th scope="row" class="check-column"><input type="checkbox" name="job[]" value="<?php echo $job->ID ?>" /></th>
-				<td class="post-title page-title column-title"><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php echo $job->post_title ?></a></strong>
-				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php _e( 'Edit', 'jobman' ) ?></a> | <a href="<?php echo get_page_link( $job->ID ) ?>"><?php _e( 'View', 'jobman' ) ?></a></div></td>
-				<td><?php echo $catstring ?></td>
-				<td><?php echo date( 'Y-m-d', strtotime( $job->post_date ) ) ?> - <?php echo ( '' == $displayenddate )?( __( 'End of Time', 'jobman' ) ):( $displayenddate ) ?><br/>
-				<?php echo ( $display )?( __( 'Live/Upcoming', 'jobman' ) ):( __( 'Expired', 'jobman' ) ) ?></td>
-			</tr>
-<?php
-		}
+		$expired = jobman_list_jobs_data( $jobs, false );
+		jobman_list_jobs_data( $expired, true );
 	}
 	else {
 ?>
@@ -559,6 +531,51 @@ function jobman_list_jobs() {
 		</form>
 	</div>
 <?php
+}
+
+function jobman_list_jobs_data( $jobs, $showexpired = false ) {
+		if( ! is_array( $jobs ) || count( $jobs ) <= 0 )
+			return;
+
+		$expiredjobs = array();
+		foreach( $jobs as $job ) {
+			$jobmeta = get_post_custom( $job->ID );
+			
+			$cats = wp_get_object_terms( $job->ID, 'jobman_category' );
+			$cats_arr = array();
+			if( count( $cats ) > 0 ) {
+				foreach( $cats as $cat ) {
+					$cats_arr[] = $cat->name;
+				}
+			}
+			$catstring = implode( ', ', $cats_arr );
+			
+			if( is_array( $jobmeta['displayenddate'] ) )
+				$displayenddate = $jobmeta['displayenddate'][0];
+			else
+				$displayenddate = $jobmeta['displayenddate'];
+			
+			$display = false;
+			if( '' == $displayenddate || strtotime($displayenddate) > time() )
+				$display = true;
+				
+			if( ! ( $display || $showexpired ) ) {
+				$expiredjobs[] = $job;
+				continue;
+			}
+			
+?>
+			<tr>
+				<th scope="row" class="check-column"><input type="checkbox" name="job[]" value="<?php echo $job->ID ?>" /></th>
+				<td class="post-title page-title column-title"><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php echo $job->post_title ?></a></strong>
+				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php _e( 'Edit', 'jobman' ) ?></a> | <a href="<?php echo get_page_link( $job->ID ) ?>"><?php _e( 'View', 'jobman' ) ?></a></div></td>
+				<td><?php echo $catstring ?></td>
+				<td><?php echo date( 'Y-m-d', strtotime( $job->post_date ) ) ?> - <?php echo ( '' == $displayenddate )?( __( 'End of Time', 'jobman' ) ):( $displayenddate ) ?><br/>
+				<?php echo ( $display )?( __( 'Live/Upcoming', 'jobman' ) ):( __( 'Expired', 'jobman' ) ) ?></td>
+			</tr>
+<?php
+		}
+		return $expiredjobs;
 }
 
 function jobman_edit_job($jobid) {
@@ -706,7 +723,7 @@ function jobman_edit_job($jobid) {
 			<tr>
 				<th scope="row"><?php _e( 'Display End Date', 'jobman' ) ?></th>
 				<td><input class="regular-text code datepicker" type="text" name="jobman-displayenddate" value="<?php echo ( array_key_exists( 'displayenddate', $jobdata ) )?( $jobdata['displayenddate'] ):( '' ) ?>" /></td>
-				<td><span class="description"><?php _e( 'The date this job should start being displayed on the site. To display indefinitely, leave blank.', 'jobman' ) ?></span></td>
+				<td><span class="description"><?php _e( 'The date this job should stop being displayed on the site. To display indefinitely, leave blank.', 'jobman' ) ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Job Information', 'jobman' ) ?></th>
@@ -815,7 +832,7 @@ function jobman_application_setup() {
 <?php
 			if( 1 == $field['listdisplay'] )
 				$checked = ' checked="checked"';
--			else
+			else
 				$checked = '';
 ?>
 					<input type="checkbox" name="jobman-listdisplay[<?php echo $id ?>]" value="1"<?php echo $checked ?> /> <?php _e( 'Show this field in the Application List?', 'jobman' ) ?>
@@ -1071,9 +1088,16 @@ function jobman_list_applications() {
 			<tr>
 				<th scope="col" id="cb" class="column-cb check-column"><input type="checkbox"></th>
 				<th scope="col"><?php _e( 'Job', 'jobman' ) ?></th>
+<?php
+	if( $options['user_registration'] ) {
+?>
+				<th scope="col"><?php _e( 'User', 'jobman' ) ?></th>
+<?php
+	}
+?>
 				<th scope="col"><?php _e( 'Categories', 'jobman' ) ?></th>
 <?php
-	if( count($ fields ) > 0 ) {
+	if( count( $fields ) > 0 ) {
 		foreach( $fields as $field ) {
 			if( $field['listdisplay'] ) {
 ?>
@@ -1091,6 +1115,13 @@ function jobman_list_applications() {
 			<tr>
 				<th scope="col" class="column-cb check-column"><input type="checkbox"></th>
 				<th scope="col"><?php _e( 'Job', 'jobman' ) ?></th>
+<?php
+	if( $options['user_registration'] ) {
+?>
+				<th scope="col"><?php _e( 'User', 'jobman' ) ?></th>
+<?php
+	}
+?>
 				<th scope="col"><?php _e( 'Categories', 'jobman' ) ?></th>
 <?php
 	if( count( $fields ) > 0 ) {
@@ -1122,7 +1153,6 @@ function jobman_list_applications() {
 	
 	// Add applicant filter
 	if( array_key_exists( 'jobman-applicant', $_REQUEST ) ) {
-		$filtered = true;
 		$args['author'] = $_REQUEST['jobman-applicant'];
 	}
 	
@@ -1203,6 +1233,20 @@ function jobman_list_applications() {
 				<td><?php _e( 'No job', 'jobman' ) ?></td>
 <?php
 			}
+
+			if( $options['user_registration'] ) {
+				$name = '';
+				if( 0 == $app->post_author ) {
+					$name = __( 'Unregistered Applicant', 'jobman' );
+				}
+				else {
+					$author = get_userdata( $app->post_author );
+					$name = $author->display_name;
+				}
+?>
+				<td><?php echo $name ?></th>
+<?php
+			}
 			
 			$cats = wp_get_object_terms( $app->ID, 'jobman_category' );
 			$cats_arr = array();
@@ -1249,6 +1293,9 @@ function jobman_list_applications() {
 			$msg = __( 'There were no applications that matched your search.', 'jobman' );
 		else
 			$msg = __( 'There are currently no applications in the system.', 'jobman' );
+			
+		if( $options['user_registration'] )
+			$fieldcount++;
 ?>
 			<tr>
 				<td colspan="<?php echo 3 + $fieldcount ?>"><?php echo $msg ?></td>
@@ -1516,7 +1563,8 @@ function jobman_updatedb() {
 		update_post_meta( $id, 'iconid', $_REQUEST['jobman-icon'] );
 	}
 
-	wp_set_object_terms( $id, $_REQUEST['jobman-categories'], 'jobman_category', false );
+	if( array_key_exists( 'jobman-categories', $_REQUEST ) )
+		wp_set_object_terms( $id, $_REQUEST['jobman-categories'], 'jobman_category', false );
 
 	if( $options['plugins']['gxs'] )
 		do_action( 'sm_rebuild' );
@@ -1582,9 +1630,9 @@ function jobman_categories_updatedb() {
 		wp_delete_term( $delete, 'jobman_category' );
 		
 		// Delete the category from any fields
-		foreach( $options['fields'] as $fid => $field )
+		foreach( $options['fields'] as $fid => $field ) {
 			$loc = array_search( $delete, $field['categories'] );
-			if( false !== $loc )
+			if( false !== $loc ) {
 				unset( $options['fields'][$fid]['categories'][$loc] );
 				$options['fields'][$fid]['categories'] = array_values( $options['fields'][$fid]['categories'] );
 			}
