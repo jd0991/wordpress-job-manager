@@ -16,6 +16,8 @@ Late January 2010
   * Keep an archive of all communication: Issue #2
   * Rank applicants for easy filtering: Issue #45
   * Forward Applicants to other users: Issue #54
+  * Email applications per-job: Issue #69
+  * Add an 'Add Job' button to the wp-admin menu: Issue #72
 
 ----
 
@@ -44,6 +46,8 @@ Mid February 2010
   * Make the Job Editing page more like WP's Post/Page editing: Issue #62, Issue #63
   * Customize the application method: Issue #66
   * Make the admin Jobs List prettier: Issue #67
+  * Feature Job Widget: Issue #70
+  * Option to include categories under main job page in page list: Issue #73
 
 ----
 
@@ -66,6 +70,7 @@ Late February 2010
 == Changes to Existing Features ==
 
   * Customizable Job fields: Issue #58
+  * Add Job Reference as a default Job Field: Issue #68
 
 ----
 
@@ -85,3 +90,4 @@ Mid March 2010
   * Search: Issue #47
   * Import/Export: Issue #64
   * Advanced application features: Issue #66
+  * Email Notification of new jobs: Issue #71
