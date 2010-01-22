@@ -12,12 +12,12 @@ Late January 2010
 
 == New Features ==
 
-  * Allow users to register: Issue #8
+  * Allow users to register: Issue #8 (multi-part issue, will not be closed before release)
   * Keep an archive of all communication: Issue #2
   * Rank applicants for easy filtering: Issue #45
   * Forward Applicants to other users: Issue #54
   * Email applications per-job: Issue #69
-  * Add an 'Add Job' button to the wp-admin menu: Issue #72
+  * Add an 'Add Job' button to the wp-admin menu: Issue #72 (multi-part issue, will not be closed before release)
 
 ----
 
