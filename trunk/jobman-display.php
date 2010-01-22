@@ -1130,7 +1130,10 @@ function jobman_email_application( $appid ) {
 	$categories = wp_get_object_terms( $appid, 'jobman_category' );
 	
 	$to = '';
-	if( count( $categories ) > 0 ) {
+	if( array_key_exists( 'email', $appdata ) && '' != $appdata['email'] ) {
+	    $to = $appdata['email'];
+	}
+	else if( count( $categories ) > 0 ) {
 		$ii = 1;
 		foreach( $categories as $cat ) {
 			$to .= $cat->description;

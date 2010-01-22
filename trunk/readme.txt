@@ -69,6 +69,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * ADDED: Applicant filter on Applications list
 * ADDED: Application star rating, and filtering by rating
 * ADDED: 'Add Job' item to the wp-admin menu
+* ADDED: Job field for applications to be emailed to a custom address
 * CHANGED: User permissions: 'publish_posts' capability (author) is required for posting jobs, 'read_private_pages' capability (editor) is required for viewing applications
 * CHANGED: Removed main URL editing from settings
 * CHANGED: Settings page layout, for readability

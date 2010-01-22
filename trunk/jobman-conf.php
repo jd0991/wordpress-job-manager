@@ -764,6 +764,11 @@ function jobman_edit_job( $jobid ) {
 				<th scope="row"><?php _e( 'Job Information', 'jobman' ) ?></th>
 				<td colspan="2"><textarea class="large-text code" name="jobman-abstract" rows="10"><?php echo ( isset( $job->post_content ) )?( $job->post_content ):( '' ) ?></textarea></td>
 			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Application Email', 'jobman' ) ?></th>
+				<td><input class="regular-text code" type="text" name="jobman-email" value="<?php echo ( array_key_exists( 'email', $jobdata ) )?( $jobdata['email'] ):( '' ) ?>" /></td>
+				<td><span class="description"><?php _e( 'The email address to notify when an application is submitted for this job. For default behaviour (category email or global email), leave blank.', 'jobman' ) ?></span></td>
+			</tr>
 		</table>
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php echo $submit ?>" /></p>
 	</div>
@@ -1639,6 +1644,7 @@ function jobman_updatedb() {
 		add_post_meta( $id, 'location', stripslashes( $_REQUEST['jobman-location'] ), true );
 		add_post_meta( $id, 'displayenddate', stripslashes( $_REQUEST['jobman-displayenddate'] ), true );
 		add_post_meta( $id, 'iconid', $_REQUEST['jobman-icon'], true );
+		add_post_meta( $id, 'email', $_REQUEST['jobman-email'], true );
 	}
 	else {
 		$page['ID'] = $_REQUEST['jobman-jobid'];
@@ -1650,6 +1656,7 @@ function jobman_updatedb() {
 		update_post_meta( $id, 'location', stripslashes( $_REQUEST['jobman-location'] ) );
 		update_post_meta( $id, 'displayenddate', stripslashes( $_REQUEST['jobman-displayenddate'] ) );
 		update_post_meta( $id, 'iconid', $_REQUEST['jobman-icon'] );
+		update_post_meta( $id, 'email', $_REQUEST['jobman-email'] );
 	}
 
 	if( array_key_exists( 'jobman-categories', $_REQUEST ) )
