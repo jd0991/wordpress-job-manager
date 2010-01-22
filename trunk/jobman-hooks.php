@@ -35,6 +35,9 @@ add_filter( 'post_link', 'jobman_page_link', 10, 2 );
 // Our custom page/taxonomy setup
 add_action( 'init', 'jobman_page_taxonomy_setup' );
 
+// For the application rating AJAX call
+add_action( 'wp_ajax_jobman_rate_application', 'jobman_rate_application' );
+
 //
 // Plugins
 //

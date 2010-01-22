@@ -31,6 +31,36 @@ function jobman_admin_header() {
 addLoadEvent(function() {
 	jQuery(".datepicker").datepicker({dateFormat: 'yy-mm-dd', changeMonth: true, changeYear: true, gotoCurrent: true});
 	jQuery(".column-cb > *").click(function() { jQuery(".check-column > *").attr('checked', jQuery(this).is(':checked')) } );
+	
+	jQuery("div.star-holder img").click(function() {
+	    var class = jQuery(this).parent().attr("class");
+		var count = class.replace("star star", "");
+		jQuery(this).parent().parent().find("input[name=jobman-rating]").attr("value", count);
+		jQuery(this).parent().parent().find("div.star-rating").css("width", (count * 19) + "px");
+		
+        var data = jQuery(this).parent().parent().find("input[name=callbackid]");
+        var callback;
+        if( data.length > 0 ) {
+			callback = {
+			        action: 'jobman_rate_application',
+			        appid: data[0].value,
+			        rating: count
+			};
+			
+			jQuery.post( ajaxurl, callback );
+		}
+	});
+	
+	jQuery("div.star-holder img").mouseenter(function() {
+	    var class = jQuery(this).parent().attr("class");
+		var count = class.replace("star star", "");
+		jQuery(this).parent().parent().find("div.star-rating").css("width", (count * 19) + "px");
+	});
+
+	jQuery("div.star-holder img").mouseleave(function() {
+		var count = jQuery(this).parent().parent().find("input[name=jobman-rating]").attr("value");
+		jQuery(this).parent().parent().find("div.star-rating").css("width", (count * 19) + "px");
+	});
 });
 //]]>
 </script> 
@@ -1010,6 +1040,28 @@ function jobman_list_applications() {
 	}
 ?>
 						</td>
+					</tr>
+<?php
+	$rating = 0;
+	if( array_key_exists( 'jobman-rating', $_REQUEST ) )
+	    $rating = $_REQUEST['jobman-rating'];
+?>
+					<tr>
+					    <th scope="row"><?php _e( 'Minimum Rating', 'jobman' ) ?>:</th>
+					    <td>
+					        <div class="star-holder">
+								<div class="star-rating" style="width: <?php echo $rating * 19 ?>px"></div>
+								<input type="hidden" name="jobman-rating" value="<?php echo $rating ?>" />
+<?php
+	for( $ii = 1; $ii <= 5; $ii++) {
+?>
+								<div class="star star<?php echo $ii ?>"><img src="<?php echo JOBMAN_URL ?>/images/star.gif" alt="<?php echo $ii ?>" /></div>
+<?php
+	}
+?>
+							</div>
+						</td>
+					</tr>
 				</table>
 			</div>
 			<div class="jobman-filter-custom">
@@ -1113,6 +1165,7 @@ function jobman_list_applications() {
 	}
 ?>
 				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
 			</tr>
 			</thead>
 
@@ -1140,6 +1193,7 @@ function jobman_list_applications() {
 	}
 ?>
 				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
 			</tr>
 			</tfoot>
 <?php
@@ -1157,9 +1211,8 @@ function jobman_list_applications() {
 	}
 	
 	// Add applicant filter
-	if( array_key_exists( 'jobman-applicant', $_REQUEST ) ) {
+	if( array_key_exists( 'jobman-applicant', $_REQUEST ) )
 		$args['author'] = $_REQUEST['jobman-applicant'];
-	}
 	
 	// Add category filter
 	if( array_key_exists( 'jobman-categories', $_REQUEST ) && is_array( $_REQUEST['jobman-categories'] ) ) {
@@ -1168,6 +1221,13 @@ function jobman_list_applications() {
 		foreach( $_REQUEST['jobman-categories'] as $cat ) {
 			$args['jobman_category__in'][] = $cat;
 		}
+	}
+	
+	// Add star rating filter
+	if( array_key_exists( 'jobman-rating', $_REQUEST ) ) {
+	    $args['meta_key'] = 'rating';
+	    $args['meta_value'] = $_REQUEST['jobman-rating'];
+	    $args['meta_compare'] = '>=';
 	}
 	
 	$applications = get_posts( $args );
@@ -1188,7 +1248,7 @@ function jobman_list_applications() {
 			// Check against field filters
 			if( count( $fields ) > 0 ) {
 				foreach( $fields as $id => $field ) {
-					if( ! array_key_exists( "jobman-field-$id", $_REQUEST ) || '' == $_REQUEST["jobman-field-.$id"] )
+					if( ! array_key_exists( "jobman-field-$id", $_REQUEST ) || '' == $_REQUEST["jobman-field-$id"] )
 						continue;
 					if( ! array_key_exists( "data$id", $appdata ) ) {
 						// No data for this key application, so it can't match. Go to next $app.
@@ -1277,7 +1337,7 @@ function jobman_list_applications() {
 									$data = $appdata["data$id"];
 									break;
 								case 'file':
-									$data = '<a href="' . admin_url('admin.php?page=jobman-list-applications&amp;appid=' . $app->ID . '&amp;getfile=' . $appdata['data'.$id]) . '">' . $appdata['data'.$id] . '</a>';
+									$data = '<a href="' . admin_url('admin.php?page=jobman-list-applications&amp;appid=' . $app->ID . '&amp;getfile=' . $appdata["data$id"]) . '">' . $appdata["data$id"] . '</a>';
 									break;
 							}
 						}
@@ -1289,6 +1349,25 @@ function jobman_list_applications() {
 			}
 ?>
 				<td><a href="?page=jobman-list-applications&amp;appid=<?php echo $app->ID ?>"><?php _e( 'View Details', 'jobman' ) ?></a></td>
+				<td>
+<?php
+	$rating = 0;
+	if( array_key_exists( 'rating', $appdata ) )
+	    $rating = $appdata['rating'];
+?>
+			        <div class="star-holder">
+						<div class="star-rating" style="width: <?php echo $rating * 19 ?>px"></div>
+						<input type="hidden" name="jobman-rating" value="<?php echo $rating ?>" />
+						<input type="hidden" name="callbackid" value="<?php echo $app->ID ?>" />
+<?php
+	for( $ii = 1; $ii <= 5; $ii++) {
+?>
+						<div class="star star<?php echo $ii ?>"><img src="<?php echo JOBMAN_URL ?>/images/star.gif" alt="<?php echo $ii ?>" /></div>
+<?php
+	}
+?>
+					</div>
+				</td>
 			</tr>
 <?php
 		}
@@ -1320,6 +1399,11 @@ function jobman_list_applications() {
 		</form>
 	</div>
 <?php
+}
+
+function jobman_rate_application() {
+	add_post_meta( $_REQUEST['appid'], 'rating', $_REQUEST['rating'], true );
+	die();
 }
 
 function jobman_application_display_details( $appid ) {

@@ -3,17 +3,40 @@
 	padding: 10px 0;
 }
 
-#jobman_login label input {
+#jobman_login input.username, #jobman_login input.password {
 	width: 100px;
+	margin-right: 10px;
 }
 
-#jobman_login br {
+#jobman_login br, #jobman_register br {
 	display: none;
 }
 
 #jobman_login span {
 	display: block;
 	text-align: right;
+}
+
+#jobman_loggedin span.message, #jobman_login span.message {
+	text-align: left;
+	padding: 10px 0;
+}
+
+#jobman_register input.submit {
+	float: right;
+}
+
+#jobman_register table {
+	text-align: left;
+	width: 100%;
+}
+
+#jobman_register th {
+	width: 130px;
+}
+
+#jobman_register td.error {
+	color: red;
 }
 
 table.jobs-table, table.job-table, table.job-apply-table {
@@ -70,3 +93,7 @@ table.ui-datepicker-calendar td {
 	height: 25px;
 }
 
+p.jobmanpromo {
+	padding-top: 20px;
+	clear: left;
+}
