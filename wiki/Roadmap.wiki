@@ -1,6 +1,6 @@
 #summary Roadmap for upcoming releases of Job Manager
 
-= 0.5.0 =
+= 0.5 =
 
 == Abstract ==
 
@@ -21,7 +21,7 @@ Late January 2010
 
 ----
 
-= 0.6.0 =
+= 0.6 =
 
 == Abstract ==
 
@@ -51,7 +51,7 @@ Mid February 2010
 
 ----
 
-= 0.7.0 =
+= 0.7 =
 
 == Abstract ==
 
@@ -74,7 +74,7 @@ Late February 2010
 
 ----
 
-= 1.0.0 =
+= 1.0 =
 
 == Abstract ==
 
