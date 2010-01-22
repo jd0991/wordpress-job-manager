@@ -7,12 +7,13 @@ function jobman_admin_setup() {
 	add_menu_page( __( 'Job Manager', 'jobman' ), __( 'Job Manager', 'jobman' ), 'publish_posts', $file, 'jobman_conf' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Settings', 'jobman' ), 'manage_options', $file, 'jobman_conf' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'App. Form Settings', 'jobman' ), 'manage_options', 'jobman-application-setup', 'jobman_application_setup' );
+	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Add Job', 'jobman' ), 'publish_posts', 'jobman-add-job', 'jobman_add_job' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'List Jobs', 'jobman' ), 'publish_posts', 'jobman-list-jobs', 'jobman_list_jobs' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'List Applications', 'jobman' ), 'read_private_pages', 'jobman-list-applications', 'jobman_list_applications' );
 
 	// Load our header info
 	foreach( $pages as $page ) {
-		add_action( 'admin_head-' . $page, 'jobman_admin_header' );
+		add_action( "admin_head-$page", 'jobman_admin_header' );
 	}
 
 	wp_enqueue_script( 'jobman-admin', JOBMAN_URL . '/js/admin.js', false, JOBMAN_VERSION );
@@ -578,7 +579,11 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 		return $expiredjobs;
 }
 
-function jobman_edit_job($jobid) {
+function jobman_add_job() {
+	jobman_edit_job( 'new' );
+}
+
+function jobman_edit_job( $jobid ) {
 	$options = get_option( 'jobman_options' );
 	
 	if( array_key_exists( 'jobmansubmit', $_REQUEST ) ) {

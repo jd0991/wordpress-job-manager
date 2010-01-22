@@ -62,10 +62,12 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 == Changelog ==
 
 = 0.5 =
+* ADDED: Ability for applicants to register
 * ADDED: New settings for user registration
 * ADDED: Nicer explanations of settings
 * ADDED: Links to categories from settings page
 * ADDED: Applicant filter on Applications list
+* ADDED: 'Add Job' item to the wp-admin menu
 * CHANGED: User permissions: 'publish_posts' capability (author) is required for posting jobs, 'read_private_pages' capability (editor) is required for viewing applications
 * CHANGED: Removed main URL editing from settings
 * CHANGED: Settings page layout, for readability
