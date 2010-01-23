@@ -10,6 +10,7 @@ function jobman_admin_setup() {
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Add Job', 'jobman' ), 'publish_posts', 'jobman-add-job', 'jobman_add_job' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'List Jobs', 'jobman' ), 'publish_posts', 'jobman-list-jobs', 'jobman_list_jobs' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'List Applications', 'jobman' ), 'read_private_pages', 'jobman-list-applications', 'jobman_list_applications' );
+	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'List Emails', 'jobman' ), 'read_private_pages', 'jobman-list-emails', 'jobman_list_emails' );
 
 	// Load our header info
 	foreach( $pages as $page ) {
@@ -18,7 +19,8 @@ function jobman_admin_setup() {
 
 	wp_enqueue_script( 'jobman-admin', JOBMAN_URL . '/js/admin.js', false, JOBMAN_VERSION );
 	wp_enqueue_script( 'jquery-ui-datepicker', JOBMAN_URL . '/js/jquery-ui-datepicker.js', array( 'jquery-ui-core' ), JOBMAN_VERSION );
-	wp_enqueue_style( 'jobman-admin', JOBMAN_URL . '/css/admin.css', false, JOBMAN_VERSION );
+	wp_enqueue_style( 'jobman-admin', JOBMAN_URL . '/css/admin.css', false, JOBMAN_VERSION, 'all' );
+	wp_enqueue_style( 'jobman-admin-print', JOBMAN_URL . '/css/admin-print.css', false, JOBMAN_VERSION, 'print' );
 
 	wp_enqueue_style( 'dashboard' );
 	wp_enqueue_script( 'dashboard' );
@@ -1170,6 +1172,7 @@ function jobman_list_applications() {
 	}
 ?>
 				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Emails', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
 			</tr>
 			</thead>
@@ -1198,6 +1201,7 @@ function jobman_list_applications() {
 	}
 ?>
 				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Emails', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
 			</tr>
 			</tfoot>
@@ -1356,6 +1360,15 @@ function jobman_list_applications() {
 				<td><a href="?page=jobman-list-applications&amp;appid=<?php echo $app->ID ?>"><?php _e( 'View Details', 'jobman' ) ?></a></td>
 				<td>
 <?php
+			$emailids = get_post_meta( $app->ID, 'contactmail', false );
+			if( count( $emailids ) > 0 )
+			    echo "<a href='?page=jobman-list-emails&amp;appid=$app->ID'>" . count( $emailids ) . '</a>';
+			else
+			    echo '0';
+?>
+				</td>
+				<td>
+<?php
 	$rating = 0;
 	if( array_key_exists( 'rating', $appdata ) )
 	    $rating = $appdata['rating'];
@@ -1407,7 +1420,12 @@ function jobman_list_applications() {
 }
 
 function jobman_rate_application() {
-	add_post_meta( $_REQUEST['appid'], 'rating', $_REQUEST['rating'], true );
+	$rating = get_post_meta( $_REQUEST['appid'], 'rating', true );
+	if( '' == $rating )
+		add_post_meta( $_REQUEST['appid'], 'rating', $_REQUEST['rating'], true );
+	else
+	    update_post_meta( $_REQUEST['appid'], 'rating', $_REQUEST['rating'] );
+
 	die();
 }
 
@@ -1418,7 +1436,7 @@ function jobman_application_display_details( $appid ) {
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'Job Manager: Application Details', 'jobman' ) ?></h2>
-		<a href="?page=jobman-list-applications">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
+		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
 	$app = get_post( $appid );
 	$appmeta = get_post_custom( $appid );
@@ -1438,8 +1456,28 @@ function jobman_application_display_details( $appid ) {
 		if( NULL != $parent && 'jobman_job' == $parent->post_type ) {
 			echo '<tr><th scope="row"><strong>' . __( 'Job', 'jobman' ) . "</strong></th><td><strong><a href='" . get_page_link( $parent->ID ) . "'>$parent->ID - $parent->post_title</a></strong></td></tr>";
 		}
-		echo '<tr><th scope="row"><strong>' . __( 'Timestamp', 'jobman' ) . "</strong></th><td>$app->post_date</td></tr><tr><td colspan='2'>&nbsp;</td></tr>";
+		echo '<tr><th scope="row"><strong>' . __( 'Timestamp', 'jobman' ) . "</strong></th><td>$app->post_date</td></tr>";
 		
+		echo '<tr><th scope="row"><strong>' . __( 'Rating', 'jobman' ) . '</strong></th>';
+		echo '<td>';
+
+		$rating = 0;
+		if( array_key_exists( 'rating', $appdata ) )
+	    	$rating = $appdata['rating'];
+?>
+			        <div class="star-holder">
+						<div class="star-rating" style="width: <?php echo $rating * 19 ?>px"></div>
+						<input type="hidden" name="jobman-rating" value="<?php echo $rating ?>" />
+						<input type="hidden" name="callbackid" value="<?php echo $app->ID ?>" />
+<?php
+		for( $ii = 1; $ii <= 5; $ii++) {
+?>
+						<div class="star star<?php echo $ii ?>"><img src="<?php echo JOBMAN_URL ?>/images/star.gif" alt="<?php echo $ii ?>" /></div>
+<?php
+		}
+		
+		echo '</div></td><tr><td colspan="2">&nbsp;</td></tr>';
+
 		$fields = $options['fields'];
 		foreach( $appdata as $key => $item ) {
 			$matches = array();
@@ -1471,7 +1509,7 @@ function jobman_application_display_details( $appid ) {
 		}
 ?>
 		</table>
-		<a href="?page=jobman-list-applications">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
+		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
 	}
 	else {
@@ -1533,6 +1571,125 @@ function jobman_application_delete() {
 	}
 }
 
+function jobman_list_emails() {
+
+	if( array_key_exists('emailid', $_REQUEST ) ) {
+		jobman_email_display( $_REQUEST['emailid'] );
+		return;
+	}
+?>
+	<div class="wrap">
+	    <h2><?php _e( 'Job Manager: Emails', 'jobman' ) ?></h2>
+	    
+	    <p><?php _e( 'In the "Applications Sent To" column, click the number to go to that application, or click the asterisk (*) next to it to see other emails sent to that application.', 'jobman' ) ?></p>
+	    
+		<table class="widefat page fixed" cellspacing="0">
+			<thead>
+			<tr>
+				<th scope="col"><?php _e( 'Date', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Subject', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Applications Sent To', 'jobman' ) ?></th>
+			</tr>
+			</thead>
+
+			<tfoot>
+			<tr>
+				<th scope="col"><?php _e( 'Date', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Subject', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Applications Sent To', 'jobman' ) ?></th>
+			</tr>
+			</tfoot>
+<?php
+	$emails = get_posts('post_type=jobman_email&numberposts=-1');
+	
+	foreach( $emails as $email ) {
+	    $apps = get_posts("post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID");
+
+		$appstrings = array();
+		$appids = array();
+		foreach( $apps as $app ) {
+			$appstrings[] = "<a href='?page=jobman-list-applications&amp;appid=$app->ID'>$app->ID</a> <a href='?page=jobman-list-emails&amp;appid=$app->ID'>*</a>";
+			$appids[] = $app->ID;
+			
+		}
+		if( array_key_exists( 'appid', $_REQUEST ) && ! in_array( $_REQUEST['appid'], $appids ) )
+		    continue;
+?>
+			<tr>
+			    <td><?php echo $email->post_date ?></td>
+			    <td><a href="?page=jobman-list-emails&amp;emailid=<?php echo $email->ID ?>"><?php echo $email->post_title ?></a></td>
+			    <td>
+<?php
+		echo implode( ', ', $appstrings );
+?>
+				</td>
+			</tr>
+<?php
+	}
+?>
+		</table>
+	</div>
+<?php
+}
+
+function jobman_email_display( $emailid ) {
+	$options = get_option( 'jobman_options' );
+	$fromid = $options['application_email_from'];
+
+	$email = get_post( $emailid );
+	
+	if( NULL == $email ) {
+	    echo '<p class="error">' . __( 'No such email.', 'jobman' ) . '</p>';
+	    return;
+	}
+?>
+	<div class="wrap">
+	    <h2><?php _e( 'Job Manager: Email', 'jobman' ) ?></h2>
+
+	    <p><?php _e( 'In the "Applications" field, click the number to go to that application, or click the asterisk (*) next to it to see other emails sent to that application.', 'jobman' ) ?></p>
+
+		<table class="form-table">
+		    <tr>
+		        <th scope="row"><?php _e( 'Subject', 'jobman' ) ?></th>
+		        <td><?php echo $email->post_title ?></td>
+		    </tr>
+<?php
+    $apps = get_posts("post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID");
+
+	$appstrings = array();
+	$emails = array();
+	foreach( $apps as $app ) {
+		$appstrings[] = "<a href='?page=jobman-list-applications&amp;appid=$app->ID'>$app->ID</a> <a href='?page=jobman-list-emails&amp;appid=$app->ID'>*</a>";
+		$appids[] = $app->ID;
+		
+		$emails[] = get_post_meta( $app->ID, "data$fromid", true );
+	}
+?>
+			<tr>
+			    <th scope="row"><?php _e( 'Applications', 'jobman' ) ?></th>
+			    <td>
+<?php
+	echo implode( ', ', $appstrings );
+?>
+				</td>
+			</tr>
+			<tr>
+			    <th scope="row"><?php _e( 'Emails', 'jobman' ) ?></th>
+			    <td>
+<?php
+	echo implode( ', ', $emails );
+?>
+				</td>
+			</tr>
+		    <tr>
+		        <th scope="row"><?php _e( 'Message', 'jobman' ) ?></th>
+		        <td><?php echo wpautop( $email->post_content ) ?></td>
+		    </tr>
+		</table>
+	</div>
+<?php
+}
+
 function jobman_application_mailout() {
 	global $wpdb, $current_user;
 	$options = get_option( 'jobman_options' );
@@ -1543,24 +1700,28 @@ function jobman_application_mailout() {
 	$apps = get_posts( array( 'post_type' => 'jobman_app', 'post__in' => $_REQUEST['application'], 'numberposts' => -1 ) );
 	
 	$emails = array();
+	$appids = array();
 	foreach( $apps as $app ) {
 		$appmeta = get_post_custom( $app->ID );
-		if( ! array_key_exists("data$fromid", $appmeta ) ) {
+		if( ! array_key_exists("data$fromid", $appmeta ) || '' == $appmeta["data$fromid"] )
 			// No email for this application
 			continue;
-		}
+
 		if( is_array( $appmeta["data$fromid"] ) )
 			$emails[] = $appmeta["data$fromid"][0];
 		else
 			$emails[] = $appmeta["data$fromid"];
+			
+		$appids[] = $app->ID;
 	}
-	$email_str = implode( ', ', $emails );
+	$email_str = implode( ', ', array_unique( $emails ) );
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'Job Manager: Application Email', 'jobman' ) ?></h2>
 
 		<form action="" method="post">
 		<input type="hidden" name="jobman-mailout-send" value="1" />
+		<input type="hidden" name="jobman-appids" value="<?php echo implode(',', $appids ) ?>" />
 <?php
 	wp_nonce_field( 'jobman-mailout-send' );
 ?>
@@ -1571,7 +1732,7 @@ function jobman_application_mailout() {
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'To', 'jobman' ) ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-to" value="<?php echo $email_str ?>" /></td>
+				<td><?php echo $email_str ?></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Subject', 'jobman' ) ?></th>
@@ -1590,8 +1751,14 @@ function jobman_application_mailout() {
 }
 
 function jobman_application_mailout_send() {
+	global $current_user;
+	get_currentuserinfo();
+
+	$options = get_option( 'jobman_options' );
+
+	$fromid = $options['application_email_from'];
+
 	$from = $_REQUEST['jobman-from'];
-	$to = $_REQUEST['jobman-to'];
 	$subject = $_REQUEST['jobman-subject'];
 	$message = $_REQUEST['jobman-message'];
 	
@@ -1600,7 +1767,39 @@ function jobman_application_mailout_send() {
 	$header .= "Return-Path: $from" . PHP_EOL;
 	$header .= 'Content-type: text/plain; charset='. get_option( 'blog_charset' ) . PHP_EOL;
 
-	wp_mail( $to, $subject, $message, $header );
+	$page = array(
+				'comment_status' => 'closed',
+				'ping_status' => 'closed',
+				'post_status' => 'publish',
+				'post_author' => $current_user->ID,
+				'post_content' => $message,
+				'post_title' => $subject,
+				'post_type' => 'jobman_email',
+				'post_parent' => $options['main_page']
+			);
+	$emailid = wp_insert_post( $page );
+
+	$appids = explode(',', $_REQUEST['jobman-appids'] );
+	$emails = array();
+	foreach( $appids as $appid ) {
+		$appmeta = get_post_custom( $appid );
+		if( ! array_key_exists("data$fromid", $appmeta ) || '' == $appmeta["data$fromid"] )
+			// No email for this application
+			continue;
+
+		if( is_array( $appmeta["data$fromid"] ) )
+			$emails[] = $appmeta["data$fromid"][0];
+		else
+			$emails[] = $appmeta["data$fromid"];
+			
+        add_post_meta( $appid, 'contactmail', $emailid, false );
+	}
+	
+	$emails = array_unique( $emails );
+	
+	foreach( $emails as $to ) {
+		wp_mail( $to, $subject, $message, $header );
+	}
 }
 
 function jobman_conf_updatedb() {

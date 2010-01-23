@@ -64,6 +64,7 @@ function jobman_page_taxonomy_setup() {
 	register_post_type( 'jobman_app_form', array( 'exclude_from_search' => true ) );
 	register_post_type( 'jobman_app', array( 'exclude_from_search' => true ) );
 	register_post_type( 'jobman_register', array( 'exclude_from_search' => true ) );
+	register_post_type( 'jobman_email', array( 'exclude_from_search' => true ) );
 
 	// Create our new taxonomy thing
 	register_taxonomy( 'jobman_category', array( 'jobman_job', 'jobman_app' ), array( 'hierarchical' => false, 'label' => __( 'Category', 'series' ), 'query_var' => 'jcat' ) );

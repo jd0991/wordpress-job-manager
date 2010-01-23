@@ -490,6 +490,9 @@ function jobman_display_job( $job ) {
 }
 
 function jobman_display_apply( $jobid, $cat = NULL ) {
+	global $current_user;
+	get_currentuserinfo();
+
 	$options = get_option( 'jobman_options' );
 
 	$url = $options['page_name'];
@@ -602,6 +605,12 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 				$content .= '<table class="job-apply-table">';
 
 			$data = strip_tags( $field['data'] );
+
+			// Auto-populate logged in user email address
+			if( $id == $options['application_email_from'] && '' == $data && is_user_logged_in() ) {
+			    $data = $current_user->user_email;
+			}
+			
 			switch( $field['type'] ) {
 				case 'text':
 					if( '' != $field['label'] )
