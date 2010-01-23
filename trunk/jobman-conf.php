@@ -824,6 +824,7 @@ function jobman_application_setup() {
 						'date' => __( 'Date Selector', 'jobman' ),
 						'file' => __( 'File Upload', 'jobman' ),
 						'heading' => __( 'Heading', 'jobman' ),
+						'html' => __( 'HTML Code', 'jobman' ),
 						'blank' => __( 'Blank Space', 'jobman' )
 				);
 				
@@ -870,7 +871,7 @@ function jobman_application_setup() {
 <?php
 			}
 ?>
-					</select><br/>
+					</select><br />
 <?php
 			if( 1 == $field['listdisplay'] )
 				$checked = ' checked="checked"';
@@ -884,7 +885,7 @@ function jobman_application_setup() {
 			if( count( $categories ) > 0 ) {
 				foreach( $categories as $cat ) {
 					$checked = '';
-					if( in_array( $cat->term_id, $field['categories'] ) )
+					if( array_key_exists( 'categories', $field ) && in_array( $cat->term_id, $field['categories'] ) )
 						$checked = ' checked="checked"';
 ?>
 					<input type="checkbox" name="jobman-categories[<?php echo $id ?>][]" value="<?php echo $cat->term_id ?>"<?php echo $checked ?> /> <?php echo $cat->name ?><br/>
@@ -2067,7 +2068,7 @@ function jobman_application_setup_updatedb() {
 		if( -1 == $id ) {
 			$newcount++;
 			$listdisplay = 0;
-			if( array_key_exists( $newcount, $_REQUEST['jobman-listdisplay']['new'] ) )
+			if( array_key_exists( 'new', $_REQUEST['jobman-listdisplay'] ) && array_key_exists( $newcount, $_REQUEST['jobman-listdisplay']['new'] ) )
 				$listdisplay = 1;
 
 			// INSERT new field

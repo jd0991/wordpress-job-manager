@@ -74,6 +74,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * ADDED: Interface for browsing sent emails
 * ADDED: Admin print stylesheet, so applications can be printed nicely
 * ADDED: Option in Application Details to email application a different person
+* ADDED: HTML Code field to Application Form Settings
 * CHANGED: User permissions: 'publish_posts' capability (author) is required for posting jobs, 'read_private_pages' capability (editor) is required for viewing applications
 * CHANGED: Removed main URL editing from settings
 * CHANGED: Settings page layout, for readability

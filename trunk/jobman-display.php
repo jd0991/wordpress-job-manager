@@ -595,7 +595,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	if( count( $fields ) > 0 ) {
 		uasort( $fields, 'jobman_sort_fields' );
 		foreach( $fields as $id => $field ) {
-			if( count( $field['categories'] ) > 0 ) {
+			if( array_key_exists( 'categories', $field ) && count( $field['categories'] ) > 0 ) {
 				// If there are cats defined for this field, check that either the job has one of those categories, or we're submitting to that category
 				if( count( array_intersect( $field['categories'], $cat_arr ) ) <= 0)
 					continue;
@@ -658,9 +658,9 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					break;
 				case 'date':
 					if( '' != $field['label'] )
-						$content .= "<tr><th scope='row'>{$field['label']}</th><td>";
+						$content .= "<tr><th scope='row'>{$field['label']}</th>";
 					else
-						$content .= '<tr><td class="th"></td><td>';
+						$content .= '<tr><td class="th"></td>';
 
 					$content .= "<td><input type='text' class='datepicker' name='jobman-field-$id' value='$data' /></td></tr>";
 					break;
@@ -678,6 +678,14 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 
 					$content .= "<h3>{$field['label']}</h3>";
 					$content .= '<table class="job-apply-table">';
+					break;
+				case 'html':
+					if( '' != $field['label'] )
+						$content .= "<tr><th scope='row'>{$field['label']}</th>";
+					else
+						$content .= '<tr><td class="th"></td>';
+
+					$content .= "<td>{$field['data']}</td></tr>";
 					break;
 				case 'blank':
 					$content .= '<tr><td colspan="2">&nbsp;</td></tr>';
