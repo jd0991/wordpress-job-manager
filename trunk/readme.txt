@@ -12,9 +12,9 @@ A job listing and job application management plugin for WordPress.
 
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
 
-Do you speak a language other than English? Do you have some time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
+Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
-***WARNING***: This is a beta release of Job Manager, so may contain bugs. The full release should be out in a few days, but I'd appreciate it you could install it on your test system and give it a spin! If you run into any problems, please [submit a bug report](http://code.google.com/p/wordpress-job-manager/issues/list)! If you'd like to try the stable version, please download [Version 0.4.8](http://downloads.wordpress.org/plugin/job-manager.0.4.8.zip).
+***WARNING***: This is a beta release of Job Manager, so may contain bugs. The stable release should be out in a few days, but I'd appreciate it you could install it on your development system and give it a test drive! If you run into any problems, please [submit a bug report](http://code.google.com/p/wordpress-job-manager/issues/list)! If you'd like to try the current stable version, please download [Version 0.4.8](http://downloads.wordpress.org/plugin/job-manager.0.4.8.zip).
 
 *    *Job Listing*
     *    Categories to create multiple job lists
@@ -73,6 +73,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 * ADDED: Emails are now stored when they're sent
 * ADDED: Interface for browsing sent emails
 * ADDED: Admin print stylesheet, so applications can be printed nicely
+* ADDED: Option in Application Details to email application a different person
 * CHANGED: User permissions: 'publish_posts' capability (author) is required for posting jobs, 'read_private_pages' capability (editor) is required for viewing applications
 * CHANGED: Removed main URL editing from settings
 * CHANGED: Settings page layout, for readability

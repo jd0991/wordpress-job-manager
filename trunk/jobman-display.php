@@ -1119,7 +1119,7 @@ function jobman_check_filters( $jobid, $cat ) {
 	return -1;
 }
 
-function jobman_email_application( $appid ) {
+function jobman_email_application( $appid, $sendto = '' ) {
 	$options = get_option( 'jobman_options' );
 
 	$app = get_post( $appid );
@@ -1139,6 +1139,9 @@ function jobman_email_application( $appid ) {
 	$categories = wp_get_object_terms( $appid, 'jobman_category' );
 	
 	$to = '';
+	if( '' != $sendto ) {
+	    $to = $sendto;
+	}
 	if( array_key_exists( 'email', $appdata ) && '' != $appdata['email'] ) {
 	    $to = $appdata['email'];
 	}

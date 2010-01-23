@@ -1433,6 +1433,11 @@ function jobman_application_display_details( $appid ) {
 	$options = get_option( 'jobman_options' );
 	$url = $options['page_name'];
 	$fromid = $options['application_email_from'];
+	
+	if( array_key_exists( 'jobman-email', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-reemail-application' );
+	    jobman_email_application( $appid, $_REQUEST['jobman-email'] );
+ }
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'Job Manager: Application Details', 'jobman' ) ?></h2>
@@ -1509,6 +1514,16 @@ function jobman_application_display_details( $appid ) {
 		}
 ?>
 		</table>
+		
+		<h3><?php _e( 'Email Application', 'jobman' ) ?></h3>
+		<p><?php _e( 'Use this form to email the application to a new email address.', 'jobman' ) ?></p>
+		<form action="" method="post">
+<?php
+	wp_nonce_field( 'jobman-reemail-application' );
+?>
+		<input type="text" name="jobman-email" />
+		<input type="submit" name="submit" value="<?php _e( 'Email', 'jobman' ) ?>!" />
+		</form>
 		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
 	}
