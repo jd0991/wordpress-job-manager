@@ -271,7 +271,6 @@ function jobman_display_jobs_list( $cat ) {
 
 	$content = '';
 	
-	$url = $options['page_name'];
 	$list_type = $options['list_type'];
 	
 	if( 'all' == $cat ) {
@@ -387,8 +386,6 @@ function jobman_display_job( $job ) {
 	global $wpdb;
 	$options = get_option( 'jobman_options' );
 
-	$url = $options['page_name'];
-	
 	$content = '';
 	
 	if( is_string( $job ) || is_int( $job ) )
@@ -495,8 +492,6 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 
 	$options = get_option( 'jobman_options' );
 
-	$url = $options['page_name'];
-	
 	$content = '';
 	
 	$data = get_posts( 'post_type=jobman_app_form&numberposts=-1' );
@@ -1192,8 +1187,6 @@ function jobman_email_application( $appid, $sendto = '' ) {
 	}
 	
 	$msg = '';
-	
-	$url = $options['page_name'];
 	
 	$msg .= __( 'Application Link', 'jobman' ) . ': ' . admin_url( 'admin.php?page=jobman-list-applications&amp;appid=' . $app->ID ) . PHP_EOL;
 

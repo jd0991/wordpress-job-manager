@@ -1432,7 +1432,6 @@ function jobman_rate_application() {
 
 function jobman_application_display_details( $appid ) {
 	$options = get_option( 'jobman_options' );
-	$url = $options['page_name'];
 	$fromid = $options['application_email_from'];
 	
 	if( array_key_exists( 'jobman-email', $_REQUEST ) ) {
@@ -1442,6 +1441,7 @@ function jobman_application_display_details( $appid ) {
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'Job Manager: Application Details', 'jobman' ) ?></h2>
+		<div class="printicon"><a href="javascript:window.print()"><img src="<?php echo JOBMAN_URL ?>/images/print-icon.png" /></a></div>
 		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
 	$app = get_post( $appid );
@@ -1515,16 +1515,18 @@ function jobman_application_display_details( $appid ) {
 		}
 ?>
 		</table>
-		
-		<h3><?php _e( 'Email Application', 'jobman' ) ?></h3>
-		<p><?php _e( 'Use this form to email the application to a new email address.', 'jobman' ) ?></p>
-		<form action="" method="post">
+
+		<div class="emailapplication">
+			<h3><?php _e( 'Email Application', 'jobman' ) ?></h3>
+			<p><?php _e( 'Use this form to email the application to a new email address.', 'jobman' ) ?></p>
+			<form action="" method="post">
 <?php
 	wp_nonce_field( 'jobman-reemail-application' );
 ?>
-		<input type="text" name="jobman-email" />
-		<input type="submit" name="submit" value="<?php _e( 'Email', 'jobman' ) ?>!" />
-		</form>
+			<input type="text" name="jobman-email" />
+			<input type="submit" name="submit" value="<?php _e( 'Email', 'jobman' ) ?>!" />
+			</form>
+		</div>
 		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
 	}

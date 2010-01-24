@@ -130,7 +130,7 @@ function jobman_create_db() {
 								'label' => 'Do you have a degree?',
 								'type' => 'radio',
 								'listdisplay' => 1,
-								'data' => 'Yes\r\nNo',
+								'data' => "Yes\r\nNo",
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 12,
