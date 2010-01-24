@@ -1618,10 +1618,10 @@ function jobman_list_emails() {
 			</tr>
 			</tfoot>
 <?php
-	$emails = get_posts('post_type=jobman_email&numberposts=-1');
+	$emails = get_posts( 'post_type=jobman_email&numberposts=-1' );
 	
 	foreach( $emails as $email ) {
-	    $apps = get_posts("post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID");
+	    $apps = get_posts( "post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID&numberposts=-1" );
 
 		$appstrings = array();
 		$appids = array();
@@ -1672,7 +1672,7 @@ function jobman_email_display( $emailid ) {
 		        <td><?php echo $email->post_title ?></td>
 		    </tr>
 <?php
-    $apps = get_posts("post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID");
+    $apps = get_posts( "post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID&numberposts=-1" );
 
 	$appstrings = array();
 	$emails = array();
@@ -1917,7 +1917,7 @@ function jobman_categories_updatedb() {
 		}
 		else {
 			// UPDATE existing field
-			$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$id&numberposts=-1");
+			$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$id&numberposts=-1" );
 			if( count( $data ) > 0 ) {
 				$page = get_post( $data[0]->ID, ARRAY_A );
 				$page['post_title'] = $_REQUEST['title'][$ii];
@@ -1935,7 +1935,7 @@ function jobman_categories_updatedb() {
 
 	$deletes = explode( ',', $_REQUEST['jobman-delete-list'] );
 	foreach( $deletes as $delete ) {
-		$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$id&numberposts=-1");
+		$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$id&numberposts=-1" );
 
 		if( count( $data ) > 0 )
 			wp_delete_post( $data[0]->ID );

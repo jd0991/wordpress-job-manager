@@ -277,7 +277,7 @@ function jobman_display_jobs_list( $cat ) {
 		$page = get_post( $options['main_page'] );
 	}
 	else {
-		$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$cat&numberposts=-1");
+		$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$cat&numberposts=-1" );
 		if( count( $data ) > 0 ) {
 			$page = get_post( $data[0]->ID, OBJECT );
 		}
@@ -296,9 +296,9 @@ function jobman_display_jobs_list( $cat ) {
 	}
 	
 	if( 'all' == $cat )
-		$jobs = get_posts( 'post_type=jobman_job' );
+		$jobs = get_posts( 'post_type=jobman_job&numberposts=-1' );
 	else
-		$jobs = get_posts( "post_type=jobman_job&jcat=$category->slug" );
+		$jobs = get_posts( "post_type=jobman_job&jcat=$category->slug&numberposts=-1" );
 	
 	if( $options['user_registration'] ) {
 		if( 'all' == $cat && $options['loginform_main'] )
@@ -920,7 +920,7 @@ function jobman_store_application( $jobid, $cat ) {
 	if( NULL == $job && NULL != $cat ) {
 		$cat = get_term_by( 'slug', $cat, 'jobman_category' );
 		if( NULL != $cat ) {
-			$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$cat->term_id&numberposts=-1");
+			$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$cat->term_id&numberposts=-1" );
 			if( count( $data ) > 0 )
 				$parent = $data[0]->ID;
 		}
@@ -1223,7 +1223,7 @@ function jobman_email_application( $appid, $sendto = '' ) {
 		}
 	}
 
-	$header = "From: $from" . PHP_EOL;
+	$header = "From: \"\" <$from>" . PHP_EOL;
 	$header .= "Reply-To: $from" . PHP_EOL;
 	$header .= "Return-Path: $from" . PHP_EOL;
 	$header .= 'Content-type: text/plain; charset='. get_option( 'blog_charset' ) . PHP_EOL;

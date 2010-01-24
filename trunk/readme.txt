@@ -14,7 +14,7 @@ A plugin for managing job lists and job applications on your WordPress site. It 
 
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
-***WARNING***: Version 0.5-beta2 is a beta release of Job Manager, so it may contain bugs. The stable release should be out in a few days, but I'd appreciate it you could install the beta on your development system and give it a test drive! If you run into any problems, please [submit a bug report](http://code.google.com/p/wordpress-job-manager/issues/list). If you'd like to try the current stable version, please download [Version 0.4.8](http://downloads.wordpress.org/plugin/job-manager.0.4.8.zip).
+***WARNING***: Version 0.5-beta3 is a beta release of Job Manager, so it may contain bugs. The stable release should be out in a few days, but I'd appreciate it you could install the beta on your development system and give it a test drive! If you run into any problems, please [submit a bug report](http://code.google.com/p/wordpress-job-manager/issues/list). If you'd like to try the current stable version, please download [Version 0.4.8](http://downloads.wordpress.org/plugin/job-manager.0.4.8.zip).
 
 *    *Job Listing*
     *    Categories to create multiple job lists
@@ -83,6 +83,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * CHANGED: User permissions: 'publish_posts' capability (author) is required for posting jobs, 'read_private_pages' capability (editor) is required for viewing applications
 * CHANGED: Removed main URL editing from settings
 * CHANGED: Settings page layout, for readability
+* CHANGED: Removed the "WordPress" name from application emails
 * FIXED: Category listing now significantly more efficient
 * FIXED: Google XML Sitemaps option not saving correctly
 * FIXED: Google XML Sitemaps code updated to use new data storage format
