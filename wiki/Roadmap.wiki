@@ -48,6 +48,7 @@ Mid February 2010
   * Make the admin Jobs List prettier: Issue #67
   * Feature Job Widget: Issue #70
   * Option to include categories under main job page in page list: Issue #73
+  * Link to related applications from Job List: Issue #75
 
 ----
 
@@ -66,6 +67,7 @@ Late February 2010
   * Allow anyone to post jobs: Issue #16
   * Company Profile: Issue #66
   * List jobs by employer: Issue #66
+  * Option to Email Job Owner when it expires: Issue #75
 
 == Changes to Existing Features ==
 
@@ -88,6 +90,7 @@ Mid March 2010
 
   * Add Scribd Support: Issue #31
   * Search: Issue #47
+  * Search Filters: Issue #75
   * Import/Export: Issue #64
   * Advanced application features: Issue #66
   * Email Notification of new jobs: Issue #71
