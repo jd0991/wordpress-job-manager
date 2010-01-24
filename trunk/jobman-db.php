@@ -551,6 +551,14 @@ function jobman_upgrade_db( $oldversion ) {
 		$options['register_page'] = $id;
 	}
 	
+	if( $oldversion < 8 ) {
+		// Fix incorrect default forms
+		foreach( $options['fields'] as $id => $field ) {
+		    if( 'Yes\r\nNo' == $field['data'] )
+		        $options['fields'][$id]['data'] = "Yes\r\nNo";
+		}
+	}
+	
 	update_option( 'jobman_options', $options );
 }
 
