@@ -61,7 +61,7 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 = Credits =
 
-Print Icon courtey of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
+Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
 
