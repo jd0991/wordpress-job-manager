@@ -49,6 +49,7 @@ Mid February 2010
   * Feature Job Widget: Issue #70
   * Option to include categories under main job page in page list: Issue #73
   * Link to related applications from Job List: Issue #75
+  * Change the name on application emails: Issue #77
 
 ----
 
