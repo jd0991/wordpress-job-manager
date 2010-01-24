@@ -76,11 +76,11 @@ Late February 2010
 
 ----
 
-= 1.0 =
+= 0.8 =
 
 == Abstract ==
 
-Polish++
+Polish v2
 
 == Due ==
 
@@ -91,6 +91,20 @@ Mid March 2010
   * Add Scribd Support: Issue #31
   * Search: Issue #47
   * Search Filters: Issue #75
+  * Email Notification of new jobs: Issue #71
+
+= 0.9 =
+
+== Abstract == 
+
+Advanced Features
+
+== Due ==
+
+Late March 2010
+
+== New Features ==
+
   * Import/Export: Issue #64
   * Advanced application features: Issue #66
-  * Email Notification of new jobs: Issue #71
+  * Application Form layout: Issue #76
