@@ -50,6 +50,9 @@ function jobman_create_default_settings() {
 								)
 				);
 	update_option( 'jobman_options', $options );
+	
+	mkdir( JOBMAN_UPLOAD_DIR . '/uploads', 0777, true );
+	mkdir( JOBMAN_UPLOAD_DIR . '/icons', 0777, true );
 }
 
 function jobman_upgrade_settings( $oldversion ) {
@@ -102,6 +105,11 @@ function jobman_upgrade_settings( $oldversion ) {
 		$options['loginform_apply'] = 1;
 		
 		update_option( 'jobman_options', $options );
+	}
+	
+	if( $oldversion < 9 ) {
+		mkdir( JOBMAN_UPLOAD_DIR . '/uploads', 0777, true );
+		mkdir( JOBMAN_UPLOAD_DIR . '/icons', 0777, true );
 	}
 }
 

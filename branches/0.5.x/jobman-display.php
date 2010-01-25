@@ -335,7 +335,7 @@ function jobman_display_jobs_list( $cat ) {
 				$content .= "'><td><a href='" . get_page_link( $job->ID ) . "'>";
 				
 				if( $jobdata['iconid'] && array_key_exists( $jobdata['iconid'], $options['icons'] ) )
-					$content .= '<img src="' . JOBMAN_URL . '/icons/' . $jobdata['iconid'] . '.' . $options['icons'][$jobdata['iconid']]['extension'] . '" title="' . $options['icons'][$jobdata['iconid']]['title'] . '" /><br/>';
+					$content .= '<img src="' . JOBMAN_UPLOAD_URL . '/icons/' . $jobdata['iconid'] . '.' . $options['icons'][$jobdata['iconid']]['extension'] . '" title="' . $options['icons'][$jobdata['iconid']]['title'] . '" /><br/>';
 
 				$content .= $job->post_title . '</a></td>';
 				$content .= '<td>' . $jobdata['salary'] . '</td>';
@@ -1001,7 +1001,7 @@ function jobman_store_application( $jobid, $cat ) {
 						$ext = $matches[1];
 						if( is_uploaded_file( $_FILES["jobman-field-$id"]['tmp_name'] ) ) {
 							$data = "$appid-$id.$ext";
-							move_uploaded_file( $_FILES["jobman-field-$id"]['tmp_name'], WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . "/uploads/$data");
+							move_uploaded_file( $_FILES["jobman-field-$id"]['tmp_name'], JOBMAN_UPLOAD_DIR . "/uploads/$data");
 						}
 					}
 					break;

@@ -64,6 +64,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.5.1 =
+* FIXED: Moved upload directories outside of the plugin directory
+
 = 0.5 =
 * ADDED: Ability for applicants to register
 * ADDED: New settings for user registration
@@ -196,8 +199,3 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.1.0 =
 * Initial release
-
-== Upgrade Notice ==
-
-= 0.5-beta1 =
-This is a beta release. Please only install it in a test environment.
