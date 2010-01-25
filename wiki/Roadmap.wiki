@@ -95,6 +95,8 @@ Mid March 2010
   * Search Filters: Issue #75
   * Email Notification of new jobs: Issue #71
 
+----
+
 = 0.9 =
 
 == Abstract == 
