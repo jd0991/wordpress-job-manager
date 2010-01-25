@@ -2180,7 +2180,7 @@ function jobman_get_uploaded_file( $filename ) {
 	header( 'Content-Type: application/force-download' );
 	header( "Content-type: $type" );
 	header( 'Content-Type: application/download' );
-	header( "Content-Disposition: attachment; filename='$filename'" );
+	header( "Content-Disposition: attachment; filename=$filename" );
 	header( 'Content-Transfer-Encoding: binary' );	
 
 	readfile( WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . "/uploads/$filename");

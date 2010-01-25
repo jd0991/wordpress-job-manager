@@ -307,10 +307,19 @@ function jobman_display_jobs_list( $cat ) {
 			$content .= jobman_display_login();
 	}
 
+	// Remove expired jobs
+	foreach( $jobs as $id => $job ) {
+		$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
+		
+		if( '' != $displayenddate && strtotime( $displayenddate ) <= time() )
+			unset( $jobs[$id] );
+	}
+
 	if( count( $jobs ) > 0 ) {
 		if( 'summary' == $list_type ) {
 			$content .= '<table class="jobs-table">';
-			$content .= '<tr><th>' . __( 'Title', 'jobman' ) . '</th><th>' . __( 'Salary', 'jobman' ) . '</th><th>' . __( 'Start Date', 'jobman' ) . '</th><th>' . __( 'Location', 'jobman' ) . '</th></tr>';
+			$content .= '<tr class="heading"><th>' . __( 'Title', 'jobman' ) . '</th><th>' . __( 'Salary', 'jobman' ) . '</th><th>' . __( 'Start Date', 'jobman' ) . '</th><th>' . __( 'Location', 'jobman' ) . '</th></tr>';
+			$rowcount = 1;
 			foreach( $jobs as $job ) {
 				$jobmeta = get_post_custom( $job->ID );
 				$jobdata = array();
@@ -321,11 +330,9 @@ function jobman_display_jobs_list( $cat ) {
 						$jobdata[$key] = $value;
 				}
 				
-				// Check that the job hasn't expired
-				if( array_key_exists( 'displayenddate', $jobdata ) && '' != $jobdata['displayenddate'] && strtotime($jobdata['displayenddate']) <= time() )
-					continue;
-
-				$content .= '<tr><td><a href="' . get_page_link( $job->ID ) . '">';
+				$content .= "<tr class='row$rowcount job$job->ID";
+				$content .= ( $rowcount % 2 )?( 'odd' ):( 'even' );
+				$content .= "'><td><a href='" . get_page_link( $job->ID ) . "'>";
 				
 				if( $jobdata['iconid'] && array_key_exists( $jobdata['iconid'], $options['icons'] ) )
 					$content .= '<img src="' . JOBMAN_URL . '/icons/' . $jobdata['iconid'] . '.' . $options['icons'][$jobdata['iconid']]['extension'] . '" title="' . $options['icons'][$jobdata['iconid']]['title'] . '" /><br/>';
@@ -340,14 +347,21 @@ function jobman_display_jobs_list( $cat ) {
 				$content .= '<td>' . $asap . '</td>';
 				$content .= '<td>' . $jobdata['location'] . '</td>';
 				$content .= '<td class="jobs-moreinfo"><a href="' . get_page_link( $job->ID ) . '">' . __( 'More Info', 'jobman' ) . '</a></td></tr>';
+				
+				$rowcount++;
 			}
 			$content .= '</table>';
 		}
 		else {
+		    $rowcount = 1;
 			foreach( $jobs as $job ) {
 				$job_html = jobman_display_job( $job );
-				if( NULL != $job_html )
-					$content .= $job_html[0]->post_content . '<br/><br/>';
+				if( NULL != $job_html ) {
+					$content .= "<div class='row$rowcount job$job->ID";
+					$content .= ( $rowcount % 2 )?( 'odd' ):( 'even' );
+					$content .= "'>" . $job_html[0]->post_content . '</div><br/><br/>';
+					$rowcount++;
+				}
 			}
 		}
 	}
@@ -589,6 +603,9 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	
 	if( count( $fields ) > 0 ) {
 		uasort( $fields, 'jobman_sort_fields' );
+		$rowcount = 1;
+		$totalrowcount = 1;
+		$tablecount = 1;
 		foreach( $fields as $id => $field ) {
 			if( array_key_exists( 'categories', $field ) && count( $field['categories'] ) > 0 ) {
 				// If there are cats defined for this field, check that either the job has one of those categories, or we're submitting to that category
@@ -596,8 +613,11 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					continue;
 			}
 			
-			if( $start && 'heading' != $field['type'] )
-				$content .= '<table class="job-apply-table">';
+			if( $start && 'heading' != $field['type'] ) {
+				$content .= "<table class='job-apply-table table$tablecount'>";
+				$tablecount++;
+				$rowcount = 1;
+			}
 
 			$data = strip_tags( $field['data'] );
 
@@ -606,20 +626,26 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 			    $data = $current_user->user_email;
 			}
 			
+			if( 'heading' != $field['type'] ) {
+				$content .= "<tr class='row$rowcount totalrow$totalrowcount field$id ";
+				$content .= ( $rowcount % 2 )?( 'odd' ):( 'even' );
+				$content .= "'>";
+			}
+			
 			switch( $field['type'] ) {
 				case 'text':
 					if( '' != $field['label'] )
-						$content .= "<tr><th scope='row'>{$field['label']}</th>";
+						$content .= "<th scope='row'>{$field['label']}</th>";
 					else
-						$content .= '<tr><td class="th"></td>';
+						$content .= '<td class="th"></td>';
 					
 					$content .= "<td><input type='text' name='jobman-field-$id' value='$data' /></td></tr>";
 					break;
 				case 'radio':
 					if( '' != $field['label'] )
-						$content .= "<tr><th scope='row'>{$field['label']}</th><td>";
+						$content .= "<th scope='row'>{$field['label']}</th><td>";
 					else
-						$content .= '<tr><td class="th"></td><td>';
+						$content .= '<td class="th"></td><td>';
 					
 					$values = split( "\n", $data );
 					$display_values = split( "\n", $field['data'] );
@@ -631,9 +657,9 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					break;
 				case 'checkbox':
 					if( '' != $field['label'] )
-						$content .= "<tr><th scope='row'>{$field['label']}</th><td>";
+						$content .= "<th scope='row'>{$field['label']}</th><td>";
 					else
-						$content .= '<tr><td class="th"></td><td>';
+						$content .= '<td class="th"></td><td>';
 
 					$values = split( "\n", $data );
 					$display_values = split( "\n", $field['data'] );
@@ -645,25 +671,25 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					break;
 				case 'textarea':
 					if( '' != $field['label'] )
-						$content .= "<tr><th scope='row'>{$field['label']}</th>";
+						$content .= "<th scope='row'>{$field['label']}</th>";
 					else
-						$content .= '<tr><td class="th"></td>';
+						$content .= '<td class="th"></td>';
 
 					$content .= "<td><textarea name='jobman-field-$id'>{$field['data']}</textarea></td></tr>";
 					break;
 				case 'date':
 					if( '' != $field['label'] )
-						$content .= "<tr><th scope='row'>{$field['label']}</th>";
+						$content .= "<th scope='row'>{$field['label']}</th>";
 					else
-						$content .= '<tr><td class="th"></td>';
+						$content .= '<td class="th"></td>';
 
 					$content .= "<td><input type='text' class='datepicker' name='jobman-field-$id' value='$data' /></td></tr>";
 					break;
 				case 'file':
 					if( '' != $field['label'] )
-						$content .= "<tr><th scope='row'>{$field['label']}</th>";
+						$content .= "<th scope='row'>{$field['label']}</th>";
 					else
-						$content .= '<tr><td class="th"></td>';
+						$content .= '<td class="th"></td>';
 
 					$content .= "<td><input type='file' name='jobman-field-$id' /></td></tr>";
 					break;
@@ -672,21 +698,26 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 						$content .= '</table>';
 
 					$content .= "<h3>{$field['label']}</h3>";
-					$content .= '<table class="job-apply-table">';
+					$content .= "<table class='job-apply-table table$tablecount'>";
+					$tablecount++;
+					$totalrowcount--;
+					$rowcount = 0;
 					break;
 				case 'html':
 					if( '' != $field['label'] )
-						$content .= "<tr><th scope='row'>{$field['label']}</th>";
+						$content .= "<th scope='row'>{$field['label']}</th>";
 					else
-						$content .= '<tr><td class="th"></td>';
+						$content .= '<td class="th"></td>';
 
 					$content .= "<td>{$field['data']}</td></tr>";
 					break;
 				case 'blank':
-					$content .= '<tr><td colspan="2">&nbsp;</td></tr>';
+					$content .= '<td colspan="2">&nbsp;</td></tr>';
 					break;
 			}
 			$start = false;
+			$rowcount++;
+			$totalrowcount++;
 		}
 	}
 	

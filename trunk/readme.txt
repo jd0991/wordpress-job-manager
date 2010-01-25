@@ -80,6 +80,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Print icon to Application Details page
 * ADDED: Option in Application Details to email application a different person
 * ADDED: HTML Code field to Application Form Settings
+* ADDED: A bunch of CSS classes to the front end elements
 * CHANGED: User permissions: 'publish_posts' capability (author) is required for posting jobs, 'read_private_pages' capability (editor) is required for viewing applications
 * CHANGED: Removed main URL editing from settings
 * CHANGED: Settings page layout, for readability
@@ -92,6 +93,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Code cleanup, to conform more closely with [WordPress Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards)
 * FIXED: Job Lists not obeying Display End Date
 * FIXED: Default Application Form had an incorrect data entry
+* FIXED: Bug in file naming for downloading applicant files
 
 = 0.4.8 =
 * FIXED: Timeout problem on Application List page, if there are less than 5 applications
