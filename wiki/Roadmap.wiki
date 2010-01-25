@@ -1,26 +1,5 @@
 #summary Roadmap for upcoming releases of Job Manager
 
-= 0.5 =
-
-== Abstract ==
-
-Allow user registration, application tracking and feedback
-
-== Due ==
-
-Late January 2010
-
-== New Features ==
-
-  * Allow users to register: Issue #8 (multi-part issue, will not be closed before release)
-  * Keep an archive of all communication: Issue #2
-  * Rank applicants for easy filtering: Issue #45
-  * Forward Applicants to other users: Issue #54
-  * Email applications per-job: Issue #69
-  * Add an 'Add Job' button to the wp-admin menu: Issue #72 (multi-part issue, will not be closed before release)
-
-----
-
 = 0.6 =
 
 == Abstract ==
@@ -51,6 +30,7 @@ Mid February 2010
   * Link to related applications from Job List: Issue #75
   * Change the name on application emails: Issue #77
   * Limit number of jobs/page, add Back/Forward buttons: Issue #79
+  * CSS classes on display elements: Issue #80
 
 ----
 
@@ -110,5 +90,6 @@ Late March 2010
 == New Features ==
 
   * Import/Export: Issue #64
+  * Advanced registration features: Issue #8
   * Advanced application features: Issue #66
   * Application Form layout: Issue #76
