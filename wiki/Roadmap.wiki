@@ -32,6 +32,7 @@ Mid February 2010
   * Limit number of jobs/page, add Back/Forward buttons: Issue #79
   * CSS classes on display elements: Issue #80
   * Improved Uninstall: Issue #82
+  * Block application fields being emailed: Issue #87
 
 ----
 
