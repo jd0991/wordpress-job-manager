@@ -31,6 +31,7 @@ Mid February 2010
   * Change the name on application emails: Issue #77
   * Limit number of jobs/page, add Back/Forward buttons: Issue #79
   * CSS classes on display elements: Issue #80
+  * Improved Uninstall: Issue #82
 
 ----
 
