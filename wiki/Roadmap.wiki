@@ -86,7 +86,7 @@ Advanced Features
 
 == Due ==
 
-Late March 2010
+April 2010
 
 == New Features ==
 
@@ -94,3 +94,22 @@ Late March 2010
   * Advanced registration features: Issue #8
   * Advanced application features: Issue #66
   * Application Form layout: Issue #76
+  * Internal Notes: Issue #83
+  * Interview Scheduling: Issue #84
+  * Track inbound emails: Issue #85
+
+----
+
+= 1.0 =
+
+== Abstract == 
+
+Even HR will like this release.
+
+== Due ==
+
+May 2010
+
+== New Features ==
+
+  * CRM: Issue #86
