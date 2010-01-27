@@ -64,6 +64,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.5.3 =
+* FIXED: Application list not filtering correctly if no rating selected
+
 = 0.5.2 =
 * FIXED: Job list not loading after creating a new job
 * FIXED: Application categories somehow got wiped, restored them

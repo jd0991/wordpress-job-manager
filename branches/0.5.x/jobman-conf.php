@@ -1227,19 +1227,19 @@ function jobman_list_applications() {
 	// Add category filter
 	if( array_key_exists( 'jobman-categories', $_REQUEST ) && is_array( $_REQUEST['jobman-categories'] ) ) {
 		$filtered = true;
-		$args['jobman_category__in'] = array();
+		$args['jcat__in'] = array();
 		foreach( $_REQUEST['jobman-categories'] as $cat ) {
-			$args['jobman_category__in'][] = $cat;
+			$args['jcat__in'][] = $cat;
 		}
 	}
 	
 	// Add star rating filter
-	if( array_key_exists( 'jobman-rating', $_REQUEST ) ) {
+	if( array_key_exists( 'jobman-rating', $_REQUEST ) && is_int( $_REQUEST['jobman-rating'] ) ) {
 	    $args['meta_key'] = 'rating';
 	    $args['meta_value'] = $_REQUEST['jobman-rating'];
 	    $args['meta_compare'] = '>=';
 	}
-	
+
 	$applications = get_posts( $args );
 	
 	$app_displayed = false;
