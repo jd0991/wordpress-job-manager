@@ -64,6 +64,12 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.5.2 =
+* FIXED: Job list not loading after creating a new job
+* FIXED: Application categories somehow got wiped, restored them
+* FIXED: Category could not be stored on application, under some circumstances
+* FIXED: Wrong translation domain on a string
+
 = 0.5.1 =
 * FIXED: Moved upload directories outside of the plugin directory
 

@@ -663,7 +663,7 @@ function jobman_edit_job( $jobid ) {
 			$jobdata[$key] = $value;
 	}
 ?>
-	<form action="" method="post">
+	<form action="<?php echo admin_url('admin.php?page=jobman-list-jobs') ?>" method="post">
 	<input type="hidden" name="jobmansubmit" value="1" />
 	<input type="hidden" name="jobman-jobid" value="<?php echo $jobid ?>" />
 <?php 
@@ -1319,7 +1319,7 @@ function jobman_list_applications() {
 					$name = $author->display_name;
 				}
 ?>
-				<td><?php echo $name ?></th>
+				<td><?php echo $name ?></td>
 <?php
 			}
 			

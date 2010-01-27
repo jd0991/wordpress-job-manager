@@ -948,9 +948,9 @@ function jobman_store_application( $jobid, $cat ) {
 			$parent = $job->ID;
 	}
 	
-	if( NULL == $job && NULL != $cat ) {
+	if( NULL != $cat ) {
 		$cat = get_term_by( 'slug', $cat, 'jobman_category' );
-		if( NULL != $cat ) {
+		if( NULL != $cat && NULL != $job ) {
 			$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$cat->term_id&numberposts=-1" );
 			if( count( $data ) > 0 )
 				$parent = $data[0]->ID;
@@ -972,15 +972,15 @@ function jobman_store_application( $jobid, $cat ) {
 	$appid = wp_insert_post( $page );
 
 	// Add the categories to the page
-	if( NULL != $cat && is_term( $cat->term_id, 'jobman_category' ) )
-		wp_set_object_terms( $appid, $cat->term_id, 'jobman_category', true );
+	if( NULL != $cat && is_term( $cat->slug, 'jobman_category' ) )
+		wp_set_object_terms( $appid, $cat->slug, 'jobman_category', true );
 
 	if( NULL != $job ) {
 		// Get parent (job) categories, and apply them to application
 		$parentcats = wp_get_object_terms( $job->ID, 'jobman_category' );
 		foreach( $parentcats as $pcat ) {
-			if( is_term( $pcat->term_id, 'jobman_category' ) )
-				wp_set_object_terms( $appid, $pcat->term_id, 'jobman_category', true );
+			if( is_term( $pcat->slug, 'jobman_category' ) )
+				wp_set_object_terms( $appid, $pcat->slug, 'jobman_category', true );
 		}
 	}
 	
