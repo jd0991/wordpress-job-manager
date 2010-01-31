@@ -67,7 +67,12 @@ function jobman_page_taxonomy_setup() {
 	register_post_type( 'jobman_email', array( 'exclude_from_search' => true ) );
 
 	// Create our new taxonomy thing
-	register_taxonomy( 'jobman_category', array( 'jobman_job', 'jobman_app' ), array( 'hierarchical' => false, 'label' => __( 'Category', 'series' ), 'query_var' => 'jcat' ) );
+	$options = get_option( 'jobman_options' );
+	
+	$root = get_page( $options['main_page'] );
+	$url = get_page_uri( $root->ID );
+
+	register_taxonomy( 'jobman_category', array( 'jobman_job', 'jobman_app' ), array( 'hierarchical' => false, 'label' => __( 'Category', 'series' ), 'query_var' => 'jcat', 'rewrite' => $url ) );
 }
 
 function jobman_page_hierarchical_setup( $types ) {

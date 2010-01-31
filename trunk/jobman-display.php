@@ -307,12 +307,19 @@ function jobman_display_jobs_list( $cat ) {
 			$content .= jobman_display_login();
 	}
 
-	// Remove expired jobs
 	foreach( $jobs as $id => $job ) {
+		// Remove expired jobs
 		$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
-		
 		if( '' != $displayenddate && strtotime( $displayenddate ) <= time() )
 			unset( $jobs[$id] );
+			
+		// Get related categories
+		if( $options['related_categories'] ) {
+			$categories = wp_get_object_terms( $job->ID, 'jobman_category' );
+			if( count( $categories ) > 0 ) {
+				
+			}
+		}
 	}
 
 	if( count( $jobs ) > 0 ) {

@@ -255,11 +255,19 @@ function jobman_print_categories_box() {
 	
 	echo $template;
 ?>
-		<tr id="jobman-catnew">
-				<td colspan="5" style="text-align: right;">
-					<input type="hidden" name="jobman-delete-list" id="jobman-delete-category-list" value="" />
-					<a href="#" onclick="jobman_new( 'jobman-catnew', 'category' ); return false;"><?php _e( 'Add New Category', 'jobman' ) ?></a>
-				</td>
+			<tr id="jobman-catnew">
+					<td colspan="5" style="text-align: right;">
+						<input type="hidden" name="jobman-delete-list" id="jobman-delete-category-list" value="" />
+						<a href="#" onclick="jobman_new( 'jobman-catnew', 'category' ); return false;"><?php _e( 'Add New Category', 'jobman' ) ?></a>
+					</td>
+			</tr>
+		</table>
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e( 'Show related categories?', 'jobman' ) ?></th>
+				<td><input type="checkbox" name="related-categories" <?php echo ( $options['related_categories'] )?( 'checked="checked" ' ):( '' ) ?>/></td>
+				<td><span class="description"><?php _e( 'This will show a list of categories that any jobs in a given job list belong to.', 'jobman' ) ?></span></td>
+			</tr>
 		</table>
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Categories', 'jobman' ) ?>" /></p>
 <script type="text/javascript"> 
@@ -1952,8 +1960,15 @@ function jobman_categories_updatedb() {
 		}
 	}
 
-	if( get_option( 'jobman_plugin_gxs' ) )
+	if( array_key_exists( 'related-categories', $_REQUEST ) && $_REQUEST['related-categories'] )
+		$options['related_categories'] = 1;
+	else
+		$options['related_categories'] = 0;
+	
+	if( $options['plugins']['gxs'] )
 		do_action( 'sm_rebuild' );
+		
+	update_option( 'jobman_options', $options );
 }
 
 function jobman_icons_updatedb() {
