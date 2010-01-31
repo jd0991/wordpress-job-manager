@@ -1578,7 +1578,7 @@ function jobman_application_delete() {
 
 		// Delete any files uploaded
 		foreach( $file_fields as $fid ) {
-			if( array_key_exists( "data$fid", $appdata ) ) {
+			if( array_key_exists( "data$fid", $appdata )  && '' != $appdata["data$fid"] ) {
 				$filename = JOBMAN_UPLOAD_DIR . '/uploads/' . $appdata["data$fid"];
 				if( file_exists( $filename ) )
 					unlink( $filename );
