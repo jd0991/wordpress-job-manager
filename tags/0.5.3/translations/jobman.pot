@@ -1,0 +1,1032 @@
+# Translation of the WordPress plugin Job Manager 0.5-beta1 by Gary Pendergast.
+# Copyright (C) 2010 Gary Pendergast
+# This file is distributed under the same license as the Job Manager package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Job Manager 0.5-beta1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/job-manager\n"
+"POT-Creation-Date: 2010-01-23 18:55+0000\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. #-#-#-#-#  plugin.pot (Job Manager 0.5-beta1)  #-#-#-#-#
+#. Plugin Name of an extension
+#: jobman-conf.php:7 jobman-conf.php:8 jobman-conf.php:9 jobman-conf.php:10
+#: jobman-conf.php:11 jobman-conf.php:12 jobman-conf.php:13
+msgid "Job Manager"
+msgstr ""
+
+#: jobman-conf.php:8 jobman-conf.php:120 jobman-conf.php:131
+msgid "Settings"
+msgstr ""
+
+#: jobman-conf.php:9
+msgid "App. Form Settings"
+msgstr ""
+
+#: jobman-conf.php:10
+msgid "Add Job"
+msgstr ""
+
+#: jobman-conf.php:11
+msgid "List Jobs"
+msgstr ""
+
+#: jobman-conf.php:12
+msgid "List Applications"
+msgstr ""
+
+#: jobman-conf.php:13
+msgid "List Emails"
+msgstr ""
+
+#: jobman-conf.php:101
+msgid "Job Manager: Settings"
+msgstr ""
+
+#: jobman-conf.php:106
+msgid ""
+"It seems the Job Manager data directories are not writeable. In order to "
+"allow applicants to upload resumes, and for you to upload icons, please make "
+"the following directories writeable."
+msgstr ""
+
+#: jobman-conf.php:109
+#, php-format
+msgid ""
+"For help with changing directory permissions, please see <a href=\"%1s"
+"\">this page</a> in the WordPress documentation."
+msgstr ""
+
+#: jobman-conf.php:120 jobman-conf.php:131 jobman-conf.php:539
+#: jobman-conf.php:681 jobman-conf.php:844 jobman-conf.php:1035
+#: jobman-conf.php:1163 jobman-conf.php:1192 jobman-display.php:436
+msgid "Categories"
+msgstr ""
+
+#: jobman-conf.php:120 jobman-conf.php:132
+msgid "Icons"
+msgstr ""
+
+#: jobman-conf.php:120 jobman-conf.php:132
+msgid "User Settings"
+msgstr ""
+
+#: jobman-conf.php:120 jobman-conf.php:132
+msgid "Application Email Settings"
+msgstr ""
+
+#: jobman-conf.php:120 jobman-conf.php:131
+msgid "Other Plugins"
+msgstr ""
+
+#: jobman-conf.php:121
+msgid "Donate"
+msgstr ""
+
+#: jobman-conf.php:121
+msgid "About This Plugin"
+msgstr ""
+
+#: jobman-conf.php:149
+msgid "URL path"
+msgstr ""
+
+#: jobman-conf.php:152
+msgid "edit"
+msgstr ""
+
+#: jobman-conf.php:156
+msgid "Job Manager Page Template"
+msgstr ""
+
+#: jobman-conf.php:157
+#, php-format
+msgid ""
+"You can edit the page template used by Job Manager, by editing the Template "
+"Attribute of <a href=\"%s\">this page</a>."
+msgstr ""
+
+#: jobman-conf.php:160
+msgid "Default email"
+msgstr ""
+
+#: jobman-conf.php:164
+msgid "Show summary or full jobs list?"
+msgstr ""
+
+#: jobman-conf.php:166
+msgid "Summary"
+msgstr ""
+
+#: jobman-conf.php:167
+msgid "Full"
+msgstr ""
+
+#: jobman-conf.php:170
+msgid "Summary: displays many jobs concisely."
+msgstr ""
+
+#: jobman-conf.php:171
+msgid "Full: allows quicker access to the application form."
+msgstr ""
+
+#: jobman-conf.php:178
+msgid "Hide \"Powered By\" link?"
+msgstr ""
+
+#: jobman-conf.php:180
+msgid ""
+"If you're unable to donate, I would appreciate it if you left this unchecked."
+msgstr ""
+
+#: jobman-conf.php:187
+msgid "Update Settings"
+msgstr ""
+
+#: jobman-conf.php:195
+msgid ""
+"Similar to the normal WordPress Categories, Job Manager categories can be "
+"used to split jobs into different groups. They can also be used to customise "
+"how the Application Form appears for jobs in different categories."
+msgstr ""
+
+#: jobman-conf.php:197 jobman-conf.php:210 jobman-conf.php:280
+#: jobman-conf.php:292 jobman-conf.php:538 jobman-conf.php:731
+#: jobman-display.php:314 jobman-display.php:434 jobman-display.php:589
+msgid "Title"
+msgstr ""
+
+#: jobman-conf.php:197
+msgid "The display name of the category"
+msgstr ""
+
+#: jobman-conf.php:198 jobman-conf.php:211
+msgid "Slug"
+msgstr ""
+
+#: jobman-conf.php:198
+msgid "The URL of the category"
+msgstr ""
+
+#: jobman-conf.php:199 jobman-conf.php:212 jobman-conf.php:1413
+#: jobman-conf.php:1526
+msgid "Email"
+msgstr ""
+
+#: jobman-conf.php:199
+msgid ""
+"The address to notify when new applications are submitted in this category"
+msgstr ""
+
+#: jobman-conf.php:200 jobman-conf.php:213 jobman-conf.php:242
+msgid "Link"
+msgstr ""
+
+#: jobman-conf.php:200
+msgid "The URL of the list of jobs in this category"
+msgstr ""
+
+#: jobman-conf.php:214 jobman-conf.php:243 jobman-conf.php:254
+#: jobman-conf.php:294 jobman-conf.php:310 jobman-conf.php:319
+#: jobman-conf.php:560 jobman-conf.php:848 jobman-conf.php:903
+#: jobman-conf.php:929 jobman-conf.php:1414
+msgid "Delete"
+msgstr ""
+
+#: jobman-conf.php:261
+msgid "Add New Category"
+msgstr ""
+
+#: jobman-conf.php:264
+msgid "Update Categories"
+msgstr ""
+
+#: jobman-conf.php:277
+msgid ""
+"Icons can be assigned to jobs that you want to draw attention to. These "
+"icons will only be displayed when using the \"Summary\" jobs list type."
+msgstr ""
+
+#: jobman-conf.php:279 jobman-conf.php:291 jobman-conf.php:706
+msgid "Icon"
+msgstr ""
+
+#: jobman-conf.php:279
+msgid "The current icon"
+msgstr ""
+
+#: jobman-conf.php:280
+msgid "The display name of the icon"
+msgstr ""
+
+#: jobman-conf.php:281 jobman-conf.php:293
+msgid "File"
+msgstr ""
+
+#: jobman-conf.php:281
+msgid "The icon file"
+msgstr ""
+
+#: jobman-conf.php:326
+msgid "Add New Icon"
+msgstr ""
+
+#: jobman-conf.php:329
+msgid "Update Icons"
+msgstr ""
+
+#: jobman-conf.php:342
+msgid ""
+"Allowing users to register means that they and you can more easily keep "
+"track of jobs they've applied for."
+msgstr ""
+
+#: jobman-conf.php:350
+msgid "Enable User Registration"
+msgstr ""
+
+#: jobman-conf.php:352
+msgid ""
+"This will allow users to register for the Jobs system, even if user "
+"registration is disabled for your blog."
+msgstr ""
+
+#: jobman-conf.php:355
+msgid "Require User Registration"
+msgstr ""
+
+#: jobman-conf.php:357
+msgid ""
+"If the previous option is checked, this option will require users to login "
+"before they can complete the application form."
+msgstr ""
+
+#: jobman-conf.php:360
+msgid "Which pages should the login form be displayed on?"
+msgstr ""
+
+#: jobman-conf.php:362
+msgid "The main jobs list"
+msgstr ""
+
+#: jobman-conf.php:363
+msgid "Category jobs lists"
+msgstr ""
+
+#: jobman-conf.php:364
+msgid "Individual jobs"
+msgstr ""
+
+#: jobman-conf.php:365
+msgid "The application form"
+msgstr ""
+
+#: jobman-conf.php:369
+msgid "Update User Settings"
+msgstr ""
+
+#: jobman-conf.php:379
+msgid ""
+"When an application successfully submits an application, an email will be "
+"sent to the appropriate user. These options allow you to customise that "
+"email."
+msgstr ""
+
+#: jobman-conf.php:387 jobman-display.php:812
+msgid "Email Address"
+msgstr ""
+
+#: jobman-conf.php:389 jobman-conf.php:414
+msgid "None"
+msgstr ""
+
+#: jobman-conf.php:407
+msgid ""
+"The application field to use as the email address. This will be the \"From\" "
+"address in the initial application, and the field used for emailing "
+"applicants."
+msgstr ""
+
+#: jobman-conf.php:410 jobman-conf.php:1606 jobman-conf.php:1614
+#: jobman-conf.php:1669 jobman-conf.php:1754
+msgid "Subject"
+msgstr ""
+
+#: jobman-conf.php:433
+msgid "The email subject, and any fields to include in the subject."
+msgstr ""
+
+#: jobman-conf.php:437
+msgid "Update Email Settings"
+msgstr ""
+
+#: jobman-conf.php:444
+msgid ""
+"Job Manager provides extra functionality through the use of other plugins "
+"available for WordPress. These plugins are not required for Job Manager to "
+"function, but do provide enhancements."
+msgstr ""
+
+#: jobman-conf.php:452
+msgid "Installed"
+msgstr ""
+
+#: jobman-conf.php:457
+msgid "Not Installed"
+msgstr ""
+
+#: jobman-conf.php:460
+msgid "Google XML Sitemaps"
+msgstr ""
+
+#: jobman-conf.php:461
+msgid ""
+"Allows you to automatically add all your job listing and job detail pages to "
+"your sitemap. By default, only the main job list is added."
+msgstr ""
+
+#: jobman-conf.php:463
+msgid "Download"
+msgstr ""
+
+#: jobman-conf.php:464
+msgid "Status"
+msgstr ""
+
+#: jobman-conf.php:465
+msgid "Version"
+msgstr ""
+
+#: jobman-conf.php:466
+msgid "Job Manager requires Google XML Sitemaps version 3.2 or later."
+msgstr ""
+
+#: jobman-conf.php:471
+msgid "Options"
+msgstr ""
+
+#: jobman-conf.php:474
+msgid "Add Job pages to your Sitemap?"
+msgstr ""
+
+#: jobman-conf.php:481
+msgid "Update Plugin Settings"
+msgstr ""
+
+#: jobman-conf.php:510
+msgid "Job Manager: Jobs List"
+msgstr ""
+
+#: jobman-conf.php:513
+msgid "New Job"
+msgstr ""
+
+#: jobman-conf.php:518
+msgid "There is no job associated with that Job ID"
+msgstr ""
+
+#: jobman-conf.php:521
+msgid "New job created"
+msgstr ""
+
+#: jobman-conf.php:524
+msgid "Job updated"
+msgstr ""
+
+#: jobman-conf.php:540
+msgid "Display Dates"
+msgstr ""
+
+#: jobman-conf.php:551
+msgid "There are currently no jobs in the system."
+msgstr ""
+
+#: jobman-conf.php:559 jobman-conf.php:1412
+msgid "Bulk Actions"
+msgstr ""
+
+#: jobman-conf.php:562 jobman-conf.php:1416
+msgid "Apply"
+msgstr ""
+
+#: jobman-conf.php:604
+msgid "Edit"
+msgstr ""
+
+#: jobman-conf.php:604
+msgid "View"
+msgstr ""
+
+#: jobman-conf.php:606
+msgid "End of Time"
+msgstr ""
+
+#: jobman-conf.php:607
+msgid "Live/Upcoming"
+msgstr ""
+
+#: jobman-conf.php:607
+msgid "Expired"
+msgstr ""
+
+#: jobman-conf.php:632
+msgid "Job Manager: New Job"
+msgstr ""
+
+#: jobman-conf.php:633
+msgid "Create Job"
+msgstr ""
+
+#: jobman-conf.php:637
+msgid "Job Manager: Edit Job"
+msgstr ""
+
+#: jobman-conf.php:638
+msgid "Update Job"
+msgstr ""
+
+#: jobman-conf.php:676 jobman-conf.php:1005
+msgid "Job ID"
+msgstr ""
+
+#: jobman-conf.php:703
+msgid ""
+"Categories that this job belongs to. It will be displayed in the job list "
+"for each category selected."
+msgstr ""
+
+#: jobman-conf.php:726
+msgid "No Icon"
+msgstr ""
+
+#: jobman-conf.php:728
+msgid "Icon to display for this job in the Job List"
+msgstr ""
+
+#: jobman-conf.php:736 jobman-display.php:314 jobman-display.php:448
+msgid "Salary"
+msgstr ""
+
+#: jobman-conf.php:741 jobman-display.php:314 jobman-display.php:455
+msgid "Start Date"
+msgstr ""
+
+#: jobman-conf.php:743
+msgid ""
+"The date that the job starts. For positions available immediately, leave "
+"blank."
+msgstr ""
+
+#: jobman-conf.php:746 jobman-display.php:456
+msgid "End Date"
+msgstr ""
+
+#: jobman-conf.php:748
+msgid "The date that the job finishes. For ongoing positions, leave blank."
+msgstr ""
+
+#: jobman-conf.php:751 jobman-display.php:314 jobman-display.php:457
+msgid "Location"
+msgstr ""
+
+#: jobman-conf.php:756
+msgid "Display Start Date"
+msgstr ""
+
+#: jobman-conf.php:758
+msgid ""
+"The date this job should start being displayed on the site. To start "
+"displaying immediately, leave blank."
+msgstr ""
+
+#: jobman-conf.php:761
+msgid "Display End Date"
+msgstr ""
+
+#: jobman-conf.php:763
+msgid ""
+"The date this job should stop being displayed on the site. To display "
+"indefinitely, leave blank."
+msgstr ""
+
+#: jobman-conf.php:766
+msgid "Job Information"
+msgstr ""
+
+#: jobman-conf.php:770
+msgid "Application Email"
+msgstr ""
+
+#: jobman-conf.php:772
+msgid ""
+"The email address to notify when an application is submitted for this job. "
+"For default behaviour (category email or global email), leave blank."
+msgstr ""
+
+#: jobman-conf.php:792
+msgid "Job Manager: Jobs"
+msgstr ""
+
+#: jobman-conf.php:793
+msgid ""
+"This will permanently delete all of the selected jobs. Please confirm that "
+"you want to continue."
+msgstr ""
+
+#: jobman-conf.php:794
+msgid "Delete Jobs"
+msgstr ""
+
+#: jobman-conf.php:820
+msgid "Text Input"
+msgstr ""
+
+#: jobman-conf.php:821
+msgid "Radio Buttons"
+msgstr ""
+
+#: jobman-conf.php:822
+msgid "Checkboxes"
+msgstr ""
+
+#: jobman-conf.php:823
+msgid "Large Text Input (textarea)"
+msgstr ""
+
+#: jobman-conf.php:824
+msgid "Date Selector"
+msgstr ""
+
+#: jobman-conf.php:825
+msgid "File Upload"
+msgstr ""
+
+#: jobman-conf.php:826
+msgid "Heading"
+msgstr ""
+
+#: jobman-conf.php:827
+msgid "HTML Code"
+msgstr ""
+
+#: jobman-conf.php:828
+msgid "Blank Space"
+msgstr ""
+
+#: jobman-conf.php:839
+msgid "Job Manager: Application Setup"
+msgstr ""
+
+#: jobman-conf.php:843
+msgid "Field Label/Type"
+msgstr ""
+
+#: jobman-conf.php:845
+msgid "Data"
+msgstr ""
+
+#: jobman-conf.php:846
+msgid "Submit Filter/Filter Error Message"
+msgstr ""
+
+#: jobman-conf.php:847
+msgid "Sort Order"
+msgstr ""
+
+#: jobman-conf.php:881 jobman-conf.php:917
+msgid "Show this field in the Application List?"
+msgstr ""
+
+#: jobman-conf.php:900
+msgid "error"
+msgstr ""
+
+#: jobman-conf.php:902 jobman-conf.php:928
+msgid "Up"
+msgstr ""
+
+#: jobman-conf.php:902 jobman-conf.php:928
+msgid "Down"
+msgstr ""
+
+#: jobman-conf.php:939
+msgid "Add New Field"
+msgstr ""
+
+#: jobman-conf.php:943
+msgid "Update Application Form"
+msgstr ""
+
+#: jobman-conf.php:988 jobman-conf.php:1547
+msgid "Job Manager: Applications"
+msgstr ""
+
+#: jobman-conf.php:991
+msgid "Selected applications have been deleted."
+msgstr ""
+
+#: jobman-conf.php:993
+msgid "The mailout has been sent."
+msgstr ""
+
+#: jobman-conf.php:1002
+msgid "Standard Filters"
+msgstr ""
+
+#: jobman-conf.php:1012
+msgid "Registered Applicant"
+msgstr ""
+
+#: jobman-conf.php:1014
+msgid "All Applicants"
+msgstr ""
+
+#: jobman-conf.php:1058
+msgid "Minimum Rating"
+msgstr ""
+
+#: jobman-conf.php:1076
+msgid "Custom Filters"
+msgstr ""
+
+#: jobman-conf.php:1130
+msgid "This field cannot be filtered."
+msgstr ""
+
+#: jobman-conf.php:1140
+msgid "Filter Applications"
+msgstr ""
+
+#: jobman-conf.php:1144
+msgid "Show Filter Options"
+msgstr ""
+
+#: jobman-conf.php:1145
+msgid "Hide Filter Options"
+msgstr ""
+
+#: jobman-conf.php:1155 jobman-conf.php:1184 jobman-conf.php:1463
+#: jobman-display.php:485 jobman-display.php:1202
+msgid "Job"
+msgstr ""
+
+#: jobman-conf.php:1159 jobman-conf.php:1188
+msgid "User"
+msgstr ""
+
+#: jobman-conf.php:1175 jobman-conf.php:1204 jobman-conf.php:1361
+msgid "View Details"
+msgstr ""
+
+#: jobman-conf.php:1176 jobman-conf.php:1205 jobman-conf.php:1693
+msgid "Emails"
+msgstr ""
+
+#: jobman-conf.php:1177 jobman-conf.php:1206 jobman-conf.php:1467
+msgid "Rating"
+msgstr ""
+
+#: jobman-conf.php:1308
+msgid "No job"
+msgstr ""
+
+#: jobman-conf.php:1315
+msgid "Unregistered Applicant"
+msgstr ""
+
+#: jobman-conf.php:1396
+msgid "There were no applications that matched your search."
+msgstr ""
+
+#: jobman-conf.php:1398
+msgid "There are currently no applications in the system."
+msgstr ""
+
+#: jobman-conf.php:1444
+msgid "Job Manager: Application Details"
+msgstr ""
+
+#: jobman-conf.php:1445 jobman-conf.php:1528
+msgid "Back to Application List"
+msgstr ""
+
+#: jobman-conf.php:1465 jobman-display.php:1206
+msgid "Timestamp"
+msgstr ""
+
+#: jobman-conf.php:1519
+msgid "Email Application"
+msgstr ""
+
+#: jobman-conf.php:1520
+msgid "Use this form to email the application to a new email address."
+msgstr ""
+
+#: jobman-conf.php:1532
+msgid "No such application."
+msgstr ""
+
+#: jobman-conf.php:1548
+msgid ""
+"This will permanently delete all of the selected applications. Please "
+"confirm that you want to continue."
+msgstr ""
+
+#: jobman-conf.php:1549
+msgid "Delete Applications"
+msgstr ""
+
+#: jobman-conf.php:1598
+msgid "Job Manager: Emails"
+msgstr ""
+
+#: jobman-conf.php:1600
+msgid ""
+"In the \"Applications Sent To\" column, click the number to go to that "
+"application, or click the asterisk (*) next to it to see other emails sent "
+"to that application."
+msgstr ""
+
+#: jobman-conf.php:1605 jobman-conf.php:1613
+msgid "Date"
+msgstr ""
+
+#: jobman-conf.php:1607 jobman-conf.php:1615
+msgid "Applications Sent To"
+msgstr ""
+
+#: jobman-conf.php:1658
+msgid "No such email."
+msgstr ""
+
+#: jobman-conf.php:1663
+msgid "Job Manager: Email"
+msgstr ""
+
+#: jobman-conf.php:1665
+msgid ""
+"In the \"Applications\" field, click the number to go to that application, "
+"or click the asterisk (*) next to it to see other emails sent to that "
+"application."
+msgstr ""
+
+#: jobman-conf.php:1685
+msgid "Applications"
+msgstr ""
+
+#: jobman-conf.php:1701 jobman-conf.php:1758
+msgid "Message"
+msgstr ""
+
+#: jobman-conf.php:1736
+msgid "Job Manager: Application Email"
+msgstr ""
+
+#: jobman-conf.php:1746
+msgid "From"
+msgstr ""
+
+#: jobman-conf.php:1750
+msgid "To"
+msgstr ""
+
+#: jobman-conf.php:1763
+msgid "Send Email"
+msgstr ""
+
+#: jobman-conf.php:2191
+msgid ""
+"If this plugin helps you find that perfect new employee, I'd appreciate it "
+"if you shared the love, by way of my Donate or Amazon Wish List links below."
+msgstr ""
+
+#: jobman-conf.php:2193
+msgid "My Amazon Wish List"
+msgstr ""
+
+#: jobman-conf.php:2194
+msgid "Donate with PayPal"
+msgstr ""
+
+#: jobman-conf.php:2202
+msgid "Gary Pendergast's Blog"
+msgstr ""
+
+#: jobman-conf.php:2203
+msgid "Follow me on Twitter!"
+msgstr ""
+
+#: jobman-conf.php:2204
+msgid "Plugin Homepage"
+msgstr ""
+
+#: jobman-conf.php:2205
+msgid "Submit a Bug/Feature Request"
+msgstr ""
+
+#: jobman-db.php:198 jobman-db.php:272 jobman-display.php:289
+msgid "Jobs Listing"
+msgstr ""
+
+#: jobman-db.php:199 jobman-db.php:273
+msgid ""
+"Hi! This page is used by your Job Manager plugin as a base. Feel free to "
+"change settings here, but please do not delete this page. Also note that any "
+"content you enter here will not show up when this page is displayed on your "
+"site."
+msgstr ""
+
+#: jobman-db.php:214 jobman-db.php:485 jobman-display.php:228
+#: jobman-display.php:531 jobman-display.php:561 jobman-display.php:573
+msgid "Job Application"
+msgstr ""
+
+#: jobman-db.php:228 jobman-db.php:545 jobman-display.php:744
+#: jobman-display.php:817
+msgid "Register"
+msgstr ""
+
+#: jobman-db.php:427 jobman-display.php:942
+msgid "Application"
+msgstr ""
+
+#: jobman-display.php:170
+#, php-format
+msgid ""
+"This job listing was created using <a href=\"%s\" title=\"%s\">Job Manager</"
+"a> for WordPress, by <a href=\"%s\">Gary Pendergast</a>."
+msgstr ""
+
+#: jobman-display.php:170
+msgid "WordPress Job Manager"
+msgstr ""
+
+#: jobman-display.php:231 jobman-display.php:234
+msgid "Job Listing"
+msgstr ""
+
+#: jobman-display.php:337 jobman-display.php:451
+msgid "ASAP"
+msgstr ""
+
+#: jobman-display.php:343
+msgid "More Info"
+msgstr ""
+
+#: jobman-display.php:363
+#, php-format
+msgid ""
+"We currently don't have any jobs available. Please check back regularly, as "
+"we frequently post new jobs. In the meantime, you can also <a href='%s'>send "
+"through your résumé</a>, which we'll keep on file."
+msgstr ""
+
+#: jobman-display.php:377
+#, php-format
+msgid ""
+"We currently don't have any jobs available in this area. Please check back "
+"regularly, as we frequently post new jobs. In the mean time, you can also <a "
+"href='%s'>send through your résumé</a>, which we'll keep on file, and you "
+"can check out the <a href='%s'>jobs we have available in other areas</a>."
+msgstr ""
+
+#: jobman-display.php:422
+msgid "This job doesn't exist"
+msgstr ""
+
+#: jobman-display.php:424
+#, php-format
+msgid ""
+"Perhaps you followed an out-of-date link? Please check out the <a href=\"%s"
+"\">jobs we have currently available</a>."
+msgstr ""
+
+#: jobman-display.php:442
+#, php-format
+msgid "Jobs for %s"
+msgstr ""
+
+#: jobman-display.php:456
+msgid "Ongoing"
+msgstr ""
+
+#: jobman-display.php:458
+msgid "Information"
+msgstr ""
+
+#: jobman-display.php:478
+msgid "Apply Now!"
+msgstr ""
+
+#: jobman-display.php:519
+msgid ""
+"Thank you for your application! We'll check it out, and get back to you soon!"
+msgstr ""
+
+#: jobman-display.php:526
+msgid ""
+"Thank you for your application. While your application doesn't fit our "
+"current requirements, please contact us directly to see if we have other "
+"positions available."
+msgstr ""
+
+#: jobman-display.php:543
+msgid ""
+"Before completing your application, please login using the form above, or "
+"register using the form below."
+msgstr ""
+
+#: jobman-display.php:699
+msgid "Submit Your Application"
+msgstr ""
+
+#: jobman-display.php:729
+#, php-format
+msgid "Welcome, %1s!"
+msgstr ""
+
+#: jobman-display.php:737
+msgid ""
+"If you've registered with us previously, please login now. If you'd like to "
+"register, please click the 'Register' link below."
+msgstr ""
+
+#: jobman-display.php:739 jobman-display.php:795
+msgid "Username"
+msgstr ""
+
+#: jobman-display.php:741 jobman-display.php:803
+msgid "Password"
+msgstr ""
+
+#: jobman-display.php:743
+msgid "Login"
+msgstr ""
+
+#: jobman-display.php:744
+msgid "Forgot your password?"
+msgstr ""
+
+#: jobman-display.php:790
+msgid "Please fill in all fields."
+msgstr ""
+
+#: jobman-display.php:793
+msgid "This username has already been registered."
+msgstr ""
+
+#: jobman-display.php:801
+msgid "Passwords do not match."
+msgstr ""
+
+#: jobman-display.php:806
+msgid "Password Again"
+msgstr ""
+
+#: jobman-display.php:810
+#, php-format
+msgid ""
+"This email address has already been registered. If you've previously "
+"registered but don't remember your password, please visit the <a href='%"
+"1s'>password reset page</a>."
+msgstr ""
+
+#: jobman-display.php:1198
+msgid "Application Link"
+msgstr ""
+
+#: jobman-functions.php:34
+msgid "Click to toggle"
+msgstr ""
+
+#: jobman-functions.php:70
+msgid "Category"
+msgstr ""
+
+#. Plugin URI of an extension
+msgid "http://pento.net/projects/wordpress-job-manager-plugin/"
+msgstr ""
+
+#. Description of an extension
+msgid "A job listing and job application management plugin for WordPress."
+msgstr ""
+
+#. Author of an extension
+msgid "Gary Pendergast"
+msgstr ""
+
+#. Author URI of an extension
+msgid "http://pento.net/"
+msgstr ""
+
+#. Tags of an extension
+msgid "job, jobs, manager, list, listing, employment, employer, career"
+msgstr ""
