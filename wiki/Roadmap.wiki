@@ -34,7 +34,11 @@ Mid February 2010
   * Improved Uninstall: Issue #82
   * Block application fields being emailed: Issue #87
   * Captcha support: Issue #90
+
+== Changes to Existing Features ==
+
   * Add nicer CSS classes to admin pages: Issue #94
+  * Removing Star rating: Issue #97
 
 ----
 
