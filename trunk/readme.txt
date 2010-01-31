@@ -64,6 +64,19 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.5.3 =
+* FIXED: Application list not filtering correctly if no rating selected
+* FIXED: Warning when deleting applications with no file attached
+
+= 0.5.2 =
+* FIXED: Job list not loading after creating a new job
+* FIXED: Application categories somehow got wiped, restored them
+* FIXED: Category could not be stored on application, under some circumstances
+* FIXED: Wrong translation domain on a string
+
+= 0.5.1 =
+* FIXED: Moved upload directories outside of the plugin directory
+
 = 0.5 =
 * ADDED: Ability for applicants to register
 * ADDED: New settings for user registration
@@ -196,8 +209,3 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.1.0 =
 * Initial release
-
-== Upgrade Notice ==
-
-= 0.5-beta1 =
-This is a beta release. Please only install it in a test environment.

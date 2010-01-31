@@ -44,10 +44,10 @@ function jobman_create_widget( $function, $title ) {
 }
 
 function jobman_check_upload_dirs() {
-	if( ! is_writeable( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR ) )
+	if( ! is_writeable( JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR ) )
 		return false;
 
-	if( ! is_writeable( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR ) )
+	if( ! is_writeable( JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR ) )
 		return false;
 
 	return true;
@@ -79,6 +79,7 @@ function jobman_page_hierarchical_setup( $types ) {
 	$types[] = 'jobman_job';
 	$types[] = 'jobman_joblist';
 	$types[] = 'jobman_app_form';
+	$types[] = 'jobman_register';
 
 	return $types;
 }

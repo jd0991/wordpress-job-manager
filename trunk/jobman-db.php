@@ -559,6 +559,26 @@ function jobman_upgrade_db( $oldversion ) {
 		}
 	}
 	
+	if( $oldversion < 10 ) {
+	    // Fix missing categories on applications
+	    $apps = get_posts( 'post_type=jobman_app&numberposts=-1' );
+	    foreach( $apps as $app ) {
+			$parent = get_post( $app->post_parent );
+			if( 'jobman_job' == $parent->post_type ) {
+			    $parentcats = wp_get_object_terms( $parent->ID, 'jobman_category' );
+				foreach( $parentcats as $pcat ) {
+					if( is_term( $pcat->slug, 'jobman_category' ) )
+						$foo = wp_set_object_terms( $app->ID, $pcat->slug, 'jobman_category', true );
+				}
+			}
+			else if( 'jobman_joblist' == $parent->post_type ) {
+			    $cat = get_post_meta( $parent->ID, '_cat', true );
+			    if( '' != $cat && is_term( $cat, 'jobman_category' ) )
+					wp_set_object_terms( $app->ID, $cat, 'jobman_category', true );
+			}
+		}
+	}
+	
 	update_option( 'jobman_options', $options );
 }
 
