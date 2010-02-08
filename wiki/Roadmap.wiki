@@ -82,7 +82,8 @@ Mid March 2010
   * Search: Issue #47
   * Search Filters: Issue #75
   * Email Notification of new jobs: Issue #71
-  * Dashboard: Issue #78
+  * Dashboard: Issue #88
+  * Shortcodes: Issue #102
 
 ----
 
