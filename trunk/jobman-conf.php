@@ -15,15 +15,21 @@ function jobman_admin_setup() {
 
 	// Load our header info
 	foreach( $pages as $page ) {
+		add_action( "admin_print_styles-$page", 'jobman_admin_print_styles' );
+		add_action( "admin_print_scripts-$page", 'jobman_admin_print_scripts' );
 		add_action( "admin_head-$page", 'jobman_admin_header' );
 	}
+}
 
-	wp_enqueue_script( 'jobman-admin', JOBMAN_URL . '/js/admin.js', false, JOBMAN_VERSION );
-	wp_enqueue_script( 'jquery-ui-datepicker', JOBMAN_URL . '/js/jquery-ui-datepicker.js', array( 'jquery-ui-core' ), JOBMAN_VERSION );
+function jobman_admin_print_styles() {
 	wp_enqueue_style( 'jobman-admin', JOBMAN_URL . '/css/admin.css', false, JOBMAN_VERSION, 'all' );
 	wp_enqueue_style( 'jobman-admin-print', JOBMAN_URL . '/css/admin-print.css', false, JOBMAN_VERSION, 'print' );
-
 	wp_enqueue_style( 'dashboard' );
+}
+
+function jobman_admin_print_scripts() {
+	wp_enqueue_script( 'jobman-admin', JOBMAN_URL . '/js/admin.js', false, JOBMAN_VERSION );
+	wp_enqueue_script( 'jquery-ui-datepicker', JOBMAN_URL . '/js/jquery-ui-datepicker.js', array( 'jquery-ui-core' ), JOBMAN_VERSION );
 	wp_enqueue_script( 'dashboard' );
 }
 
