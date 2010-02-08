@@ -58,11 +58,18 @@ The Job Manager supports added functionality when other plugins are installed. I
 
 Job Manager will add all of your job lists and job detail pages to your sitemap, when [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) is installed on your site.
 
-= Credits =
+== Credits ==
 
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
+
+= 0.6 =
+* ADDED: 'Related Categories' section to job list displays
+* CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
+* CHANGED: Split admin and display settings into two admin pages
+* FIXED: Some small string changes for clarity
+* FIXED: Added category links to Google XML Sitemap
 
 = 0.5.3 =
 * FIXED: Application list not filtering correctly if no rating selected

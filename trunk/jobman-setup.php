@@ -45,6 +45,7 @@ function jobman_create_default_settings() {
 					'loginform_category' => 1,
 					'loginform_job' => 1,
 					'loginform_apply' => 1,
+					'related_categories' => 1,
 					'plugins' => array(
 									'gxs' => 1
 								)
@@ -110,6 +111,14 @@ function jobman_upgrade_settings( $oldversion ) {
 	if( $oldversion < 9 ) {
 		mkdir( JOBMAN_UPLOAD_DIR . '/uploads', 0777, true );
 		mkdir( JOBMAN_UPLOAD_DIR . '/icons', 0777, true );
+	}
+	
+	if( $oldversion < 11 ) {
+		$options = get_option( 'jobman_options' );
+		
+		$options['related_categories'] = 1;
+		
+		update_option( 'jobman_options', $options );
 	}
 }
 

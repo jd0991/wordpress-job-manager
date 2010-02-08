@@ -5,7 +5,8 @@ function jobman_admin_setup() {
 	$file = WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/job-manager.php';
 	$pages = array();
 	add_menu_page( __( 'Job Manager', 'jobman' ), __( 'Job Manager', 'jobman' ), 'publish_posts', $file, 'jobman_conf' );
-	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Settings', 'jobman' ), 'manage_options', $file, 'jobman_conf' );
+	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Admin Settings', 'jobman' ), 'manage_options', $file, 'jobman_conf' );
+	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Display Settings', 'jobman' ), 'manage_options', 'jobman-display-conf', 'jobman_display_conf' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'App. Form Settings', 'jobman' ), 'manage_options', 'jobman-application-setup', 'jobman_application_setup' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Add Job', 'jobman' ), 'publish_posts', 'jobman-add-job', 'jobman_add_job' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'List Jobs', 'jobman' ), 'publish_posts', 'jobman-list-jobs', 'jobman_list_jobs' );
@@ -69,6 +70,72 @@ addLoadEvent(function() {
 <?php
 }
 
+function jobman_display_conf() {
+	global $jobman_formats;
+	if( array_key_exists( 'jobmanconfsubmit', $_REQUEST ) ) {
+		// Configuration form as been submitted. Updated the database.
+		check_admin_referer( 'jobman-conf-updatedb' );
+		jobman_conf_updatedb();
+	}
+	else if( array_key_exists( 'jobmancatsubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-categories-updatedb' );
+		jobman_categories_updatedb();
+	}
+	else if( array_key_exists( 'jobmaniconsubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-icons-updatedb' );
+		jobman_icons_updatedb();
+	}
+	else if( array_key_exists( 'jobmanusersubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-users-updatedb' );
+		jobman_users_updatedb();
+	}
+	else if( array_key_exists( 'jobmanappemailsubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-application-email-updatedb' );
+		jobman_application_email_updatedb();
+	}
+	else if( array_key_exists( 'jobmanotherpluginssubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-other-plugins-updatedb' );
+		jobman_other_plugins_updatedb();
+	}
+?>
+	<div class="wrap">
+		<h2><?php _e( 'Job Manager: Settings', 'jobman' ) ?></h2>
+<?php
+	$writeable = jobman_check_upload_dirs();
+	if( ! $writeable ) {
+		echo '<div class="error">';
+		echo '<p>' . __( 'It seems the Job Manager data directories are not writeable. In order to allow applicants to upload resumes, and for you to upload icons, please ensure that the following directories exist and are writeable.', 'jobman' ) . '</p>';
+		echo '<pre>' . JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . "\n";
+		echo JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . '</pre>';
+		echo '<p>' . sprintf( __( 'For help with changing directory permissions, please see <a href="%1s">this page</a> in the WordPress documentation.', 'jobman' ), 'http://codex.wordpress.org/Changing_File_Permissions' ) . '</p>';
+		echo '</div>';
+	}
+
+	if( ! get_option( 'pento_consulting' ) ) {
+		$widths = array( '78%', '20%' );
+		$functions = array(
+						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_other_plugins_box' ),
+						array( 'jobman_print_donate_box', 'jobman_print_about_box' )
+					);
+		$titles = array(
+					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __('Other Plugins', 'jobman' ) ),
+					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
+				);
+	}
+	else {
+		$widths = array( '49%', '49%' );
+		$functions = array(
+						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_other_plugins_box' ),
+						array( 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box' )
+					);
+		$titles = array(
+					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Other Plugins', 'jobman' ) ),
+					array( __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ) )
+				);
+	}
+	jobman_create_dashboard( $widths, $functions, $titles );
+}
+
 function jobman_conf() {
 	global $jobman_formats;
 	if( array_key_exists( 'jobmanconfsubmit', $_REQUEST ) ) {
@@ -103,7 +170,7 @@ function jobman_conf() {
 	$writeable = jobman_check_upload_dirs();
 	if( ! $writeable ) {
 		echo '<div class="error">';
-		echo '<p>' . __( 'It seems the Job Manager data directories are not writeable. In order to allow applicants to upload resumes, and for you to upload icons, please make the following directories writeable.', 'jobman' ) . '</p>';
+		echo '<p>' . __( 'It seems the Job Manager data directories are not writeable. In order to allow applicants to upload resumes, and for you to upload icons, please ensure that the following directories exist and are writeable.', 'jobman' ) . '</p>';
 		echo '<pre>' . JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . "\n";
 		echo JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . '</pre>';
 		echo '<p>' . sprintf( __( 'For help with changing directory permissions, please see <a href="%1s">this page</a> in the WordPress documentation.', 'jobman' ), 'http://codex.wordpress.org/Changing_File_Permissions' ) . '</p>';
@@ -216,21 +283,10 @@ function jobman_print_categories_box() {
 			</thead>
 <?php
 	$categories = get_terms( 'jobman_category', 'hide_empty=0' );
-	$structure = get_option( 'permalink_structure' );
 	
 	if( count( $categories ) > 0 ) {
 		foreach( $categories as $cat ) {
-		if( '' == $structure ) {
-			$url = get_option( 'home' ) . "/?jcat=$cat->term_id";
-		}
-		else {
-			$url = get_page_link( $options['main_page'] );
-			if( '/' == substr( $url, -1 ) ) {
-				$url .= "$cat->slug/";
-			} else {
-				$url .= "/$cat->slug";
-			}
-		}
+			$url = get_term_link( $cat->slug, 'jobman_category' );
 ?>
 			<tr>
 				<td>
@@ -904,6 +960,13 @@ function jobman_application_setup() {
 				</td>
 				<td><textarea class="large-text code" name="jobman-data[]"><?php echo $field['data'] ?></textarea></td>
 				<td>
+<?php
+			if( 1 == $field['mandatory'] )
+				$checked = ' checked="checked"';
+			else
+				$checked = '';
+?>
+					<input type="checkbox" name="jobman-mandatory[<?php echo $id ?>]" value="1"<?php echo $checked ?> /> <?php _e( 'Mandatory field?', 'jobman' ) ?><br/>
 					<textarea class="large-text code" name="jobman-filter[]"><?php echo $field['filter'] ?></textarea><br/>
 					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php echo esc_attr_e( $field['error'] ) ?>" />
 				</td>
@@ -931,13 +994,16 @@ function jobman_application_setup() {
 	}
 	$template .= '</td>';
 	$template .= '<td><textarea class="large-text code" name="jobman-data[]"></textarea></td>';
-	$template .= '<td><textarea class="large-text code" name="jobman-filter[]"></textarea><br/>';
+	$template .= '<td><input type="checkbox" name="jobman-mandatory" value="1" />' . __( 'Mandatory field?', 'jobman' ) . '</td>';
+	$template .= '<textarea class="large-text code" name="jobman-filter[]"></textarea><br/>';
 	$template .= '<input class="regular-text code" type="text" name="jobman-error[]" /></td>';
 	$template .= '<td><a href="#" onclick="jobman_sort_field_up( this ); return false;">' . __( 'Up', 'jobman' ) . '</a> <a href="#" onclick="jobman_sort_field_down( this ); return false;">' . __( 'Down', 'jobman' ) . '</a></td>';
 	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'jobman-fieldid\\\', \\\'jobman-delete-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td></tr>';
 	
+	// Replace names for the empty version being displayed
 	$display_template = str_replace( 'jobman-categories', 'jobman-categories[new][0][]', $template );
 	$display_template = str_replace( 'jobman-listdisplay', 'jobman-listdisplay[new][0][]', $display_template );
+	$display_template = str_replace( 'jobman-mandatory', 'jobman-mandatory[new][0][]', $display_template );
 	
 	echo $display_template;
 ?>
@@ -1902,20 +1968,6 @@ function jobman_categories_updatedb() {
 			// INSERT new field
 			if( '' != $_REQUEST['title'][$ii] ) {
 				$cat = wp_insert_term( $_REQUEST['title'][$ii], 'jobman_category', array( 'slug' => $_REQUEST['slug'][$ii], 'description' => $_REQUEST['email'][$ii] ) );
-
-				$page = array(
-							'comment_status' => 'closed',
-							'ping_status' => 'closed',
-							'post_status' => 'publish',
-							'post_author' => 1,
-							'post_content' => '',
-							'post_name' => $_REQUEST['slug'][$ii],
-							'post_title' => $_REQUEST['title'][$ii],
-							'post_type' => 'jobman_joblist',
-							'post_parent' => $options['main_page']);
-				$id = wp_insert_post( $page );
-				add_post_meta( $id, '_catpage', 1, true );
-				add_post_meta( $id, '_cat', $cat['term_id'], true );
 			}
 			else {
 				// No input. Don't insert into the DB.
@@ -1925,14 +1977,6 @@ function jobman_categories_updatedb() {
 		}
 		else {
 			// UPDATE existing field
-			$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$id&numberposts=-1" );
-			if( count( $data ) > 0 ) {
-				$page = get_post( $data[0]->ID, ARRAY_A );
-				$page['post_title'] = $_REQUEST['title'][$ii];
-				$page['post_name'] = $_REQUEST['slug'][$ii];
-				wp_update_post( $page );
-			}	
-
 			if( '' != $_REQUEST['slug'][$ii] )
 				wp_update_term( $id, 'jobman_category', array( 'slug' => $_REQUEST['slug'][$ii], 'description' => $_REQUEST['email'][$ii] ) );
 			else
@@ -1943,11 +1987,6 @@ function jobman_categories_updatedb() {
 
 	$deletes = explode( ',', $_REQUEST['jobman-delete-list'] );
 	foreach( $deletes as $delete ) {
-		$data = get_posts( "post_type=jobman_joblist&meta_key=_cat&meta_value=$id&numberposts=-1" );
-
-		if( count( $data ) > 0 )
-			wp_delete_post( $data[0]->ID );
-
 		wp_delete_term( $delete, 'jobman_category' );
 		
 		// Delete the category from any fields

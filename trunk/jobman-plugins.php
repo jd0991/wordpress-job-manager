@@ -23,8 +23,17 @@ function jobman_gxs_buildmap() {
 
 		if( count( $jobs ) > 0 ) {
 			foreach( $jobs as $job ) {
-				$generatorObject->AddUrl( get_page_link($job->ID), time(), "daily", 0.5 );
+				$generatorObject->AddUrl( get_page_link( $job->ID ), time(), "daily", 0.5 );
 			}
+		}
+	}
+	
+	// Add the categories
+	$categories = get_terms( 'jobman_category', 'hide_empty=0' );
+	
+	if( count( $categories ) > 0 ) {
+		foreach( $categories as $cat ) {
+			$generatorObject->AddUrl( get_term_link( $cat->slug, 'jobman_category' ), time(), "daily", 0.5 );
 		}
 	}
 }

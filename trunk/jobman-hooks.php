@@ -17,7 +17,7 @@ add_action( 'init', 'jobman_load_translation_file' );
 add_filter( 'query_vars', 'jobman_queryvars' );
 add_action( 'generate_rewrite_rules', 'jobman_add_rewrite_rules' );
 add_action( 'init', 'jobman_flush_rewrite_rules' );
-add_filter( 'the_posts', 'jobman_display_jobs', 1) ;
+add_filter( 'the_posts', 'jobman_display_jobs', 1 ) ;
 // Add our init stuff
 add_action( 'init', 'jobman_display_init' );
 // Set the template we want to use

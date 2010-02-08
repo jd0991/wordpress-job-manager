@@ -41,7 +41,7 @@ function jobman_new(rowid, template_name) {
 
 jobman_nameFilter = function (i, el) {
 	var name = jQuery(el).attr('name');
-	if(name == 'jobman-categories' || name == 'jobman-listdisplay') {
+	if( 'jobman-categories' == name || 'jobman-listdisplay' == name || 'jobman-mandatory' == name ) {
 		jQuery(el).attr('name', name + '[new][' + jobman_new_count + '][]');
 	}
 }

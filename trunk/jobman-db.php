@@ -11,6 +11,7 @@ function jobman_create_db() {
 								'type' => 'heading',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 0,
@@ -21,6 +22,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 1,
 								'data' => '',
+								'mandatory' => 1,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 1,
@@ -31,6 +33,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 1,
 								'data' => '',
+								'mandatory' => 1,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 2,
@@ -41,6 +44,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 1,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 3,
@@ -51,6 +55,7 @@ function jobman_create_db() {
 								'type' => 'heading',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 4,
@@ -61,6 +66,7 @@ function jobman_create_db() {
 								'type' => 'textarea',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 5,
@@ -71,6 +77,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 6,
@@ -81,6 +88,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 7,
@@ -91,6 +99,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 1,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 8,
@@ -101,6 +110,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 9,
@@ -111,6 +121,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 10,
@@ -121,6 +132,7 @@ function jobman_create_db() {
 								'type' => 'heading',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 11,
@@ -131,6 +143,7 @@ function jobman_create_db() {
 								'type' => 'radio',
 								'listdisplay' => 1,
 								'data' => "Yes\r\nNo",
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 12,
@@ -141,6 +154,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 13,
@@ -151,6 +165,7 @@ function jobman_create_db() {
 								'type' => 'text',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 14,
@@ -161,6 +176,7 @@ function jobman_create_db() {
 								'type' => 'file',
 								'listdisplay' => 1,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 15,
@@ -171,6 +187,7 @@ function jobman_create_db() {
 								'type' => 'blank',
 								'listdisplay' => 0,
 								'data' => '',
+								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
 								'sortorder' => 16,
@@ -181,6 +198,7 @@ function jobman_create_db() {
 								'type' => 'checkbox',
 								'listdisplay' => 0,
 								'data' => 'I have read and understood the privacy policy.',
+								'mandatory' => 1,
 								'filter' => 'I have read and understood the privacy policy.',
 								'error' => "You need to read and agree to our privacy policy before we can accept your application. Please click the 'Back' button in your browser, read our privacy policy, and confirm that you accept.",
 								'sortorder' => 17,
@@ -576,6 +594,17 @@ function jobman_upgrade_db( $oldversion ) {
 			    if( '' != $cat && is_term( $cat, 'jobman_category' ) )
 					wp_set_object_terms( $app->ID, $cat, 'jobman_category', true );
 			}
+		}
+	}
+	
+	if( $oldversion < 11 ) {
+		$cat_pages = get_posts( 'post_type=jobman_joblist&meta_key=_catpage&meta_value=1' );
+		foreach( $cat_pages as $cp ) {
+			wp_delete_post( $cp->ID );
+		}
+
+		foreach( $options['fields'] as $key => $field ) {
+			$options['fields'][$key]['mandatory'] = 0;
 		}
 	}
 	
