@@ -18,6 +18,9 @@ define( 'JOBMAN_DB_VERSION', 11 );
 define( 'JOBMAN_FOLDER', 'job-manager' );
 define( 'JOBMAN_URL', WP_PLUGIN_URL . '/' . JOBMAN_FOLDER );
 
+// Define the basename
+define( 'JOBMAN_BASENAME', plugin_basename(__FILE__) );
+
 // Define the upload directories
 define( 'JOBMAN_UPLOAD_DIR', WP_CONTENT_DIR . '/' . JOBMAN_FOLDER );
 define( 'JOBMAN_UPLOAD_URL', WP_CONTENT_URL . '/' . JOBMAN_FOLDER );

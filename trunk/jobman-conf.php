@@ -21,6 +21,15 @@ function jobman_admin_setup() {
 	}
 }
 
+function jobman_plugin_row_meta( $links, $file ) {
+	if( JOBMAN_BASENAME == $file && ! get_option( 'pento_consulting' ) ) {
+		$links[] = '<a href="http://www.amazon.com/wishlist/1ORKI9ZG875BL">' . __( 'My Amazon Wish List', 'jobman' ) . '</a>';
+		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=gary%40pento%2enet&item_name=WordPress%20Plugin%20(Job%20Manager)&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8">' . __( 'Donate with PayPal', 'jobman' ) . '</a>';
+	}
+	
+	return $links;
+}
+
 function jobman_admin_print_styles() {
 	wp_enqueue_style( 'jobman-admin', JOBMAN_URL . '/css/admin.css', false, JOBMAN_VERSION, 'all' );
 	wp_enqueue_style( 'jobman-admin-print', JOBMAN_URL . '/css/admin-print.css', false, JOBMAN_VERSION, 'print' );

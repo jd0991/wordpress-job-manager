@@ -3,10 +3,6 @@
 // Hooks for initial setup
 register_activation_hook( WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/job-manager.php', 'jobman_activate' );
 
-// Admin menu
-if( is_admin() )
-	add_action( 'admin_menu', 'jobman_admin_setup' );
-
 // Translation hook
 add_action( 'init', 'jobman_load_translation_file' );
 
@@ -37,6 +33,14 @@ add_action( 'init', 'jobman_page_taxonomy_setup' );
 
 // For the application rating AJAX call
 add_action( 'wp_ajax_jobman_rate_application', 'jobman_rate_application' );
+
+//
+// Admin Hooks
+//
+// Admin menu
+add_action( 'admin_menu', 'jobman_admin_setup' );
+// Plugin settings links
+add_filter( 'plugin_row_meta', 'jobman_plugin_row_meta', 10, 2 );
 
 //
 // Plugins
