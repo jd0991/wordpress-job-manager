@@ -67,6 +67,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 = 0.6 =
 * ADDED: 'Related Categories' section to job list displays
 * ADDED: Mandatory fields filter
+* ADDED: Widgets for Latest Jobs and Categories
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
 * CHANGED: Split admin and display settings into two admin pages
 * FIXED: Some small string changes for clarity

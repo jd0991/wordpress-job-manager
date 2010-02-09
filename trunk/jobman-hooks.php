@@ -34,6 +34,12 @@ add_action( 'init', 'jobman_page_taxonomy_setup' );
 // For the application rating AJAX call
 add_action( 'wp_ajax_jobman_rate_application', 'jobman_rate_application' );
 
+// 
+// Widgets
+//
+add_action('widgets_init', create_function('', 'return register_widget("JobmanLatestJobsWidget");'));
+add_action('widgets_init', create_function('', 'return register_widget("JobmanCategoriesWidget");'));
+
 //
 // Admin Hooks
 //

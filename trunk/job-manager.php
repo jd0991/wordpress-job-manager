@@ -48,6 +48,9 @@ require_once( dirname( __FILE__ ) . '/jobman-plugins.php' );
 // Jobman frontend
 require_once( dirname( __FILE__ ) . '/jobman-display.php' );
 
+// Widgets
+require_once( dirname( __FILE__ ) . '/jobman-widgets.php' );
+
 // Add hooks at the end
 require_once( dirname( __FILE__ ) . '/jobman-hooks.php' );
 

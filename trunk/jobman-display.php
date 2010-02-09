@@ -1,6 +1,6 @@
 <?php //encoding: utf-8
-global $jobman_displaying;
-$jobman_displaying = false;
+global $jobman_displaying, $jobman_finishedpage;
+$jobman_finishedpage = $jobman_displaying = false;
 
 function jobman_queryvars( $qvars ) {
 	$qvars[] = 'j';
@@ -52,7 +52,10 @@ function jobman_page_link( $link, $page = NULL ) {
 }
 
 function jobman_display_jobs( $posts ) {
-	global $wp_query, $wpdb, $jobman_displaying;
+	global $wp_query, $wpdb, $jobman_displaying, $jobman_finishedpage;
+	
+	if( $jobman_finishedpage )
+		return $posts;
 	
 	$options = get_option( 'jobman_options' );
 	
@@ -174,6 +177,7 @@ function jobman_display_jobs( $posts ) {
 	if( ! $hidepromo && count( $posts ) > 0 )
 		$posts[0]->post_content .= '<p class="jobmanpromo">' . sprintf( __( 'This job listing was created using <a href="%s" title="%s">Job Manager</a> for WordPress, by <a href="%s">Gary Pendergast</a>.', 'resman'), 'http://pento.net/projects/wordpress-job-manager/', __( 'WordPress Job Manager', 'resman' ), 'http://pento.net' ) . '</p>';
 
+	$jobman_finishedpage = true;
 	return $posts;
 }
 
@@ -309,6 +313,8 @@ function jobman_display_jobs_list( $cat ) {
 		$category = get_term( $cat, 'jobman_category' );
 		if( NULL == $category )
 			$cat = 'all';
+		else
+			$page->post_title = $category->name;
 	}
 	
 	if( 'all' == $cat )
@@ -327,8 +333,10 @@ function jobman_display_jobs_list( $cat ) {
 	foreach( $jobs as $id => $job ) {
 		// Remove expired jobs
 		$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
-		if( '' != $displayenddate && strtotime( $displayenddate ) <= time() )
+		if( '' != $displayenddate && strtotime( $displayenddate ) <= time() ) {
 			unset( $jobs[$id] );
+			continue;
+		}
 			
 		// Get related categories
 		if( $options['related_categories'] ) {
