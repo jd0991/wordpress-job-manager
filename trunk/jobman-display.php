@@ -179,6 +179,7 @@ function jobman_display_jobs( $posts ) {
 
 function jobman_display_init() {
 	wp_enqueue_script( 'jquery-ui-datepicker', JOBMAN_URL . '/js/jquery-ui-datepicker.js', array( 'jquery-ui-core' ), JOBMAN_VERSION );
+	wp_enqueue_script( 'jquery-display', JOBMAN_URL . '/js/display.js', false, JOBMAN_VERSION );
 	wp_enqueue_style( 'jobman-display', JOBMAN_URL . '/css/display.css', false, JOBMAN_VERSION );
 }
 
@@ -253,12 +254,23 @@ function jobman_display_title( $title, $sep, $seploc ) {
 
 function jobman_display_head() {
 	global $jobman_displaying;
-
+	
 	if( ! $jobman_displaying )
 		return;
 	
 	if( is_feed() )
 		return;
+		
+	$options = get_option( 'jobman_options' );
+
+	$mandatory_ids = array();
+	$mandatory_labels = array();
+	foreach( $options['fields'] as $id => $field ) {
+		if( $field['mandatory'] ) {
+			$mandatory_ids[] = $id;
+			$mandatory_labels[] = $field['label'];
+		}
+	}
 ?>
 <script type="text/javascript"> 
 //<![CDATA[
@@ -267,6 +279,11 @@ jQuery(document).ready(function() {
 	jQuery("#ui-datepicker-div").css('display', 'none');
 });
 //]]>
+var jobman_mandatory_ids = <?php echo json_encode( $mandatory_ids ) ?>;
+var jobman_mandatory_labels = <?php echo json_encode( $mandatory_labels ) ?>;
+
+var jobman_strings = new Array();
+jobman_strings['apply_submit_mandatory_warning'] = "<?php _e( 'The following fields must be filled out before submitting', 'jobman' ) ?>";
 </script> 
 <?php
 }
@@ -609,17 +626,19 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 		}
 	}
 	
-	$content .= '<form action="" enctype="multipart/form-data" method="post">';
+	$content .= '<form action="" enctype="multipart/form-data" onsubmit="return jobman_apply_filter()" method="post">';
 	$content .= '<input type="hidden" name="jobman-apply" value="1">';
 	$content .= '<input type="hidden" name="jobman-jobid" value="' . $jobid . '">';
 	$content .= '<input type="hidden" name="jobman-categoryid" value="' . implode( ',', $cat_arr ) . '">';
 	
 	if( $foundjob )
-		$content .= '<p>' . __('Title', 'jobman') . ': <a href="'. get_page_link( $job->ID ) . '">' . $job->post_title . '</a></p>';
+		$content .= '<p>' . __( 'Title', 'jobman' ) . ': <a href="'. get_page_link( $job->ID ) . '">' . $job->post_title . '</a></p>';
 
 	$fields = $options['fields'];
 
 	$start = true;
+	
+	$content .= '<p>' . __( 'Fields marked with an asterisk (*) must be filled out before submitting.', 'jobman' ) . '</p>';
 	
 	if( count( $fields ) > 0 ) {
 		uasort( $fields, 'jobman_sort_fields' );
@@ -652,10 +671,14 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 				$content .= "'>";
 			}
 			
+			$mandatory = '';
+			if( $field['mandatory'] )
+				$mandatory = ' *';
+			
 			switch( $field['type'] ) {
 				case 'text':
 					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}</th>";
+						$content .= "<th scope='row'>{$field['label']}$mandatory</th>";
 					else
 						$content .= '<td class="th"></td>';
 					
@@ -663,7 +686,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					break;
 				case 'radio':
 					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}</th><td>";
+						$content .= "<th scope='row'>{$field['label']}$mandatory</th><td>";
 					else
 						$content .= '<td class="th"></td><td>';
 					
@@ -677,7 +700,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					break;
 				case 'checkbox':
 					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}</th><td>";
+						$content .= "<th scope='row'>{$field['label']}$mandatory</th><td>";
 					else
 						$content .= '<td class="th"></td><td>';
 
@@ -691,7 +714,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					break;
 				case 'textarea':
 					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}</th>";
+						$content .= "<th scope='row'>{$field['label']}$mandatory</th>";
 					else
 						$content .= '<td class="th"></td>';
 
@@ -699,7 +722,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					break;
 				case 'date':
 					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}</th>";
+						$content .= "<th scope='row'>{$field['label']}$mandatory</th>";
 					else
 						$content .= '<td class="th"></td>';
 
@@ -707,7 +730,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					break;
 				case 'file':
 					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}</th>";
+						$content .= "<th scope='row'>{$field['label']}$mandatory</th>";
 					else
 						$content .= '<td class="th"></td>';
 
@@ -1041,19 +1064,30 @@ function jobman_check_filters( $jobid, $cat ) {
 	$matches = array();
 	if( count( $fields ) > 0 ) {
 		foreach( $fields as $id => $field ) {
-			if( '' == $field['filter'] )
+			if( '' == $field['filter'] && ! $field['mandatory'] )
 				// No filter for this field
 				continue;
 			
 			$used_eq = false;
 			$eqflag = false;
 			
-			$data = $_REQUEST["jobman-field-$id"];
+			$data = '';
+			if( array_key_exists( "jobman-field-$id", $_REQUEST ) )
+				$data = $_REQUEST["jobman-field-$id"];
+
 			if( 'checkbox' != $field['type'] )
-				$data = trim($data);
+				$data = trim( $data );
 			else if( ! is_array( $data ) )
 				$data = array();
 
+			// If the field is mandatory, check that there is data submitted
+			if( $field['mandatory'] ) {
+				if( 'file' == $field['type'] && ! array_key_exists( "jobman-field-$id", $_FILES ) )
+					return $id;
+				else if( '' == $data || ( is_array( $data ) && count( $data ) == 0 ) )
+					return $id;
+			}
+				
 			$filters = split( "\n", $field['filter'] );
 			
 			foreach($filters as $filter) {
