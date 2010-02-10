@@ -30,29 +30,28 @@ define( 'JOBMAN_UPLOAD_URL', WP_CONTENT_URL . '/' . JOBMAN_FOLDER );
 //
 
 // Jobman global functions
-require_once( dirname( __FILE__ ) . '/jobman-functions.php' );
+require_once( dirname( __FILE__ ) . '/functions.php' );
 
 // Jobman setup (for installation/upgrades)
-require_once( dirname( __FILE__ ) . '/jobman-setup.php' );
+require_once( dirname( __FILE__ ) . '/setup.php' );
 
 // Jobman database
-require_once( dirname( __FILE__ ) . '/jobman-db.php' );
+require_once( dirname( __FILE__ ) . '/db.php' );
 
-if( is_admin() )
-	// Jobman admin
-	require_once( dirname( __FILE__ ) . '/jobman-conf.php' );
+// Jobman admin
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 // Support for other plugins
-require_once( dirname( __FILE__ ) . '/jobman-plugins.php' );
+require_once( dirname( __FILE__ ) . '/plugins.php' );
 
 // Jobman frontend
-require_once( dirname( __FILE__ ) . '/jobman-display.php' );
+require_once( dirname( __FILE__ ) . '/frontend.php' );
 
 // Widgets
-require_once( dirname( __FILE__ ) . '/jobman-widgets.php' );
+require_once( dirname( __FILE__ ) . '/widgets.php' );
 
 // Add hooks at the end
-require_once( dirname( __FILE__ ) . '/jobman-hooks.php' );
+require_once( dirname( __FILE__ ) . '/hooks.php' );
 
 // If the user is after an uploaded file, give it to them
 if( array_key_exists( 'getfile', $_GET ) )
