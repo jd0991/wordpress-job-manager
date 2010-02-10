@@ -18,7 +18,7 @@ Mid February 2010
   * Add related jobs links to job lists: Issue #42
   * Export data to CSV: Issue #44
   * Sticky Jobs: Issue #46
-  * Job List sort order: Issue #49
+  * Job List sort order: Issue #49 (basic sort implemented, extended sort will be in 0.7)
   * Editable `<title>` prefix: Issue #51
   * Use the text stored in the Jobs Page on that or other pages: Issue #56
   * Customise the Thankyou For Applying text: Issue #57
@@ -63,6 +63,7 @@ Late February 2010
 
   * Customizable Job fields: Issue #58
   * Add Job Reference as a default Job Field: Issue #68
+  * Sort by any field: Issue #49
 
 ----
 
