@@ -209,12 +209,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					$rowcount = 0;
 					break;
 				case 'html':
-					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}</th>";
-					else
-						$content .= '<td class="th"></td>';
-
-					$content .= "<td>{$field['data']}</td></tr>";
+					$content .= "<td colspan='2'>{$field['data']}</td></tr>";
 					break;
 				case 'blank':
 					$content .= '<td colspan="2">&nbsp;</td></tr>';
