@@ -73,6 +73,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Some small string changes for clarity
 * FIXED: Added category links to Google XML Sitemap
 * FIXED: Admin CSS/JS are only loaded on the appropriate pages
+* FIXED: Job list filter not filtering by categories
 
 = 0.5.3 =
 * FIXED: Application list not filtering correctly if no rating selected

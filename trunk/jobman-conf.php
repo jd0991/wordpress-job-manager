@@ -1314,13 +1314,14 @@ function jobman_list_applications() {
 		$args['author'] = $_REQUEST['jobman-applicant'];
 	
 	// Add category filter
-	if( array_key_exists( 'jobman-categories', $_REQUEST ) && is_array( $_REQUEST['jobman-categories'] ) ) {
+	// Removed this until WP_Query supports *__in for custom taxonomy.
+	/*if( array_key_exists( 'jobman-categories', $_REQUEST ) && is_array( $_REQUEST['jobman-categories'] ) ) {
 		$filtered = true;
 		$args['jcat__in'] = array();
 		foreach( $_REQUEST['jobman-categories'] as $cat ) {
 			$args['jcat__in'][] = $cat;
 		}
-	}
+	}*/
 	
 	// Add star rating filter
 	if( array_key_exists( 'jobman-rating', $_REQUEST ) && is_int( $_REQUEST['jobman-rating'] ) ) {
@@ -1342,6 +1343,33 @@ function jobman_list_applications() {
 					$appdata[$key] = $value[0];
 				else
 					$appdata[$key] = $value;
+			}
+			
+			// Workaround for WP_Query not supporting *__in for custom taxonomy.
+			if( array_key_exists( 'jobman-categories', $_REQUEST ) && is_array( $_REQUEST['jobman-categories'] ) ) {
+				$cats = wp_get_object_terms( $app->ID, 'jobman_category' );
+				if( count( $cats ) > 0 ) {
+					$found = false;
+					foreach( $cats as $cat ) {
+						echo "$cat->term_id ";
+						if( in_array( $cat->term_id, $_REQUEST['jobman-categories'] ) ) {
+							// $app is in the list of selected categories. Let it through.
+							$found = true;
+							break;
+						}
+					}
+					
+					// $app wasn't in the categories. Skip it.
+					if( ! $found ) {
+						$filtered = true;
+						continue;
+					}
+				}
+				else {
+					// $app has no categories. Skip it.
+					$filtered = true;
+					continue;
+				}
 			}
 			
 			// Check against field filters
