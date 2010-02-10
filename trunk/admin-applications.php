@@ -488,6 +488,7 @@ function jobman_list_applications() {
 				<option value=""><?php _e( 'Bulk Actions', 'jobman' ) ?></option>
 				<option value="email"><?php _e( 'Email', 'jobman' ) ?></option>
 				<option value="delete"><?php _e( 'Delete', 'jobman' ) ?></option>
+				<option value="export-csv"><?php _e( 'Export as CSV file', 'jobman' ) ?></option>
 			</select>
 			<input type="submit" value="<?php _e( 'Apply', 'jobman' ) ?>" name="submit" class="button-secondary action" />
 		</div>
@@ -664,4 +665,89 @@ function jobman_application_delete() {
 		wp_delete_post( $app );
 	}
 }
+
+function jobman_get_application_csv() {
+	require_once( ABSPATH . WPINC . '/pluggable.php' );
+	
+	$options = get_option( 'jobman_options' );
+
+	header( 'Cache-Control: no-cache' );
+	header( 'Expires: -1' );
+
+	if( ! current_user_can( 'read_private_pages' ) ) {
+		header( $_SERVER["SERVER_PROTOCOL"] . ' 403 Forbidden' );
+		header( 'Refresh: 0; url=' . admin_url() );
+		echo '<html><head><title>403 Forbidden</title></head><body><p>Access is forbidden.</p></body></html>';
+		exit;
+	}
+
+	header( 'Content-Type: application/force-download' );
+	header( 'Content-type: text/csv' );
+	header( 'Content-Type: application/download' );
+	header( "Content-Disposition: attachment; filename=applications.csv	" );
+
+	$fields = $options['fields'];
+	$out = fopen( 'php://output', 'w' );
+	
+	if( count( $fields ) > 0 ) {
+		uasort( $fields, 'jobman_sort_fields' );
+		
+		$labels = array();
+		foreach( $fields as $field ) {
+			$labels[] = $field['label'];
+		}
+		fputcsv( $out, $labels );
+		
+		$posts = array();
+		if( array_key_exists( 'application', $_REQUEST ) && is_array( $_REQUEST['application'] ) )
+			$posts = $_REQUEST['application'];
+		$apps = get_posts( array( 'post_type' => 'jobman_app', 'post__in' => $posts, 'numberposts' => -1 ) );
+
+		if( count( $apps ) > 0 ) {
+			foreach( $apps as $app ) {
+				$data = array();
+
+				$appmeta = get_post_custom( $app->ID );
+
+				$appdata = array();
+				foreach( $appmeta as $key => $value ) {
+					if( is_array( $value ) )
+						$appdata[$key] = $value[0];
+					else
+						$appdata[$key] = $value;
+				}
+
+				foreach( $fields as $id => $field ) {
+					if( array_key_exists( "data$id", $appdata ) ) {
+						$item = $appdata["data$id"];
+						switch( $field['type'] ) {
+							case 'text':
+							case 'radio':
+							case 'checkbox':
+							case 'date':
+							case 'textarea':
+								$data[] = $item;
+								break;
+							case 'file':
+								$data[] =  admin_url("admin.php?page=jobman-list-applications&amp;appid=$app->ID&amp;getfile=$item");
+								break;
+							default:
+								$data[] = '';
+						}
+					}
+					else {
+						$data[] = '';
+					}
+				}
+				
+				fputcsv( $out, $data );
+			}
+		}
+	}
+	
+	fclose( $out );
+
+	exit;
+}
+
 ?>

@@ -70,6 +70,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Widgets for Latest Jobs, Categories and Highlighted Jobs
 * ADDED: Option to change sort order of job lists
 * ADDED: Options to highlight jobs, and stick them to the top of job lists
+* ADDED: Exporting Applications to CSV
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
 * CHANGED: Split admin and display settings into two admin pages
 * FIXED: Some small string changes for clarity

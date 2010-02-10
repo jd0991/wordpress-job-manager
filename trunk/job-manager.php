@@ -57,4 +57,7 @@ require_once( dirname( __FILE__ ) . '/hooks.php' );
 if( array_key_exists( 'getfile', $_GET ) )
 	jobman_get_uploaded_file( $_GET['getfile'] );
 
+// If the user is after a CSV export, give it to them
+if( array_key_exists( 'jobman-mass-edit', $_REQUEST ) && 'export-csv' == $_REQUEST['jobman-mass-edit'] )
+	jobman_get_application_csv();
 ?>
