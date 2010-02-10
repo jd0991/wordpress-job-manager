@@ -3,7 +3,7 @@ class JobmanLatestJobsWidget extends WP_Widget {
     /** constructor */
     function JobmanLatestJobsWidget() {
 		$name = __( 'Job Manager: Recent Jobs', 'jobman');
-		$options = array( 'description' => 'A list of the most recent jobs posted to your site' );
+		$options = array( 'description' => __( 'A list of the most recent jobs posted to your site', 'jobman' ) );
 		
         parent::WP_Widget( false, $name, $options );	
     }
@@ -155,7 +155,7 @@ class JobmanCategoriesWidget extends WP_Widget {
     /** constructor */
     function JobmanCategoriesWidget() {
 		$name = __( 'Job Manager: Categories', 'jobman');
-		$options = array( 'description' => 'A list or dropdown of Job Manager categories' );
+		$options = array( 'description' => __( 'A list or dropdown of Job Manager categories', 'jobman' ) );
 		
         parent::WP_Widget( false, $name, $options );	
     }
@@ -245,6 +245,69 @@ class JobmanCategoriesWidget extends WP_Widget {
 ?>
             <p>
 				<input id="<?php echo $this->get_field_id( 'dropdown' ); ?>" name="<?php echo $this->get_field_name( 'dropdown' ); ?>" type="checkbox" value="1" <?php echo ( $dropdown )?( 'checked="checked" ' ):( '' )?>/> <?php _e( 'Show as dropdown', 'jobman' ) ?><br/>
+			</p>
+<?php 
+	}
+
+}
+
+
+class JobmanHighlightedJobsWidget extends WP_Widget {
+    /** constructor */
+    function JobmanHighlightedJobsWidget() {
+		$name = __( 'Job Manager: Highlighted Jobs', 'jobman');
+		$options = array( 'description' => __( 'A list jobs that have been marked as highlighted', 'jobman' ) );
+		
+        parent::WP_Widget( false, $name, $options );	
+    }
+
+    function widget( $args, $instance ) {
+		global $wp_query;
+		
+        extract( $args );
+        $title = apply_filters( 'widget_title', $instance['title'] );
+        
+		echo $before_widget;
+		
+		if ( $title )
+			echo $before_title . $title . $after_title;
+			
+		$jobs = get_posts( "post_type=jobman_job&numberposts=-1&meta_key=highlighted&meta_value=1" );
+
+		foreach( $jobs as $id => $job ) {
+			// Remove expired jobs
+			$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
+			if( '' != $displayenddate && strtotime( $displayenddate ) <= time() )
+				unset( $jobs[$id] );
+		}
+		
+		if( count( $jobs ) > 0 ) {
+			echo '<ul>';
+			foreach( $jobs as $job ) {
+				echo '<li><a href="' . get_page_link( $job->ID ) . '">' . $job->post_title . '</a></li>';
+			}
+			echo '</ul>';
+		}
+		else {
+			echo '<p>' . __( 'There are no jobs to display at this time.', 'jobman' ) . '</p>';
+		}
+					
+		echo $after_widget;
+    }
+
+    function update( $new_instance, $old_instance ) {
+		return $new_instance;
+    }
+
+    function form( $instance ) {
+		$title = '';
+		if( array_key_exists( 'title', $instance ) )
+			$title = esc_attr( $instance['title'] );
+?>
+            <p>
+				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'jobman' ); ?>: 
+					<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
+				</label>
 			</p>
 <?php 
 	}

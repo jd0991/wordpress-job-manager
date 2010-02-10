@@ -67,7 +67,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 = 0.6 =
 * ADDED: 'Related Categories' section to job list displays
 * ADDED: Mandatory fields filter
-* ADDED: Widgets for Latest Jobs and Categories
+* ADDED: Widgets for Latest Jobs, Categories and Highlighted Jobs
 * ADDED: Option to change sort order of job lists
 * ADDED: Options to highlight jobs, and stick them to the top of job lists
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
