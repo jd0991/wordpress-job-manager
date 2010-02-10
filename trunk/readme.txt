@@ -84,6 +84,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Job list filter not filtering by categories
 * FIXED: Some PHP warnings
 * FIXED: No empty message on emails list
+* FIXED: Added some CSS to make Full lists line up nicely
 
 = 0.5.3 =
 * FIXED: Application list not filtering correctly if no rating selected
