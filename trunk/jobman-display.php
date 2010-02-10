@@ -317,10 +317,27 @@ function jobman_display_jobs_list( $cat ) {
 			$page->post_title = $category->name;
 	}
 	
+	$sortby = '';
+	switch( $options['sort_by'] ) {
+		case 'title':
+			$sortby = '&orderby=title';
+			break;
+		case 'dateposted':
+			$sortby = '&orderby=date';
+			break;
+		case 'closingdate':
+			$sortby = '&orderby=meta_value&meta_key=displayenddate';
+			break;
+	}
+	
+	$sortorder = '';
+	if( in_array( $options['sort_order'], array( 'ASC', 'DESC' ) ) )
+		$sortorder = '&order=' . $options['sort_order'];
+	
 	if( 'all' == $cat )
-		$jobs = get_posts( 'post_type=jobman_job&numberposts=-1' );
+		$jobs = get_posts( "post_type=jobman_job&numberposts=-1$sortby$sortorder" );
 	else
-		$jobs = get_posts( "post_type=jobman_job&jcat=$category->slug&numberposts=-1" );
+		$jobs = get_posts( "post_type=jobman_job&jcat=$category->slug&numberposts=-1$sortby$sortorder" );
 	
 	if( $options['user_registration'] ) {
 		if( 'all' == $cat && $options['loginform_main'] )

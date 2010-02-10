@@ -46,6 +46,8 @@ function jobman_create_default_settings() {
 					'loginform_job' => 1,
 					'loginform_apply' => 1,
 					'related_categories' => 1,
+					'sort_by' => '',
+					'sort_order' => '',
 					'plugins' => array(
 									'gxs' => 1
 								)
@@ -117,6 +119,8 @@ function jobman_upgrade_settings( $oldversion ) {
 		$options = get_option( 'jobman_options' );
 		
 		$options['related_categories'] = 1;
+		$options['sort_by'] = '';
+		$options['sort_order'] = '';
 		
 		update_option( 'jobman_options', $options );
 	}

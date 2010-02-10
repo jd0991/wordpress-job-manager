@@ -85,72 +85,6 @@ addLoadEvent(function() {
 <?php
 }
 
-function jobman_display_conf() {
-	global $jobman_formats;
-	if( array_key_exists( 'jobmanconfsubmit', $_REQUEST ) ) {
-		// Configuration form as been submitted. Updated the database.
-		check_admin_referer( 'jobman-conf-updatedb' );
-		jobman_conf_updatedb();
-	}
-	else if( array_key_exists( 'jobmancatsubmit', $_REQUEST ) ) {
-		check_admin_referer( 'jobman-categories-updatedb' );
-		jobman_categories_updatedb();
-	}
-	else if( array_key_exists( 'jobmaniconsubmit', $_REQUEST ) ) {
-		check_admin_referer( 'jobman-icons-updatedb' );
-		jobman_icons_updatedb();
-	}
-	else if( array_key_exists( 'jobmanusersubmit', $_REQUEST ) ) {
-		check_admin_referer( 'jobman-users-updatedb' );
-		jobman_users_updatedb();
-	}
-	else if( array_key_exists( 'jobmanappemailsubmit', $_REQUEST ) ) {
-		check_admin_referer( 'jobman-application-email-updatedb' );
-		jobman_application_email_updatedb();
-	}
-	else if( array_key_exists( 'jobmanotherpluginssubmit', $_REQUEST ) ) {
-		check_admin_referer( 'jobman-other-plugins-updatedb' );
-		jobman_other_plugins_updatedb();
-	}
-?>
-	<div class="wrap">
-		<h2><?php _e( 'Job Manager: Settings', 'jobman' ) ?></h2>
-<?php
-	$writeable = jobman_check_upload_dirs();
-	if( ! $writeable ) {
-		echo '<div class="error">';
-		echo '<p>' . __( 'It seems the Job Manager data directories are not writeable. In order to allow applicants to upload resumes, and for you to upload icons, please ensure that the following directories exist and are writeable.', 'jobman' ) . '</p>';
-		echo '<pre>' . JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . "\n";
-		echo JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . '</pre>';
-		echo '<p>' . sprintf( __( 'For help with changing directory permissions, please see <a href="%1s">this page</a> in the WordPress documentation.', 'jobman' ), 'http://codex.wordpress.org/Changing_File_Permissions' ) . '</p>';
-		echo '</div>';
-	}
-
-	if( ! get_option( 'pento_consulting' ) ) {
-		$widths = array( '78%', '20%' );
-		$functions = array(
-						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_other_plugins_box' ),
-						array( 'jobman_print_donate_box', 'jobman_print_about_box' )
-					);
-		$titles = array(
-					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __('Other Plugins', 'jobman' ) ),
-					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
-				);
-	}
-	else {
-		$widths = array( '49%', '49%' );
-		$functions = array(
-						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_other_plugins_box' ),
-						array( 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box' )
-					);
-		$titles = array(
-					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Other Plugins', 'jobman' ) ),
-					array( __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ) )
-				);
-	}
-	jobman_create_dashboard( $widths, $functions, $titles );
-}
-
 function jobman_conf() {
 	global $jobman_formats;
 	if( array_key_exists( 'jobmanconfsubmit', $_REQUEST ) ) {
@@ -180,7 +114,7 @@ function jobman_conf() {
 	}
 ?>
 	<div class="wrap">
-		<h2><?php _e( 'Job Manager: Settings', 'jobman' ) ?></h2>
+		<h2><?php _e( 'Job Manager: Admin Settings', 'jobman' ) ?></h2>
 <?php
 	$writeable = jobman_check_upload_dirs();
 	if( ! $writeable ) {
@@ -562,6 +496,77 @@ function jobman_print_other_plugins_box() {
 <?php
 }
 
+function jobman_display_conf() {
+	if( array_key_exists( 'jobmansortsubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-sort-updatedb' );
+		jobman_sort_updatedb();
+	}
+?>
+	<div class="wrap">
+		<h2><?php _e( 'Job Manager: Display Settings', 'jobman' ) ?></h2>
+<?php
+	if( ! get_option( 'pento_consulting' ) ) {
+		$widths = array( '78%', '20%' );
+		$functions = array(
+						array( 'jobman_print_sort_box' ),
+						array( 'jobman_print_donate_box', 'jobman_print_about_box' )
+					);
+		$titles = array(
+					array( __( 'Job List Sorting', 'jobman' ) ),
+					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
+				);
+	}
+	else {
+		$widths = array( '49%', '49%' );
+		$functions = array(
+						array( 'jobman_print_sort_box' ),
+						array()
+					);
+		$titles = array(
+					array( __( 'Job List Sorting', 'jobman' ) ),
+					array()
+				);
+	}
+	jobman_create_dashboard( $widths, $functions, $titles );
+}
+
+function jobman_print_sort_box() {
+	$options = get_option( 'jobman_options' );
+	?>
+		<form action="" method="post">
+		<input type="hidden" name="jobmansortsubmit" value="1" />
+<?php 
+	wp_nonce_field( 'jobman-sort-updatedb' ); 
+?>
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e( 'Sort By:', 'jobman' ) ?></th>
+				<td><select name="sort-by">
+					<option value=""<?php echo ( '' == $options['sort_by'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Default', 'jobman' ) ?></option>
+					<option value="title"<?php echo ( 'title' == $options['sort_by'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Job Title', 'jobman' ) ?></option>
+					<option value="dateposted"<?php echo ( 'dateposted' == $options['sort_by'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Date Posted', 'jobman' ) ?></option>
+					<option value="closingdate"<?php echo ( 'closingdate' == $options['sort_by'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Closing Date', 'jobman' ) ?></option>
+				</select></td>
+				<td><span class="description"><?php _e( "Select the criteria you'd like to have job lists sorted by.", 'jobman' ) ?></span></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Sort Order', 'jobman' ) ?></th>
+				<td><select name="sort-order">
+					<option value=""<?php echo ( '' == $options['sort_order'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Default', 'jobman' ) ?></option>
+					<option value="asc"<?php echo ( 'asc' == $options['sort_order'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Ascending', 'jobman' ) ?></option>
+					<option value="desc"<?php echo ( 'desc' == $options['sort_order'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Descending', 'jobman' ) ?></option>
+				</select></td>
+				<td><span class="description">
+					<?php _e( "Ascending: Lowest value to highest value, alphabetical or chronological order", 'jobman' ) ?><br/>
+					<?php _e( "Descending: Highest value to lowest value, reverse alphabetical or chronological order", 'jobman' ) ?>
+				</span></td>
+			</tr>
+		</table>
+		
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Sort Settings', 'jobman' ) ?>" /></p>
+		</form>
+<?php
+}
 function jobman_list_jobs() {
 	$displayed = 1;
 
@@ -2156,6 +2161,16 @@ function jobman_other_plugins_updatedb() {
 	
 	update_option( 'jobman_options', $options );
 }
+
+function jobman_sort_updatedb() {
+	$options = get_option( 'jobman_options' );
+	
+	$options['sort_by'] = $_REQUEST['sort-by'];
+	$options['sort_order'] = $_REQUEST['sort-order'];
+
+	update_option( 'jobman_options', $options );
+}
+
 
 function jobman_application_setup_updatedb() {
 	$options = get_option( 'jobman_options' );
