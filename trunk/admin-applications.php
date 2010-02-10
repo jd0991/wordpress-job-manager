@@ -105,17 +105,9 @@ function jobman_list_applications() {
 					<tr>
 					    <th scope="row"><?php _e( 'Minimum Rating', 'jobman' ) ?>:</th>
 					    <td>
-					        <div class="star-holder">
-								<div class="star-rating" style="width: <?php echo $rating * 19 ?>px"></div>
-								<input type="hidden" name="jobman-rating" value="<?php echo $rating ?>" />
 <?php
-	for( $ii = 1; $ii <= 5; $ii++) {
+	jobman_print_rating_stars( 'filter', $rating );
 ?>
-								<div class="star star<?php echo $ii ?>"><img src="<?php echo JOBMAN_URL ?>/images/star.gif" alt="<?php echo $ii ?>" /></div>
-<?php
-	}
-?>
-							</div>
 						</td>
 					</tr>
 				</table>
@@ -448,18 +440,9 @@ function jobman_list_applications() {
 <?php
 	$rating = 0;
 	if( array_key_exists( 'rating', $appdata ) )
-	    $rating = $appdata['rating'];
-?>
-			        <div class="star-holder">
-						<div class="star-rating" style="width: <?php echo $rating * 19 ?>px"></div>
-						<input type="hidden" name="jobman-rating" value="<?php echo $rating ?>" />
-						<input type="hidden" name="callbackid" value="<?php echo $app->ID ?>" />
-<?php
-	for( $ii = 1; $ii <= 5; $ii++) {
-?>
-						<div class="star star<?php echo $ii ?>"><img src="<?php echo JOBMAN_URL ?>/images/star.gif" alt="<?php echo $ii ?>" /></div>
-<?php
-	}
+    	$rating = $appdata['rating'];
+
+	jobman_print_rating_stars( $app->ID, $rating );
 ?>
 					</div>
 				</td>
@@ -495,6 +478,21 @@ function jobman_list_applications() {
 		</form>
 	</div>
 <?php
+}
+
+function jobman_print_rating_stars( $id, $rating ) {
+?>
+			        <div class="star-holder">
+						<a href="#" onclick="jobman_reset_rating('<?php echo $id ?>'); return false;"><?php _e( 'No rating', 'jobman' ) ?></a>
+						<div id="jobman-star-rating-<?php echo $id ?>" class="star-rating" style="width: <?php echo $rating * 19 ?>px"></div>
+						<input type="hidden" id="jobman-rating-<?php echo $id ?>" name="jobman-rating" value="<?php echo $rating ?>" />
+						<input type="hidden" name="callbackid" value="<?php echo $id ?>" />
+<?php
+	for( $ii = 1; $ii <= 5; $ii++) {
+?>
+						<div class="star star<?php echo $ii ?>"><img src="<?php echo JOBMAN_URL ?>/images/star.gif" alt="<?php echo $ii ?>" /></div>
+<?php
+	}
 }
 
 function jobman_rate_application() {
@@ -547,17 +545,8 @@ function jobman_application_display_details( $appid ) {
 		$rating = 0;
 		if( array_key_exists( 'rating', $appdata ) )
 	    	$rating = $appdata['rating'];
-?>
-			        <div class="star-holder">
-						<div class="star-rating" style="width: <?php echo $rating * 19 ?>px"></div>
-						<input type="hidden" name="jobman-rating" value="<?php echo $rating ?>" />
-						<input type="hidden" name="callbackid" value="<?php echo $app->ID ?>" />
-<?php
-		for( $ii = 1; $ii <= 5; $ii++) {
-?>
-						<div class="star star<?php echo $ii ?>"><img src="<?php echo JOBMAN_URL ?>/images/star.gif" alt="<?php echo $ii ?>" /></div>
-<?php
-		}
+
+		jobman_print_rating_stars( $app->ID, $rating );
 		
 		echo '</div></td><tr><td colspan="2">&nbsp;</td></tr>';
 

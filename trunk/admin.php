@@ -94,6 +94,21 @@ addLoadEvent(function() {
 		jQuery(this).parent().parent().find("div.star-rating").css("width", (count * 19) + "px");
 	});
 });
+
+function jobman_reset_rating( application ) {
+	jQuery( "#jobman-rating-" + application ).attr("value", 0);
+	jQuery( "#jobman-star-rating-" + application ).css("width", "0px");
+	
+	if( "filter" != application ) {
+		callback = {
+				action: 'jobman_rate_application',
+				appid: application,
+				rating: 0
+		};
+		
+		jQuery.post( ajaxurl, callback );
+	}
+}
 //]]>
 </script> 
 <?php

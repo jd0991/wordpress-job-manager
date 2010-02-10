@@ -77,6 +77,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
 * CHANGED: Split admin and display settings into two admin pages
 * CHANGED: HTML fields now stretch across both columns of the application table. The label is no longer displayed.
+* CHANGED: Can now remove ratings from applications
 * FIXED: Some small string changes for clarity
 * FIXED: Added category links to Google XML Sitemap
 * FIXED: Admin CSS/JS are only loaded on the appropriate pages
