@@ -175,10 +175,6 @@ class JobmanCategoriesWidget extends WP_Widget {
 		if( array_key_exists( 'dropdown', $instance ) )
 			$dropdown = $instance['dropdown'];
 
-		$jobcounts = 0;
-		if( array_key_exists( 'jobcounts', $instance ) )
-			$jobcounts = $instance['jobcounts'];
-
 		$categories = get_terms( 'jobman_category', 'hide_empty=0' );
 		if( count( $categories ) > 0 ) {
 			if( $dropdown ) {
@@ -194,14 +190,10 @@ class JobmanCategoriesWidget extends WP_Widget {
 				if( array_key_exists( 'jcat', $wp_query->query_vars ) && $wp_query->query_vars['jcat'] == $cat->slug )
 					$selected = ' selected="selected"';
 				
-				$count = '';
-				if( $jobcounts )
-					$count = "($cat->count)";
-					
 				if( $dropdown )
-					echo "<option value='$cat->slug'$selected>$cat->name $count</option>";
+					echo "<option value='$cat->slug'$selected>$cat->name</option>";
 				else
-					echo "<li><a href='" . get_term_link( $cat->slug, 'jobman_category' ) . "'>$cat->name $count</a></li>";
+					echo "<li><a href='" . get_term_link( $cat->slug, 'jobman_category' ) . "'>$cat->name</a></li>";
 			}
 
 			if( $dropdown ) {
@@ -250,15 +242,9 @@ class JobmanCategoriesWidget extends WP_Widget {
 		$dropdown = 0;
 		if( array_key_exists( 'dropdown', $instance ) )
 			$dropdown = $instance['dropdown'];
-
-		$jobcounts = 0;
-		if( array_key_exists( 'jobcounts', $instance ) )
-			$jobcounts = $instance['jobcounts'];
-
 ?>
             <p>
 				<input id="<?php echo $this->get_field_id( 'dropdown' ); ?>" name="<?php echo $this->get_field_name( 'dropdown' ); ?>" type="checkbox" value="1" <?php echo ( $dropdown )?( 'checked="checked" ' ):( '' )?>/> <?php _e( 'Show as dropdown', 'jobman' ) ?><br/>
-				<input id="<?php echo $this->get_field_id( 'jobcounts' ); ?>" name="<?php echo $this->get_field_name( 'jobcounts' ); ?>" type="checkbox" value="1" <?php echo ( $jobcounts )?( 'checked="checked" ' ):( '' )?>/> <?php _e( 'Show job counts', 'jobman' ) ?>
 			</p>
 <?php 
 	}
