@@ -26,6 +26,10 @@ function jobman_conf() {
 		check_admin_referer( 'jobman-other-plugins-updatedb' );
 		jobman_other_plugins_updatedb();
 	}
+	else if( array_key_exists( 'jobmanuninstallsubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-uninstall-updatedb' );
+		jobman_uninstall_updatedb();
+	}
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'Job Manager: Admin Settings', 'jobman' ) ?></h2>
@@ -43,22 +47,22 @@ function jobman_conf() {
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(
-						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_other_plugins_box' ),
+						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_other_plugins_box', 'jobman_print_uninstall_box' ),
 						array( 'jobman_print_donate_box', 'jobman_print_about_box' )
 					);
 		$titles = array(
-					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __('Other Plugins', 'jobman' ) ),
+					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __( 'Other Plugins', 'jobman' ), __( 'Uninstall Settings', 'jobman' ) ),
 					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
 				);
 	}
 	else {
 		$widths = array( '49%', '49%' );
 		$functions = array(
-						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_other_plugins_box' ),
+						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_other_plugins_box', 'jobman_print_uninstall_box' ),
 						array( 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box' )
 					);
 		$titles = array(
-					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Other Plugins', 'jobman' ) ),
+					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Other Plugins', 'jobman' ), __( 'Uninstall Settings', 'jobman' ) ),
 					array( __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ) )
 				);
 	}
@@ -67,7 +71,6 @@ function jobman_conf() {
 
 function jobman_print_settings_box() {
 	$options = get_option( 'jobman_options' );
-	$structure = get_option( 'permalink_structure' );
 	?>
 		<form action="" method="post">
 		<input type="hidden" name="jobmanconfsubmit" value="1" />
@@ -83,35 +86,9 @@ function jobman_print_settings_box() {
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><?php _e( 'Job Manager Page Template', 'jobman' ) ?></th>
-				<td colspan="2"><?php printf( __( 'You can edit the page template used by Job Manager, by editing the Template Attribute of <a href="%s">this page</a>.', 'jobman' ), admin_url( 'page.php?action=edit&post=' . $options['main_page'] ) ) ?></td>
-			</tr>
-			<tr>
 				<th scope="row"><?php _e( 'Default email', 'jobman' ) ?></th>
 				<td colspan="2"><input class="regular-text code" type="text" name="default-email" value="<?php echo $options['default_email'] ?>" /></td>
 			</tr>
-			<tr>
-				<th scope="row"><?php _e( 'Show summary or full jobs list?', 'jobman' ) ?></th>
-				<td><select name="list-type">
-					<option value="summary"<?php echo ( 'summary' == $options['list_type'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Summary', 'jobman' ) ?></option>
-					<option value="full"<?php echo ( 'full' == $options['list_type'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Full', 'jobman' ) ?></option>
-				</select></td>
-				<td><span class="description">
-					<?php _e( 'Summary: displays many jobs concisely.', 'jobman' ) ?><br/>
-					<?php _e( 'Full: allows quicker access to the application form.', 'jobman' ) ?>
-				</span></td>
-			</tr>
-<?php
-	if( ! get_option( 'pento_consulting' ) ) {
-?>
-			<tr>
-				<th scope="row"><?php _e( 'Hide "Powered By" link?', 'jobman' ) ?></th>
-				<td><input type="checkbox" value="1" name="promo-link" <?php echo ( $options['promo_link'] )?( 'checked="checked" ' ):( '' ) ?>/></td>
-				<td><span class="description"><?php _e( "If you're unable to donate, I would appreciate it if you left this unchecked.", 'jobman' ) ?></span></td>
-			</tr>
-<?php
-	}
-?>
 		</table>
 		
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Settings', 'jobman' ) ?>" /></p>
@@ -266,7 +243,7 @@ function jobman_print_icons_box() {
 function jobman_print_user_box() {
 	$options = get_option( 'jobman_options' );
 ?>
-		<p><?php _e( 'Allowing users to register means that they and you can more easily keep track of jobs they\'ve applied for.', 'jobman' ) ?></p>
+		<p><?php _e( "Allowing users to register means that they and you can more easily keep track of jobs they've applied for.", 'jobman' ) ?></p>
 		<form action="" method="post">
 		<input type="hidden" name="jobmanusersubmit" value="1" />
 <?php 
@@ -410,21 +387,48 @@ function jobman_print_other_plugins_box() {
 <?php
 }
 
+function jobman_print_uninstall_box() {
+	$options = get_option( 'jobman_options' );
+?>
+		<p><?php _e( 'If you ever choose to uninstall Job Manager, you can select what parts should be deleted from the database.', 'jobman' ) ?></p>
+		<form action="" method="post">
+		<input type="hidden" name="jobmanuninstallsubmit" value="1" />
+<?php 
+	wp_nonce_field( 'jobman-uninstall-updatedb' ); 
+?>
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e( 'Options', 'jobman' ) ?></th>
+				<td><input type="checkbox" value="1" name="options" <?php echo ( $options['uninstall']['options'] )?( 'checked="checked" ' ):( '' ) ?>/></td>
+				<td><span class="description"><?php _e( 'The options selected on the Admin Settings and Display Settings pages. This includes any icons uploaded.', 'jobman' ) ?></span></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Jobs', 'jobman' ) ?></th>
+				<td><input type="checkbox" value="1" name="jobs" <?php echo ( $options['uninstall']['jobs'] )?( 'checked="checked" ' ):( '' ) ?>/></td>
+				<td><span class="description"><?php _e( 'Jobs that have been created.', 'jobman' ) ?></span></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Applications', 'jobman' ) ?></th>
+				<td><input type="checkbox" value="1" name="applications" <?php echo ( $options['uninstall']['applications'] )?( 'checked="checked" ' ):( '' ) ?>/></td>
+				<td><span class="description"><?php _e( 'Applications that have been submitted. This includes any files uploaded (resumes, etc).', 'jobman' ) ?></span></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Categories', 'jobman' ) ?></th>
+				<td><input type="checkbox" value="1" name="categories" <?php echo ( $options['uninstall']['categories'] )?( 'checked="checked" ' ):( '' ) ?>/></td>
+				<td><span class="description"><?php _e( 'Job Manager Categories that have been created.', 'jobman' ) ?></span></td>
+			</tr>
+		</table>
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Uninstall Settings', 'jobman' ) ?>" /></p>
+		</form>
+<?php
+}
+
 function jobman_conf_updatedb() {
 	$options = get_option( 'jobman_options' );
 	
 	$options['default_email'] = $_REQUEST['default-email'];
-	$options['list_type'] = $_REQUEST['list-type'];
-
-	if( array_key_exists( 'promo-link', $_REQUEST ) && $_REQUEST['promo-link'] )
-		$options['promo_link'] = 1;
-	else
-		$options['promo_link'] = 0;
 
 	update_option( 'jobman_options', $options );
-	
-	if( $options['plugins']['gxs'] )
-		do_action( 'sm_rebuild' );
 }
 
 function jobman_categories_updatedb() {
@@ -583,5 +587,21 @@ function jobman_other_plugins_updatedb() {
 	
 	update_option( 'jobman_options', $options );
 }
+
+function jobman_uninstall_updatedb() {
+	$options = get_option( 'jobman_options' );
+
+	$names = array( 'options', 'jobs', 'applications', 'categories' );
+	
+	foreach( $names as $var ) {
+		if( array_key_exists( $var, $_REQUEST ) && $_REQUEST[$var] )
+			$options['uninstall'][$var] = 1;
+		else
+			$options['uninstall'][$var] = 0;
+	}
+	
+	update_option( 'jobman_options', $options );
+}
+
 
 ?>

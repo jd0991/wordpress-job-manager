@@ -612,6 +612,49 @@ function jobman_upgrade_db( $oldversion ) {
 }
 
 function jobman_drop_db() {
+	$options = get_option( 'jobman_options' );
+	
+	// Delete jobs
+	if( $options['uninstall']['jobs'] ) {
+		$jobs = get_posts( 'post_type=jobman_job&numberposts=-1' );
+		if( count( $jobs ) > 0 ) {
+			foreach( $jobs as $job ) {
+				wp_delete_post( $job->ID );
+			}
+		}
+	}
+	
+	// Delete applications
+	if( $options['uninstall']['applications'] ) {
+		$apps = get_posts( 'post_type=jobman_app&numberposts=-1' );
+		if( count( $apps ) > 0 ) {
+			foreach( $apps as $app ) {
+				wp_delete_post( $app->ID );
+			}
+		}
+	}
+
+	// Delete categories
+	if( $options['uninstall']['categories'] ) {
+		$categories = get_terms( 'jobman_category', 'hide_empty=0' );
+		
+		if( count( $categories ) > 0 ) {
+			foreach( $categories as $cat ) {
+				wp_delete_term( $cat->term_id, 'jobman_category' );
+			}
+		}
+	}
+	
+	// Always delete the base page, register page and application page
+	wp_delete_post( $options['main_page'] );
+	wp_delete_post( $options['register_page'] );
+	
+	$pages = get_posts( 'post_type=jobman_app_form&numberposts=-1' );
+	if( count( $pages ) > 0 ) {
+		foreach( $pages as $page ) {
+			wp_delete_post( $page->ID );
+		}
+	}
 }
 
 ?>

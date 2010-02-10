@@ -73,6 +73,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Exporting Applications to CSV
 * ADDED: Link on jobs list to applications for that job
 * ADDED: IDs to all admin tables, so they can be styled more easily
+* ADDED: Uninstall options
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
 * CHANGED: Split admin and display settings into two admin pages
 * CHANGED: HTML fields now stretch across both columns of the application table. The label is no longer displayed.

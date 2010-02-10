@@ -49,6 +49,12 @@ function jobman_create_default_settings() {
 					'sort_by' => '',
 					'sort_order' => '',
 					'highlighted_behaviour' => 'sticky',
+					'uninstall' => array(
+									'options' => 1,
+									'jobs' => 1,
+									'applications' => 1,
+									'categories' => 1
+								),
 					'plugins' => array(
 									'gxs' => 1
 								)
@@ -124,6 +130,13 @@ function jobman_upgrade_settings( $oldversion ) {
 		$options['sort_order'] = '';
 		$options['highlighted_behaviour'] = 'sticky';
 		
+		$options['uninstall'] = array(
+									'options' => 1,
+									'jobs' => 1,
+									'applications' => 1,
+									'categories' => 1
+								);
+		
 		update_option( 'jobman_options', $options );
 	}
 }
@@ -131,7 +144,8 @@ function jobman_upgrade_settings( $oldversion ) {
 function jobman_uninstall() {
 	jobman_drop_db();
 
-	delete_option( 'jobman_options' );
+	if( $options['uninstall']['options'] )
+		delete_option( 'jobman_options' );
 }
 
 ?>

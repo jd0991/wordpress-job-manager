@@ -1,6 +1,10 @@
 <?php
 function jobman_display_conf() {
-	if( array_key_exists( 'jobmansortsubmit', $_REQUEST ) ) {
+	if( array_key_exists( 'jobmandisplaysubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-display-updatedb' );
+		jobman_display_updatedb();
+	}
+	else if( array_key_exists( 'jobmansortsubmit', $_REQUEST ) ) {
 		check_admin_referer( 'jobman-sort-updatedb' );
 		jobman_sort_updatedb();
 	}
@@ -11,26 +15,68 @@ function jobman_display_conf() {
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(
-						array( 'jobman_print_sort_box' ),
+						array( 'jobman_print_display_settings_box', 'jobman_print_sort_box' ),
 						array( 'jobman_print_donate_box', 'jobman_print_about_box' )
 					);
 		$titles = array(
-					array( __( 'Job List Sorting', 'jobman' ) ),
+					array( __( 'Display Settings', 'jobman' ), __( 'Job List Sorting', 'jobman' ) ),
 					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
 				);
 	}
 	else {
 		$widths = array( '49%', '49%' );
 		$functions = array(
-						array( 'jobman_print_sort_box' ),
-						array()
+						array( 'jobman_print_display_settings_box' ),
+						array( 'jobman_print_sort_box' )
 					);
 		$titles = array(
-					array( __( 'Job List Sorting', 'jobman' ) ),
-					array()
+					array( __( 'Display Settings', 'jobman' ) ),
+					array( __( 'Job List Sorting', 'jobman' ) )
 				);
 	}
 	jobman_create_dashboard( $widths, $functions, $titles );
+}
+
+function jobman_print_display_settings_box() {
+	$options = get_option( 'jobman_options' );
+	?>
+		<form action="" method="post">
+		<input type="hidden" name="jobmandisplaysubmit" value="1" />
+<?php 
+	wp_nonce_field( 'jobman-display-updatedb' ); 
+?>
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e( 'Job Manager Page Template', 'jobman' ) ?></th>
+				<td colspan="2"><?php printf( __( 'You can edit the page template used by Job Manager, by editing the Template Attribute of <a href="%s">this page</a>.', 'jobman' ), admin_url( 'page.php?action=edit&post=' . $options['main_page'] ) ) ?></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Show summary or full jobs list?', 'jobman' ) ?></th>
+				<td><select name="list-type">
+					<option value="summary"<?php echo ( 'summary' == $options['list_type'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Summary', 'jobman' ) ?></option>
+					<option value="full"<?php echo ( 'full' == $options['list_type'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Full', 'jobman' ) ?></option>
+				</select></td>
+				<td><span class="description">
+					<?php _e( 'Summary: displays many jobs concisely.', 'jobman' ) ?><br/>
+					<?php _e( 'Full: allows quicker access to the application form.', 'jobman' ) ?>
+				</span></td>
+			</tr>
+<?php
+	if( ! get_option( 'pento_consulting' ) ) {
+?>
+			<tr>
+				<th scope="row"><?php _e( 'Hide "Powered By" link?', 'jobman' ) ?></th>
+				<td><input type="checkbox" value="1" name="promo-link" <?php echo ( $options['promo_link'] )?( 'checked="checked" ' ):( '' ) ?>/></td>
+				<td><span class="description"><?php _e( "If you're unable to donate, I would appreciate it if you left this unchecked.", 'jobman' ) ?></span></td>
+			</tr>
+<?php
+	}
+?>
+		</table>
+		
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Display Settings', 'jobman' ) ?>" /></p>
+		</form>
+<?php
 }
 
 function jobman_print_sort_box() {
@@ -80,6 +126,22 @@ function jobman_print_sort_box() {
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Sort Settings', 'jobman' ) ?>" /></p>
 		</form>
 <?php
+}
+
+function jobman_display_updatedb() {
+	$options = get_option( 'jobman_options' );
+	
+	$options['list_type'] = $_REQUEST['list-type'];
+
+	if( array_key_exists( 'promo-link', $_REQUEST ) && $_REQUEST['promo-link'] )
+		$options['promo_link'] = 1;
+	else
+		$options['promo_link'] = 0;
+
+	update_option( 'jobman_options', $options );
+	
+	if( $options['plugins']['gxs'] )
+		do_action( 'sm_rebuild' );
 }
 
 function jobman_sort_updatedb() {
