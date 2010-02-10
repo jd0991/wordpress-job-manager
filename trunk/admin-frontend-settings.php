@@ -64,6 +64,17 @@ function jobman_print_sort_box() {
 					<?php _e( "Descending: Highest value to lowest value, reverse alphabetical or chronological order", 'jobman' ) ?>
 				</span></td>
 			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Highlighted jobs behaviour', 'jobman' ) ?></th>
+				<td><select name="highlighted-behaviour">
+					<option value="sticky"<?php echo ( 'sticky' == $options['highlighted_behaviour'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Sticky', 'jobman' ) ?></option>
+					<option value="inline"<?php echo ( 'inline' == $options['highlighted_behaviour'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Inline', 'jobman' ) ?></option>
+				</select></td>
+				<td><span class="description">
+					<?php _e( 'Sticky: Put highlighted jobs at the top of the jobs list.', 'jobman' ) ?><br/>
+					<?php _e( 'Inline: Leave highlighted jobs in their normal place in the jobs list.', 'jobman' ) ?>
+				</span></td>
+			</tr>
 		</table>
 		
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Sort Settings', 'jobman' ) ?>" /></p>
@@ -76,6 +87,7 @@ function jobman_sort_updatedb() {
 	
 	$options['sort_by'] = $_REQUEST['sort-by'];
 	$options['sort_order'] = $_REQUEST['sort-order'];
+	$options['highlighted_behaviour'] = $_REQUEST['highlighted-behaviour'];
 
 	update_option( 'jobman_options', $options );
 }

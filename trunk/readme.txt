@@ -69,6 +69,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Mandatory fields filter
 * ADDED: Widgets for Latest Jobs and Categories
 * ADDED: Option to change sort order of job lists
+* ADDED: Options to highlight jobs, and stick them to the top of job lists
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
 * CHANGED: Split admin and display settings into two admin pages
 * FIXED: Some small string changes for clarity

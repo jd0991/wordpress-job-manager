@@ -45,7 +45,7 @@ function jobman_display_jobs_list( $cat ) {
 		$jobs = get_posts( "post_type=jobman_job&numberposts=-1$sortby$sortorder" );
 	else
 		$jobs = get_posts( "post_type=jobman_job&jcat=$category->slug&numberposts=-1$sortby$sortorder" );
-	
+		
 	if( $options['user_registration'] ) {
 		if( 'all' == $cat && $options['loginform_main'] )
 			$content .= jobman_display_login();
@@ -84,8 +84,12 @@ function jobman_display_jobs_list( $cat ) {
 		$content .= '<h3>' . __( 'Related Categories', 'jobman' ) . '</h3>';
 		$content .= implode(', ', $links);
 	}
-
+	
 	if( count( $jobs ) > 0 ) {
+		if( 'sticky' == $options['highlighted_behaviour'] )
+			// Sort the sticky jobs to the top
+			uasort( $jobs, 'jobman_sort_highlighted_jobs' );
+
 		if( 'summary' == $list_type ) {
 			$content .= '<table class="jobs-table">';
 			$content .= '<tr class="heading"><th>' . __( 'Title', 'jobman' ) . '</th><th>' . __( 'Salary', 'jobman' ) . '</th><th>' . __( 'Start Date', 'jobman' ) . '</th><th>' . __( 'Location', 'jobman' ) . '</th></tr>';
@@ -100,7 +104,11 @@ function jobman_display_jobs_list( $cat ) {
 						$jobdata[$key] = $value;
 				}
 				
-				$content .= "<tr class='row$rowcount job$job->ID";
+				$highlighted = '';
+				if( array_key_exists( 'highlighted', $jobdata ) && $jobdata['highlighted'] )
+					$highlighted = 'highlighted';
+				
+				$content .= "<tr class='row$rowcount job$job->ID $highlighted ";
 				$content .= ( $rowcount % 2 )?( 'odd' ):( 'even' );
 				$content .= "'><td><a href='" . get_page_link( $job->ID ) . "'>";
 				
@@ -166,6 +174,19 @@ function jobman_display_jobs_list( $cat ) {
 	return array( $page );
 }
 
+function jobman_sort_highlighted_jobs( $a, $b ) {
+	$ahighlighted = get_post_meta( $a->ID, 'highlighted', true );
+	$bhighlighted = get_post_meta( $b->ID, 'highlighted', true );
+	
+	if( $ahighlighted == $bhighlighted )
+		return 0;
+	
+	if( 1 == $ahighlighted )
+		return -1;
+		
+	return 1;
+}
+
 function jobman_display_job( $job ) {
 	global $wpdb;
 	$options = get_option( 'jobman_options' );
@@ -211,7 +232,11 @@ function jobman_display_job( $job ) {
 
 	$categories = wp_get_object_terms( $job->ID, 'jobman_category' );
 	
-	$content .= '<table class="job-table">';
+	$highlighted = '';
+	if( array_key_exists( 'highlighted', $jobdata ) && $jobdata['highlighted'] )
+		$highlighted = 'highlighted';
+	
+	$content .= "<table class='job-table $highlighted'>";
 	$content .= '<tr><th scope="row">' . __( 'Title', 'jobman' ) . '</th><td>' . $job->post_title . '</td></tr>';
 	if( count( $categories ) > 0 ) {
 		$content .= '<tr><th scope="row">' . __( 'Categories', 'jobman' ) . '</th><td>';

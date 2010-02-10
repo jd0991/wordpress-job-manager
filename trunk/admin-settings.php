@@ -427,52 +427,6 @@ function jobman_conf_updatedb() {
 		do_action( 'sm_rebuild' );
 }
 
-function jobman_updatedb() {
-	global $wpdb;
-	$options = get_option( 'jobman_options' );
-
-	$page = array(
-				'comment_status' => 'closed',
-				'ping_status' => 'closed',
-				'post_status' => 'publish',
-				'post_content' => stripslashes( $_REQUEST['jobman-abstract'] ),
-				'post_name' => strtolower( str_replace( ' ', '-', $_REQUEST['jobman-title'] ) ),
-				'post_title' => stripslashes( $_REQUEST['jobman-title'] ),
-				'post_type' => 'jobman_job',
-				'post_date' => stripslashes( $_REQUEST['jobman-displaystartdate'] ),
-				'post_parent' => $options['main_page']);
-	
-	if( 'new' == $_REQUEST['jobman-jobid'] ) {
-		$id = wp_insert_post( $page );
-		
-		add_post_meta( $id, 'salary', stripslashes( $_REQUEST['jobman-salary'] ), true );
-		add_post_meta( $id, 'startdate', stripslashes( $_REQUEST['jobman-startdate'] ), true );
-		add_post_meta( $id, 'enddate', stripslashes( $_REQUEST['jobman-enddate'] ), true );
-		add_post_meta( $id, 'location', stripslashes( $_REQUEST['jobman-location'] ), true );
-		add_post_meta( $id, 'displayenddate', stripslashes( $_REQUEST['jobman-displayenddate'] ), true );
-		add_post_meta( $id, 'iconid', $_REQUEST['jobman-icon'], true );
-		add_post_meta( $id, 'email', $_REQUEST['jobman-email'], true );
-	}
-	else {
-		$page['ID'] = $_REQUEST['jobman-jobid'];
-		$id = wp_update_post( $page );
-		
-		update_post_meta( $id, 'salary', stripslashes( $_REQUEST['jobman-salary'] ) );
-		update_post_meta( $id, 'startdate', stripslashes( $_REQUEST['jobman-startdate'] ) );
-		update_post_meta( $id, 'enddate', stripslashes( $_REQUEST['jobman-enddate'] ) );
-		update_post_meta( $id, 'location', stripslashes( $_REQUEST['jobman-location'] ) );
-		update_post_meta( $id, 'displayenddate', stripslashes( $_REQUEST['jobman-displayenddate'] ) );
-		update_post_meta( $id, 'iconid', $_REQUEST['jobman-icon'] );
-		update_post_meta( $id, 'email', $_REQUEST['jobman-email'] );
-	}
-
-	if( array_key_exists( 'jobman-categories', $_REQUEST ) )
-		wp_set_object_terms( $id, $_REQUEST['jobman-categories'], 'jobman_category', false );
-
-	if( $options['plugins']['gxs'] )
-		do_action( 'sm_rebuild' );
-}
-
 function jobman_categories_updatedb() {
 	$options = get_option( 'jobman_options' );
 	

@@ -48,6 +48,7 @@ function jobman_create_default_settings() {
 					'related_categories' => 1,
 					'sort_by' => '',
 					'sort_order' => '',
+					'highlighted_behaviour' => 'sticky',
 					'plugins' => array(
 									'gxs' => 1
 								)
@@ -121,6 +122,7 @@ function jobman_upgrade_settings( $oldversion ) {
 		$options['related_categories'] = 1;
 		$options['sort_by'] = '';
 		$options['sort_order'] = '';
+		$options['highlighted_behaviour'] = 'sticky';
 		
 		update_option( 'jobman_options', $options );
 	}

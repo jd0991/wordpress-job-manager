@@ -105,7 +105,7 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 				$displayenddate = $jobmeta['displayenddate'];
 			
 			$display = false;
-			if( '' == $displayenddate || strtotime($displayenddate) > time() )
+			if( '' == $displayenddate || strtotime( $displayenddate ) > time() )
 				$display = true;
 				
 			if( ! ( $display || $showexpired ) ) {
@@ -287,12 +287,78 @@ function jobman_edit_job( $jobid ) {
 				<td><input class="regular-text code" type="text" name="jobman-email" value="<?php echo ( array_key_exists( 'email', $jobdata ) )?( $jobdata['email'] ):( '' ) ?>" /></td>
 				<td><span class="description"><?php _e( 'The email address to notify when an application is submitted for this job. For default behaviour (category email or global email), leave blank.', 'jobman' ) ?></span></td>
 			</tr>
+<?php
+	$checked = '';
+	if( array_key_exists( 'highlighted', $jobdata ) && $jobdata['highlighted'] )
+		$checked = ' checked="checked"';
+?>
+			<tr>
+				<th scope="row"><?php _e( 'Highlighted?', 'jobman' ) ?></th>
+				<td><input type="checkbox" name="jobman-highlighted" value="1" <?php echo $checked ?>/></td>
+				<td><span class="description"><?php _e( 'Mark this job as highlighted? For the behaviour of highlighted jobs, see the Display Settings admin page.', 'jobman' ) ?></span></td>
+			</tr>
 		</table>
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php echo $submit ?>" /></p>
 	</div>
 	</form>
 <?php
 	return 1;
+}
+
+function jobman_updatedb() {
+	global $wpdb;
+	$options = get_option( 'jobman_options' );
+
+	$page = array(
+				'comment_status' => 'closed',
+				'ping_status' => 'closed',
+				'post_status' => 'publish',
+				'post_content' => stripslashes( $_REQUEST['jobman-abstract'] ),
+				'post_name' => strtolower( str_replace( ' ', '-', $_REQUEST['jobman-title'] ) ),
+				'post_title' => stripslashes( $_REQUEST['jobman-title'] ),
+				'post_type' => 'jobman_job',
+				'post_date' => stripslashes( $_REQUEST['jobman-displaystartdate'] ),
+				'post_parent' => $options['main_page']);
+	
+	if( 'new' == $_REQUEST['jobman-jobid'] ) {
+		$id = wp_insert_post( $page );
+		
+		add_post_meta( $id, 'salary', stripslashes( $_REQUEST['jobman-salary'] ), true );
+		add_post_meta( $id, 'startdate', stripslashes( $_REQUEST['jobman-startdate'] ), true );
+		add_post_meta( $id, 'enddate', stripslashes( $_REQUEST['jobman-enddate'] ), true );
+		add_post_meta( $id, 'location', stripslashes( $_REQUEST['jobman-location'] ), true );
+		add_post_meta( $id, 'displayenddate', stripslashes( $_REQUEST['jobman-displayenddate'] ), true );
+		add_post_meta( $id, 'iconid', $_REQUEST['jobman-icon'], true );
+		add_post_meta( $id, 'email', $_REQUEST['jobman-email'], true );
+		
+		if( array_key_exists( 'jobman-highlighted', $_REQUEST ) && $_REQUEST['jobman-highlighted'] )
+			add_post_meta( $id, 'highlighted', 1, true );
+		else
+			add_post_meta( $id, 'highlighted', 0, true );
+	}
+	else {
+		$page['ID'] = $_REQUEST['jobman-jobid'];
+		$id = wp_update_post( $page );
+		
+		update_post_meta( $id, 'salary', stripslashes( $_REQUEST['jobman-salary'] ) );
+		update_post_meta( $id, 'startdate', stripslashes( $_REQUEST['jobman-startdate'] ) );
+		update_post_meta( $id, 'enddate', stripslashes( $_REQUEST['jobman-enddate'] ) );
+		update_post_meta( $id, 'location', stripslashes( $_REQUEST['jobman-location'] ) );
+		update_post_meta( $id, 'displayenddate', stripslashes( $_REQUEST['jobman-displayenddate'] ) );
+		update_post_meta( $id, 'iconid', $_REQUEST['jobman-icon'] );
+		update_post_meta( $id, 'email', $_REQUEST['jobman-email'] );
+		
+		if( array_key_exists( 'jobman-highlighted', $_REQUEST ) && $_REQUEST['jobman-highlighted'] )
+			update_post_meta( $id, 'highlighted', 1 );
+		else
+			update_post_meta( $id, 'highlighted', 0 );
+	}
+
+	if( array_key_exists( 'jobman-categories', $_REQUEST ) )
+		wp_set_object_terms( $id, $_REQUEST['jobman-categories'], 'jobman_category', false );
+
+	if( $options['plugins']['gxs'] )
+		do_action( 'sm_rebuild' );
 }
 
 function jobman_job_delete_confirm() {

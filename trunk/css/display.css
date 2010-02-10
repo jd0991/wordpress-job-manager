@@ -48,6 +48,14 @@ table.jobs-table th, table.job-table th {
 	font-weight: bold;
 }
 
+table.highlighted {
+	background-color: #eef;
+}
+
+table.jobs-table tr.highlighted td{
+	background-color: #eef;
+}
+
 td.jobs-moreinfo, td.jobs-applynow {
 	font-weight: bold;
 	text-align: center;
