@@ -26,9 +26,9 @@ function jobman_add_rewrite_rules( $wp_rewrite ) {
 
 	$new_rules = array( 
 						"$url/?$" => "index.php?jobman_root_id=$root->ID",
-						"$url/apply//?([^/]+)?/?" => "index.php?jobman_root_id=$root->ID" .
+						"$url/apply/?([^/]+)?/?" => "index.php?jobman_root_id=$root->ID" .
 						"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(1),
-						"$url/register//?([^/]+)?/?" => "index.php?jobman_root_id=$root->ID" .
+						"$url/register/?([^/]+)?/?" => "index.php?jobman_root_id=$root->ID" .
 						"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(1),
 						"$url/?([^/]+)/?" => "index.php?jcat=" . $wp_rewrite->preg_index(1)
 				);
@@ -1014,15 +1014,20 @@ function jobman_store_application( $jobid, $cat ) {
 	$appid = wp_insert_post( $page );
 
 	// Add the categories to the page
-	if( NULL != $cat && is_term( $cat->slug, 'jobman_category' ) )
-		wp_set_object_terms( $appid, $cat->slug, 'jobman_category', true );
+	$append = false;
+	if( NULL != $cat && is_term( $cat->slug, 'jobman_category' ) ) {
+		wp_set_object_terms( $appid, $cat->slug, 'jobman_category', false );
+		$append = true;
+	}
 
 	if( NULL != $job ) {
 		// Get parent (job) categories, and apply them to application
 		$parentcats = wp_get_object_terms( $job->ID, 'jobman_category' );
 		foreach( $parentcats as $pcat ) {
-			if( is_term( $pcat->slug, 'jobman_category' ) )
-				wp_set_object_terms( $appid, $pcat->slug, 'jobman_category', true );
+			if( is_term( $pcat->slug, 'jobman_category' ) ) {
+				wp_set_object_terms( $appid, $pcat->slug, 'jobman_category', $append );
+				$append = true;
+			}
 		}
 	}
 	
@@ -1073,7 +1078,7 @@ function jobman_check_filters( $jobid, $cat ) {
 	if( count( $fields ) > 0 ) {
 		foreach( $fields as $id => $field ) {
 			if( '' == $field['filter'] && ! $field['mandatory'] )
-				// No filter for this field
+				// No filter for this field, not mandatory
 				continue;
 			
 			$used_eq = false;
@@ -1095,6 +1100,10 @@ function jobman_check_filters( $jobid, $cat ) {
 				else if( '' == $data || ( is_array( $data ) && count( $data ) == 0 ) )
 					return $id;
 			}
+			
+			if( '' == $field['filter'] )
+				// No filter for this field, and mandatory check has passed
+				continue;
 				
 			$filters = split( "\n", $field['filter'] );
 			
