@@ -71,6 +71,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Option to change sort order of job lists
 * ADDED: Options to highlight jobs, and stick them to the top of job lists
 * ADDED: Exporting Applications to CSV
+* ADDED: Link on jobs list to applications for that job
+* ADDED: IDs to all admin tables, so they can be styled more easily
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
 * CHANGED: Split admin and display settings into two admin pages
 * FIXED: Some small string changes for clarity
@@ -78,6 +80,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Admin CSS/JS are only loaded on the appropriate pages
 * FIXED: Job list filter not filtering by categories
 * FIXED: Some PHP warnings
+* FIXED: No empty message on emails list
 
 = 0.5.3 =
 * FIXED: Application list not filtering correctly if no rating selected

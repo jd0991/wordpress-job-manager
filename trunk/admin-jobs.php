@@ -47,13 +47,14 @@ function jobman_list_jobs() {
 <?php 
 	wp_nonce_field( 'jobman-mass-edit-jobs' ); 
 ?>
-		<table class="widefat page fixed" cellspacing="0">
+		<table id="jobman-jobs-list" class="widefat page fixed" cellspacing="0">
 			<thead>
 			<tr>
 				<th scope="col" id="cb" class="column-cb check-column"><input type="checkbox"></th>
 				<th scope="col"><?php _e( 'Title', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Categories', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Display Dates', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Applications', 'jobman' ) ?></th>
 			</tr>
 			</thead>
 <?php
@@ -64,7 +65,7 @@ function jobman_list_jobs() {
 	else {
 ?>
 			<tr>
-				<td colspan="4"><?php _e( 'There are currently no jobs in the system.', 'jobman' ) ?></td>
+				<td colspan="5"><?php _e( 'There are currently no jobs in the system.', 'jobman' ) ?></td>
 			</tr>
 <?php
 	}
@@ -113,6 +114,11 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 				continue;
 			}
 			
+			$children = get_posts( "post_type=jobman_app&post_parent=$job->ID" );
+			if( count( $children ) > 0 )
+				$applications = '<a href="' . admin_url("admin.php?page=jobman-list-applications&amp;jobman-jobid=$job->ID") . '">' . count( $children ) . '</a>';
+			else
+				$applications = count( $children );
 ?>
 			<tr>
 				<th scope="row" class="check-column"><input type="checkbox" name="job[]" value="<?php echo $job->ID ?>" /></th>
@@ -121,6 +127,7 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 				<td><?php echo $catstring ?></td>
 				<td><?php echo date( 'Y-m-d', strtotime( $job->post_date ) ) ?> - <?php echo ( '' == $displayenddate )?( __( 'End of Time', 'jobman' ) ):( $displayenddate ) ?><br/>
 				<?php echo ( $display )?( __( 'Live/Upcoming', 'jobman' ) ):( __( 'Expired', 'jobman' ) ) ?></td>
+				<td><?php echo $applications ?></td>
 			</tr>
 <?php
 		}
@@ -187,7 +194,7 @@ function jobman_edit_job( $jobid ) {
 ?>
 	<div class="wrap">
 		<h2><?php echo $title ?></h2>
-		<table class="form-table">
+		<table id="jobman-job-edit" class="form-table">
 			<tr>
 				<th scope="row"><?php _e( 'Job ID', 'jobman' ) ?></th>
 				<td><?php echo $jobid ?></td>

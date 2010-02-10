@@ -30,7 +30,7 @@ function jobman_create_dashboard( $widths, $functions, $titles ) {
 
 function jobman_create_widget( $function, $title ) {
 ?>
-				<div id="jobman-<?php echo $function ?>" class="postbox">
+				<div id="jobman-<?php echo $function ?>" class="postbox jobman-postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle') ?>"><br /></div>
 					<h3 class='hndle'><span><?php echo $title ?></span></h3>
 					<div class="inside">

@@ -196,7 +196,7 @@ function jobman_list_applications() {
 <?php 
 	wp_nonce_field( 'jobman-mass-edit-applications' ); 
 ?>
-		<table class="widefat page fixed" cellspacing="0">
+		<table id="jobman-applications-list" class="widefat page fixed" cellspacing="0">
 			<thead>
 			<tr>
 				<th scope="col" id="cb" class="column-cb check-column"><input type="checkbox"></th>
@@ -516,7 +516,7 @@ function jobman_application_display_details( $appid ) {
 	    jobman_email_application( $appid, $_REQUEST['jobman-email'] );
  }
 ?>
-	<div class="wrap">
+	<div id="jobman-application" class="wrap">
 		<h2><?php _e( 'Job Manager: Application Details', 'jobman' ) ?></h2>
 		<div class="printicon"><a href="javascript:window.print()"><img src="<?php echo JOBMAN_URL ?>/images/print-icon.png" /></a></div>
 		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>

@@ -28,7 +28,7 @@ function jobman_application_setup() {
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'Job Manager: Application Setup', 'jobman' ) ?></h2>
-		<table class="widefat page fixed">
+		<table id="jobman-application-setup" class="widefat page fixed">
 			<thead>
 			<tr>
 				<th scope="col"><?php _e( 'Field Label/Type', 'jobman' ) ?></th>

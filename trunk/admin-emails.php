@@ -11,7 +11,7 @@ function jobman_list_emails() {
 	    
 	    <p><?php _e( 'In the "Applications Sent To" column, click the number to go to that application, or click the asterisk (*) next to it to see other emails sent to that application.', 'jobman' ) ?></p>
 	    
-		<table class="widefat page fixed" cellspacing="0">
+		<table id="jobman-emails-list" class="widefat page fixed" cellspacing="0">
 			<thead>
 			<tr>
 				<th scope="col"><?php _e( 'Date', 'jobman' ) ?></th>
@@ -30,27 +30,36 @@ function jobman_list_emails() {
 <?php
 	$emails = get_posts( 'post_type=jobman_email&numberposts=-1' );
 	
-	foreach( $emails as $email ) {
-	    $apps = get_posts( "post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID&numberposts=-1" );
+	if( count( $emails ) > 0 ) {
+		foreach( $emails as $email ) {
+			$apps = get_posts( "post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID&numberposts=-1" );
 
-		$appstrings = array();
-		$appids = array();
-		foreach( $apps as $app ) {
-			$appstrings[] = "<a href='?page=jobman-list-applications&amp;appid=$app->ID'>$app->ID</a> <a href='?page=jobman-list-emails&amp;appid=$app->ID'>*</a>";
-			$appids[] = $app->ID;
-			
-		}
-		if( array_key_exists( 'appid', $_REQUEST ) && ! in_array( $_REQUEST['appid'], $appids ) )
-		    continue;
+			$appstrings = array();
+			$appids = array();
+			foreach( $apps as $app ) {
+				$appstrings[] = "<a href='?page=jobman-list-applications&amp;appid=$app->ID'>$app->ID</a> <a href='?page=jobman-list-emails&amp;appid=$app->ID'>*</a>";
+				$appids[] = $app->ID;
+				
+			}
+			if( array_key_exists( 'appid', $_REQUEST ) && ! in_array( $_REQUEST['appid'], $appids ) )
+				continue;
 ?>
 			<tr>
 			    <td><?php echo $email->post_date ?></td>
 			    <td><a href="?page=jobman-list-emails&amp;emailid=<?php echo $email->ID ?>"><?php echo $email->post_title ?></a></td>
 			    <td>
 <?php
-		echo implode( ', ', $appstrings );
+			echo implode( ', ', $appstrings );
 ?>
 				</td>
+			</tr>
+<?php
+		}
+	}
+	else {
+?>
+			<tr>
+				<td colspan="3"><?php _e( 'There are currently no emails in the system.', 'jobman' ) ?></td>
 			</tr>
 <?php
 	}
@@ -76,7 +85,7 @@ function jobman_email_display( $emailid ) {
 
 	    <p><?php _e( 'In the "Applications" field, click the number to go to that application, or click the asterisk (*) next to it to see other emails sent to that application.', 'jobman' ) ?></p>
 
-		<table class="form-table">
+		<table id="jobman-email" class="form-table">
 		    <tr>
 		        <th scope="row"><?php _e( 'Subject', 'jobman' ) ?></th>
 		        <td><?php echo $email->post_title ?></td>
@@ -153,7 +162,7 @@ function jobman_application_mailout() {
 <?php
 	wp_nonce_field( 'jobman-mailout-send' );
 ?>
-		<table class="form-table">
+		<table id="jobman-email-edit" class="form-table">
 			<tr>
 				<th scope="row"><?php _e( 'From', 'jobman' ) ?></th>
 				<td><input class="regular-text code" type="text" name="jobman-from" value="<?php echo '&quot;' . $current_user->display_name . '&quot; <' . $current_user->user_email . '>' ?>" /></td>
