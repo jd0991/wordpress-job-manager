@@ -27,7 +27,7 @@ Mid February 2010
   * Make the admin Jobs List prettier: Issue #67
   * Feature Job Widget: Issue #70
   * Option to include categories under main job page in page list: Issue #73
-  * Link to related applications from Job List: Issue #75
+  * Link to related applications from Job List: Issue #75 (multi-request issue, this has been implemented)
   * Change the name on application emails: Issue #77
   * Limit number of jobs/page, add Back/Forward buttons: Issue #79
   * CSS classes on display elements: Issue #80
