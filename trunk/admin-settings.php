@@ -311,6 +311,30 @@ function jobman_print_application_email_box() {
 				<td><span class="description"><?php _e( 'The application field to use as the email address. This will be the "From" address in the initial application, and the field used for emailing applicants.', 'jobman' ) ?></span></td>
 			</tr>
 			<tr>
+				<th scope="row"><?php _e( 'From Name', 'jobman' ) ?></th>
+				<td>
+					<select name="jobman-from-fields[]" multiple="multiple" size="5" class="multiselect">
+					<option value="" style="font-weight: bold; border-bottom: 1px solid black;"><?php _e( 'None', 'jobman' ) ?></option>
+<?php
+	$fids = $options['application_email_from_fields'];
+	if( count( $fields ) > 0 ) {
+		foreach( $fields as $id => $field ) {
+			if( 'text' == $field['type'] || 'textarea' == $field['type'] ) {
+				$selected = '';
+				if( in_array( $id, $fids ) ) {
+					$selected = ' selected="selected"';
+				}
+?>
+					<option value="<?php echo $id ?>"<?php echo $selected ?>><?php echo $field['label'] ?></option>
+<?php
+			}
+		}
+	}
+?>
+					</select>
+				</td>
+				<td><span class="description"><?php _e( 'The name that will appear with the "From" email address.', 'jobman' ) ?></span></td>
+			<tr>
 				<th scope="row"><?php _e( 'Subject', 'jobman' ) ?></th>
 				<td>
 					<input class="regular-text code" type="text" name="jobman-subject-text" value="<?php echo $options['application_email_subject_text'] ?>" /><br/>
@@ -573,6 +597,11 @@ function jobman_application_email_updatedb() {
 		$options['application_email_subject_fields'] = $_REQUEST['jobman-subject-fields'];
 	else
 		$options['application_email_subject_fields'] = array();
+	
+	if( is_array( $_REQUEST['jobman-from-fields'] ) )
+		$options['application_email_from_fields'] = $_REQUEST['jobman-from-fields'];
+	else
+		$options['application_email_from_fields'] = array();
 	
 	update_option( 'jobman_options', $options );
 }

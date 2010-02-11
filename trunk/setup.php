@@ -36,6 +36,7 @@ function jobman_create_default_settings() {
 					'default_email' => get_option( 'admin_email' ),
 					'list_type' => 'full',
 					'application_email_from' => 4,
+					'application_email_from_fields' => array( 2, 3 ),
 					'application_email_subject_text' => 'Job Application:',
 					'application_email_subject_fields' => array( 2, 3 ),
 					'promo_link' => 0,
@@ -161,6 +162,8 @@ function jobman_upgrade_settings( $oldversion ) {
 								'job_title_prefix' => __( 'Job', 'jobman' ) . ': ',
 								'application_acceptance' => __( 'Thank you for your application! We\'ll check it out, and get back to you soon!', 'jobman' )
 							);
+							
+		$options['application_email_from_fields'] = array();
 		
 		update_option( 'jobman_options', $options );
 	}

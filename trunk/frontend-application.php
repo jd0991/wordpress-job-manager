@@ -514,6 +514,19 @@ function jobman_email_application( $appid, $sendto = '' ) {
 	if( '' == $from )
 		$from = get_option( 'admin_email' );
 	
+	$fids = $options['application_email_from_fields'];
+
+	$fromname = '';
+	if( count( $fids ) > 0 ) {
+		foreach( $fids as $fid ) {
+			if( array_key_exists( "data$fid", $appdata ) && '' != $appdata["data$fid"] )
+				$fromname .= $appdata["data$fid"] . ' ';
+		}
+	}
+	$fromname = trim( $fromname );
+	
+	$from = "\"$fromname\" <$from>";
+	
 	$subject = $options['application_email_subject_text'];
 	if( '' != $subject )
 		$subject .= ' ';
@@ -564,7 +577,7 @@ function jobman_email_application( $appid, $sendto = '' ) {
 		}
 	}
 
-	$header = "From: \"\" <$from>" . PHP_EOL;
+	$header = "From: $from" . PHP_EOL;
 	$header .= "Reply-To: $from" . PHP_EOL;
 	$header .= "Return-Path: $from" . PHP_EOL;
 	$header .= 'Content-type: text/plain; charset='. get_option( 'blog_charset' ) . PHP_EOL;
