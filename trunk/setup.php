@@ -63,7 +63,9 @@ function jobman_create_default_settings() {
 								'job_before' => '',
 								'job_after' => '',
 								'apply_before' => '',
-								'apply_after' => ''
+								'apply_after' => '',
+								'job_title_prefix' => __( 'Job', 'jobman' ) . ': ',
+								'application_acceptance' => __( 'Thank you for your application! We\'ll check it out, and get back to you soon!', 'jobman' )
 							),
 					'plugins' => array(
 									'gxs' => 1
@@ -155,7 +157,9 @@ function jobman_upgrade_settings( $oldversion ) {
 								'job_before' => '',
 								'job_after' => '',
 								'apply_before' => '',
-								'apply_after' => ''
+								'apply_after' => '',
+								'job_title_prefix' => __( 'Job', 'jobman' ) . ': ',
+								'application_acceptance' => __( 'Thank you for your application! We\'ll check it out, and get back to you soon!', 'jobman' )
 							);
 		
 		update_option( 'jobman_options', $options );

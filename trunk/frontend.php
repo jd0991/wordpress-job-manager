@@ -97,6 +97,7 @@ function jobman_display_jobs( $posts ) {
 	}
 
 	$jobman_displaying = true;
+	$wp_query->is_home = false;
 
 	if( NULL != $post ) {
 		$postmeta = get_post_custom( $post->ID );
@@ -259,10 +260,10 @@ function jobman_display_template() {
 
 function jobman_display_title( $title, $sep, $seploc ) {
 	global $jobman_displaying, $wp_query;
-	
+
 	if( ! $jobman_displaying )
 		return $title;
-	
+
 	$post = $wp_query->post;
 	
 	switch( $post->post_type ) {

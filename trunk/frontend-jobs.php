@@ -287,7 +287,7 @@ function jobman_display_job( $job ) {
 	
 	$page = $job;
 
-	$page->post_title = __( 'Job', 'jobman' ) . ': ' . $job->post_title;
+	$page->post_title = $options['text']['job_title_prefix'] . $job->post_title;
 	
 	$page->post_content = $content;
 		

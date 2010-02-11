@@ -24,7 +24,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 		switch( $err ) {
 			case -1:
 				// No error, stored properly
-				$msg = __( 'Thank you for your application! We\'ll check it out, and get back to you soon!', 'jobman' );
+				$msg = $options['text']['application_acceptance'];
 				break;
 			default:
 				// Failed filter rules

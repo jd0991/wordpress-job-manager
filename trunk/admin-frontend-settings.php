@@ -12,6 +12,10 @@ function jobman_display_conf() {
 		check_admin_referer( 'jobman-wraptext-updatedb' );
 		jobman_wrap_text_updatedb();
 	}
+	else if( array_key_exists( 'jobmanmisctextsubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-misctext-updatedb' );
+		jobman_misc_text_updatedb();
+	}
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'Job Manager: Display Settings', 'jobman' ) ?></h2>
@@ -19,22 +23,22 @@ function jobman_display_conf() {
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(
-						array( 'jobman_print_display_settings_box', 'jobman_print_sort_box', 'jobman_print_wrap_text_box' ),
+						array( 'jobman_print_display_settings_box', 'jobman_print_sort_box', 'jobman_print_misc_text_box', 'jobman_print_wrap_text_box' ),
 						array( 'jobman_print_donate_box', 'jobman_print_about_box' )
 					);
 		$titles = array(
-					array( __( 'Display Settings', 'jobman' ), __( 'Job List Sorting', 'jobman' ), __( 'Page Text', 'jobman' ) ),
+					array( __( 'Display Settings', 'jobman' ), __( 'Job List Sorting', 'jobman' ), __( 'Miscellaneous Text', 'jobman' ), __( 'Page Text', 'jobman' ) ),
 					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
 				);
 	}
 	else {
 		$widths = array( '49%', '49%' );
 		$functions = array(
-						array( 'jobman_print_display_settings_box', 'jobman_print_wrap_text_box' ),
+						array( 'jobman_print_display_settings_box', 'jobman_print_misc_text_box', 'jobman_print_wrap_text_box' ),
 						array( 'jobman_print_sort_box' )
 					);
 		$titles = array(
-					array( __( 'Display Settings', 'jobman' ), __( 'Page Text', 'jobman' ) ),
+					array( __( 'Display Settings', 'jobman' ), __( 'Miscellaneous Text', 'jobman' ), __( 'Page Text', 'jobman' ) ),
 					array( __( 'Job List Sorting', 'jobman' ) )
 				);
 	}
@@ -132,6 +136,33 @@ function jobman_print_sort_box() {
 <?php
 }
 
+function jobman_print_misc_text_box() {
+	$options = get_option( 'jobman_options' );
+?>
+		<p><?php _e( "These text options will be displayed in various places around your job listings.", 'jobman' ) ?></p>
+		<form action="" method="post">
+		<input type="hidden" name="jobmanmisctextsubmit" value="1" />
+<?php 
+	wp_nonce_field( 'jobman-misctext-updatedb' ); 
+?>
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e( 'Job Title Prefix', 'jobman' ) ?></th>
+				<td><input type="text" name="job-title-prefix" class="regular-text code" value="<?php esc_attr_e( $options['text']['job_title_prefix'] ) ?>" /></td>
+				<td><span class="description"><?php _e( 'This text is displayed before the Job Name in the page title.', 'jobman' ) ?></span></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Application Acceptance', 'jobman' ) ?></th>
+				<td><textarea name="application-acceptance" class="large-text code" rows="7"><?php echo $options['text']['application_acceptance'] ?></textarea></td>
+				<td><span class="description"><?php _e( "This text is displayed after an application has been accepted. If it is not filled in, the default text will be used.", 'jobman' ) ?></span></td>
+			</tr>
+		</table>
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Text Settings', 'jobman' ) ?>" /></p>
+		</form>
+<?php
+
+}
+
 function jobman_print_wrap_text_box() {
 	$options = get_option( 'jobman_options' );
 ?>
@@ -158,7 +189,7 @@ function jobman_print_wrap_text_box() {
 ?>
 			<tr>
 				<th scope="row"><?php echo $label ?></th>
-				<td><textarea name="<?php echo $name ?>" class="large-text code" rows="7"><?php esc_attr_e( $value ) ?></textarea></td>
+				<td><textarea name="<?php echo $name ?>" class="large-text code" rows="7"><?php echo $value ?></textarea></td>
 			</tr>
 <?php
 		}
@@ -196,14 +227,23 @@ function jobman_sort_updatedb() {
 	update_option( 'jobman_options', $options );
 }
 
+function jobman_misc_text_updatedb() {
+	$options = get_option( 'jobman_options' );
+	
+	$options['text']['job_title_prefix'] = stripslashes( $_REQUEST['job-title-prefix'] );
+	$options['text']['application_acceptance'] = stripslashes( $_REQUEST['application-acceptance'] );
+
+	update_option( 'jobman_options', $options );
+}
+
 function jobman_wrap_text_updatedb() {
 	$options = get_option( 'jobman_options' );
 	
 	$pages = array( 'main', 'category', 'job', 'apply' );
 	
 	foreach( $pages as $page ) {
-		$options['text']["{$page}_before"] = $_REQUEST["{$page}-before"];
-		$options['text']["{$page}_after"] = $_REQUEST["{$page}-after"];
+		$options['text']["{$page}_before"] = stripslashes( $_REQUEST["{$page}-before"] );
+		$options['text']["{$page}_after"] = stripslashes( $_REQUEST["{$page}-after"] );
 	}
 
 	update_option( 'jobman_options', $options );

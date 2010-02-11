@@ -75,6 +75,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: IDs to all admin tables, so they can be styled more easily
 * ADDED: Uninstall options
 * ADDED: Options to change text before/after data being displayed
+* ADDED: Option to change Job title prefix
+* ADDED: Option to change Application Acceptance message
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
 * CHANGED: Split admin and display settings into two admin pages
 * CHANGED: HTML fields now stretch across both columns of the application table. The label is no longer displayed.
