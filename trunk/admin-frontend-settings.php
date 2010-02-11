@@ -8,6 +8,10 @@ function jobman_display_conf() {
 		check_admin_referer( 'jobman-sort-updatedb' );
 		jobman_sort_updatedb();
 	}
+	else if( array_key_exists( 'jobmanwraptextsubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-wraptext-updatedb' );
+		jobman_wrap_text_updatedb();
+	}
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'Job Manager: Display Settings', 'jobman' ) ?></h2>
@@ -15,22 +19,22 @@ function jobman_display_conf() {
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(
-						array( 'jobman_print_display_settings_box', 'jobman_print_sort_box' ),
+						array( 'jobman_print_display_settings_box', 'jobman_print_sort_box', 'jobman_print_wrap_text_box' ),
 						array( 'jobman_print_donate_box', 'jobman_print_about_box' )
 					);
 		$titles = array(
-					array( __( 'Display Settings', 'jobman' ), __( 'Job List Sorting', 'jobman' ) ),
+					array( __( 'Display Settings', 'jobman' ), __( 'Job List Sorting', 'jobman' ), __( 'Page Text', 'jobman' ) ),
 					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
 				);
 	}
 	else {
 		$widths = array( '49%', '49%' );
 		$functions = array(
-						array( 'jobman_print_display_settings_box' ),
+						array( 'jobman_print_display_settings_box', 'jobman_print_wrap_text_box' ),
 						array( 'jobman_print_sort_box' )
 					);
 		$titles = array(
-					array( __( 'Display Settings', 'jobman' ) ),
+					array( __( 'Display Settings', 'jobman' ), __( 'Page Text', 'jobman' ) ),
 					array( __( 'Job List Sorting', 'jobman' ) )
 				);
 	}
@@ -128,6 +132,44 @@ function jobman_print_sort_box() {
 <?php
 }
 
+function jobman_print_wrap_text_box() {
+	$options = get_option( 'jobman_options' );
+?>
+		<p><?php _e( 'This text will be displayed before or after the lists/job/forms on the respective pages. You can enter HTML in these boxes.', 'jobman' ) ?></p>
+		<form action="" method="post">
+		<input type="hidden" name="jobmanwraptextsubmit" value="1" />
+<?php 
+	wp_nonce_field( 'jobman-wraptext-updatedb' ); 
+?>
+		<table class="form-table">
+<?php
+	$fields = array(
+				'main' => array( 'before' => __( 'Before the Main Jobs List', 'jobman' ), 'after' => __( 'After the Main Jobs List', 'jobman' ) ),
+				'category' => array( 'before' => __( 'Before any Category Jobs Lists', 'jobman' ), 'after' => __( 'After any Category Jobs Lists', 'jobman' ) ),
+				'job' => array( 'before' => __( 'Before a Job', 'jobman' ), 'after' => __( 'After a Job', 'jobman' ) ),
+				'apply' => array( 'before' => __( 'Before the Application Form', 'jobman' ), 'after' => __( 'After the Application Form', 'jobman' ) )
+			);
+	$positions = array( 'before', 'after' );
+	foreach( $fields as $key => $field ) {
+		foreach( $positions as $pos ) {
+			$label = $field[$pos];
+			$name = "{$key}-{$pos}";
+			$value = $options['text']["{$key}_{$pos}"];
+?>
+			<tr>
+				<th scope="row"><?php echo $label ?></th>
+				<td><textarea name="<?php echo $name ?>" class="large-text code" rows="7"><?php esc_attr_e( $value ) ?></textarea></td>
+			</tr>
+<?php
+		}
+	}
+?>
+		</table>
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Text Settings', 'jobman' ) ?>" /></p>
+		</form>
+<?php
+}
+
 function jobman_display_updatedb() {
 	$options = get_option( 'jobman_options' );
 	
@@ -150,6 +192,19 @@ function jobman_sort_updatedb() {
 	$options['sort_by'] = $_REQUEST['sort-by'];
 	$options['sort_order'] = $_REQUEST['sort-order'];
 	$options['highlighted_behaviour'] = $_REQUEST['highlighted-behaviour'];
+
+	update_option( 'jobman_options', $options );
+}
+
+function jobman_wrap_text_updatedb() {
+	$options = get_option( 'jobman_options' );
+	
+	$pages = array( 'main', 'category', 'job', 'apply' );
+	
+	foreach( $pages as $page ) {
+		$options['text']["{$page}_before"] = $_REQUEST["{$page}-before"];
+		$options['text']["{$page}_after"] = $_REQUEST["{$page}-after"];
+	}
 
 	update_option( 'jobman_options', $options );
 }

@@ -55,6 +55,16 @@ function jobman_create_default_settings() {
 									'applications' => 1,
 									'categories' => 1
 								),
+					'text' => array( 
+								'main_before' => '',
+								'main_after' => '',
+								'category_before' => '',
+								'category_after' => '',
+								'job_before' => '',
+								'job_after' => '',
+								'apply_before' => '',
+								'apply_after' => ''
+							),
 					'plugins' => array(
 									'gxs' => 1
 								)
@@ -136,6 +146,17 @@ function jobman_upgrade_settings( $oldversion ) {
 									'applications' => 1,
 									'categories' => 1
 								);
+		
+		$options['text'] = array( 
+								'main_before' => '',
+								'main_after' => '',
+								'category_before' => '',
+								'category_after' => '',
+								'job_before' => '',
+								'job_after' => '',
+								'apply_before' => '',
+								'apply_after' => ''
+							);
 		
 		update_option( 'jobman_options', $options );
 	}
