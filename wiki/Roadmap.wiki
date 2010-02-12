@@ -34,6 +34,7 @@ Mid February 2010
   * Improved Uninstall: Issue #82
   * Block application fields being emailed: Issue #87
   * Captcha support: Issue #90
+  * Category Dropdown on Application Form: Issue #103
 
 == Changes to Existing Features ==
 
