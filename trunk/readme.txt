@@ -60,6 +60,10 @@ Job Manager will add all of your job lists and job detail pages to your sitemap,
 
 == Credits ==
 
+= Translations =
+
+* French Translation (0.5), provided by [Fabrice Fotso](http://www.procure-smart.com/)
+
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
@@ -91,6 +95,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: No empty message on emails list
 * FIXED: Added some CSS to make Full lists line up nicely
 * FIXED: WP themes could think they were on the front page when in Job Manager
+
+= 0.5.4 =
+* ADDED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)
 
 = 0.5.3 =
 * FIXED: Application list not filtering correctly if no rating selected
