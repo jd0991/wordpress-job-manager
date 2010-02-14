@@ -1,6 +1,6 @@
 <?php
 function jobman_display_apply( $jobid, $cat = NULL ) {
-	global $current_user;
+	global $current_user, $si_image_captcha;
 	get_currentuserinfo();
 
 	$options = get_option( 'jobman_options' );
@@ -20,6 +20,9 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	}
 
 	if( array_key_exists( 'jobman-apply', $_REQUEST ) ) {
+		if( isset( $si_image_captcha ) && $options['plugins']['sicaptcha'] ) {
+			//$si_image_captcha->
+		}
 		$err = jobman_store_application( $jobid, $cat );
 		switch( $err ) {
 			case -1:

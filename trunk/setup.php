@@ -69,7 +69,8 @@ function jobman_create_default_settings() {
 								'application_acceptance' => __( 'Thank you for your application! We\'ll check it out, and get back to you soon!', 'jobman' )
 							),
 					'plugins' => array(
-									'gxs' => 1
+									'gxs' => 1,
+									'sicaptcha' => 0
 								)
 				);
 	update_option( 'jobman_options', $options );
@@ -164,6 +165,7 @@ function jobman_upgrade_settings( $oldversion ) {
 							);
 							
 		$options['application_email_from_fields'] = array();
+		$options['plugins']['sicaptcha'] = 0;
 		
 		update_option( 'jobman_options', $options );
 	}

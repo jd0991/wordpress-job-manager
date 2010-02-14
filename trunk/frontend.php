@@ -98,7 +98,7 @@ function jobman_display_jobs( $posts ) {
 
 	$jobman_displaying = true;
 	$wp_query->is_home = false;
-
+	
 	if( NULL != $post ) {
 		$postmeta = get_post_custom( $post->ID );
 		$postcats = wp_get_object_terms( $post->ID, 'jobman_category' );
@@ -130,7 +130,7 @@ function jobman_display_jobs( $posts ) {
 		$cat = get_term_by( 'slug', $wp_query->query_vars['jcat'], 'jobman_category' );
 		
 		$posts = jobman_display_jobs_list( $cat->term_id );
-
+		
 		if( count( $posts ) > 0 )
 			$posts[0]->post_content = $options['text']['category_before'] . $posts[0]->post_content . $options['text']['category_after'];
 	}
@@ -197,6 +197,10 @@ function jobman_display_jobs( $posts ) {
 	else if( NULL != $post && $post->ID == $options['main_page'] ) {
 		// We're looking at the main job list page
 		$posts = jobman_display_jobs_list( 'all' );
+		
+		$wp_query->queried_object = $post;
+		$wp_query->queried_object_id = $post->ID;
+		$wp_query->is_page = true;
 
 		if( count( $posts ) > 0 )
 			$posts[0]->post_content = $options['text']['main_before'] . $posts[0]->post_content . $options['text']['main_after'];

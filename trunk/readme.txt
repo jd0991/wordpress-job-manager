@@ -78,6 +78,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Option to change Job title prefix
 * ADDED: Option to change Application Acceptance message
 * ADDED: Option to set the name in the "From" field of application emails
+* ADDED: Support for CAPTCHAs, through the [SI CAPTCHA](http://wordpress.org/extend/plugins/si-captcha-for-wordpress/) plugin.
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
 * CHANGED: Split admin and display settings into two admin pages
 * CHANGED: HTML fields now stretch across both columns of the application table. The label is no longer displayed.
@@ -89,6 +90,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Some PHP warnings
 * FIXED: No empty message on emails list
 * FIXED: Added some CSS to make Full lists line up nicely
+* FIXED: WP themes could think they were on the front page when in Job Manager
 
 = 0.5.3 =
 * FIXED: Application list not filtering correctly if no rating selected

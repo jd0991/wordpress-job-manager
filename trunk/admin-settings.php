@@ -405,6 +405,35 @@ function jobman_print_other_plugins_box() {
 		</table>
 <?php
 	}
+	
+	$sicaptcha = false;
+	$class = 'pluginwarning';
+	$sistatus = __( 'Installed', 'jobman' );
+
+	if( class_exists( 'siCaptcha' ) ) {
+		$sicaptcha = true;
+		$class = 'pluginokay';
+		$sistatus = __( 'Installed', 'jobman' );
+	}
+?>
+		<h4><?php _e( 'SI Captcha', 'jobman' ) ?></h4>
+		<p><?php _e( 'Allows you to add a Captcha to your Application submission form.', 'jobman' ) ?></p>
+		<p>
+			<a href="http://wordpress.org/extend/plugins/si-captcha-for-wordpress/"><?php _e( 'Download', 'jobman' ) ?></a><br/>
+			<?php _e( 'Status', 'jobman' ) ?>: <span class="<?php echo $class ?>"><?php echo $sistatus ?></span>
+		</p>
+<?php
+	if( $sicaptcha ) {
+?>
+		<strong><?php _e( 'Options', 'jobman' ) ?></strong>
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e( 'Add a captcha to the application form?', 'jobman' ) ?></th>
+				<td><input type="checkbox" value="1" name="plugin-sicaptcha"<?php echo ( $options['plugins']['sicaptcha'] )?( ' checked="checked"' ):( '' ) ?> /></td>
+			</tr>
+		</table>
+<?php
+	}
 ?>
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Plugin Settings', 'jobman' ) ?>" /></p>
 	</form>
