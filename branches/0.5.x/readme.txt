@@ -58,11 +58,18 @@ The Job Manager supports added functionality when other plugins are installed. I
 
 Job Manager will add all of your job lists and job detail pages to your sitemap, when [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) is installed on your site.
 
-= Credits =
+== Credits ==
+
+= Translations =
+
+* French Translation (0.5), provided by [Fabrice Fotso](http://www.procure-smart.com/)
 
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
+
+= 0.5.4 =
+* ADDED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)
 
 = 0.5.3 =
 * FIXED: Application list not filtering correctly if no rating selected
