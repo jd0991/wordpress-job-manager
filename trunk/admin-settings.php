@@ -368,6 +368,7 @@ function jobman_print_application_email_box() {
 }
 
 function jobman_print_other_plugins_box() {
+	$options = get_option( 'jobman_options' );
 ?>
 	<p><?php _e( 'Job Manager provides extra functionality through the use of other plugins available for WordPress. These plugins are not required for Job Manager to function, but do provide enhancements.', 'jobman' ) ?></p>
 	<form action="" method="post">
@@ -642,6 +643,11 @@ function jobman_other_plugins_updatedb() {
 		$options['plugins']['gxs'] = 1;
 	else
 		$options['plugins']['gxs'] = 0;
+	
+	if( array_key_exists( 'plugin-sicaptcha', $_REQUEST ) && $_REQUEST['plugin-sicaptcha'] )
+		$options['plugins']['sicaptcha'] = 1;
+	else
+		$options['plugins']['sicaptcha'] = 0;
 	
 	update_option( 'jobman_options', $options );
 }

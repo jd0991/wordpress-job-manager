@@ -21,7 +21,9 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 
 	if( array_key_exists( 'jobman-apply', $_REQUEST ) ) {
 		if( isset( $si_image_captcha ) && $options['plugins']['sicaptcha'] ) {
-			//$si_image_captcha->
+			$fake_comment = array( 'comment_type' => 'comment' );
+			// No need to check return - will wp_die() if CAPTCHA failed
+			$si_image_captcha->si_captcha_comment_post( $fake_comment );
 		}
 		$err = jobman_store_application( $jobid, $cat );
 		switch( $err ) {
@@ -159,7 +161,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					$display_values = split( "\n", $field['data'] );
 					
 					foreach( $values as $key => $value ) {
-						$content .= "<input type='radio' name='jobman-field-$id' value='" . trim( $value ) . "' /> {$display_values[$key]}";
+						$content .= "<input type='radio' name='jobman-field-$id' value='" . trim( $value ) . "' /> {$display_values[$key]}<br/>";
 					}
 					$content .= '</td></tr>';
 					break;
@@ -173,7 +175,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					$display_values = split( "\n", $field['data'] );
 					
 					foreach( $values as $key => $value ) {
-						$content .= "<input type='checkbox' name='jobman-field-{$id}[]' value='" . trim( $value ) . "' /> {$display_values[$key]}";
+						$content .= "<input type='checkbox' name='jobman-field-{$id}[]' value='" . trim( $value ) . "' /> {$display_values[$key]}<br/>";
 					}
 					$content .= '</td></tr>';
 					break;
@@ -225,6 +227,12 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	}
 	
 	$content .= '<tr><td colspan="2">&nbsp;</td></tr>';
+	if( isset( $si_image_captcha ) && $options['plugins']['sicaptcha'] ) {
+		ob_start();
+		$si_image_captcha->si_captcha_comment_form();
+		$content .= '<tr><td colspan="2">' . ob_get_contents() . '</td></tr>';
+		ob_end_clean();
+	}
 	$content .= '<tr><td colspan="2" class="submit"><input type="submit" name="submit"  class="button-primary" value="' . __( 'Submit Your Application', 'jobman' ) . '" /></td></tr>';
 	$content .= '</table>';
 

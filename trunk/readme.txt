@@ -58,9 +58,15 @@ The Job Manager supports added functionality when other plugins are installed. I
 
 Job Manager will add all of your job lists and job detail pages to your sitemap, when [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) is installed on your site.
 
+= SI CAPTCHA =
+
+If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Application Form, install the [SI CAPTCHA](http://wordpress.org/extend/plugins/si-captcha-for-wordpress/) plugin.
+
 == Credits ==
 
 = Translations =
+
+Notice the version number in brackets. This is the major version that the translation is up-to-date with. If that version number is lower than the current major release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
 * French Translation (0.5), provided by [Fabrice Fotso](http://www.procure-smart.com/)
 
