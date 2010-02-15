@@ -41,6 +41,7 @@ Mid February 2010
   * Add nicer CSS classes to admin pages: Issue #94
   * Removing Star rating: Issue #97
   * Customizable Job fields: Issue #58
+  * File Uploads and Icons should be WP Attachments: Issue #104
 
 ----
 
