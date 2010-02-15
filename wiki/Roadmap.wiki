@@ -40,6 +40,7 @@ Mid February 2010
 
   * Add nicer CSS classes to admin pages: Issue #94
   * Removing Star rating: Issue #97
+  * Customizable Job fields: Issue #58
 
 ----
 
@@ -62,7 +63,6 @@ Late February 2010
 
 == Changes to Existing Features ==
 
-  * Customizable Job fields: Issue #58
   * Add Job Reference as a default Job Field: Issue #68
   * Sort by any field: Issue #49
 
