@@ -62,6 +62,7 @@ Late February 2010
   * Company Profile: Issue #66
   * List jobs by employer: Issue #66
   * Option to Email Job Owner when it expires: Issue #75
+  * "Image" application field: Issue #106
 
 == Changes to Existing Features ==
 
