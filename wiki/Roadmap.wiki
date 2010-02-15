@@ -35,6 +35,7 @@ Mid February 2010
   * Block application fields being emailed: Issue #87
   * Captcha support: Issue #90
   * Category Dropdown on Application Form: Issue #103
+  * !WordPress.com Support: Issue #105
 
 == Changes to Existing Features ==
 
