@@ -89,8 +89,6 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 
 		$expiredjobs = array();
 		foreach( $jobs as $job ) {
-			$jobmeta = get_post_custom( $job->ID );
-			
 			$cats = wp_get_object_terms( $job->ID, 'jobman_category' );
 			$cats_arr = array();
 			if( count( $cats ) > 0 ) {
@@ -100,10 +98,7 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 			}
 			$catstring = implode( ', ', $cats_arr );
 			
-			if( is_array( $jobmeta['displayenddate'] ) )
-				$displayenddate = $jobmeta['displayenddate'][0];
-			else
-				$displayenddate = $jobmeta['displayenddate'];
+			$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
 			
 			$display = false;
 			if( '' == $displayenddate || strtotime( $displayenddate ) > time() )
@@ -255,6 +250,122 @@ function jobman_edit_job( $jobid ) {
 				<td><input class="regular-text code" type="text" name="jobman-title" value="<?php echo ( isset( $job->post_title ) )?( $job->post_title ):( '' ) ?>" /></td>
 				<td></td>
 			</tr>
+<?php
+	$fields = $options['job_fields'];
+	$content = '';
+	if( count( $fields ) > 0 ) {
+		uasort( $fields, 'jobman_sort_fields' );
+		foreach( $fields as $id => $field ) {
+
+			if( 'new' == $jobid )
+				$data = $field['data'];
+			else if( array_key_exists( "data$id", $jobdata ) )
+				$data = $jobdata["data$id"];
+			else
+				$data = '';
+
+			if( 'heading' != $field['type'] )
+				$content .= '<tr>';
+			
+			switch( $field['type'] ) {
+				case 'text':
+					if( '' != $field['label'] )
+						$content .= "<th scope='row'>{$field['label']}</th>";
+					else
+						$content .= '<td class="th"></td>';
+					
+					$content .= "<td><input type='text' name='jobman-field-$id' value='$data' /></td>";
+					$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
+					break;
+				case 'radio':
+					if( '' != $field['label'] )
+						$content .= "<th scope='row'>{$field['label']}</th><td>";
+					else
+						$content .= '<td class="th"></td><td>';
+					
+					$values = split( "\n", strip_tags( $field['data'] ) );
+					$display_values = split( "\n", $field['data'] );
+					
+					foreach( $values as $key => $value ) {
+						$checked = '';
+						if( $value == $data )
+							$checked = ' checked="checked"';
+						$content .= "<input type='radio' name='jobman-field-$id' value='" . trim( $value ) . "'$checked /> {$display_values[$key]}<br/>";
+					}
+					$content .= '</td>';
+					$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
+					break;
+				case 'checkbox':
+					if( '' != $field['label'] )
+						$content .= "<th scope='row'>{$field['label']}</th><td>";
+					else
+						$content .= '<td class="th"></td><td>';
+
+					$values = split( "\n", strip_tags( $field['data'] ) );
+					$display_values = split( "\n", $field['data'] );
+					
+					foreach( $values as $key => $value ) {
+						$checked = '';
+						if( $value == $data )
+							$checked = ' checked="checked"';
+						$content .= "<input type='checkbox' name='jobman-field-{$id}[]' value='" . trim( $value ) . "'$checked /> {$display_values[$key]}<br/>";
+					}
+					$content .= '</td>';
+					$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
+					break;
+				case 'textarea':
+					if( '' != $field['label'] )
+						$content .= "<th scope='row'>{$field['label']}</th>";
+					else
+						$content .= '<td class="th"></td>';
+
+					if( '' == $field['description'] ) {
+						$content .= "<td><textarea class='large-text code' name='jobman-field-$id'>$data</textarea></td>";
+						$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
+					}
+					else {
+						$content .= "<td colspan='2'><textarea class='large-text code' name='jobman-field-$id'>$data</textarea></td></tr>";
+					}
+					break;
+				case 'date':
+					if( '' != $field['label'] )
+						$content .= "<th scope='row'>{$field['label']}</th>";
+					else
+						$content .= '<td class="th"></td>';
+
+					$content .= "<td><input type='text' class='datepicker' name='jobman-field-$id' value='$data' /></td>";
+					$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
+					break;
+				case 'file':
+					if( '' != $field['label'] )
+						$content .= "<th scope='row'>{$field['label']}</th>";
+					else
+						$content .= '<td class="th"></td>';
+
+					$content .= "<td><input type='file' name='jobman-field-$id' /></td>";
+					$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
+					break;
+				case 'heading':
+					$content .= '</table>';
+					$content .= "<h3>{$field['label']}</h3>";
+					$content .= "<table>";
+					$tablecount++;
+					$totalrowcount--;
+					$rowcount = 0;
+					break;
+				case 'html':
+					$content .= "<td colspan='2'>$data</td></tr>";
+					break;
+				case 'blank':
+					$content .= '<td colspan="2">&nbsp;</td></tr>';
+					break;
+			}
+		}
+	}
+	
+	echo $content;
+?>
+			<!--
 			<tr>
 				<th scope="row"><?php _e( 'Salary', 'jobman' ) ?></th>
 				<td><input class="regular-text code" type="text" name="jobman-salary" value="<?php echo ( array_key_exists( 'salary', $jobdata ) )?( $jobdata['salary'] ):( '' ) ?>" /></td>
@@ -274,7 +385,7 @@ function jobman_edit_job( $jobid ) {
 				<th scope="row"><?php _e( 'Location', 'jobman' ) ?></th>
 				<td><input class="regular-text code" type="text" name="jobman-location" value="<?php echo ( array_key_exists( 'location', $jobdata ) )?( $jobdata['location'] ):( '' ) ?>" /></td>
 				<td></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<th scope="row"><?php _e( 'Display Start Date', 'jobman' ) ?></th>
 				<td><input class="regular-text code datepicker" type="text" name="jobman-displaystartdate" value="<?php echo ( 'new' != $jobid )?( date( 'Y-m-d', strtotime( $job->post_date ) ) ):( '' ) ?>" /></td>
@@ -285,10 +396,10 @@ function jobman_edit_job( $jobid ) {
 				<td><input class="regular-text code datepicker" type="text" name="jobman-displayenddate" value="<?php echo ( array_key_exists( 'displayenddate', $jobdata ) )?( $jobdata['displayenddate'] ):( '' ) ?>" /></td>
 				<td><span class="description"><?php _e( 'The date this job should stop being displayed on the site. To display indefinitely, leave blank.', 'jobman' ) ?></span></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<th scope="row"><?php _e( 'Job Information', 'jobman' ) ?></th>
 				<td colspan="2"><textarea class="large-text code" name="jobman-abstract" rows="10"><?php echo ( isset( $job->post_content ) )?( $job->post_content ):( '' ) ?></textarea></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<th scope="row"><?php _e( 'Application Email', 'jobman' ) ?></th>
 				<td><input class="regular-text code" type="text" name="jobman-email" value="<?php echo ( array_key_exists( 'email', $jobdata ) )?( $jobdata['email'] ):( '' ) ?>" /></td>

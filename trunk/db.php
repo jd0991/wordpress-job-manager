@@ -204,6 +204,48 @@ function jobman_create_db() {
 								'sortorder' => 17,
 								'categories' => array()
 							);
+							
+	$options['job_fields'] = array();
+
+	$options['job_fields'][1] = array(
+								'label' => 'Salary',
+								'type' => 'text',
+								'data' => '',
+								'sortorder' => 0,
+								'description' => ''
+							);
+
+	$options['job_fields'][2] = array(
+								'label' => 'Start Date',
+								'type' => 'date',
+								'data' => '',
+								'sortorder' => 1,
+								'description' => _e( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' )
+							);
+
+	$options['job_fields'][3] = array(
+								'label' => 'End Date',
+								'type' => 'date',
+								'data' => '',
+								'sortorder' => 2,
+								'description' =>  _e( 'The date that the job finishes. For ongoing positions, leave blank.', 'jobman' )
+							);
+
+	$options['job_fields'][4] = array(
+								'label' => 'Location',
+								'type' => 'text',
+								'data' => '',
+								'sortorder' => 3,
+								'description' => ''
+							);
+
+	$options['job_fields'][5] = array(
+								'label' => 'Job Information',
+								'type' => 'textarea',
+								'data' => '',
+								'sortorder' => 4,
+								'description' => ''
+							);
 
 	// Create the root jobs page
 	$page = array(
@@ -598,13 +640,70 @@ function jobman_upgrade_db( $oldversion ) {
 	}
 	
 	if( $oldversion < 11 ) {
-		$cat_pages = get_posts( 'post_type=jobman_joblist&meta_key=_catpage&meta_value=1' );
+		// Remove the old category pages
+		$cat_pages = get_posts( 'post_type=jobman_joblist&meta_key=_catpage&meta_value=1&numberposts=-1' );
 		foreach( $cat_pages as $cp ) {
 			wp_delete_post( $cp->ID );
 		}
 
+		// Add the 'mandatory' field option
 		foreach( $options['fields'] as $key => $field ) {
 			$options['fields'][$key]['mandatory'] = 0;
+		}
+	}
+	
+	if( $oldversion < 12 ) {
+		// Add the new job fields
+		$options['job_fields'] = array();
+
+	$options['job_fields'][1] = array(
+								'label' => 'Salary',
+								'type' => 'text',
+								'data' => '',
+								'sortorder' => 0,
+								'description' => ''
+							);
+
+	$options['job_fields'][2] = array(
+								'label' => 'Start Date',
+								'type' => 'date',
+								'data' => '',
+								'sortorder' => 1,
+								'description' => _e( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' )
+							);
+
+	$options['job_fields'][3] = array(
+								'label' => 'End Date',
+								'type' => 'date',
+								'data' => '',
+								'sortorder' => 2,
+								'description' =>  _e( 'The date that the job finishes. For ongoing positions, leave blank.', 'jobman' )
+							);
+
+	$options['job_fields'][4] = array(
+								'label' => 'Location',
+								'type' => 'text',
+								'data' => '',
+								'sortorder' => 3,
+								'description' => ''
+							);
+
+	$options['job_fields'][5] = array(
+								'label' => 'Job Information',
+								'type' => 'textarea',
+								'data' => '',
+								'sortorder' => 4,
+								'description' => ''
+							);
+								
+		// Convert existing jobs to new format
+		$jobs = get_posts( 'post_type=jobman_job&numberposts=-1' );
+		foreach( $jobs as $job ) {
+			add_post_meta( $job->ID, 'data1', get_post_meta( $job->ID, 'salary', true ), true );
+			add_post_meta( $job->ID, 'data2', get_post_meta( $job->ID, 'startdate', true ), true );
+			add_post_meta( $job->ID, 'data3', get_post_meta( $job->ID, 'enddate', true ), true );
+			add_post_meta( $job->ID, 'data4', get_post_meta( $job->ID, 'location', true ), true );
+			add_post_meta( $job->ID, 'data5', $job->post_content, true );
 		}
 	}
 	

@@ -228,6 +228,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	
 	$content .= '<tr><td colspan="2">&nbsp;</td></tr>';
 	if( isset( $si_image_captcha ) && $options['plugins']['sicaptcha'] ) {
+		// SI CAPTCHA echos directly to screen. We need to redirect that to our $content buffer.
 		ob_start();
 		$si_image_captcha->si_captcha_comment_form();
 		$content .= '<tr><td colspan="2">' . ob_get_contents() . '</td></tr>';

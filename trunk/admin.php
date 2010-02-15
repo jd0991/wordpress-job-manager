@@ -4,6 +4,8 @@
 require_once( dirname( __FILE__ ) . '/admin-settings.php' );
 // Frontend Display Settings
 require_once( dirname( __FILE__ ) . '/admin-frontend-settings.php' );
+// Job Form Setup
+require_once( dirname( __FILE__ ) . '/admin-jobs-settings.php' );
 // Job management
 require_once( dirname( __FILE__ ) . '/admin-jobs.php' );
 // Application form setup
@@ -22,6 +24,7 @@ function jobman_admin_setup() {
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Admin Settings', 'jobman' ), 'manage_options', $file, 'jobman_conf' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Display Settings', 'jobman' ), 'manage_options', 'jobman-display-conf', 'jobman_display_conf' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'App. Form Settings', 'jobman' ), 'manage_options', 'jobman-application-setup', 'jobman_application_setup' );
+	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Job Form Settings', 'jobman' ), 'manage_options', 'jobman-job-setup', 'jobman_job_setup' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'Add Job', 'jobman' ), 'publish_posts', 'jobman-add-job', 'jobman_add_job' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'List Jobs', 'jobman' ), 'publish_posts', 'jobman-list-jobs', 'jobman_list_jobs' );
 	$pages[] = add_submenu_page( $file, __( 'Job Manager', 'jobman' ), __( 'List Applications', 'jobman' ), 'read_private_pages', 'jobman-list-applications', 'jobman_list_applications' );

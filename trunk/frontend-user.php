@@ -11,24 +11,28 @@ function jobman_display_login() {
 	$content = '';
 	
 	if( is_user_logged_in() ) {
-		$content .= '<div id="jobman_loggedin"><span class="message">';
-		$content .= apply_filters( 'jobman_loggedin_msg', sprintf( __( 'Welcome, %1s!', 'jobman' ), $current_user->display_name ) );
-		$content .= '</span>';
-		$content .= '</div>';
+		$loggedin_html = '<div id="jobman_loggedin"><span class="message">';
+		$loggedin_html .= apply_filters( 'jobman_loggedin_msg', sprintf( __( 'Welcome, %1s!', 'jobman' ), $current_user->display_name ) );
+		$loggedin_html .= '</span>';
+		$loggedin_html .= '</div>';
+		
+		$content .= apply_filters( 'jobman_loggedin_html', $loggedin_html );
 	}
 	else {
-		$content .= '<form action="" method="post">';
-		$content .= '<div id="jobman_login">';
-		$content .= '<span class="message">';
-		$content .= apply_filters( 'jobman_login_msg', __( "If you've registered with us previously, please login now. If you'd like to register, please click the 'Register' link below.", 'jobman' ) );
-		$content .= '</span>';
-		$content .= '<label class="username" for="jobman_username">' . __( 'Username', 'jobman' ) . '</label>: ';
-		$content .= '<input type="text" name="jobman_username" id="jobman_username" class="username" />';
-		$content .= '<label class="password" for="jobman_password">' . __( 'Password', 'jobman' ) . '</label>: ';
-		$content .= '<input type="password" name="jobman_password" id="jobman_password" class="password" />';
-		$content .= '<input class="submit" type="submit" name="submit" value="' . __( 'Login', 'jobman' ) . '" />';
-		$content .= '<span><a href="' . get_page_link( $options['register_page'] ) . '">' . __( 'Register', 'jobman' ) . '</a> | <a href="' . wp_lostpassword_url( jobman_current_url() ) . '">' . __( 'Forgot your password?', 'jobman' ) . '</a></span></div>';
-		$content .= '</form>';
+		$login_html .= '<form action="" method="post">';
+		$login_html .= '<div id="jobman_login">';
+		$login_html .= '<span class="message">';
+		$login_html .= apply_filters( 'jobman_login_msg', __( "If you've registered with us previously, please login now. If you'd like to register, please click the 'Register' link below.", 'jobman' ) );
+		$login_html .= '</span>';
+		$login_html .= '<label class="username" for="jobman_username">' . __( 'Username', 'jobman' ) . '</label>: ';
+		$login_html .= '<input type="text" name="jobman_username" id="jobman_username" class="username" />';
+		$login_html .= '<label class="password" for="jobman_password">' . __( 'Password', 'jobman' ) . '</label>: ';
+		$login_html .= '<input type="password" name="jobman_password" id="jobman_password" class="password" />';
+		$login_html .= '<input class="submit" type="submit" name="submit" value="' . __( 'Login', 'jobman' ) . '" />';
+		$login_html .= '<span><a href="' . get_page_link( $options['register_page'] ) . '">' . __( 'Register', 'jobman' ) . '</a> | <a href="' . wp_lostpassword_url( jobman_current_url() ) . '">' . __( 'Forgot your password?', 'jobman' ) . '</a></span></div>';
+		$login_html .= '</form>';
+		
+		$content .= apply_filters( 'jobman_login_html', $login_html );
 	}
 	
 	return $content;
