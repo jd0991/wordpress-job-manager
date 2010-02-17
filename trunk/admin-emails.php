@@ -207,7 +207,7 @@ function jobman_application_mailout_send() {
 	$page = array(
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
-				'post_status' => 'publish',
+				'post_status' => 'private',
 				'post_author' => $current_user->ID,
 				'post_content' => $message,
 				'post_title' => $subject,

@@ -268,7 +268,7 @@ function jobman_store_application( $jobid, $cat ) {
 	$page = array(
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
-				'post_status' => 'publish',
+				'post_status' => 'private',
 				'post_type' => 'jobman_app',
 				'post_content' => '',
 				'post_title' => __( 'Application', 'jobman' ),
@@ -312,7 +312,7 @@ function jobman_store_application( $jobid, $cat ) {
 								$attachment = array(
 												'post_title' => '',
 												'post_content' => '',
-												'post_status' => 'publish',
+												'post_status' => 'private',
 												'post_mime_type' => mime_content_type( $upload['file'] )
 											);
 								$data = wp_insert_attachment( $attachment, $upload['file'], $appid );
