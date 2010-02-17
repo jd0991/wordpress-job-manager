@@ -128,3 +128,4 @@ May 2010
 
   * CRM: Issue #86
   * Recruitment Consultant features: Issue #89
+  * Cross Site Posting: #107
