@@ -128,5 +128,5 @@ May 2010
 
   * CRM: Issue #86
   * Recruitment Consultant features: Issue #89
-  * Cross Site Posting: #107
-  * XML API: #108
+  * Cross Site Posting: Issue #107
+  * XML API: Issue #108
