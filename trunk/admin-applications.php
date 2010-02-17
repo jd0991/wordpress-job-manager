@@ -415,7 +415,8 @@ function jobman_list_applications() {
 									$data = $appdata["data$id"];
 									break;
 								case 'file':
-									$data = '<a href="' . admin_url('admin.php?page=jobman-list-applications&amp;appid=' . $app->ID . '&amp;getfile=' . $appdata["data$id"]) . '">' . $appdata["data$id"] . '</a>';
+									$post = get_post( $appdata["data$id"] );
+									$data = '<a href="' . wp_get_attachment_url( $appdata["data$id"] ) . '">' . __( 'Download', 'jobman' ) . '</a>';
 									break;
 							}
 						}
@@ -571,7 +572,7 @@ function jobman_application_display_details( $appid ) {
 					echo $item;
 					break;
 				case 'file':
-					echo "<a href='" . admin_url("admin.php?page=jobman-list-applications&amp;appid=$app->ID&amp;getfile=$item") . "'>$item</a>";
+					echo "<a href='" . wp_get_attachment_url( $item ) . "'>" . __( 'Download', 'jobman' ) . "</a>";
 					break;
 			}
 			if( $fid == $fromid ) {

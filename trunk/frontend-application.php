@@ -248,6 +248,10 @@ function jobman_store_application( $jobid, $cat ) {
 		// Failed filter rules
 		return $filter_err;
 	}
+
+	$dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
+	require_once( "$dir/wp-admin/includes/image.php" );
+
 	$options = get_option( 'jobman_options' );
 	
 	$parent = $options['main_page'];
@@ -292,17 +296,17 @@ function jobman_store_application( $jobid, $cat ) {
 	}
 	
 	if( count( $fields ) > 0 ) {
-		foreach( $fields as $id => $field ) {
-			if($field['type'] != 'file' && ( ! array_key_exists( "jobman-field-$id", $_REQUEST ) || '' == $_REQUEST["jobman-field-$id"] ) )
+		foreach( $fields as $fid => $field ) {
+			if($field['type'] != 'file' && ( ! array_key_exists( "jobman-field-$fid", $_REQUEST ) || '' == $_REQUEST["jobman-field-$fid"] ) )
 				continue;
 			
-			if( 'file' == $field['type'] && ! array_key_exists( "jobman-field-$id", $_FILES ) )
+			if( 'file' == $field['type'] && ! array_key_exists( "jobman-field-$fid", $_FILES ) )
 				continue;
 			
 			$data = '';
 			switch( $field['type'] ) {
 				case 'file':
-					if( is_uploaded_file( $_FILES["jobman-field-$id"]['tmp_name'] ) ) {
+					if( is_uploaded_file( $_FILES["jobman-field-$fid"]['tmp_name'] ) ) {
 							$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( $_FILES["jobman-field-$fid"]['tmp_name'] ) );
 							if( ! $upload['error'] ) {
 								$attachment = array(
@@ -311,20 +315,20 @@ function jobman_store_application( $jobid, $cat ) {
 												'post_status' => 'publish',
 												'post_mime_type' => mime_content_type( $upload['file'] )
 											);
-								$data = wp_insert_attachment( $attachment, $upload['file'], $id );
+								$data = wp_insert_attachment( $attachment, $upload['file'], $appid );
 								$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
 								wp_update_attachment_metadata( $data, $attach_data );
 							}
 					}
 					break;
 				case 'checkbox':
-					$data = implode( ', ', $_REQUEST["jobman-field-$id"] );
+					$data = implode( ', ', $_REQUEST["jobman-field-$fid"] );
 					break;
 				default:
-					$data = $_REQUEST["jobman-field-$id"];
+					$data = $_REQUEST["jobman-field-$fid"];
 			}
 			
-			add_post_meta( $appid, "data$id", $data, true );
+			add_post_meta( $appid, "data$fid", $data, true );
 		}
 	}
 	
@@ -588,7 +592,7 @@ function jobman_email_application( $appid, $sendto = '' ) {
 					$msg .= $field['label'] . ':' . PHP_EOL . $appdata['data'.$id] . PHP_EOL;
 					break;
 				case 'file':
-					$msg .= $field['label'] . ': ' . admin_url( 'admin.php?page=jobman-list-applications&amp;appid=' . $app->ID . '&amp;getfile=' . $appdata["data$id"] ) . PHP_EOL;
+					$msg .= $field['label'] . ': ' . wp_get_attachment_url( $appdata["data$id"] ) . PHP_EOL;
 					break;
 			}
 		}

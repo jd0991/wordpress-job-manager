@@ -91,59 +91,6 @@ function jobman_display_jobs_list( $cat ) {
 			// Sort the sticky jobs to the top
 			uasort( $jobs, 'jobman_sort_highlighted_jobs' );
 
-		/*if( 'summary' == $list_type ) {
-			$content .= '<table class="jobs-table">';
-			$content .= '<tr class="heading"><th>' . __( 'Title', 'jobman' ) . '</th><th>' . __( 'Salary', 'jobman' ) . '</th><th>' . __( 'Start Date', 'jobman' ) . '</th><th>' . __( 'Location', 'jobman' ) . '</th></tr>';
-			$rowcount = 1;
-			foreach( $jobs as $job ) {
-				$jobmeta = get_post_custom( $job->ID );
-				$jobdata = array();
-				foreach( $jobmeta as $key => $value ) {
-					if( is_array( $value ) )
-						$jobdata[$key] = $value[0];
-					else
-						$jobdata[$key] = $value;
-				}
-				
-				$highlighted = '';
-				if( array_key_exists( 'highlighted', $jobdata ) && $jobdata['highlighted'] )
-					$highlighted = 'highlighted';
-				
-				$content .= "<tr class='row$rowcount job$job->ID $highlighted ";
-				$content .= ( $rowcount % 2 )?( 'odd' ):( 'even' );
-				$content .= "'><td><a href='" . get_page_link( $job->ID ) . "'>";
-				
-				if( $jobdata['iconid'] && array_key_exists( $jobdata['iconid'], $options['icons'] ) )
-					$content .= '<img src="' . JOBMAN_UPLOAD_URL . '/icons/' . $jobdata['iconid'] . '.' . $options['icons'][$jobdata['iconid']]['extension'] . '" title="' . $options['icons'][$jobdata['iconid']]['title'] . '" /><br/>';
-
-				$content .= $job->post_title . '</a></td>';
-				$content .= '<td>' . $jobdata['salary'] . '</td>';
-				if( '' == $jobdata['startdate'] || strtotime( $jobdata['startdate'] ) < time() )
-					$asap = __( 'ASAP', 'jobman' );
-				else
-					$asap = $jobdata['startdate'];
-
-				$content .= '<td>' . $asap . '</td>';
-				$content .= '<td>' . $jobdata['location'] . '</td>';
-				$content .= '<td class="jobs-moreinfo"><a href="' . get_page_link( $job->ID ) . '">' . __( 'More Info', 'jobman' ) . '</a></td></tr>';
-				
-				$rowcount++;
-			}
-			$content .= '</table>';
-		}
-		else {
-		    $rowcount = 1;
-			foreach( $jobs as $job ) {
-				$job_html = jobman_display_job( $job );
-				if( NULL != $job_html ) {
-					$content .= "<div class='row$rowcount job$job->ID";
-					$content .= ( $rowcount % 2 )?( 'odd' ):( 'even' );
-					$content .= "'>" . $job_html[0]->post_content . '</div><br/><br/>';
-					$rowcount++;
-				}
-			}
-		}*/
-		
 		$template = $options['templates']['job_list'];
 		
 		jobman_add_shortcodes( $jobman_shortcodes );
@@ -241,61 +188,6 @@ function jobman_display_job( $job ) {
 			
 		return array( $page );
 	}
-
-	/*$categories = wp_get_object_terms( $job->ID, 'jobman_category' );
-	
-	$highlighted = '';
-	if( array_key_exists( 'highlighted', $jobdata ) && $jobdata['highlighted'] )
-		$highlighted = 'highlighted';
-	
-	$content .= "<table class='job-table $highlighted'>";
-	$content .= '<tr><th scope="row">' . __( 'Title', 'jobman' ) . '</th><td>' . $job->post_title . '</td></tr>';
-	if( count( $categories ) > 0 ) {
-		$content .= '<tr><th scope="row">' . __( 'Categories', 'jobman' ) . '</th><td>';
-		$cats = array();
-		$ii = 1;
-		
-		foreach( $categories as $cat ) {
-			$cats[] = '<a href="'. get_term_link( $cat->slug, 'jobman_category' ) . '" title="' . sprintf( __( 'Jobs for %s', 'jobman' ), $cat->name ) . '">' . $cat->name . '</a>';
-		}
-		
-		if(count($cats) > 0)
-			$content .= implode(', ', $cats);
-	}
-	$content .= '<tr><th scope="row">' . __( 'Salary', 'jobman' ) . '</th><td>' . $jobdata['salary'] . '</td></tr>';
-
-	if( '' == $jobdata['startdate'] || strtotime( $jobdata['startdate'] ) < time() )
-		$asap = __( 'ASAP', 'jobman' );
-	else
-		$asap = $jobdata['startdate'];
-
-	$content .= '<tr><th scope="row">' . __( 'Start Date', 'jobman' ) . '</th><td>' . $asap . '</td></tr>';
-	$content .= '<tr><th scope="row">' . __( 'End Date', 'jobman' ) . '</th><td>' . ( ( '' == $jobdata['enddate'] )?( __( 'Ongoing', 'jobman' ) ):( $jobdata['enddate'] ) ) . '</td></tr>';
-	$content .= '<tr><th scope="row">' . __( 'Location', 'jobman' ) . '</th><td>' . $jobdata['location'] . '</td></tr>';
-	$content .= '<tr><th scope="row">' . __( 'Information', 'jobman' ) . '</th><td>' . jobman_format_abstract( $job->post_content ) . '</td></tr>';
-
-	$data = get_posts( 'post_type=jobman_app_form&numberposts=-1' );
-	if( count( $data ) > 0 ) {
-		$applypage = $data[0];
-	
-		$url = get_page_link( $applypage->ID );
-		
-		$structure = get_option( 'permalink_structure' );
-		
-		if( '' == $structure ) {
-			$url .= '&amp;j=' . $job->ID;
-		}
-		else {
-			if( substr( $url, -1 ) == '/' )
-				$url .= $job->ID . '/';
-			else
-				$url .= '/' . $job->ID;
-		}
-
-		$content .= '<tr><td></td><td class="jobs-applynow"><a href="'. $url . '">' . __( 'Apply Now!', 'jobman' ) . '</td></tr>';
-	}
-	
-	$content .= '</table>';*/
 
 	$template = $options['templates']['job'];
 	
