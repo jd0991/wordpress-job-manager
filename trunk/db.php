@@ -220,7 +220,7 @@ function jobman_create_db() {
 								'type' => 'date',
 								'data' => '',
 								'sortorder' => 1,
-								'description' => _e( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' )
+								'description' => __( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' )
 							);
 
 	$options['job_fields'][3] = array(
@@ -228,7 +228,7 @@ function jobman_create_db() {
 								'type' => 'date',
 								'data' => '',
 								'sortorder' => 2,
-								'description' =>  _e( 'The date that the job finishes. For ongoing positions, leave blank.', 'jobman' )
+								'description' =>  __( 'The date that the job finishes. For ongoing positions, leave blank.', 'jobman' )
 							);
 
 	$options['job_fields'][4] = array(
@@ -656,45 +656,45 @@ function jobman_upgrade_db( $oldversion ) {
 		// Add the new job fields
 		$options['job_fields'] = array();
 
-	$options['job_fields'][1] = array(
-								'label' => 'Salary',
-								'type' => 'text',
-								'data' => '',
-								'sortorder' => 0,
-								'description' => ''
-							);
+		$options['job_fields'][1] = array(
+									'label' => 'Salary',
+									'type' => 'text',
+									'data' => '',
+									'sortorder' => 0,
+									'description' => ''
+								);
 
-	$options['job_fields'][2] = array(
-								'label' => 'Start Date',
-								'type' => 'date',
-								'data' => '',
-								'sortorder' => 1,
-								'description' => _e( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' )
-							);
+		$options['job_fields'][2] = array(
+									'label' => 'Start Date',
+									'type' => 'date',
+									'data' => '',
+									'sortorder' => 1,
+									'description' => __( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' )
+								);
 
-	$options['job_fields'][3] = array(
-								'label' => 'End Date',
-								'type' => 'date',
-								'data' => '',
-								'sortorder' => 2,
-								'description' =>  _e( 'The date that the job finishes. For ongoing positions, leave blank.', 'jobman' )
-							);
+		$options['job_fields'][3] = array(
+									'label' => 'End Date',
+									'type' => 'date',
+									'data' => '',
+									'sortorder' => 2,
+									'description' =>  __( 'The date that the job finishes. For ongoing positions, leave blank.', 'jobman' )
+								);
 
-	$options['job_fields'][4] = array(
-								'label' => 'Location',
-								'type' => 'text',
-								'data' => '',
-								'sortorder' => 3,
-								'description' => ''
-							);
+		$options['job_fields'][4] = array(
+									'label' => 'Location',
+									'type' => 'text',
+									'data' => '',
+									'sortorder' => 3,
+									'description' => ''
+								);
 
-	$options['job_fields'][5] = array(
-								'label' => 'Job Information',
-								'type' => 'textarea',
-								'data' => '',
-								'sortorder' => 4,
-								'description' => ''
-							);
+		$options['job_fields'][5] = array(
+									'label' => 'Job Information',
+									'type' => 'textarea',
+									'data' => '',
+									'sortorder' => 4,
+									'description' => ''
+								);
 								
 		// Convert existing jobs to new format
 		$jobs = get_posts( 'post_type=jobman_job&numberposts=-1' );
@@ -705,6 +705,56 @@ function jobman_upgrade_db( $oldversion ) {
 			add_post_meta( $job->ID, 'data4', get_post_meta( $job->ID, 'location', true ), true );
 			add_post_meta( $job->ID, 'data5', $job->post_content, true );
 		}
+		
+		// Convert file uploads to attachments
+		$apps = get_posts( 'post_type=jobman_app&numberposts=-1' );
+		foreach( $apps as $app ) {
+			foreach( $options['fields'] as $fid => $field ) {
+				if( 'file' != $field['type'] )
+					continue;
+					
+				$filename = get_post_meta( $app->ID, "data$fid", true );
+				if( '' == $filename || ! file_exists( WP_CONTENT_DIR . '/' . JOBMAN_FOLDER . "/uploads/$filename" ) )
+					continue;
+					
+				$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( WP_CONTENT_DIR . '/' . JOBMAN_FOLDER . "/uploads/$filename" ) );
+				$data = '';
+				if( ! $upload['error'] ) {
+					$attachment = array(
+									'post_title' => '',
+									'post_content' => '',
+									'post_status' => 'private',
+									'post_mime_type' => mime_content_type( $upload['file'] )
+								);
+					$data = wp_insert_attachment( $attachment, $upload['file'], $app->ID );
+					$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
+					wp_update_attachment_metadata( $data, $attach_data );
+				}
+				
+				update_post_meta( $job->ID, "data$fid", $data );
+			}
+		}
+		
+		// Convert icons to attachments
+		$icons = array();
+		foreach( $options['icons'] as $iid => $icon ) {
+			$filename = WP_CONTENT_DIR . '/' . JOBMAN_FOLDER . "/icons/$iid.{$icon['extension']}";
+				$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( WP_CONTENT_DIR . '/' . JOBMAN_FOLDER . "/uploads/$filename" ) );
+				if( ! $upload['error'] ) {
+					$attachment = array(
+									'post_title' => $icon['title'],
+									'post_content' => '',
+									'post_status' => 'publish',
+									'post_mime_type' => mime_content_type( $upload['file'] )
+								);
+					$new_iid = wp_insert_attachment( $attachment, $upload['file'], $options['main_pages'] );
+					$attach_data = wp_generate_attachment_metadata( $new_iid, $upload['file'] );
+					wp_update_attachment_metadata( $new_iid, $attach_data );
+					
+					$icons[] = $new_iid;
+				}
+		}
+		$options['icons'] = $icons;
 	}
 	
 	update_option( 'jobman_options', $options );

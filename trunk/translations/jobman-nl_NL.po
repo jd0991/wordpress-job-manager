@@ -1,0 +1,1041 @@
+# Translation of the WordPress plugin Job Manager 0.5-beta1 by Gary Pendergast.
+# Copyright (C) 2010 Gary Pendergast
+# This file is distributed under the same license as the Job Manager package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Job Manager 0.5-beta1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/job-manager\n"
+"POT-Creation-Date: 2010-01-23 18:55+0000\n"
+"PO-Revision-Date: 2010-02-17 16:41+0100\n"
+"Last-Translator: Patrick Tessels <patrick.tessels@centrologic.nl>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Dutch\n"
+"X-Poedit-Country: NETHERLANDS\n"
+
+#. #-#-#-#-#  plugin.pot (Job Manager 0.5-beta1)  #-#-#-#-#
+#. Plugin Name of an extension
+#: jobman-conf.php:7
+#: jobman-conf.php:8
+#: jobman-conf.php:9
+#: jobman-conf.php:10
+#: jobman-conf.php:11
+#: jobman-conf.php:12
+#: jobman-conf.php:13
+msgid "Job Manager"
+msgstr "Job Manager"
+
+#: jobman-conf.php:8
+#: jobman-conf.php:120
+#: jobman-conf.php:131
+msgid "Settings"
+msgstr "Instellingen"
+
+#: jobman-conf.php:9
+msgid "App. Form Settings"
+msgstr "App. Form Instellingen"
+
+#: jobman-conf.php:10
+msgid "Add Job"
+msgstr "Vacature toevoegen"
+
+#: jobman-conf.php:11
+msgid "List Jobs"
+msgstr "Vacatures weergeven"
+
+#: jobman-conf.php:12
+msgid "List Applications"
+msgstr "Solicitaties bekijken"
+
+#: jobman-conf.php:13
+msgid "List Emails"
+msgstr "E-mails bekijken"
+
+#: jobman-conf.php:101
+msgid "Job Manager: Settings"
+msgstr "Job Manager: Instellingen"
+
+#: jobman-conf.php:106
+msgid "It seems the Job Manager data directories are not writeable. In order to allow applicants to upload resumes, and for you to upload icons, please make the following directories writeable."
+msgstr "Het lijkt erop dat de Job Manager gegevens mappen niet beschrijfbaar zijn. Om het mogelijk te maken voor een sollicitant om zijn cv te uploaden en voor u om iconen te uploaden moet u de volgende mappen beschrijfbaar maken."
+
+#: jobman-conf.php:109
+#, php-format
+msgid "For help with changing directory permissions, please see <a href=\"%1s\">this page</a> in the WordPress documentation."
+msgstr "Voor hulp bij het veranderen van maprechten, zie <a href=\"%1s\">deze pagina</a> in de WordPress documentatie."
+
+#: jobman-conf.php:120
+#: jobman-conf.php:131
+#: jobman-conf.php:539
+#: jobman-conf.php:681
+#: jobman-conf.php:844
+#: jobman-conf.php:1035
+#: jobman-conf.php:1163
+#: jobman-conf.php:1192
+#: jobman-display.php:436
+msgid "Categories"
+msgstr "Categorieën"
+
+#: jobman-conf.php:120
+#: jobman-conf.php:132
+msgid "Icons"
+msgstr "Pictogrammen"
+
+#: jobman-conf.php:120
+#: jobman-conf.php:132
+msgid "User Settings"
+msgstr "Gebruikersinstellingen"
+
+#: jobman-conf.php:120
+#: jobman-conf.php:132
+msgid "Application Email Settings"
+msgstr "Applicatie e-mailinstellingen"
+
+#: jobman-conf.php:120
+#: jobman-conf.php:131
+msgid "Other Plugins"
+msgstr "Andere Plugins"
+
+#: jobman-conf.php:121
+msgid "Donate"
+msgstr "Doneren"
+
+#: jobman-conf.php:121
+msgid "About This Plugin"
+msgstr "Over deze plugin"
+
+#: jobman-conf.php:149
+msgid "URL path"
+msgstr "URL pad"
+
+#: jobman-conf.php:152
+msgid "edit"
+msgstr "bewerken"
+
+#: jobman-conf.php:156
+msgid "Job Manager Page Template"
+msgstr "Job Manager pagina sjabloon"
+
+#: jobman-conf.php:157
+#, php-format
+msgid "You can edit the page template used by Job Manager, by editing the Template Attribute of <a href=\"%s\">this page</a>."
+msgstr "U kunt deze sjabloon bewerken die gebruikt wordt door Job Manager, door het bewerken van het sjabloon Eigenschappen voor <a href=\"%s\">deze pagina</a>."
+
+#: jobman-conf.php:160
+msgid "Default email"
+msgstr "Standaard e-mail"
+
+#: jobman-conf.php:164
+msgid "Show summary or full jobs list?"
+msgstr "Samenvatting weergeven of volledige vacatureslijst?"
+
+#: jobman-conf.php:166
+msgid "Summary"
+msgstr "Samenvatting"
+
+#: jobman-conf.php:167
+msgid "Full"
+msgstr "Volledig"
+
+#: jobman-conf.php:170
+msgid "Summary: displays many jobs concisely."
+msgstr "Samenvatting: opsomming van meerdere vacatures weergeven."
+
+#: jobman-conf.php:171
+msgid "Full: allows quicker access to the application form."
+msgstr "Volledig: geeft snellere toegang tot het sollicitatieformulier."
+
+#: jobman-conf.php:178
+msgid "Hide \"Powered By\" link?"
+msgstr " \"Powered By\" link verbergen?"
+
+#: jobman-conf.php:180
+msgid "If you're unable to donate, I would appreciate it if you left this unchecked."
+msgstr "Als u niet in staat bent om te doneren, ik zou het waarderen als u deze uitgevinkt laat."
+
+#: jobman-conf.php:187
+msgid "Update Settings"
+msgstr "Instellingen opslaan"
+
+#: jobman-conf.php:195
+msgid "Similar to the normal WordPress Categories, Job Manager categories can be used to split jobs into different groups. They can also be used to customise how the Application Form appears for jobs in different categories."
+msgstr "Net als bij de normale WordPress Categorieën, kunnen Job Manager categorieën wordengebruikt om vacatures te splitsen in verschillende groepen. Ze kunnen ook worden gebruikt om aan te passenhoe het sollicitatieformulier verschijnt voor de vacatures in verschillende categorieën."
+
+#: jobman-conf.php:197
+#: jobman-conf.php:210
+#: jobman-conf.php:280
+#: jobman-conf.php:292
+#: jobman-conf.php:538
+#: jobman-conf.php:731
+#: jobman-display.php:314
+#: jobman-display.php:434
+#: jobman-display.php:589
+msgid "Title"
+msgstr "Titel"
+
+#: jobman-conf.php:197
+msgid "The display name of the category"
+msgstr "Weergavenaam voor de categorië"
+
+#: jobman-conf.php:198
+#: jobman-conf.php:211
+msgid "Slug"
+msgstr "Slug"
+
+#: jobman-conf.php:198
+msgid "The URL of the category"
+msgstr "De URL van de categorië"
+
+#: jobman-conf.php:199
+#: jobman-conf.php:212
+#: jobman-conf.php:1413
+#: jobman-conf.php:1526
+msgid "Email"
+msgstr "E-mail"
+
+#: jobman-conf.php:199
+msgid "The address to notify when new applications are submitted in this category"
+msgstr "Het adres waar gemeld wordt wanneer er nieuwe sollicitaties zijn ingestuurd in deze categorië"
+
+#: jobman-conf.php:200
+#: jobman-conf.php:213
+#: jobman-conf.php:242
+msgid "Link"
+msgstr "Link"
+
+#: jobman-conf.php:200
+msgid "The URL of the list of jobs in this category"
+msgstr "De URL van de lijst met vacatures in deze categorië"
+
+#: jobman-conf.php:214
+#: jobman-conf.php:243
+#: jobman-conf.php:254
+#: jobman-conf.php:294
+#: jobman-conf.php:310
+#: jobman-conf.php:319
+#: jobman-conf.php:560
+#: jobman-conf.php:848
+#: jobman-conf.php:903
+#: jobman-conf.php:929
+#: jobman-conf.php:1414
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: jobman-conf.php:261
+msgid "Add New Category"
+msgstr "Nieuwe categorie toevoegen"
+
+#: jobman-conf.php:264
+msgid "Update Categories"
+msgstr "Categoriën opslaan"
+
+#: jobman-conf.php:277
+msgid "Icons can be assigned to jobs that you want to draw attention to. These icons will only be displayed when using the \"Summary\" jobs list type."
+msgstr "De pictogrammen kunnen worden toegewezen aan de vacatures die u wilt laten opvallen. Deze pictogramman worden alleen wergegeven als de \"Samenvatting\" vacaturelijst gebruikt word."
+
+#: jobman-conf.php:279
+#: jobman-conf.php:291
+#: jobman-conf.php:706
+msgid "Icon"
+msgstr "Pictogram"
+
+#: jobman-conf.php:279
+msgid "The current icon"
+msgstr "Huidig pictogram"
+
+#: jobman-conf.php:280
+msgid "The display name of the icon"
+msgstr "De weergavenaam voor het pictogram"
+
+#: jobman-conf.php:281
+#: jobman-conf.php:293
+msgid "File"
+msgstr "Bestand"
+
+#: jobman-conf.php:281
+msgid "The icon file"
+msgstr "het pictogram-bestand"
+
+#: jobman-conf.php:326
+msgid "Add New Icon"
+msgstr "Nieuw pictogram toevoegen"
+
+#: jobman-conf.php:329
+msgid "Update Icons"
+msgstr "Pictogrammen opslaan"
+
+#: jobman-conf.php:342
+msgid "Allowing users to register means that they and you can more easily keep track of jobs they've applied for."
+msgstr "Het toestaan van registraties zorgt er voor dat gebruikers gemakkelijker de vacatures waarvoor zij gesolliciteerd hebben kunnen volgen."
+
+#: jobman-conf.php:350
+msgid "Enable User Registration"
+msgstr "Gebruikersregistratie toestaan"
+
+#: jobman-conf.php:352
+msgid "This will allow users to register for the Jobs system, even if user registration is disabled for your blog."
+msgstr "Toestaan dat gebruikers zich kunnnen registreren voor het Vacaturesysteem, zelfs als registratie niet is toegestaan voor de blog."
+
+#: jobman-conf.php:355
+msgid "Require User Registration"
+msgstr "Gebruikersregistratie verplicht"
+
+#: jobman-conf.php:357
+msgid "If the previous option is checked, this option will require users to login before they can complete the application form."
+msgstr "Als de vorige optie geselecteerd is, zorgt deze optie ervoor dat gebruikersmoeten inloggen om het sollicitatieformulier te voltooien."
+
+#: jobman-conf.php:360
+msgid "Which pages should the login form be displayed on?"
+msgstr "De pagina's waarop het inlogformulier moet worden weergegeven."
+
+#: jobman-conf.php:362
+msgid "The main jobs list"
+msgstr "De hoofd-vacaturelijst"
+
+#: jobman-conf.php:363
+msgid "Category jobs lists"
+msgstr "Categorie vacaturelijsten"
+
+#: jobman-conf.php:364
+msgid "Individual jobs"
+msgstr "Individuele vacatures"
+
+#: jobman-conf.php:365
+msgid "The application form"
+msgstr "Het sollicitatiefomulier"
+
+#: jobman-conf.php:369
+msgid "Update User Settings"
+msgstr "Gebruikersinstellingen opslaan"
+
+#: jobman-conf.php:379
+msgid "When an application successfully submits an application, an email will be sent to the appropriate user. These options allow you to customise that email."
+msgstr "Wanneer een sollicitant succesvol een sollicitatie instuurt, zal er een e-mail verstuurd worden naar de passende gebruiker. Deze opties zorgen dat u dezee-mail kunt aanpassen."
+
+#: jobman-conf.php:387
+#: jobman-display.php:812
+msgid "Email Address"
+msgstr "E-mailadres"
+
+#: jobman-conf.php:389
+#: jobman-conf.php:414
+msgid "None"
+msgstr "Voltooid"
+
+#: jobman-conf.php:407
+msgid "The application field to use as the email address. This will be the \"From\" address in the initial application, and the field used for emailing applicants."
+msgstr "Het e-mail adres waarmee de sollicitanten worden geïnformeerd. Dit zal het adres orden waarme bij de eerste sollicitatie e-mails naar de sollicitanten zal worden gestuurd."
+
+#: jobman-conf.php:410
+#: jobman-conf.php:1606
+#: jobman-conf.php:1614
+#: jobman-conf.php:1669
+#: jobman-conf.php:1754
+msgid "Subject"
+msgstr "Onderwerp"
+
+#: jobman-conf.php:433
+msgid "The email subject, and any fields to include in the subject."
+msgstr "Het onderwerp van de e-mail, en enkele velden om bij het onderwerp te voegen."
+
+#: jobman-conf.php:437
+msgid "Update Email Settings"
+msgstr "E-mail instellingen opslaan"
+
+#: jobman-conf.php:444
+msgid "Job Manager provides extra functionality through the use of other plugins available for WordPress. These plugins are not required for Job Manager to function, but do provide enhancements."
+msgstr "Job Manager levert extra functionalitijd door het gebruik van andere pluginsdie beschikbaar zijn voor WordPress. Deze plugins zijn niet nodig voor een goede werking van Job Manager, maar bieden verbeteringen. "
+
+#: jobman-conf.php:452
+msgid "Installed"
+msgstr "geïnstalleerd"
+
+#: jobman-conf.php:457
+msgid "Not Installed"
+msgstr "Niet geïnstalleerd"
+
+#: jobman-conf.php:460
+msgid "Google XML Sitemaps"
+msgstr "Google XML Sitemaps"
+
+#: jobman-conf.php:461
+msgid "Allows you to automatically add all your job listing and job detail pages to your sitemap. By default, only the main job list is added."
+msgstr "Zorgt er voor dat alle vacaturelijsten en vacature-detail pagina's worden toegevoegd aaan de sitemap. Standaard is alleen de hoofdvacaturelijst toegevoegd"
+
+#: jobman-conf.php:463
+msgid "Download"
+msgstr "Downloaden"
+
+#: jobman-conf.php:464
+msgid "Status"
+msgstr "Status"
+
+#: jobman-conf.php:465
+msgid "Version"
+msgstr "Versie"
+
+#: jobman-conf.php:466
+msgid "Job Manager requires Google XML Sitemaps version 3.2 or later."
+msgstr "Job Manager vereist Google XML Sitemaps versie 3.2 of nieuwer."
+
+#: jobman-conf.php:471
+msgid "Options"
+msgstr "Opties"
+
+#: jobman-conf.php:474
+msgid "Add Job pages to your Sitemap?"
+msgstr "Vacatures toevoegen aan de sitemap?"
+
+#: jobman-conf.php:481
+msgid "Update Plugin Settings"
+msgstr "Plugin-instellingen opslaan"
+
+#: jobman-conf.php:510
+msgid "Job Manager: Jobs List"
+msgstr "Job Manager: Vacaturelijst"
+
+#: jobman-conf.php:513
+msgid "New Job"
+msgstr "Nieuwe vacature"
+
+#: jobman-conf.php:518
+msgid "There is no job associated with that Job ID"
+msgstr "Er is geen vacature verbonden aan deze vacature-ID"
+
+#: jobman-conf.php:521
+msgid "New job created"
+msgstr "Nieuwe vacature aangemaakt"
+
+#: jobman-conf.php:524
+msgid "Job updated"
+msgstr "Vacaturewijzigignen opgeslagen"
+
+#: jobman-conf.php:540
+msgid "Display Dates"
+msgstr "Datums weergeven"
+
+#: jobman-conf.php:551
+msgid "There are currently no jobs in the system."
+msgstr "Er zijn op dit moment geen vacatures in het systeem"
+
+#: jobman-conf.php:559
+#: jobman-conf.php:1412
+msgid "Bulk Actions"
+msgstr "Acties"
+
+#: jobman-conf.php:562
+#: jobman-conf.php:1416
+msgid "Apply"
+msgstr "Toepassen"
+
+#: jobman-conf.php:604
+msgid "Edit"
+msgstr "Bewerken"
+
+#: jobman-conf.php:604
+msgid "View"
+msgstr "Weergeven"
+
+#: jobman-conf.php:606
+msgid "End of Time"
+msgstr "Eindtijd"
+
+#: jobman-conf.php:607
+msgid "Live/Upcoming"
+msgstr "Live/aankomend"
+
+#: jobman-conf.php:607
+msgid "Expired"
+msgstr "Verlopen"
+
+#: jobman-conf.php:632
+msgid "Job Manager: New Job"
+msgstr "Job Manager: Nieuwe vacature"
+
+#: jobman-conf.php:633
+msgid "Create Job"
+msgstr "vacature aanmaken"
+
+#: jobman-conf.php:637
+msgid "Job Manager: Edit Job"
+msgstr "Job Manager: Vacature bewerken"
+
+#: jobman-conf.php:638
+msgid "Update Job"
+msgstr "Vacature opslaan"
+
+#: jobman-conf.php:676
+#: jobman-conf.php:1005
+msgid "Job ID"
+msgstr "Vacature-ID"
+
+#: jobman-conf.php:703
+msgid "Categories that this job belongs to. It will be displayed in the job list for each category selected."
+msgstr "Catogriën waar deze vacature thuis hoort. Het zal worden weergegeven in de vacaturelijst voor elke geselecteerde categorie"
+
+#: jobman-conf.php:726
+msgid "No Icon"
+msgstr "Geen pictogram"
+
+#: jobman-conf.php:728
+msgid "Icon to display for this job in the Job List"
+msgstr "Pictogram dat wordt weergegeven bij deze facature in de vacaturelijst"
+
+#: jobman-conf.php:736
+#: jobman-display.php:314
+#: jobman-display.php:448
+msgid "Salary"
+msgstr "Salaris"
+
+#: jobman-conf.php:741
+#: jobman-display.php:314
+#: jobman-display.php:455
+msgid "Start Date"
+msgstr "Begindatum"
+
+#: jobman-conf.php:743
+msgid "The date that the job starts. For positions available immediately, leave blank."
+msgstr "De datum waarop deze vacature begint. Indien er opdit moment plek is, leeg laten."
+
+#: jobman-conf.php:746
+#: jobman-display.php:456
+msgid "End Date"
+msgstr "Einddatum"
+
+#: jobman-conf.php:748
+msgid "The date that the job finishes. For ongoing positions, leave blank."
+msgstr "De einddatum van de vacature. Voor oneindige plekken, leeg laten."
+
+#: jobman-conf.php:751
+#: jobman-display.php:314
+#: jobman-display.php:457
+msgid "Location"
+msgstr "Locatie"
+
+#: jobman-conf.php:756
+msgid "Display Start Date"
+msgstr "Startdatum weergeven"
+
+#: jobman-conf.php:758
+msgid "The date this job should start being displayed on the site. To start displaying immediately, leave blank."
+msgstr "De datum waarop deze vacature weergegeven zal worden. Indien hij direct moet worden weergegeven, kunt u dit vak leeg laten."
+
+#: jobman-conf.php:761
+msgid "Display End Date"
+msgstr "Einddatum weergeven"
+
+#: jobman-conf.php:763
+msgid "The date this job should stop being displayed on the site. To display indefinitely, leave blank."
+msgstr "De datum waarop deze vacature niet meer weergegeven zal worden. Indien hij altijd moet worden weergegeven, kunt u dit vak leeg laten."
+
+#: jobman-conf.php:766
+msgid "Job Information"
+msgstr "Vacature informatie"
+
+#: jobman-conf.php:770
+msgid "Application Email"
+msgstr "Sollicitatie e-mail"
+
+#: jobman-conf.php:772
+msgid "The email address to notify when an application is submitted for this job. For default behaviour (category email or global email), leave blank."
+msgstr "Het e-mailadres waar meldingen van sollicitaties voor deze vacature heen worden verzonden. Om het standaard catagorie e-mailadres te gebruiken kunt u het vak leeg laten."
+
+#: jobman-conf.php:792
+msgid "Job Manager: Jobs"
+msgstr "Job Manager: Vacatures"
+
+#: jobman-conf.php:793
+msgid "This will permanently delete all of the selected jobs. Please confirm that you want to continue."
+msgstr "De geselecteerde vacatures zullen permanent worden verwijderd. Bevestig alstublieft dat u wilt doorgaan."
+
+#: jobman-conf.php:794
+msgid "Delete Jobs"
+msgstr "Vacatures verwijderen"
+
+#: jobman-conf.php:820
+msgid "Text Input"
+msgstr "Tekstveld"
+
+#: jobman-conf.php:821
+msgid "Radio Buttons"
+msgstr "Keuzerondjes"
+
+#: jobman-conf.php:822
+msgid "Checkboxes"
+msgstr "Selectievakjes"
+
+#: jobman-conf.php:823
+msgid "Large Text Input (textarea)"
+msgstr "Grote tekstveld"
+
+#: jobman-conf.php:824
+msgid "Date Selector"
+msgstr "Datum selecteren"
+
+#: jobman-conf.php:825
+msgid "File Upload"
+msgstr "Bestanden uploaden"
+
+#: jobman-conf.php:826
+msgid "Heading"
+msgstr "Koppen"
+
+#: jobman-conf.php:827
+msgid "HTML Code"
+msgstr "HTML code"
+
+#: jobman-conf.php:828
+msgid "Blank Space"
+msgstr "Lege ruimte"
+
+#: jobman-conf.php:839
+msgid "Job Manager: Application Setup"
+msgstr "Job Manager: Programma Setup"
+
+#: jobman-conf.php:843
+msgid "Field Label/Type"
+msgstr "Veld label/type"
+
+#: jobman-conf.php:845
+msgid "Data"
+msgstr "Datums"
+
+#: jobman-conf.php:846
+msgid "Submit Filter/Filter Error Message"
+msgstr "Filter versturen/Filter foutmelding"
+
+#: jobman-conf.php:847
+msgid "Sort Order"
+msgstr "Sorteervolgorde"
+
+#: jobman-conf.php:881
+#: jobman-conf.php:917
+msgid "Show this field in the Application List?"
+msgstr "Dit veld weergeven in de Sollicitatielijst"
+
+#: jobman-conf.php:900
+msgid "error"
+msgstr "Fout"
+
+#: jobman-conf.php:902
+#: jobman-conf.php:928
+msgid "Up"
+msgstr "Omhoog"
+
+#: jobman-conf.php:902
+#: jobman-conf.php:928
+msgid "Down"
+msgstr "Omlaag"
+
+#: jobman-conf.php:939
+msgid "Add New Field"
+msgstr "Nieuw veld toevoegen"
+
+#: jobman-conf.php:943
+msgid "Update Application Form"
+msgstr "Sollicitatieformulier toevoegen"
+
+#: jobman-conf.php:988
+#: jobman-conf.php:1547
+msgid "Job Manager: Applications"
+msgstr "Job Manager: Sollicitaties"
+
+#: jobman-conf.php:991
+msgid "Selected applications have been deleted."
+msgstr "De geselecteerde sollicitaties zijn verwijderd."
+
+#: jobman-conf.php:993
+msgid "The mailout has been sent."
+msgstr "De mailing is verstuurd."
+
+#: jobman-conf.php:1002
+msgid "Standard Filters"
+msgstr "Standaard filters"
+
+#: jobman-conf.php:1012
+msgid "Registered Applicant"
+msgstr "Geregistreerde sollicitant"
+
+#: jobman-conf.php:1014
+msgid "All Applicants"
+msgstr "Alle sollicitanten"
+
+#: jobman-conf.php:1058
+msgid "Minimum Rating"
+msgstr "Minimale beoordeling"
+
+#: jobman-conf.php:1076
+msgid "Custom Filters"
+msgstr "Aangepaste filters"
+
+#: jobman-conf.php:1130
+msgid "This field cannot be filtered."
+msgstr "Dit veld kan niet gefilterd worden."
+
+#: jobman-conf.php:1140
+msgid "Filter Applications"
+msgstr "Sollicitaties filteren"
+
+#: jobman-conf.php:1144
+msgid "Show Filter Options"
+msgstr "Filteropties weergeven"
+
+#: jobman-conf.php:1145
+msgid "Hide Filter Options"
+msgstr "Filteropies verbergen"
+
+#: jobman-conf.php:1155
+#: jobman-conf.php:1184
+#: jobman-conf.php:1463
+#: jobman-display.php:485
+#: jobman-display.php:1202
+msgid "Job"
+msgstr "vacature"
+
+#: jobman-conf.php:1159
+#: jobman-conf.php:1188
+msgid "User"
+msgstr "Gebruiker"
+
+#: jobman-conf.php:1175
+#: jobman-conf.php:1204
+#: jobman-conf.php:1361
+msgid "View Details"
+msgstr "Details weergeven"
+
+#: jobman-conf.php:1176
+#: jobman-conf.php:1205
+#: jobman-conf.php:1693
+msgid "Emails"
+msgstr "E-mails"
+
+#: jobman-conf.php:1177
+#: jobman-conf.php:1206
+#: jobman-conf.php:1467
+msgid "Rating"
+msgstr "Beoordeling"
+
+#: jobman-conf.php:1308
+msgid "No job"
+msgstr "Geen vacature"
+
+#: jobman-conf.php:1315
+msgid "Unregistered Applicant"
+msgstr "Ongeregistreerde sollicitant"
+
+#: jobman-conf.php:1396
+msgid "There were no applications that matched your search."
+msgstr "Er zijn geen sollicitaties gevonden met uw zoekopdracht."
+
+#: jobman-conf.php:1398
+msgid "There are currently no applications in the system."
+msgstr "Er zijn op dit moment geen sollicitaties in het systeem."
+
+#: jobman-conf.php:1444
+msgid "Job Manager: Application Details"
+msgstr "Job Manager: Sollicitatie details"
+
+#: jobman-conf.php:1445
+#: jobman-conf.php:1528
+msgid "Back to Application List"
+msgstr "Terug naar de sollicitatielijst"
+
+#: jobman-conf.php:1465
+#: jobman-display.php:1206
+msgid "Timestamp"
+msgstr "Tijdsstempel"
+
+#: jobman-conf.php:1519
+msgid "Email Application"
+msgstr "Sollicitatie versturen via e-mail"
+
+#: jobman-conf.php:1520
+msgid "Use this form to email the application to a new email address."
+msgstr "Gebruik dit formulier om de sollicitatie te versturen naar een nieuw e-mailadres."
+
+#: jobman-conf.php:1532
+msgid "No such application."
+msgstr "Geen sollicitaties gevonden."
+
+#: jobman-conf.php:1548
+msgid "This will permanently delete all of the selected applications. Please confirm that you want to continue."
+msgstr "Alle geselecteerde sollicitaties zullen permanent worden verwijderd. Bevestig alstublieft dat u wilt doorgaan"
+
+#: jobman-conf.php:1549
+msgid "Delete Applications"
+msgstr "Sollicitatie verwijderen"
+
+#: jobman-conf.php:1598
+msgid "Job Manager: Emails"
+msgstr "Job manager: E-mails"
+
+#: jobman-conf.php:1600
+msgid "In the \"Applications Sent To\" column, click the number to go to that application, or click the asterisk (*) next to it to see other emails sent to that application."
+msgstr "Klik in de \"Sollicitaties versturen naar\" kolom op het nummer in baar de sollicitatie te gaan, Of klik op het sterretje (*) ernaast om andere verstuurde e-mails naar de sollicitatie te gaan."
+
+#: jobman-conf.php:1605
+#: jobman-conf.php:1613
+msgid "Date"
+msgstr "Datum"
+
+#: jobman-conf.php:1607
+#: jobman-conf.php:1615
+msgid "Applications Sent To"
+msgstr "Sollicitaties versturen naar"
+
+#: jobman-conf.php:1658
+msgid "No such email."
+msgstr "Geen e-mail."
+
+#: jobman-conf.php:1663
+msgid "Job Manager: Email"
+msgstr "Job Manager: E-mail"
+
+#: jobman-conf.php:1665
+msgid "In the \"Applications\" field, click the number to go to that application, or click the asterisk (*) next to it to see other emails sent to that application."
+msgstr "Klik in het \"Sollicitaties\" veld op het nummer om naar de sollicitatie te gaan, Of klik op het sterretje (*) ernaast om andere verstuurde e-mails naar de sollicitatie te gaan."
+
+#: jobman-conf.php:1685
+msgid "Applications"
+msgstr "Sollicitaties"
+
+#: jobman-conf.php:1701
+#: jobman-conf.php:1758
+msgid "Message"
+msgstr "Bericht"
+
+#: jobman-conf.php:1736
+msgid "Job Manager: Application Email"
+msgstr "Job Manager: Sollicitatie e-mail"
+
+#: jobman-conf.php:1746
+msgid "From"
+msgstr "Van"
+
+#: jobman-conf.php:1750
+msgid "To"
+msgstr "Aan"
+
+#: jobman-conf.php:1763
+msgid "Send Email"
+msgstr "E-mail verzenden"
+
+#: jobman-conf.php:2191
+msgid "If this plugin helps you find that perfect new employee, I'd appreciate it if you shared the love, by way of my Donate or Amazon Wish List links below."
+msgstr "Als deze plugin je helpt om die perfecte werknemer te vinden, zal ik het warderen als u het er mee eens bent kunt u doneren via onderstaande links."
+
+#: jobman-conf.php:2193
+msgid "My Amazon Wish List"
+msgstr "My Amzon Wensenlijst"
+
+#: jobman-conf.php:2194
+msgid "Donate with PayPal"
+msgstr "Doneren met PayPal"
+
+#: jobman-conf.php:2202
+msgid "Gary Pendergast's Blog"
+msgstr "Blog van Gary Pendergast"
+
+#: jobman-conf.php:2203
+msgid "Follow me on Twitter!"
+msgstr "Volg mij op Twitter!"
+
+#: jobman-conf.php:2204
+msgid "Plugin Homepage"
+msgstr "Plugin startpagina"
+
+#: jobman-conf.php:2205
+msgid "Submit a Bug/Feature Request"
+msgstr "Een Bug/Functie-aanvraag insturen"
+
+#: jobman-db.php:198
+#: jobman-db.php:272
+#: jobman-display.php:289
+msgid "Jobs Listing"
+msgstr "Vacaturelijsten"
+
+#: jobman-db.php:199
+#: jobman-db.php:273
+msgid "Hi! This page is used by your Job Manager plugin as a base. Feel free to change settings here, but please do not delete this page. Also note that any content you enter here will not show up when this page is displayed on your site."
+msgstr "Hoi! Deze pagina wordt gebruikt door de Job Manager plugin als basis. U kunt hierinstellingen wijzigen, maar verwijder deze pagina niet. Let er ook op dat de inhoud niet zal worden weergegeven als deze pagina wordt weergegeven op uw site."
+
+#: jobman-db.php:214
+#: jobman-db.php:485
+#: jobman-display.php:228
+#: jobman-display.php:531
+#: jobman-display.php:561
+#: jobman-display.php:573
+msgid "Job Application"
+msgstr "Vacature sollicitatie"
+
+#: jobman-db.php:228
+#: jobman-db.php:545
+#: jobman-display.php:744
+#: jobman-display.php:817
+msgid "Register"
+msgstr "Registreren"
+
+#: jobman-db.php:427
+#: jobman-display.php:942
+msgid "Application"
+msgstr "Sollicitatie"
+
+#: jobman-display.php:170
+#, php-format
+msgid "This job listing was created using <a href=\"%s\" title=\"%s\">Job Manager</a> for WordPress, by <a href=\"%s\">Gary Pendergast</a>."
+msgstr "Deze vacaturelijst is gegenereerd met <a href=\"%s\" title=\"%s\">Job Manager</a> for WordPress, door <a href=\"%s\">Gary Pendergast</a>."
+
+#: jobman-display.php:170
+msgid "WordPress Job Manager"
+msgstr "WordPress Job Manager"
+
+#: jobman-display.php:231
+#: jobman-display.php:234
+msgid "Job Listing"
+msgstr "Vacaturelijst"
+
+#: jobman-display.php:337
+#: jobman-display.php:451
+msgid "ASAP"
+msgstr "ASAP"
+
+#: jobman-display.php:343
+msgid "More Info"
+msgstr "Meer informatie"
+
+#: jobman-display.php:363
+#, php-format
+msgid "We currently don't have any jobs available. Please check back regularly, as we frequently post new jobs. In the meantime, you can also <a href='%s'>send through your résumé</a>, which we'll keep on file."
+msgstr "Op dit moment zijn er geen vacatures beschikbaar. U kunt op een later tijdstip terugkomen, we publiceren regelmatig nieuwe vacatures. Ondertussen, kunt u ook <a href='%s'>uw CV opsturen</a> zodat wij die kunnen bewaren."
+
+#: jobman-display.php:377
+#, php-format
+msgid "We currently don't have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href='%s'>send through your résumé</a>, which we'll keep on file, and you can check out the <a href='%s'>jobs we have available in other areas</a>."
+msgstr "Op dit moment zijn er geen vacatures beschikbaar met deze criteria. Omdat we regelmatig vacatures publiceren kunt u later terugkomen. Ondertussen kunt u ook <a href='%s'>uw CV opsturen</a>, die we zullen bewaren, en u kunt vacatures bekijken <a href='%s'>die beschikbaar zijn met andere criteria</a>."
+
+#: jobman-display.php:422
+msgid "This job doesn't exist"
+msgstr "Deze vacature bestaat niet"
+
+#: jobman-display.php:424
+#, php-format
+msgid "Perhaps you followed an out-of-date link? Please check out the <a href=\"%s\">jobs we have currently available</a>."
+msgstr "Waarschijnlijk heeft u een verlopen link gebruikt. U kunt de <a href=\"%s\">vacatures bekijken die op dit moment beschikbaar zijn</a>."
+
+#: jobman-display.php:442
+#, php-format
+msgid "Jobs for %s"
+msgstr "vacatures voor %s"
+
+#: jobman-display.php:456
+msgid "Ongoing"
+msgstr "Lopend"
+
+#: jobman-display.php:458
+msgid "Information"
+msgstr "Informatie"
+
+#: jobman-display.php:478
+msgid "Apply Now!"
+msgstr "Nu soliciteren!"
+
+#: jobman-display.php:519
+msgid "Thank you for your application! We'll check it out, and get back to you soon!"
+msgstr "Bedankt voor uw sollicitatie! We zullen hem nakijken en snel contact met u opnemen!"
+
+#: jobman-display.php:526
+msgid "Thank you for your application. While your application doesn't fit our current requirements, please contact us directly to see if we have other positions available."
+msgstr "Bedankt voor uw sollicitatie. Terwijl uw aanvraag past niet in onze huidige eisen, neem dan direct contact met ons op om te kijken of er andere functies beschikbaar zijn."
+
+#: jobman-display.php:543
+msgid "Before completing your application, please login using the form above, or register using the form below."
+msgstr "Om uw sollicitatie te voltooien, kunt u inloggen met het formulier bovenaan, of registreren via het formulier onderaan."
+
+#: jobman-display.php:699
+msgid "Submit Your Application"
+msgstr "Sollicitatie versturen"
+
+#: jobman-display.php:729
+#, php-format
+msgid "Welcome, %1s!"
+msgstr "Welkom, %1s!"
+
+#: jobman-display.php:737
+msgid "If you've registered with us previously, please login now. If you'd like to register, please click the 'Register' link below."
+msgstr "Als u zich eerder geregisteerd heeft bij ons, kunt u nu inloggen. Als u zich wilt registreren, klik dan op de 'Registreren' link onderaan."
+
+#: jobman-display.php:739
+#: jobman-display.php:795
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+#: jobman-display.php:741
+#: jobman-display.php:803
+msgid "Password"
+msgstr "Wachtwoord"
+
+#: jobman-display.php:743
+msgid "Login"
+msgstr "Inloggen"
+
+#: jobman-display.php:744
+msgid "Forgot your password?"
+msgstr "Wachtwoord vergeten?"
+
+#: jobman-display.php:790
+msgid "Please fill in all fields."
+msgstr "Alle velden invullen alstublieft."
+
+#: jobman-display.php:793
+msgid "This username has already been registered."
+msgstr "Deze gebruikersnaam is al geregistreerd"
+
+#: jobman-display.php:801
+msgid "Passwords do not match."
+msgstr "Wachtwoorden komen niet overeen."
+
+#: jobman-display.php:806
+msgid "Password Again"
+msgstr "Wachtwoord herhalen"
+
+#: jobman-display.php:810
+#, php-format
+msgid "This email address has already been registered. If you've previously registered but don't remember your password, please visit the <a href='%1s'>password reset page</a>."
+msgstr "Dit e-mailadres is al geregistreerd. Als u zich al eerder geregistreerd heeft maar uw wachtwoord kwijt bent, ga dan naar de <a href='%1s'>wachtwoord-herstelpagina</a>."
+
+#: jobman-display.php:1198
+msgid "Application Link"
+msgstr "Sollicitatielink"
+
+#: jobman-functions.php:34
+msgid "Click to toggle"
+msgstr "Klik om te schakelen"
+
+#: jobman-functions.php:70
+msgid "Category"
+msgstr "Categorie"
+
+#. Plugin URI of an extension
+msgid "http://pento.net/projects/wordpress-job-manager-plugin/"
+msgstr "http://pento.net/projects/wordpress-job-manager-plugin/"
+
+#. Description of an extension
+msgid "A job listing and job application management plugin for WordPress."
+msgstr "Een vacaturelijst and sollicatie beheerders plugin voor WordPress."
+
+#. Author of an extension
+msgid "Gary Pendergast"
+msgstr "Gary Pendergast"
+
+#. Author URI of an extension
+msgid "http://pento.net/"
+msgstr "http://pento.net/"
+
+#. Tags of an extension
+msgid "job, jobs, manager, list, listing, employment, employer, career"
+msgstr "vacature, vacatures, beheer, lijst, lijsten, werk, werknemer, carriëre"
+

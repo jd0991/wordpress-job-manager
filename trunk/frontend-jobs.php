@@ -1,5 +1,6 @@
 <?php
 function jobman_display_jobs_list( $cat ) {
+	global $jobman_shortcode_jobs, $jobman_shortcodes, $jobman_field_shortcodes;
 	$options = get_option( 'jobman_options' );
 
 	$content = '';
@@ -82,7 +83,7 @@ function jobman_display_jobs_list( $cat ) {
 		}
 		
 		$content .= '<h3>' . __( 'Related Categories', 'jobman' ) . '</h3>';
-		$content .= implode(', ', $links);
+		$content .= implode(', ', $links) . '<br>';
 	}
 	
 	if( count( $jobs ) > 0 ) {
@@ -90,7 +91,7 @@ function jobman_display_jobs_list( $cat ) {
 			// Sort the sticky jobs to the top
 			uasort( $jobs, 'jobman_sort_highlighted_jobs' );
 
-		if( 'summary' == $list_type ) {
+		/*if( 'summary' == $list_type ) {
 			$content .= '<table class="jobs-table">';
 			$content .= '<tr class="heading"><th>' . __( 'Title', 'jobman' ) . '</th><th>' . __( 'Salary', 'jobman' ) . '</th><th>' . __( 'Start Date', 'jobman' ) . '</th><th>' . __( 'Location', 'jobman' ) . '</th></tr>';
 			$rowcount = 1;
@@ -141,7 +142,18 @@ function jobman_display_jobs_list( $cat ) {
 					$rowcount++;
 				}
 			}
-		}
+		}*/
+		
+		$template = $options['templates']['job_list'];
+		
+		jobman_add_shortcodes( $jobman_shortcodes );
+		jobman_add_field_shortcodes( $jobman_field_shortcodes );
+		
+		$jobman_shortcode_jobs = $jobs;
+		$content .= do_shortcode( $template );
+		
+		jobman_remove_shortcodes( array_merge( $jobman_shortcodes, $jobman_field_shortcodes ) );
+
 	}
 	else {
 		$data = get_posts( 'post_type=jobman_app_form&numberposts=-1' );
@@ -188,7 +200,7 @@ function jobman_sort_highlighted_jobs( $a, $b ) {
 }
 
 function jobman_display_job( $job ) {
-	global $wpdb;
+	global $jobman_shortcode_job, $jobman_shortcodes, $jobman_field_shortcodes;
 	$options = get_option( 'jobman_options' );
 
 	$content = '';
@@ -230,7 +242,7 @@ function jobman_display_job( $job ) {
 		return array( $page );
 	}
 
-	$categories = wp_get_object_terms( $job->ID, 'jobman_category' );
+	/*$categories = wp_get_object_terms( $job->ID, 'jobman_category' );
 	
 	$highlighted = '';
 	if( array_key_exists( 'highlighted', $jobdata ) && $jobdata['highlighted'] )
@@ -283,8 +295,18 @@ function jobman_display_job( $job ) {
 		$content .= '<tr><td></td><td class="jobs-applynow"><a href="'. $url . '">' . __( 'Apply Now!', 'jobman' ) . '</td></tr>';
 	}
 	
-	$content .= '</table>';
+	$content .= '</table>';*/
+
+	$template = $options['templates']['job'];
 	
+	jobman_add_shortcodes( $jobman_shortcodes );
+	jobman_add_field_shortcodes( $jobman_field_shortcodes );
+	
+	$jobman_shortcode_job = $job;
+	$content .= do_shortcode( $template );
+	
+	jobman_remove_shortcodes( array_merge( $jobman_shortcodes, $jobman_field_shortcodes ) );
+
 	$page = $job;
 
 	$page->post_title = $options['text']['job_title_prefix'] . $job->post_title;

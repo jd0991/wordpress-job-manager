@@ -34,16 +34,6 @@ function jobman_conf() {
 	<div class="wrap">
 		<h2><?php _e( 'Job Manager: Admin Settings', 'jobman' ) ?></h2>
 <?php
-	$writeable = jobman_check_upload_dirs();
-	if( ! $writeable ) {
-		echo '<div class="error">';
-		echo '<p>' . __( 'It seems the Job Manager data directories are not writeable. In order to allow applicants to upload resumes, and for you to upload icons, please ensure that the following directories exist and are writeable.', 'jobman' ) . '</p>';
-		echo '<pre>' . JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . "\n";
-		echo JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . '</pre>';
-		echo '<p>' . sprintf( __( 'For help with changing directory permissions, please see <a href="%1s">this page</a> in the WordPress documentation.', 'jobman' ), 'http://codex.wordpress.org/Changing_File_Permissions' ) . '</p>';
-		echo '</div>';
-	}
-
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(
@@ -202,14 +192,15 @@ function jobman_print_icons_box() {
 	$icons = $options['icons'];
 	
 	if( count( $icons ) > 0 ) {
-		foreach( $icons as $id => $icon ) {
+		foreach( $icons as $icon ) {
+		$post = get_post( $icon );
 ?>
 			<tr>
 				<td>
-					<input type="hidden" name="id[]" value="<?php echo $id ?>" />
-					<img src="<?php echo JOBMAN_UPLOAD_URL . "/icons/$id.{$icon['extension']}" ?>" />
+					<input type="hidden" name="id[]" value="<?php echo $icon ?>" />
+					<img src="<?php echo wp_get_attachment_url( $icon ) ?>" />
 				</td>
-				<td><input class="regular-text code" type="text" name="title[]" value="<?php echo $icon['title'] ?>" /></td>
+				<td><input class="regular-text code" type="text" name="title[]" value="<?php echo $post->post_title ?>" /></td>
 				<td><input class="regular-text code" type="file" name="icon[]" /></td>
 				<td><a href="#" onclick="jobman_delete( this, 'id', 'jobman-delete-icon-list' ); return false;"><?php _e( 'Delete', 'jobman' ) ?></a></td>
 			</tr>
@@ -549,13 +540,20 @@ function jobman_icons_updatedb() {
 			$newcount++;
 			// INSERT new field
 			if( '' != $_REQUEST['title'][$ii] || '' != $_FILES['icon']['name'][$ii] ) {
-				preg_match( '/.*\.(.+)$/', $_FILES['icon']['name'][$ii], $matches );
-				$ext = $matches[1];
-
-				$options['icons'][] = array(
-											'title' => $_REQUEST['title'][$ii],
-											'extension' => $ext
-									);
+				$upload = wp_upload_bits( $_FILES['icon']['name'][$ii], NULL, file_get_contents( $_FILES['icon']['tmp_name'][$ii] ) );
+				if( ! $upload['error'] ) {
+					$attachment = array(
+									'post_title' => $_REQUEST['title'][$ii],
+									'post_content' => '',
+									'post_status' => 'publish',
+									'post_mime_type' => mime_content_type( $upload['file'] )
+								);
+					$data = wp_insert_attachment( $attachment, $upload['file'], $options['main_page'] );
+					$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
+					wp_update_attachment_metadata( $data, $attach_data );
+					
+					$options['icons'][] = $data;
+				}
 			}
 			else {
 				// No input. Don't insert into the DB.
@@ -565,32 +563,29 @@ function jobman_icons_updatedb() {
 		}
 		else {
 			// UPDATE existing field
-			$options['icons'][$id]['title'] = $_REQUEST['title'][$ii];
-
-			if('' != $_FILES['icon']['name'][$ii] ) {
-				preg_match( '/.*\.(.+)$/', $_FILES['icon']['name'][$ii], $matches );
-				$ext = $matches[1];
-			
-				$options['icons'][$id]['extension'] = $ext;
+			if( '' != $_FILES['icon']['name'][$ii] ) {
+				$upload = wp_upload_bits( $_FILES['icon']['name'][$ii], NULL, file_get_contents( $_FILES['icon']['tmp_name'][$ii] ) );
+				if( ! $upload['error'] ) {
+					wp_update_attachment( $id, $upload['file'] );
+					$attach_data = wp_generate_attachment_metadata( $id, $upload['file'] );
+					wp_update_attachment_metadata( $id, $attach_data );
+				}
 			}
+			$updatepost = array(
+								'ID' => $id,
+								'post_title' => $_REQUEST['title'][$ii]
+						);
+			wp_update_post( $updatepost );
 		}
 		
-		if( '' != $_FILES['icon']['name'][$ii] ) {
-			if( is_uploaded_file( $_FILES['icon']['tmp_name'][$ii] ) ) {
-				if( -1 == $id ) {
-					$keys = array_keys( $options['icons'] );
-					$id = end( $keys );
-				}
-				move_uploaded_file( $_FILES['icon']['tmp_name'][$ii], JOBMAN_UPLOAD_DIR . "/icons/$id.$ext");
-			}
-		}
-
 		$ii++;
 	}
 
 	$deletes = explode( ',', $_REQUEST['jobman-delete-list'] );
 	foreach( $deletes as $delete ) {
-		unset( $options['icons'][$delete] );
+		wp_delete_attachment( $delete );
+		
+		unset( $options['icons'][array_search( $delete, $options['icons'] )] );
 		
 		// Remove the icon from any jobs that have it
 		$jobs = get_posts( "post_type=jobman_job&meta_key=iconid&meta_value=$delete&numberposts=-1" );

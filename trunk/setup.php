@@ -73,10 +73,66 @@ function jobman_create_default_settings() {
 									'sicaptcha' => 0
 								)
 				);
+
+	$options['templates'] = array();
+	$options['templates']['job'] = <<<EOT
+<table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
+  <tr>
+    <th scope="row">Title</th>
+    <td>[job_title]</td>
+  </tr>
+[if_job_categories]
+  <tr>
+     <th scope="row">Categories</th>
+     <td>[job_category_links]</td>
+  </tr>
+[/if_job_categories]
+[job_field_loop]
+  [if_job_field]
+  <tr>
+    <th scope="row">[job_field_label]</th>
+    <td>[job_field]</td>
+  </tr>
+  [/if_job_field]
+[/job_field_loop]
+  <tr>
+    <td></td>
+    <td class="jobs-applynow">[job_apply_link]Apply Now[/job_apply_link]</td>
+  </tr>
+</table>	
+EOT;
+		$options['templates']['job_list'] = <<<EOT
+[job_loop]
+<div class="job[job_row_number] job[job_id] [job_odd_even]">
+<table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
+  <tr>
+    <th scope="row">Title</th>
+    <td>[job_link][job_title][/job_link]</td>
+  </tr>
+[if_job_categories]
+  <tr>
+     <th scope="row">Categories</th>
+     <td>[job_category_links]</td>
+  </tr>
+[/if_job_categories]
+[job_field_loop]
+  [if_job_field]
+  <tr>
+    <th scope="row">[job_field_label]</th>
+    <td>[job_field]</td>
+  </tr>
+  [/if_job_field]
+[/job_field_loop]
+  <tr>
+    <td></td>
+    <td class="jobs-applynow">[job_apply_link]Apply Now[/job_apply_link]</td>
+  </tr>
+</table>
+</div><br/><br/>
+[/job_loop]
+EOT;
+
 	update_option( 'jobman_options', $options );
-	
-	mkdir( JOBMAN_UPLOAD_DIR . '/uploads', 0777, true );
-	mkdir( JOBMAN_UPLOAD_DIR . '/icons', 0777, true );
 }
 
 function jobman_upgrade_settings( $oldversion ) {
@@ -166,6 +222,89 @@ function jobman_upgrade_settings( $oldversion ) {
 							
 		$options['application_email_from_fields'] = array();
 		$options['plugins']['sicaptcha'] = 0;
+		
+		$options['templates'] = array();
+		$options['templates']['job'] = <<<EOT
+<table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
+  <tr>
+    <th scope="row">Title</th>
+    <td>[job_link][job_title][/job_link]</td>
+  </tr>
+[if_job_categories]
+  <tr>
+     <th scope="row">Categories</th>
+     <td>[job_category_links]</td>
+  </tr>
+[/if_job_categories]
+[job_field_loop]
+  [if_job_field]
+  <tr>
+    <th scope="row">[job_field_label]</th>
+    <td>[job_field]</td>
+  </tr>
+  [/if_job_field]
+[/job_field_loop]
+  <tr>
+    <td></td>
+    <td class="jobs-applynow">[job_apply_link]Apply Now[/job_apply_link]</td>
+  </tr>
+</table>	
+EOT;
+		if( 'summary' == $options['list_type'] ) {
+			$options['templates']['job_list'] = <<<EOT
+<table class="jobs-table">
+  <tr class="heading">
+    <th>Title</th>
+    <th>[job_field1_label]</th>
+    <th>[job_field2_label]</th>
+    <th>[job_field4_label]</th>
+  </tr>
+
+[job_loop]
+  <tr class="job[job_row_number] job[job_id] [if_job_highlighted]highlighted [/if_job_highlighted][job_odd_even]">
+    <td>[if_job_icon][job_icon]<br/>[/if_job_icon] [job_link] [job_title] [/job_link]</td>
+    <td>[job_field1]</td>
+    <td>[job_field2]</td>
+    <td>[job_field4]</td>
+    <td>[job_link]More Info[/job_link]</td>
+  </tr>
+[/job_loop]
+
+</table>
+EOT;
+		}
+		else {
+			$options['templates']['job_list'] = <<<EOT
+[job_loop]
+<div class="job[job_row_number] job[job_id] [job_odd_even]">
+<table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
+  <tr>
+    <th scope="row">Title</th>
+    <td>[job_title]</td>
+  </tr>
+[if_job_categories]
+  <tr>
+     <th scope="row">Categories</th>
+     <td>[job_category_links]</td>
+  </tr>
+[/if_job_categories]
+[job_field_loop]
+  [if_job_field]
+  <tr>
+    <th scope="row">[job_field_label]</th>
+    <td>[job_field]</td>
+  </tr>
+  [/if_job_field]
+[/job_field_loop]
+  <tr>
+    <td></td>
+    <td class="jobs-applynow">[job_apply_link]Apply Now[/job_apply_link]</td>
+  </tr>
+</table>
+</div><br/><br/>
+[/job_loop]
+EOT;
+		}
 		
 		update_option( 'jobman_options', $options );
 	}

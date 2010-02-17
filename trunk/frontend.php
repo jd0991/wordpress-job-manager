@@ -6,6 +6,10 @@ require_once( dirname( __FILE__ ) . '/frontend-jobs.php' );
 require_once( dirname( __FILE__ ) . '/frontend-application.php' );
 // User registration and login
 require_once( dirname( __FILE__ ) . '/frontend-user.php' );
+// RSS Feeds
+require_once( dirname( __FILE__ ) . '/frontend-rss.php' );
+// Shortcode magic
+require_once( dirname( __FILE__ ) . '/frontend-shortcodes.php' );
 
 global $jobman_displaying, $jobman_finishedpage;
 $jobman_finishedpage = $jobman_displaying = false;
@@ -34,11 +38,12 @@ function jobman_add_rewrite_rules( $wp_rewrite ) {
 
 	$new_rules = array( 
 						"$url/?$" => "index.php?jobman_root_id=$root->ID",
-						"$url/apply/?([^/]+)?/?" => "index.php?jobman_root_id=$root->ID" .
+						"$url/apply/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
 						"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(1),
-						"$url/register/?([^/]+)?/?" => "index.php?jobman_root_id=$root->ID" .
+						"$url/register/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
 						"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(1),
-						"$url/?([^/]+)/?" => "index.php?jobman_data=" . $wp_rewrite->preg_index(1)
+						"$url/feed/?" => "index.php?feed=jobman",
+						"$url/([^/]+)/?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(1),
 				);
 
 	$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
@@ -309,6 +314,15 @@ function jobman_display_head() {
 		
 	$options = get_option( 'jobman_options' );
 
+	$url = get_page_link( $options['main_page'] );
+	$structure = get_option( 'permalink_structure' );
+	if( '' == $structure ) {
+		$url = get_option( 'home' ) . '?feed=jobman';
+	}
+	else {
+		$url .= 'feed/';
+	}
+
 	$mandatory_ids = array();
 	$mandatory_labels = array();
 	foreach( $options['fields'] as $id => $field ) {
@@ -318,6 +332,7 @@ function jobman_display_head() {
 		}
 	}
 ?>
+	<link rel="alternate" type="application/rss+xml" href="<?php echo $url ?>" title="<?php _e( 'Latest Jobs', 'jobman' ) ?>" />
 <script type="text/javascript"> 
 //<![CDATA[
 jQuery(document).ready(function() {

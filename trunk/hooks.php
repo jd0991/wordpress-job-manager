@@ -27,12 +27,14 @@ add_action( 'wp_head', 'jobman_display_head' );
 add_filter( 'hierarchical_post_types', 'jobman_page_hierarchical_setup' );
 // For the page links
 add_filter( 'post_link', 'jobman_page_link', 10, 2 );
+add_filter( 'the_permalink_rss', 'jobman_rss_page_link', 10 );
 
 // Our custom page/taxonomy setup
 add_action( 'init', 'jobman_page_taxonomy_setup' );
 
-// For the application rating AJAX call
-add_action( 'wp_ajax_jobman_rate_application', 'jobman_rate_application' );
+// RSS Feeds
+add_action( 'do_feed_jobman', 'jobman_rss_feed', 1, 1 );
+
 
 // 
 // Widgets
@@ -48,6 +50,9 @@ add_action('widgets_init', create_function('', 'return register_widget("JobmanHi
 add_action( 'admin_menu', 'jobman_admin_setup' );
 // Plugin settings links
 add_filter( 'plugin_row_meta', 'jobman_plugin_row_meta', 10, 2 );
+// For the application rating AJAX call
+add_action( 'wp_ajax_jobman_rate_application', 'jobman_rate_application' );
+
 
 //
 // Plugins

@@ -4,13 +4,15 @@ Donate link: http://pento.net/donate/
 Tags: jobs, manager, list, listing, employer, application
 Requires at least: 2.9
 Tested up to: 3.0-alpha
-Stable tag: trunk
+Stable tag: 0.5.4
 
 A job listing and job application management plugin for WordPress.
 
 == Description ==
 
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
+
+***Warning***: This is a **BETA** release of Job Manager. As such, it may contain bugs. I'd appreciate it if you could download this in your test environment, and report any bugs you come across [here](http://code.google.com/p/wordpress-job-manager/issues/list). If you'd like to try out the stable version of Job Manager, you can download [version 0.5.4 here](http://downloads.wordpress.org/plugin/job-manager.0.5.4.zip).
 
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
@@ -66,9 +68,15 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 = Translations =
 
-Notice the version number in brackets. This is the major version that the translation is up-to-date with. If that version number is lower than the current major release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
+Notice the version number in brackets. This is the major version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
-* French Translation (0.5), provided by [Fabrice Fotso](http://www.procure-smart.com/)
+* French Translation (0.5.x), provided by [Fabrice Fotso](http://www.procure-smart.com/)
+* Dutch Translation (0.5.x), provided by [Patrick Tessels](http://www.centrologic.nl/)
+
+= Special Thanks =
+
+* [EuroPlacements](http://europlacements.it/), for their input and support of the initial development of Job Manager.
+* All the wonderful people who've submitted bugs, feedback and feature requests - you're the people who keep me with things to work on!
 
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
@@ -89,10 +97,15 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Option to change Application Acceptance message
 * ADDED: Option to set the name in the "From" field of application emails
 * ADDED: Support for CAPTCHAs, through the [SI CAPTCHA](http://wordpress.org/extend/plugins/si-captcha-for-wordpress/) plugin.
+* ADDED: RSS feed for jobs
+* ADDED: Ability to customise job fields
+* ADDED: Shortcode-based templates for jobs and job list displays
+* ADDED: Dutch Translation, provided by [Patrick Tessels](http://www.centrologic.nl/)
 * CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
 * CHANGED: Split admin and display settings into two admin pages
 * CHANGED: HTML fields now stretch across both columns of the application table. The label is no longer displayed.
 * CHANGED: Can now remove ratings from applications
+* CHANGED: Uploads and icons are now stored as attachments
 * FIXED: Some small string changes for clarity
 * FIXED: Added category links to Google XML Sitemap
 * FIXED: Admin CSS/JS are only loaded on the appropriate pages
@@ -250,3 +263,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.1.0 =
 * Initial release
+
+== Upgrade Notice ==
+
+= 0.6-beta1 =
+This is a beta release of Job Manager. Please do not use it in a production environment.

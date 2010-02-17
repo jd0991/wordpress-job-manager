@@ -19,7 +19,7 @@ function jobman_display_login() {
 		$content .= apply_filters( 'jobman_loggedin_html', $loggedin_html );
 	}
 	else {
-		$login_html .= '<form action="" method="post">';
+		$login_html = '<form action="" method="post">';
 		$login_html .= '<div id="jobman_login">';
 		$login_html .= '<span class="message">';
 		$login_html .= apply_filters( 'jobman_login_msg', __( "If you've registered with us previously, please login now. If you'd like to register, please click the 'Register' link below.", 'jobman' ) );

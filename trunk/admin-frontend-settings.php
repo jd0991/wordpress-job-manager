@@ -8,6 +8,10 @@ function jobman_display_conf() {
 		check_admin_referer( 'jobman-sort-updatedb' );
 		jobman_sort_updatedb();
 	}
+	else if( array_key_exists( 'jobmantemplatesubmit', $_REQUEST ) ) {
+		check_admin_referer( 'jobman-template-updatedb' );
+		jobman_template_updatedb();
+	}
 	else if( array_key_exists( 'jobmanwraptextsubmit', $_REQUEST ) ) {
 		check_admin_referer( 'jobman-wraptext-updatedb' );
 		jobman_wrap_text_updatedb();
@@ -23,11 +27,11 @@ function jobman_display_conf() {
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(
-						array( 'jobman_print_display_settings_box', 'jobman_print_sort_box', 'jobman_print_misc_text_box', 'jobman_print_wrap_text_box' ),
+						array( 'jobman_print_display_settings_box', 'jobman_print_sort_box', 'jobman_print_template_box', 'jobman_print_misc_text_box', 'jobman_print_wrap_text_box' ),
 						array( 'jobman_print_donate_box', 'jobman_print_about_box' )
 					);
 		$titles = array(
-					array( __( 'Display Settings', 'jobman' ), __( 'Job List Sorting', 'jobman' ), __( 'Miscellaneous Text', 'jobman' ), __( 'Page Text', 'jobman' ) ),
+					array( __( 'Display Settings', 'jobman' ), __( 'Job List Sorting', 'jobman' ), __( 'Job Templates', 'jobman' ), __( 'Miscellaneous Text', 'jobman' ), __( 'Page Text', 'jobman' ) ),
 					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
 				);
 	}
@@ -35,11 +39,11 @@ function jobman_display_conf() {
 		$widths = array( '49%', '49%' );
 		$functions = array(
 						array( 'jobman_print_display_settings_box', 'jobman_print_misc_text_box', 'jobman_print_wrap_text_box' ),
-						array( 'jobman_print_sort_box' )
+						array( 'jobman_print_sort_box', 'jobman_print_template_box' )
 					);
 		$titles = array(
 					array( __( 'Display Settings', 'jobman' ), __( 'Miscellaneous Text', 'jobman' ), __( 'Page Text', 'jobman' ) ),
-					array( __( 'Job List Sorting', 'jobman' ) )
+					array( __( 'Job List Sorting', 'jobman' ), __( 'Job Templates', 'jobman' ) )
 				);
 	}
 	jobman_create_dashboard( $widths, $functions, $titles );
@@ -57,17 +61,6 @@ function jobman_print_display_settings_box() {
 			<tr>
 				<th scope="row"><?php _e( 'Job Manager Page Template', 'jobman' ) ?></th>
 				<td colspan="2"><?php printf( __( 'You can edit the page template used by Job Manager, by editing the Template Attribute of <a href="%s">this page</a>.', 'jobman' ), admin_url( 'page.php?action=edit&post=' . $options['main_page'] ) ) ?></td>
-			</tr>
-			<tr>
-				<th scope="row"><?php _e( 'Show summary or full jobs list?', 'jobman' ) ?></th>
-				<td><select name="list-type">
-					<option value="summary"<?php echo ( 'summary' == $options['list_type'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Summary', 'jobman' ) ?></option>
-					<option value="full"<?php echo ( 'full' == $options['list_type'] )?( ' selected="selected"' ):( '' ) ?>><?php _e( 'Full', 'jobman' ) ?></option>
-				</select></td>
-				<td><span class="description">
-					<?php _e( 'Summary: displays many jobs concisely.', 'jobman' ) ?><br/>
-					<?php _e( 'Full: allows quicker access to the application form.', 'jobman' ) ?>
-				</span></td>
 			</tr>
 <?php
 	if( ! get_option( 'pento_consulting' ) ) {
@@ -136,6 +129,30 @@ function jobman_print_sort_box() {
 <?php
 }
 
+function jobman_print_template_box() {
+	$options = get_option( 'jobman_options' );
+?>
+		<p><?php _e( '', 'jobman' ) ?></p>
+		<form action="" method="post">
+		<input type="hidden" name="jobmantemplatesubmit" value="1" />
+<?php 
+	wp_nonce_field( 'jobman-template-updatedb' ); 
+?>
+		<table class="form-table">
+			<tr>
+				<th scope="row"><?php _e( 'Job List Template', 'jobman' ) ?></th>
+				<td><textarea name="job-list" class="large-text code" rows="7"><?php echo $options['templates']['job_list'] ?></textarea></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Individual Job Template', 'jobman' ) ?></th>
+				<td><textarea name="job" class="large-text code" rows="7"><?php echo $options['templates']['job'] ?></textarea></td>
+			</tr>
+		</table>
+		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Template Settings', 'jobman' ) ?>" /></p>
+		</form>
+<?php
+}
+
 function jobman_print_misc_text_box() {
 	$options = get_option( 'jobman_options' );
 ?>
@@ -160,7 +177,6 @@ function jobman_print_misc_text_box() {
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Text Settings', 'jobman' ) ?>" /></p>
 		</form>
 <?php
-
 }
 
 function jobman_print_wrap_text_box() {
@@ -204,8 +220,6 @@ function jobman_print_wrap_text_box() {
 function jobman_display_updatedb() {
 	$options = get_option( 'jobman_options' );
 	
-	$options['list_type'] = $_REQUEST['list-type'];
-
 	if( array_key_exists( 'promo-link', $_REQUEST ) && $_REQUEST['promo-link'] )
 		$options['promo_link'] = 1;
 	else
@@ -223,6 +237,15 @@ function jobman_sort_updatedb() {
 	$options['sort_by'] = $_REQUEST['sort-by'];
 	$options['sort_order'] = $_REQUEST['sort-order'];
 	$options['highlighted_behaviour'] = $_REQUEST['highlighted-behaviour'];
+
+	update_option( 'jobman_options', $options );
+}
+
+function jobman_template_updatedb() {
+	$options = get_option( 'jobman_options' );
+	
+	$options['templates']['job_list'] = stripslashes( $_REQUEST['job-list'] );
+	$options['templates']['job'] = stripslashes( $_REQUEST['job'] );
 
 	update_option( 'jobman_options', $options );
 }

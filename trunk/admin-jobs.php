@@ -225,13 +225,15 @@ function jobman_edit_job( $jobid ) {
 				<td>
 <?php
 	if( count( $icons ) > 0 ) {
-		foreach( $icons as $id => $icon ) {
-			if( isset( $jobdata['iconid'] ) && $id == $jobdata['iconid'] )
+		foreach( $icons as $icon ) {
+			if( isset( $jobdata['iconid'] ) && $icon == $jobdata['iconid'] )
 				$checked = ' checked="checked"';
 			else
 				$checked = '';
+				
+			$post = get_post( $icon );
 ?>
-					<input type="radio" name="jobman-icon" value="<?php echo $id ?>"<?php echo $checked ?> /> <img src="<?php echo JOBMAN_UPLOAD_URL . "/icons/$id.{$icon['extension']}" ?>" /> <?php echo $icon['title'] ?><br/>
+					<input type="radio" name="jobman-icon" value="<?php echo $icon ?>"<?php echo $checked ?> /> <img src="<?php echo wp_get_attachment_url( $icon ) ?>" /> <?php echo $post->post_title ?><br/>
 <?php
 		}
 	}
@@ -256,7 +258,6 @@ function jobman_edit_job( $jobid ) {
 	if( count( $fields ) > 0 ) {
 		uasort( $fields, 'jobman_sort_fields' );
 		foreach( $fields as $id => $field ) {
-
 			if( 'new' == $jobid )
 				$data = $field['data'];
 			else if( array_key_exists( "data$id", $jobdata ) )
@@ -320,11 +321,11 @@ function jobman_edit_job( $jobid ) {
 						$content .= '<td class="th"></td>';
 
 					if( '' == $field['description'] ) {
-						$content .= "<td><textarea class='large-text code' name='jobman-field-$id'>$data</textarea></td>";
-						$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
+						$content .= "<td colspan='2'><textarea class='large-text code' name='jobman-field-$id' rows='7'>$data</textarea></td></tr>";
 					}
 					else {
-						$content .= "<td colspan='2'><textarea class='large-text code' name='jobman-field-$id'>$data</textarea></td></tr>";
+						$content .= "<td><textarea class='large-text code' name='jobman-field-$id' rows='7'>$data</textarea></td>";
+						$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
 					}
 					break;
 				case 'date':
@@ -342,7 +343,13 @@ function jobman_edit_job( $jobid ) {
 					else
 						$content .= '<td class="th"></td>';
 
-					$content .= "<td><input type='file' name='jobman-field-$id' /></td>";
+					$content .= '<td>';
+					$content .= "<input type='file' name='jobman-field-$id' />";
+					if( 'new' != $jobid ) {
+						$content .= "<br/><input type='checkbox' name='jobman-field-delete-$id' value='1' />" . __( 'Delete File?', 'jobman' );
+						$content .= "<input type='hidden' name='jobman-field-delete-$id' value='$data' />";
+					}
+					$content .= "</td>";
 					$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
 					break;
 				case 'heading':
@@ -354,10 +361,10 @@ function jobman_edit_job( $jobid ) {
 					$rowcount = 0;
 					break;
 				case 'html':
-					$content .= "<td colspan='2'>$data</td></tr>";
+					$content .= "<td colspan='3'>$data</td></tr>";
 					break;
 				case 'blank':
-					$content .= '<td colspan="2">&nbsp;</td></tr>';
+					$content .= '<td colspan="3">&nbsp;</td></tr>';
 					break;
 			}
 		}
@@ -365,27 +372,6 @@ function jobman_edit_job( $jobid ) {
 	
 	echo $content;
 ?>
-			<!--
-			<tr>
-				<th scope="row"><?php _e( 'Salary', 'jobman' ) ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-salary" value="<?php echo ( array_key_exists( 'salary', $jobdata ) )?( $jobdata['salary'] ):( '' ) ?>" /></td>
-				<td></td>
-			</tr>
-			<tr>
-				<th scope="row"><?php _e( 'Start Date', 'jobman' ) ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-startdate" value="<?php echo ( array_key_exists( 'startdate', $jobdata ) )?( $jobdata['startdate'] ):( '' ) ?>" /></td>
-				<td><span class="description"><?php _e( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' ) ?></span></td>
-			</tr>
-			<tr>
-				<th scope="row"><?php _e( 'End Date', 'jobman' ) ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-enddate" value="<?php echo ( array_key_exists( 'enddate', $jobdata ) )?( $jobdata['enddate'] ):( '' ) ?>" /></td>
-				<td><span class="description"><?php _e( 'The date that the job finishes. For ongoing positions, leave blank.', 'jobman' ) ?></span></td>
-			</tr>
-			<tr>
-				<th scope="row"><?php _e( 'Location', 'jobman' ) ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-location" value="<?php echo ( array_key_exists( 'location', $jobdata ) )?( $jobdata['location'] ):( '' ) ?>" /></td>
-				<td></td>
-			</tr> -->
 			<tr>
 				<th scope="row"><?php _e( 'Display Start Date', 'jobman' ) ?></th>
 				<td><input class="regular-text code datepicker" type="text" name="jobman-displaystartdate" value="<?php echo ( 'new' != $jobid )?( date( 'Y-m-d', strtotime( $job->post_date ) ) ):( '' ) ?>" /></td>
@@ -396,10 +382,6 @@ function jobman_edit_job( $jobid ) {
 				<td><input class="regular-text code datepicker" type="text" name="jobman-displayenddate" value="<?php echo ( array_key_exists( 'displayenddate', $jobdata ) )?( $jobdata['displayenddate'] ):( '' ) ?>" /></td>
 				<td><span class="description"><?php _e( 'The date this job should stop being displayed on the site. To display indefinitely, leave blank.', 'jobman' ) ?></span></td>
 			</tr>
-			<!-- <tr>
-				<th scope="row"><?php _e( 'Job Information', 'jobman' ) ?></th>
-				<td colspan="2"><textarea class="large-text code" name="jobman-abstract" rows="10"><?php echo ( isset( $job->post_content ) )?( $job->post_content ):( '' ) ?></textarea></td>
-			</tr> -->
 			<tr>
 				<th scope="row"><?php _e( 'Application Email', 'jobman' ) ?></th>
 				<td><input class="regular-text code" type="text" name="jobman-email" value="<?php echo ( array_key_exists( 'email', $jobdata ) )?( $jobdata['email'] ):( '' ) ?>" /></td>
@@ -431,7 +413,7 @@ function jobman_updatedb() {
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
 				'post_status' => 'publish',
-				'post_content' => stripslashes( $_REQUEST['jobman-abstract'] ),
+				'post_content' => '',
 				'post_name' => strtolower( str_replace( ' ', '-', $_REQUEST['jobman-title'] ) ),
 				'post_title' => stripslashes( $_REQUEST['jobman-title'] ),
 				'post_type' => 'jobman_job',
@@ -441,10 +423,44 @@ function jobman_updatedb() {
 	if( 'new' == $_REQUEST['jobman-jobid'] ) {
 		$id = wp_insert_post( $page );
 		
-		add_post_meta( $id, 'salary', stripslashes( $_REQUEST['jobman-salary'] ), true );
-		add_post_meta( $id, 'startdate', stripslashes( $_REQUEST['jobman-startdate'] ), true );
-		add_post_meta( $id, 'enddate', stripslashes( $_REQUEST['jobman-enddate'] ), true );
-		add_post_meta( $id, 'location', stripslashes( $_REQUEST['jobman-location'] ), true );
+		$fields = $options['job_fields'];
+		if( count( $fields ) > 0 ) {
+			foreach( $fields as $fid => $field ) {
+				if($field['type'] != 'file' && ( ! array_key_exists( "jobman-field-$fid", $_REQUEST ) || '' == $_REQUEST["jobman-field-$fid"] ) )
+					continue;
+				
+				if( 'file' == $field['type'] && ! array_key_exists( "jobman-field-$fid", $_FILES ) )
+					continue;
+				
+				$data = '';
+				switch( $field['type'] ) {
+					case 'file':
+						if( is_uploaded_file( $_FILES["jobman-field-$fid"]['tmp_name'] ) ) {
+							$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( $_FILES["jobman-field-$fid"]['tmp_name'] ) );
+							if( ! $upload['error'] ) {
+								$attachment = array(
+												'post_title' => '',
+												'post_content' => '',
+												'post_status' => 'publish',
+												'post_mime_type' => mime_content_type( $upload['file'] )
+											);
+								$data = wp_insert_attachment( $attachment, $upload['file'], $id );
+								$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
+								wp_update_attachment_metadata( $data, $attach_data );
+							}
+						}
+						break;
+					case 'checkbox':
+						$data = implode( ', ', $_REQUEST["jobman-field-$fid"] );
+						break;
+					default:
+						$data = $_REQUEST["jobman-field-$fid"];
+				}
+				
+				add_post_meta( $id, "data$fid", $data, true );
+			}
+		}
+
 		add_post_meta( $id, 'displayenddate', stripslashes( $_REQUEST['jobman-displayenddate'] ), true );
 		add_post_meta( $id, 'iconid', $_REQUEST['jobman-icon'], true );
 		add_post_meta( $id, 'email', $_REQUEST['jobman-email'], true );
@@ -458,10 +474,51 @@ function jobman_updatedb() {
 		$page['ID'] = $_REQUEST['jobman-jobid'];
 		$id = wp_update_post( $page );
 		
-		update_post_meta( $id, 'salary', stripslashes( $_REQUEST['jobman-salary'] ) );
-		update_post_meta( $id, 'startdate', stripslashes( $_REQUEST['jobman-startdate'] ) );
-		update_post_meta( $id, 'enddate', stripslashes( $_REQUEST['jobman-enddate'] ) );
-		update_post_meta( $id, 'location', stripslashes( $_REQUEST['jobman-location'] ) );
+		$fields = $options['job_fields'];
+		if( count( $fields ) > 0 ) {
+			foreach( $fields as $fid => $field ) {
+				if($field['type'] != 'file' && ( ! array_key_exists( "jobman-field-$fid", $_REQUEST ) || '' == $_REQUEST["jobman-field-$fid"] ) )
+					continue;
+				
+				if( 'file' == $field['type'] && ! array_key_exists( "jobman-field-$fid", $_FILES ) && ! array_key_exists( "jobman-field-delete-$fid", $_REQUEST ) )
+					continue;
+				
+				$data = '';
+				switch( $field['type'] ) {
+					case 'file':
+						if( array_key_exists( "jobman-field-delete-$fid", $_REQUEST ) )
+							wp_delete_attachment( $_REQUEST["jobman-field-current-$fid"] );
+
+						if( is_uploaded_file( $_FILES["jobman-field-$fid"]['tmp_name'] ) ) {
+							$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( $_FILES["jobman-field-$fid"]['tmp_name'] ) );
+							if( ! $upload['error'] ) {
+								// Delete the old attachment
+								wp_delete_attachment( $_REQUEST["jobman-field-current-$fid"] );
+								
+								$attachment = array(
+												'post_title' => '',
+												'post_content' => '',
+												'post_status' => 'publish',
+												'post_mime_type' => mime_content_type( $upload['file'] )
+											);
+								$data = wp_insert_attachment( $attachment, $upload['file'], $id );
+								$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
+								wp_update_attachment_metadata( $data, $attach_data );
+							}
+						}
+						break;
+					case 'checkbox':
+						$data = implode( ', ', $_REQUEST["jobman-field-$fid"] );
+						break;
+					default:
+						$data = $_REQUEST["jobman-field-$fid"];
+				}
+				
+				update_post_meta( $id, "data$fid", $data );
+			}
+		}
+
+		
 		update_post_meta( $id, 'displayenddate', stripslashes( $_REQUEST['jobman-displayenddate'] ) );
 		update_post_meta( $id, 'iconid', $_REQUEST['jobman-icon'] );
 		update_post_meta( $id, 'email', $_REQUEST['jobman-email'] );

@@ -302,14 +302,19 @@ function jobman_store_application( $jobid, $cat ) {
 			$data = '';
 			switch( $field['type'] ) {
 				case 'file':
-					$matches = array();
-					preg_match( '/.*\.(.+)$/', $_FILES["jobman-field-$id"]['name'], $matches );
-					if( count( $matches ) > 1 ) {
-						$ext = $matches[1];
-						if( is_uploaded_file( $_FILES["jobman-field-$id"]['tmp_name'] ) ) {
-							$data = "$appid-$id.$ext";
-							move_uploaded_file( $_FILES["jobman-field-$id"]['tmp_name'], JOBMAN_UPLOAD_DIR . "/uploads/$data");
-						}
+					if( is_uploaded_file( $_FILES["jobman-field-$id"]['tmp_name'] ) ) {
+							$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( $_FILES["jobman-field-$fid"]['tmp_name'] ) );
+							if( ! $upload['error'] ) {
+								$attachment = array(
+												'post_title' => '',
+												'post_content' => '',
+												'post_status' => 'publish',
+												'post_mime_type' => mime_content_type( $upload['file'] )
+											);
+								$data = wp_insert_attachment( $attachment, $upload['file'], $id );
+								$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
+								wp_update_attachment_metadata( $data, $attach_data );
+							}
 					}
 					break;
 				case 'checkbox':

@@ -43,16 +43,6 @@ function jobman_create_widget( $function, $title ) {
 <?php
 }
 
-function jobman_check_upload_dirs() {
-	if( ! is_writeable( JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR ) )
-		return false;
-
-	if( ! is_writeable( JOBMAN_UPLOAD_DIR . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR ) )
-		return false;
-
-	return true;
-}
-
 function jobman_load_translation_file() {
 	load_plugin_textdomain( 'jobman', '', JOBMAN_FOLDER . '/translations' );
 }
