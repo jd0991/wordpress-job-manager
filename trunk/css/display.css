@@ -46,8 +46,11 @@ table.jobs-table, table.job-table, table.job-apply-table {
 
 table.jobs-table th, table.job-table th {
 	font-weight: bold;
-	width: 100px;
 	text-align: left;
+}
+
+table.job-table th {
+	width: 100px;
 }
 
 table.highlighted {

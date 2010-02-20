@@ -102,7 +102,11 @@ function jobman_shortcode( $atts, $content, $tag ) {
 			}
 			return $return;
 		case 'job_field':
-			return get_post_meta( $jobman_shortcode_job->ID, 'data' . $jobman_shortcode_field_id, true );
+			$data = get_post_meta( $jobman_shortcode_job->ID, 'data' . $jobman_shortcode_field_id, true );
+			if( 'textarea' == $jobman_shortcode_field['type'] )
+				return wpautop( $data );
+			else
+				return $data;
 		case 'job_field_label':
 			return $jobman_shortcode_field['label'];
 		case 'job_apply_link':
@@ -111,6 +115,9 @@ function jobman_shortcode( $atts, $content, $tag ) {
 				$applypage = $data[0];
 			
 				$url = get_page_link( $applypage->ID );
+				
+				if( ! $jobman_shortcode_job )
+					return '<a href="'. $url . '">' . do_shortcode( $content ) . '</a>';
 				
 				$structure = get_option( 'permalink_structure' );
 				

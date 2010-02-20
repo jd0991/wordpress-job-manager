@@ -542,15 +542,19 @@ function jobman_icons_updatedb() {
 			if( '' != $_REQUEST['title'][$ii] || '' != $_FILES['icon']['name'][$ii] ) {
 				$upload = wp_upload_bits( $_FILES['icon']['name'][$ii], NULL, file_get_contents( $_FILES['icon']['tmp_name'][$ii] ) );
 				if( ! $upload['error'] ) {
+					$filetype = wp_check_filetype( $upload['file'] );
 					$attachment = array(
 									'post_title' => $_REQUEST['title'][$ii],
 									'post_content' => '',
 									'post_status' => 'publish',
-									'post_mime_type' => mime_content_type( $upload['file'] )
+									'post_mime_type' => $filetype['type']
 								);
 					$data = wp_insert_attachment( $attachment, $upload['file'], $options['main_page'] );
 					$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
 					wp_update_attachment_metadata( $data, $attach_data );
+
+					add_post_meta( $data, '_jobman_attachment', 1, true );
+					add_post_meta( $data, '_jobman_attachment_icon', 1, true );
 					
 					$options['icons'][] = $data;
 				}

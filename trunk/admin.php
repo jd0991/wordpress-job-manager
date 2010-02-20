@@ -117,50 +117,6 @@ function jobman_reset_rating( application ) {
 <?php
 }
 
-function jobman_get_uploaded_file( $filename ) {
-	require_once( ABSPATH . WPINC . '/pluggable.php' );
-
-	header( 'Cache-Control: no-cache' );
-	header( 'Expires: -1' );
-
-	if( ! current_user_can( 'read_private_pages' ) ) {
-		header( $_SERVER["SERVER_PROTOCOL"] . ' 403 Forbidden' );
-		header( 'Refresh: 0; url=' . admin_url() );
-		echo '<html><head><title>403 Forbidden</title></head><body><p>Access is forbidden.</p></body></html>';
-		exit;
-	}
-	$ext = pathinfo( $filename, PATHINFO_EXTENSION );
-	
-	switch( $ext ) {
-		case 'doc':
-			$type = 'application/msword';
-			break;
-		case 'docx':
-			$type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-			break;
-		case 'odt':
-			$type = 'application/vnd.oasis.opendocument.text';
-			break;
-		case 'pdf':
-			$type = 'application/pdf';
-			break;
-		case 'rtf':
-			$type = 'application/rtf';
-			break;
-		default:
-			$type = 'application/octet-stream';
-	}
-	header( 'Content-Type: application/force-download' );
-	header( "Content-type: $type" );
-	header( 'Content-Type: application/download' );
-	header( "Content-Disposition: attachment; filename=$filename" );
-	header( 'Content-Transfer-Encoding: binary' );	
-
-	readfile( JOBMAN_UPLOAD_DIR . "/uploads/$filename");
-	
-	exit;
-}
-
 function jobman_print_donate_box() {
 ?>
 		<p><?php _e( "If this plugin helps you find that perfect new employee, I'd appreciate it if you shared the love, by way of my Donate or Amazon Wish List links below.", 'jobman' ) ?></p>

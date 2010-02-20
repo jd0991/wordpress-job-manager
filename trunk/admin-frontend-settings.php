@@ -132,7 +132,44 @@ function jobman_print_sort_box() {
 function jobman_print_template_box() {
 	$options = get_option( 'jobman_options' );
 ?>
-		<p><?php _e( '', 'jobman' ) ?></p>
+		<p><?php _e( 'These settings allow you to define the templates for displaying lists of jobs, and individual jobs. To do this, you will need to make use of the available shortcodes.', 'jobman' ) ?></p>
+		<p>
+			<strong><?php _e( 'Job Information', 'jobman' ) ?></strong><br/>
+			<tt>[job_loop]...[/job_loop]</tt> - <?php _e( 'This will loop over a list of all the Jobs, and display the contained HTML and shortcodes for each.', 'jobman' ) ?><br/>
+			<tt>[job_id]</tt> - <?php _e( 'This will display the ID of the Job currently being displayed, either in a <tt>[job_loop]</tt> or on an Individual Job page.', 'jobman' ) ?><br/>
+			<tt>[job_title]</tt> - <?php _e( 'This will display the Title of the current Job.', 'jobman' ) ?><br/>
+			<tt>[job_row_number]</tt> - <?php _e( 'While inside a <tt>[job_loop]</tt>, this will display the row number of the job currently being displayed.', 'jobman' ) ?><br/>
+			<tt>[job_odd_even]</tt> - <?php _e( 'While inside a <tt>[job_loop]</tt>, this will display "odd", if the current <tt>[job_row_number]</tt> is odd, or "even" if <tt>[job_row_number]</tt> is even.', 'jobman' ) ?></br>
+			<tt>[job_highlighted]</tt> - <?php _e( 'If the current Job has been marked as highlighted, this will display the word "highlighted".', 'jobman' ) ?><br/>
+			<tt>[job_icon]</tt> - <?php _e( 'If the current Job has an icon assigned to it, this will display the icon.', 'jobman' ) ?><br/>
+			<tt>[job_link]...[/job_link]</tt> - <?php _e( 'This will display a link to the current Job, with the contained text as the link text.', 'jobman' ) ?><br/>
+			<tt>[job_apply_link]...[/job_apply_link]</tt> - <?php _e( 'This will display a link to the Application Form for the current Job, with the contained text as the link text. If it is used outside of the <tt>[job_loop]</tt>, it will display a link to the main Application Form.', 'jobman' ) ?><br/><br/>
+			
+			<strong><?php _e( 'Job Category Information', 'jobman' ) ?></strong><br/>
+			<tt>[job_categories]</tt> - <?php _e( 'If the current Job is assigned to any Categories, this will display a comma-separated list of the Category Titles.', 'jobman' ) ?><br/>
+			<tt>[job_category_links]</tt> - <?php _e( 'If the current Job is assigned to any Categories, this will display a comma-separated list of the Category Titles, with each Title as a link to that Category.', 'jobman' ) ?><br/><br/>
+			
+			<strong><?php _e( 'Job Field Information', 'jobman' ) ?></strong><br/>
+			<tt>[job_field_loop]...[/job_field_loop]</tt> - <?php _e( 'This will loop over all of the defined Job Fields, and display the contained HTML and shortcodes for each. This can be used inside a <tt>[job_loop]</tt>, or on an Individual Job page.', 'jobman' ) ?><br/>
+			<tt>[job_field_label]</tt> - <?php _e( 'While inside a <tt>[job_field_loop]</tt>, this will display the label of the current field being displayed.', 'jobman' ) ?><br/>
+			<tt>[job_field]</tt> - <?php _e( 'While inside a <tt>[job_field_loop]</tt>, this will display the data associated with the current field and Job being displayed.', 'jobman' ) ?><br/><br/>
+			
+			<strong><?php _e( 'Custom Job Field Information', 'jobman' ) ?></strong><br/>
+			<?php _e( "For each of the Custom Job Fields defined, there are two shortcodes defined, one for the Label and one for the Data. Note that these numbers won't change, even if you re-order, add or delete Job Fields.", 'jobman' ) ?><br/>
+<?php
+	foreach( $options['job_fields'] as $jfid => $field ) {
+		echo "<tt>[job_field{$jfid}_label], [job_field{$jfid}]</tt> - {$field['label']}<br/>";
+	}
+?>
+			<br/>
+			
+			<strong><?php _e( 'Conditionals', 'jobman' ) ?></strong><br/>
+			<?php _e( 'All of the shortcodes defined above can be prefixed with <tt>if_</tt> to turn them into a conditional statement. For example, if you wanted to display the text "Categories: ", and then a list of the Categories a job is in, but you don\'t want to display it if there are no categories, you could put in the template:', 'jobman' ) ?><br/><br/>
+			<code>[if_job_categories]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Categories', 'jobman' ) ?>: [job_categories]<br/>
+[/if_job_categories]
+			</code>
+		</p>
 		<form action="" method="post">
 		<input type="hidden" name="jobmantemplatesubmit" value="1" />
 <?php 

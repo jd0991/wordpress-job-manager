@@ -714,11 +714,13 @@ function jobman_upgrade_db( $oldversion ) {
 					continue;
 					
 				$filename = get_post_meta( $app->ID, "data$fid", true );
-				if( '' == $filename || ! file_exists( WP_CONTENT_DIR . '/' . JOBMAN_FOLDER . "/uploads/$filename" ) )
+				if( '' == $filename || ! file_exists( WP_CONTENT_DIR . '/' . JOBMAN_FOLDER . "/uploads/$filename" ) ) {
+					update_post_meta( $app->ID, "data$fid", '' );
 					continue;
+				}
 					
-				$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( WP_CONTENT_DIR . '/' . JOBMAN_FOLDER . "/uploads/$filename" ) );
-				$data = '';
+				$upload = wp_upload_bits( $filename, NULL, file_get_contents( WP_CONTENT_DIR . '/' . JOBMAN_FOLDER . "/uploads/$filename" ) );
+				$aid = '';
 				if( ! $upload['error'] ) {
 					$attachment = array(
 									'post_title' => '',
@@ -726,12 +728,19 @@ function jobman_upgrade_db( $oldversion ) {
 									'post_status' => 'private',
 									'post_mime_type' => mime_content_type( $upload['file'] )
 								);
-					$data = wp_insert_attachment( $attachment, $upload['file'], $app->ID );
-					$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
-					wp_update_attachment_metadata( $data, $attach_data );
+					$aid = wp_insert_attachment( $attachment, $upload['file'], $app->ID );
+					$attach_data = wp_generate_attachment_metadata( $aid, $upload['file'] );
+					wp_update_attachment_metadata( $aid, $attach_data );
+					
+					add_post_meta( $aid, '_jobman_attachment', 1, true );
+					add_post_meta( $aid, '_jobman_attachment_upload', 1, true );
+				}
+				else {
+					die( $upload['error'] );
+					update_post_meta( $app->ID, "data$fid", '' );
 				}
 				
-				update_post_meta( $job->ID, "data$fid", $data );
+				update_post_meta( $app->ID, "data$fid", $aid );
 			}
 		}
 		
@@ -750,11 +759,33 @@ function jobman_upgrade_db( $oldversion ) {
 					$new_iid = wp_insert_attachment( $attachment, $upload['file'], $options['main_pages'] );
 					$attach_data = wp_generate_attachment_metadata( $new_iid, $upload['file'] );
 					wp_update_attachment_metadata( $new_iid, $attach_data );
+
+					add_post_meta( $data, '_jobman_attachment', 1, true );
+					add_post_meta( $data, '_jobman_attachment_icon', 1, true );
 					
 					$icons[] = $new_iid;
 				}
 		}
 		$options['icons'] = $icons;
+	}
+	
+	if( $oldversion < 13 ) {
+		// Update all applications to private
+		$apps = get_posts( 'post_type=jobman_app&numberposts=-1&post_status=publish' );
+		$update = array(
+					'post_status' => 'private'
+				);
+		foreach( $apps as $app ) {
+			$update['ID'] = $app->ID;
+			wp_update_post( $update );
+		}
+		
+		// Update all emails to private
+		$emails = get_posts( 'post_type=jobman_email&numberposts=-1&post_status=private' );
+		foreach( $emails as $email ) {
+			$update['ID'] = $email->ID;
+			wp_update_post( $update );
+		}
 	}
 	
 	update_option( 'jobman_options', $options );
@@ -781,7 +812,16 @@ function jobman_drop_db() {
 				wp_delete_post( $app->ID );
 			}
 		}
+		
+		// Delete application uploads
+		$uploads = get_posts( 'post_type=attachment&meta_key=_jobman_attachment_upload&meta_value=1&numberposts=-1' );
+		if( count( $uploads ) > 0 ) {
+			foreach( $uploads as $upload ) {
+				wp_delete_attachment( $upload->ID );
+			}
+		}
 	}
+	
 
 	// Delete categories
 	if( $options['uninstall']['categories'] ) {

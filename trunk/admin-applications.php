@@ -249,6 +249,7 @@ function jobman_list_applications() {
 <?php
 	$args = array();
 	$args['post_type'] = 'jobman_app';
+	$args['post_status'] = array( 'private', 'publish' );
 	$args['offset'] = 0;
 	$args['numberposts'] = -1;
 	
@@ -405,7 +406,7 @@ function jobman_list_applications() {
 				foreach( $fields as $id => $field ) {
 					if( $field['listdisplay'] ) {
 						$data = '';
-						if( array_key_exists("data$id", $appdata ) ) {
+						if( array_key_exists("data$id", $appdata ) && '' != $appdata["data$id"] ) {
 							switch( $field['type'] ) {
 								case 'text':
 								case 'radio':
@@ -415,7 +416,6 @@ function jobman_list_applications() {
 									$data = $appdata["data$id"];
 									break;
 								case 'file':
-									$post = get_post( $appdata["data$id"] );
 									$data = '<a href="' . wp_get_attachment_url( $appdata["data$id"] ) . '">' . __( 'Download', 'jobman' ) . '</a>';
 									break;
 							}

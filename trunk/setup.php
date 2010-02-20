@@ -261,7 +261,7 @@ EOT;
   </tr>
 
 [job_loop]
-  <tr class="job[job_row_number] job[job_id] [if_job_highlighted]highlighted [/if_job_highlighted][job_odd_even]">
+  <tr class="job[job_row_number] job[job_id] [if_job_highlighted]highlighted [/if_job_highlighted] [job_odd_even]">
     <td>[if_job_icon][job_icon]<br/>[/if_job_icon] [job_link] [job_title] [/job_link]</td>
     <td>[job_field1]</td>
     <td>[job_field2]</td>
@@ -313,8 +313,17 @@ EOT;
 function jobman_uninstall() {
 	jobman_drop_db();
 
-	if( $options['uninstall']['options'] )
+	if( $options['uninstall']['options'] ) {
+		// Delete the icon uploads
+		$uploads = get_posts( 'post_type=attachment&meta_key=_jobman_attachment_icon&meta_value=1&numberposts=-1' );
+		if( count( $uploads ) > 0 ) {
+			foreach( $uploads as $upload ) {
+				wp_delete_attachment( $upload->ID );
+			}
+		}
+		
 		delete_option( 'jobman_options' );
+	}
 }
 
 ?>

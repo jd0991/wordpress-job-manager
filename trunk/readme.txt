@@ -14,12 +14,16 @@ A plugin for managing job lists and job applications on your WordPress site. It 
 
 ***Warning***: This is a **BETA** release of Job Manager. As such, it may contain bugs. I'd appreciate it if you could download this in your test environment, and report any bugs you come across [here](http://code.google.com/p/wordpress-job-manager/issues/list). If you'd like to try out the stable version of Job Manager, you can download [version 0.5.4 here](http://downloads.wordpress.org/plugin/job-manager.0.5.4.zip).
 
+If you're upgrading from 0.6-beta1, I strongly recommend a database refresh before installing (ie, restore your test system from production, with Job Manager 0.5.x data), as there was a bug in the 0.6-beta1 upgrade function that created some junk data.
+
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
 *    *Job Listing*
     *    Categories to create multiple job lists
     *    Jobs can be filed under multiple categories
     *    Icons can be assigned to jobs, to make them stand out in the listing
+	*    Customisable fields, so you can display information about your jobs specific to your situation
+	*    Powerful templating system, allowing you to control the look and feel of your jobs and job lists
 *    *Job Management*
     *    Jobs can be defined to display between certain dates, or indefinitely
     *    Simple admin interface for editing, updating and creating jobs
@@ -70,7 +74,7 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 Notice the version number in brackets. This is the major version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
-* French Translation (0.5.x), provided by [Fabrice Fotso](http://www.procure-smart.com/)
+* French Translation (0..6-beta1), provided by [Fabrice Fotso](http://www.procure-smart.com/)
 * Dutch Translation (0.5.x), provided by [Patrick Tessels](http://www.centrologic.nl/)
 
 = Special Thanks =
@@ -81,6 +85,19 @@ Notice the version number in brackets. This is the major version series that the
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
+
+= 0.6-beta2 =
+**UPGRADE NOTICE** If you're upgrading from 0.6-beta1, please refresh your test/dev database from your production system before performing the upgrade. There was a bug in the 0.6-beta1 upgrade function that caused some junk data to be created.
+
+* ADDED: Instructions for editing templates
+* CHANGED: Upgraded French Translation to 0.6-beta1, provided by [Fabrice Fotso](http://www.procure-smart.com/)
+* CHANGED: Stopped using mime_content_type, because it only works on some systems
+* FIXED: Upgrade function not moving uploaded files correctly
+* FIXED: Uninstall not deleting uploads and icons
+* FIXED: CSS being incorrectly applied to Jobs List tables
+* FIXED: Job Information field not being formatted properly
+* FIXED: Minor bug in default template
+* FIXED: New applications and emails not displaying in admin lists
 
 = 0.6 =
 * ADDED: 'Related Categories' section to job list displays
@@ -265,6 +282,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * Initial release
 
 == Upgrade Notice ==
+
+= 0.6-beta2 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
 
 = 0.6-beta1 =
 This is a beta release of Job Manager. Please do not use it in a production environment.

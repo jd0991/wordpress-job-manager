@@ -28,7 +28,13 @@ function jobman_list_emails() {
 			</tr>
 			</tfoot>
 <?php
-	$emails = get_posts( 'post_type=jobman_email&numberposts=-1' );
+	$args = array();
+	$args['post_type'] = 'jobman_email';
+	$args['post_status'] = array( 'private', 'publish' );
+	$args['offset'] = 0;
+	$args['numberposts'] = -1;
+
+	$emails = get_posts( $args );
 	
 	if( count( $emails ) > 0 ) {
 		foreach( $emails as $email ) {
