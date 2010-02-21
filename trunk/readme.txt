@@ -46,9 +46,16 @@ Related links:
 
 == Installation ==
 
+= The Good Way =
+
+1. In your WordPress Admin, go to the Add New Plugins page
+1. Search for: job manager
+1. It should be the first result. Click the Install link
+
+= The Old Way =
+
 1. Upload the plugin to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Make sure the `uploads` and `icons` directories are writeable by the web server
 
 == Frequently Asked Questions ==
 
@@ -74,7 +81,7 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 Notice the version number in brackets. This is the major version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
-* French Translation (0..6-beta1), provided by [Fabrice Fotso](http://www.procure-smart.com/)
+* French Translation (0.6-beta1), provided by [Fabrice Fotso](http://www.procure-smart.com/)
 * Dutch Translation (0.5.x), provided by [Patrick Tessels](http://www.centrologic.nl/)
 
 = Special Thanks =
