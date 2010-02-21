@@ -91,6 +91,10 @@ Mid March 2010
   * Shortcodes: Issue #102
   * Applicant Matrix: Issue #111
 
+== Changes to Existing Features ==
+
+  * Allow Hierarchical Categories: Issue #112
+
 ----
 
 = 0.9 =
