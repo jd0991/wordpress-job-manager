@@ -89,6 +89,7 @@ Mid March 2010
   * Email Notification of new jobs: Issue #71
   * Dashboard: Issue #88
   * Shortcodes: Issue #102
+  * Applicant Matrix: Issue #111
 
 ----
 
