@@ -3,7 +3,7 @@
 Plugin Name: Job Manager
 Plugin URI: http://pento.net/projects/wordpress-job-manager-plugin/
 Description: A job listing and job application management plugin for WordPress.
-Version: 0.6-beta2
+Version: 0.6-beta3
 Author: Gary Pendergast
 Author URI: http://pento.net/
 Text Domain: jobman
@@ -29,7 +29,7 @@ Tags: job, jobs, manager, list, listing, employment, employer, career
 */
 
 // Version
-define( 'JOBMAN_VERSION', '0.6-beta2' );
+define( 'JOBMAN_VERSION', '0.6-beta3' );
 define( 'JOBMAN_DB_VERSION', 13 );
 
 // Define the URL to the plugin folder
@@ -42,14 +42,14 @@ define( 'JOBMAN_BASENAME', plugin_basename(__FILE__) );
 // Some Global vars
 
 global $jobman_shortcodes;
- $jobman_shortcodes= array( 'job_loop', 'job_row_number', 'job_id', 'job_highlighted', 'job_odd_even', 'job_link', 'job_icon', 'job_title', 'job_field', 'job_field_label', 'job_categories', 'job_category_links', 'job_field_loop', 'job_apply_link' );
+$jobman_shortcodes = array( 'job_loop', 'job_row_number', 'job_id', 'job_highlighted', 'job_odd_even', 'job_link', 'job_icon', 'job_title', 'job_field', 'job_field_label', 'job_categories', 'job_category_links', 'job_field_loop', 'job_apply_link' );
 
 $jobman_options = get_option( 'jobman_options' );
 global $jobman_field_shortcodes;
- $jobman_field_shortcodes= array();
-foreach( $jobman_options['job_fields'] as $fid => $field )
-	$jobman_field_shortcodes[] = "job_field$fid";
-
+$jobman_field_shortcodes = array();
+if( array_key_exists( 'job_fields', $jobman_options ) )
+	foreach( $jobman_options['job_fields'] as $fid => $field )
+		$jobman_field_shortcodes[] = "job_field$fid";
 
 //
 // Load Jobman

@@ -93,6 +93,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.6-beta3 =
+* FIXED: PHP Warning causing plugin activation failure
+
 = 0.6-beta2 =
 **UPGRADE NOTICE** If you're upgrading from 0.6-beta1, please refresh your test/dev database from your production system before performing the upgrade. There was a bug in the 0.6-beta1 upgrade function that caused some junk data to be created.
 
