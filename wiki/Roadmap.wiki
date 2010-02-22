@@ -68,6 +68,7 @@ Late February 2010
 
   * Add Job Reference as a default Job Field: Issue #68
   * Sort by any field: Issue #49
+  * Nicer File Upload Errors: Issue #113
 
 ----
 
