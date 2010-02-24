@@ -271,7 +271,7 @@ function jobman_print_application_email_box() {
 	
 	$fields = $options['fields'];
 ?>
-		<p><?php _e( 'When an application successfully submits an application, an email will be sent to the appropriate user. These options allow you to customise that email.', 'jobman' ) ?></p>
+		<p><?php _e( 'When an applicant successfully submits an application, an email will be sent to the appropriate user. These options allow you to customise that email.', 'jobman' ) ?></p>
 		<form action="" method="post">
 		<input type="hidden" name="jobmanappemailsubmit" value="1" />
 <?php 
