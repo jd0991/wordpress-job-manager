@@ -95,6 +95,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.6-beta4 =
 * FIXED: File uploads not being deleted when applications are deleted
+* FIXED: Per-job email address not being used
+* FIXED: Future jobs displaying when they shouldn't be
 
 = 0.6-beta3 =
 * FIXED: PHP Warning causing plugin activation failure

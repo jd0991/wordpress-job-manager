@@ -497,6 +497,11 @@ function jobman_email_application( $appid, $sendto = '' ) {
 	if( NULL == $app )
 		return;
 	
+	$parent = get_post( $app->ancestors[0] );
+	$job_email = '';
+	if( 'jobman_job' == $parent->post_type )
+		$job_email = get_post_meta( $parent->ID, 'email', true );
+
 	$appmeta = get_post_custom( $appid );
 
 	$appdata = array();
@@ -513,8 +518,8 @@ function jobman_email_application( $appid, $sendto = '' ) {
 	if( '' != $sendto ) {
 	    $to = $sendto;
 	}
-	if( array_key_exists( 'email', $appdata ) && '' != $appdata['email'] ) {
-	    $to = $appdata['email'];
+	else if( '' != $job_email ) {
+	    $to = $job_email;
 	}
 	else if( count( $categories ) > 0 ) {
 		$ii = 1;
