@@ -298,6 +298,12 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Upgrade Notice ==
 
+= 0.6-beta4 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
+
+= 0.6-beta3 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
+
 = 0.6-beta2 =
 This is a beta release of Job Manager. Please do not use it in a production environment.
 

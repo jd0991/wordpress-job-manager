@@ -42,15 +42,11 @@ function jobman_display_jobs_list( $cat ) {
 	if( in_array( $options['sort_order'], array( 'ASC', 'DESC' ) ) )
 		$sortorder = '&order=' . $options['sort_order'];
 	
-	add_filter( 'posts_where', 'jobman_filter_where' );
-	
 	if( 'all' == $cat )
-		$jobs = get_posts( "post_type=jobman_job&numberposts=-1$sortby$sortorder&suppress_filters=false" );
+		$jobs = get_posts( "post_type=jobman_job&numberposts=-1$sortby$sortorder" );
 	else
-		$jobs = get_posts( "post_type=jobman_job&jcat=$category->slug&numberposts=-1$sortby$sortorder&suppress_filters=false" );
+		$jobs = get_posts( "post_type=jobman_job&jcat=$category->slug&numberposts=-1$sortby$sortorder" );
 		
-	remove_filter( 'posts_where', 'jobman_filter_where' );
-
 	if( $options['user_registration'] ) {
 		if( 'all' == $cat && $options['loginform_main'] )
 			$content .= jobman_display_login();
@@ -67,9 +63,9 @@ function jobman_display_jobs_list( $cat ) {
 			continue;
 		}
 			
-		// Remove future jobs
+		// Remove expired jobs
 		$displaystartdate = $job->post_date;
-		if( '' != $displaystartdate && strtotime( $displaystartdate ) > time() ) {
+		if( '' != $displaystartdate && strtotime( $displayenddate ) = time() ) {
 			unset( $jobs[$id] );
 			continue;
 		}
@@ -217,10 +213,5 @@ function jobman_display_job( $job ) {
 	$page->post_content = $content;
 		
 	return array( $page );
-}
-
-function jobman_filter_where( $where = '' ) {
-	$where .= ' AND post_date <= NOW()';
-	return $where;
 }
 ?>
