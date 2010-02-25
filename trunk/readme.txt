@@ -93,6 +93,11 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.6-beta5 =
+* FIXED: PHP Error on fresh install
+* FIXED: PHP Error with listing jobs
+* FIXED: WP to Twitter plugin tweeting about new applications
+
 = 0.6-beta4 =
 * FIXED: File uploads not being deleted when applications are deleted
 * FIXED: Per-job email address not being used

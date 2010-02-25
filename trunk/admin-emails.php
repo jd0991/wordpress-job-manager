@@ -210,6 +210,9 @@ function jobman_application_mailout_send() {
 	$header .= "Return-Path: $from" . PHP_EOL;
 	$header .= 'Content-type: text/plain; charset='. get_option( 'blog_charset' ) . PHP_EOL;
 
+	// Workaround for WP to Twitter plugin tweeting about new email
+	$_POST['jd_tweet_this'] = 'no';
+
 	$page = array(
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',

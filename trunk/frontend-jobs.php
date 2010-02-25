@@ -63,9 +63,9 @@ function jobman_display_jobs_list( $cat ) {
 			continue;
 		}
 			
-		// Remove expired jobs
+		// Remove future jobs
 		$displaystartdate = $job->post_date;
-		if( '' != $displaystartdate && strtotime( $displayenddate ) = time() ) {
+		if( '' != $displaystartdate && strtotime( $displaystartdate ) > time() ) {
 			unset( $jobs[$id] );
 			continue;
 		}

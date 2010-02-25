@@ -265,6 +265,9 @@ function jobman_store_application( $jobid, $cat ) {
 	
 	$fields = $options['fields'];
 	
+	// Workaround for WP to Twitter plugin tweeting about new application
+	$_POST['jd_tweet_this'] = 'no';
+	
 	$page = array(
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
