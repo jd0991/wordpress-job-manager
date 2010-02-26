@@ -91,6 +91,7 @@ Mid March 2010
   * Dashboard: Issue #88
   * Shortcodes: Issue #102
   * Applicant Matrix: Issue #111
+  * Template Tags: Issue #121
 
 == Changes to Existing Features ==
 
