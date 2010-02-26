@@ -79,7 +79,7 @@ function jobman_create_default_settings() {
 <table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
   <tr>
     <th scope="row">Title</th>
-    <td>[job_title]</td>
+    <td>[job_icon] [job_title]</td>
   </tr>
 [if_job_categories]
   <tr>
@@ -107,7 +107,7 @@ EOT;
 <table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
   <tr>
     <th scope="row">Title</th>
-    <td>[job_link][job_title][/job_link]</td>
+    <td>[job_icon] [job_link][job_title][/job_link]</td>
   </tr>
 [if_job_categories]
   <tr>
@@ -228,7 +228,7 @@ function jobman_upgrade_settings( $oldversion ) {
 <table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
   <tr>
     <th scope="row">Title</th>
-    <td>[job_link][job_title][/job_link]</td>
+    <td>[job_icon] [job_link][job_title][/job_link]</td>
   </tr>
 [if_job_categories]
   <tr>
@@ -280,7 +280,7 @@ EOT;
 <table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
   <tr>
     <th scope="row">Title</th>
-    <td>[job_title]</td>
+    <td>[job_icon] [job_title]</td>
   </tr>
 [if_job_categories]
   <tr>

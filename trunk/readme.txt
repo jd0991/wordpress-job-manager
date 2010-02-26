@@ -93,6 +93,10 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.6-beta6 =
+* CHANGED: Added [job_icon] to all the default templates
+* FIXED: Bug when uploading a new Icon
+
 = 0.6-beta5 =
 * FIXED: PHP Error on fresh install
 * FIXED: PHP Error with listing jobs

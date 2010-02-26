@@ -587,6 +587,9 @@ function jobman_icons_updatedb() {
 
 	$deletes = explode( ',', $_REQUEST['jobman-delete-list'] );
 	foreach( $deletes as $delete ) {
+		if( empty( $delete ) )
+			continue;
+		
 		wp_delete_attachment( $delete );
 		
 		unset( $options['icons'][array_search( $delete, $options['icons'] )] );
