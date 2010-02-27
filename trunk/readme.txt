@@ -14,8 +14,6 @@ A plugin for managing job lists and job applications on your WordPress site. It 
 
 ***Warning***: This is a **BETA** release of Job Manager. As such, it may contain bugs. I'd appreciate it if you could download this in your test environment, and report any bugs you come across [here](http://code.google.com/p/wordpress-job-manager/issues/list). If you'd like to try out the stable version of Job Manager, you can download [version 0.5.4 here](http://downloads.wordpress.org/plugin/job-manager.0.5.4.zip).
 
-If you're upgrading from 0.6-beta1, I strongly recommend a database refresh before installing (ie, restore your test system from production, with Job Manager 0.5.x data), as there was a bug in the 0.6-beta1 upgrade function that created some junk data.
-
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
 *    *Job Listing*
@@ -50,12 +48,18 @@ Related links:
 
 1. In your WordPress Admin, go to the Add New Plugins page
 1. Search for: job manager
-1. It should be the first result. Click the Install link
+1. Job Manager should be the first result. Click the Install link.
 
 = The Old Way =
 
 1. Upload the plugin to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
+
+= The Living-On-The-Edge Way =
+(Please don't do this in production, you will almost certainly break something!)
+
+1. Checkout the current development version from http://wordpress-job-manager.googlecode.com/svn/trunk/
+1. Subscribe to the [update feed](http://code.google.com/p/wordpress-job-manager/source/list) to be notified of changes
 
 == Frequently Asked Questions ==
 
@@ -79,7 +83,7 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 = Translations =
 
-Notice the version number in brackets. This is the major version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
+Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
 * French Translation (0.6-beta1), provided by [Fabrice Fotso](http://www.procure-smart.com/)
 * Dutch Translation (0.6.x), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
