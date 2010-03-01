@@ -96,6 +96,7 @@ Mid March 2010
 == Changes to Existing Features ==
 
   * Allow Hierarchical Categories: Issue #112
+  * Attach uploads to Application emails: Issue #123
 
 ----
 
