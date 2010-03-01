@@ -722,11 +722,12 @@ function jobman_upgrade_db( $oldversion ) {
 				$upload = wp_upload_bits( $filename, NULL, file_get_contents( WP_CONTENT_DIR . '/' . JOBMAN_FOLDER . "/uploads/$filename" ) );
 				$aid = '';
 				if( ! $upload['error'] ) {
+					$filetype = wp_check_filetype( $upload['file'] );
 					$attachment = array(
 									'post_title' => '',
 									'post_content' => '',
 									'post_status' => 'private',
-									'post_mime_type' => mime_content_type( $upload['file'] )
+									'post_mime_type' => $filetype['type']
 								);
 					$aid = wp_insert_attachment( $attachment, $upload['file'], $app->ID );
 					$attach_data = wp_generate_attachment_metadata( $aid, $upload['file'] );

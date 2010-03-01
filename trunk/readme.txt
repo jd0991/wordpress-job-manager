@@ -100,6 +100,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 = 0.6-beta6 =
 * CHANGED: Added [job_icon] to all the default templates
 * FIXED: Bug when uploading a new Icon
+* FIXED: Removed use of mime_content_type
+* FIXED: Widgets not filtering out future jobs
+* FIXED: New jobs could be marked as future under some circumstances
 
 = 0.6-beta5 =
 * FIXED: PHP Error on fresh install
@@ -310,6 +313,12 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * Initial release
 
 == Upgrade Notice ==
+
+= 0.6-beta6 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
+
+= 0.6-beta5 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
 
 = 0.6-beta4 =
 This is a beta release of Job Manager. Please do not use it in a production environment.
