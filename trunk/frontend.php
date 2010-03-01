@@ -124,6 +124,7 @@ function jobman_display_jobs( $posts ) {
 	else if( array_key_exists( 'jobman_username', $wp_query->query_vars ) )
 		jobman_login();
 
+	global $jobman_data;
 	$jobman_data = '';
 	if( array_key_exists( 'jobman_data', $wp_query->query_vars ) )
 		$jobman_data = $wp_query->query_vars['jobman_data'];

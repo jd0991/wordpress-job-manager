@@ -27,6 +27,13 @@ class JobmanLatestJobsWidget extends WP_Widget {
 				continue;
 			}
 			
+			// Remove future jobs
+			$displaystartdate = $job->post_date;
+			if( '' != $displaystartdate && strtotime( $displaystartdate ) > time() ) {
+				unset( $jobs[$id] );
+				continue;
+			}
+				
 			// Remove jobs not in selected categories
 			if( 'selected' == $instance['jobsfrom'] ) {
 				$categories = wp_get_object_terms( $job->ID, 'jobman_category' );
@@ -277,8 +284,17 @@ class JobmanHighlightedJobsWidget extends WP_Widget {
 		foreach( $jobs as $id => $job ) {
 			// Remove expired jobs
 			$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
-			if( '' != $displayenddate && strtotime( $displayenddate ) <= time() )
+			if( '' != $displayenddate && strtotime( $displayenddate ) <= time() ) {
 				unset( $jobs[$id] );
+				continue;
+			}
+
+				// Remove future jobs
+			$displaystartdate = $job->post_date;
+			if( '' != $displaystartdate && strtotime( $displaystartdate ) > time() ) {
+				unset( $jobs[$id] );
+				continue;
+			}
 		}
 		
 		if( count( $jobs ) > 0 ) {

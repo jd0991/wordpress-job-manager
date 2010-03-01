@@ -177,12 +177,12 @@ function jobman_display_job( $job ) {
 	}
 	
 	// Check that the job hasn't expired
-	if( array_key_exists( 'displayenddate', $jobdata ) && '' != $jobdata['displayenddate'] && strtotime($jobdata['displayenddate']) <= time() ) {
-		if( 'summary' == $options['list_type'] )
-			$job = NULL;
-		else
-			return NULL;
-	}
+	if( array_key_exists( 'displayenddate', $jobdata ) && '' != $jobdata['displayenddate'] && strtotime($jobdata['displayenddate']) <= time() )
+		$job = NULL;
+		
+	// Check that the job isn't in the future
+	if( strtotime( $job->post_date ) > time() )
+		$job = NULL;
 	
 	if( NULL == $job ) {
 		$page = get_post( $options['main_page'] );

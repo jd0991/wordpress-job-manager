@@ -736,7 +736,7 @@ function jobman_upgrade_db( $oldversion ) {
 					add_post_meta( $aid, '_jobman_attachment_upload', 1, true );
 				}
 				else {
-					die( $upload['error'] );
+					error_log( $upload['error'] );
 					update_post_meta( $app->ID, "data$fid", '' );
 				}
 				

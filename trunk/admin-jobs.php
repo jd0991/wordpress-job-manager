@@ -408,6 +408,10 @@ function jobman_edit_job( $jobid ) {
 function jobman_updatedb() {
 	global $wpdb;
 	$options = get_option( 'jobman_options' );
+	
+	$displaystartdate = stripslashes( $_REQUEST['jobman-displaystartdate'] );
+	if( empty( $displaystartdate ) )
+		$displaystartdate = date( 'Y-m-d', strtotime( '-1 day' ) );
 
 	$page = array(
 				'comment_status' => 'closed',
@@ -417,7 +421,7 @@ function jobman_updatedb() {
 				'post_name' => strtolower( str_replace( ' ', '-', $_REQUEST['jobman-title'] ) ),
 				'post_title' => stripslashes( $_REQUEST['jobman-title'] ),
 				'post_type' => 'jobman_job',
-				'post_date' => stripslashes( $_REQUEST['jobman-displaystartdate'] ),
+				'post_date' => $displaystartdate,
 				'post_parent' => $options['main_page']);
 	
 	if( 'new' == $_REQUEST['jobman-jobid'] ) {
