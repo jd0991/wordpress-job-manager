@@ -89,11 +89,15 @@ Notice the version number in brackets. This is the version series that the trans
 = Special Thanks =
 
 * [EuroPlacements](http://europlacements.it/), for their input and support of the initial development of Job Manager.
+* [Automattic](http://automattic.com/), for their support and continued feedback on features, design and usability.
 * All the wonderful people who've submitted bugs, feedback and feature requests - you're the people who keep me with things to work on!
 
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
+
+= 0.7 =
+* CHANGED: Removed user dropdown from Application filter, replaced with a text box. It was running a bad query, so had to go.
 
 = 0.6 =
 * ADDED: 'Related Categories' section to job list displays
