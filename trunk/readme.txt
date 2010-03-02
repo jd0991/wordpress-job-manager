@@ -1,7 +1,7 @@
 === Job Manager ===
 Contributors: pento
 Donate link: http://pento.net/donate/
-Tags: jobs, manager, list, listing, employer, application
+Tags: jobs, job, manager, list, listing, employer, application, board
 Requires at least: 2.9
 Tested up to: 3.0-alpha
 Stable tag: trunk
@@ -12,16 +12,14 @@ A job listing and job application management plugin for WordPress.
 
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
 
-***Warning***: This is a **BETA** release of Job Manager. As such, it may contain bugs. I'd appreciate it if you could download this in your test environment, and report any bugs you come across [here](http://code.google.com/p/wordpress-job-manager/issues/list). If you'd like to try out the stable version of Job Manager, you can download [version 0.5.4 here](http://downloads.wordpress.org/plugin/job-manager.0.5.4.zip).
-
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
 *    *Job Listing*
-    *    Categories to create multiple job lists
+    *    Categories to create multiple job boards
     *    Jobs can be filed under multiple categories
     *    Icons can be assigned to jobs, to make them stand out in the listing
 	*    Customisable fields, so you can display information about your jobs specific to your situation
-	*    Powerful templating system, allowing you to control the look and feel of your jobs and job lists
+	*    Powerful templating system, allowing you to control the look and feel of your jobs and job boards
 *    *Job Management*
     *    Jobs can be defined to display between certain dates, or indefinitely
     *    Simple admin interface for editing, updating and creating jobs
@@ -85,7 +83,7 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
-* French Translation (0.6-beta1), provided by [Fabrice Fotso](http://www.procure-smart.com/)
+* French Translation (0.6.x, frontend complete, admin 95% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
 * Dutch Translation (0.6.x), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
 
 = Special Thanks =
@@ -96,39 +94,6 @@ Notice the version number in brackets. This is the version series that the trans
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
-
-= 0.6-beta6 =
-* CHANGED: Added [job_icon] to all the default templates
-* FIXED: Bug when uploading a new Icon
-* FIXED: Removed use of mime_content_type
-* FIXED: Widgets not filtering out future jobs
-* FIXED: New jobs could be marked as future under some circumstances
-
-= 0.6-beta5 =
-* FIXED: PHP Error on fresh install
-* FIXED: PHP Error with listing jobs
-* FIXED: WP to Twitter plugin tweeting about new applications
-
-= 0.6-beta4 =
-* FIXED: File uploads not being deleted when applications are deleted
-* FIXED: Per-job email address not being used
-* FIXED: Future jobs displaying when they shouldn't be
-
-= 0.6-beta3 =
-* FIXED: PHP Warning causing plugin activation failure
-
-= 0.6-beta2 =
-**UPGRADE NOTICE** If you're upgrading from 0.6-beta1, please refresh your test/dev database from your production system before performing the upgrade. There was a bug in the 0.6-beta1 upgrade function that caused some junk data to be created.
-
-* ADDED: Instructions for editing templates
-* CHANGED: Upgraded French Translation to 0.6-beta1, provided by [Fabrice Fotso](http://www.procure-smart.com/)
-* CHANGED: Stopped using mime_content_type, because it only works on some systems
-* FIXED: Upgrade function not moving uploaded files correctly
-* FIXED: Uninstall not deleting uploads and icons
-* FIXED: CSS being incorrectly applied to Jobs List tables
-* FIXED: Job Information field not being formatted properly
-* FIXED: Minor bug in default template
-* FIXED: New applications and emails not displaying in admin lists
 
 = 0.6 =
 * ADDED: 'Related Categories' section to job list displays
