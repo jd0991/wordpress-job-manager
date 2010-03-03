@@ -181,7 +181,7 @@ function jobman_edit_job( $jobid ) {
 			$jobdata[$key] = $value;
 	}
 ?>
-	<form action="<?php echo admin_url('admin.php?page=jobman-list-jobs') ?>" method="post">
+	<form action="<?php echo admin_url('admin.php?page=jobman-list-jobs') ?>" enctype="multipart/form-data" method="post">
 	<input type="hidden" name="jobmansubmit" value="1" />
 	<input type="hidden" name="jobman-jobid" value="<?php echo $jobid ?>" />
 <?php 
@@ -345,10 +345,12 @@ function jobman_edit_job( $jobid ) {
 
 					$content .= '<td>';
 					$content .= "<input type='file' name='jobman-field-$id' />";
-					if( 'new' != $jobid ) {
-						$content .= "<br/><input type='checkbox' name='jobman-field-delete-$id' value='1' />" . __( 'Delete File?', 'jobman' );
-						$content .= "<input type='hidden' name='jobman-field-delete-$id' value='$data' />";
+
+					if( ! empty( $data ) ) {
+						$content .= '<br/><a href="' . wp_get_attachment_url( $data ) . '">' . wp_get_attachment_url( $data ) . '</a>';
+						$content .= "<br/><input type='checkbox' name='jobman-field-delete-$id' value='$data' />" . __( 'Delete File?', 'jobman' );
 					}
+
 					$content .= "</td>";
 					$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
 					break;

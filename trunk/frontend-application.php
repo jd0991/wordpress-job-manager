@@ -1,6 +1,5 @@
 <?php
 function jobman_display_apply( $jobid, $cat = NULL ) {
-	global $current_user, $si_image_captcha;
 	get_currentuserinfo();
 
 	$options = get_option( 'jobman_options' );
@@ -98,6 +97,31 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	$content .= '<input type="hidden" name="jobman-jobid" value="' . $jobid . '">';
 	$content .= '<input type="hidden" name="jobman-categoryid" value="' . implode( ',', $cat_arr ) . '">';
 	
+	if( empty( $options['templates']['application_form'] ) ) {
+		$content .= jobman_display_apply_generated( $foundjob, $job );
+	}
+	else {
+		global $jobman_app_field_shortcodes;
+		jobman_add_app_field_shortcodes( $jobman_app_field_shortcodes );
+		
+		$content .= do_shortcode( $options['templates']['application_form'] );
+		
+		jobman_remove_shortcodes( $jobman_app_field_shortcodes );
+	}
+	
+	$content .= '</form>';
+
+	$page->post_content = $content;
+		
+	return array( $page );
+}
+
+function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
+	global $current_user, $si_image_captcha;
+	$options = get_option( 'jobman_options' );
+	
+	$content = '';
+	
 	if( $foundjob )
 		$content .= '<p>' . __( 'Title', 'jobman' ) . ': <a href="'. get_page_link( $job->ID ) . '">' . $job->post_title . '</a></p>';
 
@@ -144,64 +168,18 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 			
 			switch( $field['type'] ) {
 				case 'text':
-					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}$mandatory</th>";
-					else
-						$content .= '<td class="th"></td>';
-					
-					$content .= "<td><input type='text' name='jobman-field-$id' value='$data' /></td></tr>";
-					break;
 				case 'radio':
-					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}$mandatory</th><td>";
-					else
-						$content .= '<td class="th"></td><td>';
-					
-					$values = split( "\n", $data );
-					$display_values = split( "\n", $field['data'] );
-					
-					foreach( $values as $key => $value ) {
-						$content .= "<input type='radio' name='jobman-field-$id' value='" . trim( $value ) . "' /> {$display_values[$key]}<br/>";
-					}
-					$content .= '</td></tr>';
-					break;
 				case 'checkbox':
-					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}$mandatory</th><td>";
-					else
-						$content .= '<td class="th"></td><td>';
-
-					$values = split( "\n", $data );
-					$display_values = split( "\n", $field['data'] );
-					
-					foreach( $values as $key => $value ) {
-						$content .= "<input type='checkbox' name='jobman-field-{$id}[]' value='" . trim( $value ) . "' /> {$display_values[$key]}<br/>";
-					}
-					$content .= '</td></tr>';
-					break;
 				case 'textarea':
-					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}$mandatory</th>";
-					else
-						$content .= '<td class="th"></td>';
-
-					$content .= "<td><textarea name='jobman-field-$id'>{$field['data']}</textarea></td></tr>";
-					break;
 				case 'date':
-					if( '' != $field['label'] )
-						$content .= "<th scope='row'>{$field['label']}$mandatory</th>";
-					else
-						$content .= '<td class="th"></td>';
-
-					$content .= "<td><input type='text' class='datepicker' name='jobman-field-$id' value='$data' /></td></tr>";
-					break;
 				case 'file':
+				case 'select':
 					if( '' != $field['label'] )
 						$content .= "<th scope='row'>{$field['label']}$mandatory</th>";
 					else
 						$content .= '<td class="th"></td>';
 
-					$content .= "<td><input type='file' name='jobman-field-$id' /></td></tr>";
+					$content .= '<td>' . jobman_app_field_input_html( $id, $field, $data ) . '</td></tr>';
 					break;
 				case 'heading':
 					if( ! $start )
@@ -214,7 +192,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 					$rowcount = 0;
 					break;
 				case 'html':
-					$content .= "<td colspan='2'>{$field['data']}</td></tr>";
+					$content .= '<td colspan="2">' . jobman_app_field_input_html( $id, $field, $data ) . '</td></tr>';
 					break;
 				case 'blank':
 					$content .= '<td colspan="2">&nbsp;</td></tr>';
@@ -237,9 +215,58 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	$content .= '<tr><td colspan="2" class="submit"><input type="submit" name="submit"  class="button-primary" value="' . __( 'Submit Your Application', 'jobman' ) . '" /></td></tr>';
 	$content .= '</table>';
 
-	$page->post_content = $content;
-		
-	return array( $page );
+	return $content;
+}
+
+function jobman_app_field_input_html( $id, $field, $data ) {
+	$content = '';
+	
+	switch( $field['type'] ) {
+		case 'text':
+			return "<input type='text' name='jobman-field-$id' value='$data' />";
+		case 'radio':
+			$values = split( "\n", $data );
+			$display_values = split( "\n", $field['data'] );
+			
+			foreach( $values as $key => $value ) {
+				$content .= "<input type='radio' name='jobman-field-$id' value='" . trim( $value ) . "' /> {$display_values[$key]}";
+				if( count( $values ) > 1 )
+					$content .= '<br/>';
+			}
+			return $content;
+		case 'checkbox':
+			$values = split( "\n", $data );
+			$display_values = split( "\n", $field['data'] );
+			
+			foreach( $values as $key => $value ) {
+				$content .= "<input type='checkbox' name='jobman-field-{$id}[]' value='" . trim( $value ) . "' /> {$display_values[$key]}";
+				if( count( $values ) > 1 )
+					$content .= '<br/>';
+			}
+			return $content;
+		case 'select':
+			$values = split( "\n", $data );
+			$display_values = split( "\n", $field['data'] );
+			
+			$content .= "<select name='jobman-field-{$id}[]'>";
+			foreach( $values as $key => $value ) {
+				$content .= "<option value='" . trim( $value ) . "' /> {$display_values[$key]}</option>";
+			}
+			$content .= "</select>";
+			return $content;
+		case 'textarea':
+			return "<textarea name='jobman-field-$id'>{$field['data']}</textarea>";
+		case 'date':
+			return "<input type='text' class='datepicker' name='jobman-field-$id' value='$data' />";
+		case 'file':
+			return "<input type='file' name='jobman-field-$id' />";
+		case 'html':
+			return $field['data'];
+		case 'heading':
+		case 'blank':
+		default:
+			return NULL;
+	}
 }
 
 function jobman_store_application( $jobid, $cat ) {
@@ -600,6 +627,7 @@ function jobman_email_application( $appid, $sendto = '' ) {
 				case 'radio':
 				case 'checkbox':
 				case 'date':
+				case 'select':
 					$msg .= $field['label'] . ': ' . $appdata['data'.$id] . PHP_EOL;
 					break;
 				case 'textarea':

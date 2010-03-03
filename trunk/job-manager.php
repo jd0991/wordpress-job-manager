@@ -31,11 +31,12 @@ Tags: job, jobs, manager, list, listing, employment, employer, career
 
 // Version
 define( 'JOBMAN_VERSION', '0.7-alpha' );
-define( 'JOBMAN_DB_VERSION', 13 );
+define( 'JOBMAN_DB_VERSION', 14 );
 
 // Define the URL to the plugin folder
 define( 'JOBMAN_FOLDER', 'job-manager' );
-define( 'JOBMAN_URL', WP_PLUGIN_URL . '/' . JOBMAN_FOLDER );
+if( ! defined( 'JOBMAN_URL' ) )
+	define( 'JOBMAN_URL', WP_PLUGIN_URL . '/' . JOBMAN_FOLDER );
 
 // Define the basename
 define( 'JOBMAN_BASENAME', plugin_basename(__FILE__) );
@@ -51,6 +52,12 @@ $jobman_field_shortcodes = array();
 if( is_array( $jobman_options ) && array_key_exists( 'job_fields', $jobman_options ) )
 	foreach( $jobman_options['job_fields'] as $fid => $field )
 		$jobman_field_shortcodes[] = "job_field$fid";
+
+global $jobman_app_field_shortcodes;
+$jobman_app_field_shortcodes = array();
+if( is_array( $jobman_options ) && array_key_exists( 'fields', $jobman_options ) )
+	foreach( $jobman_options['fields'] as $fid => $field )
+		$jobman_app_field_shortcodes[] = "job_app_field$fid";
 
 //
 // Load Jobman

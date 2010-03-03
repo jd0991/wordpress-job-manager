@@ -101,7 +101,7 @@ function jobman_display_jobs( $posts ) {
 			return $posts;
 	}
 
-	// We're going to be displaying a Job Manager page. Un-fuck WordPress.
+	// We're going to be displaying a Job Manager page.
 	$jobman_displaying = true;
 	$wp_query->is_home = false;
 	remove_filter( 'the_content', 'wpautop' );

@@ -1,4 +1,4 @@
-<?php
+<?php // encoding: UTF-8
 function jobman_display_jobs_list( $cat ) {
 	global $jobman_shortcode_jobs, $jobman_shortcodes, $jobman_field_shortcodes;
 	$options = get_option( 'jobman_options' );
@@ -117,7 +117,7 @@ function jobman_display_jobs_list( $cat ) {
 		
 		$content .= '<p>';
 		if( 'all' == $cat ||  ! isset( $category->term_id ) ) {
-			$content .= sprintf( __( "We currently don't have any jobs available. Please check back regularly, as we frequently post new jobs. In the meantime, you can also <a href='%s'>send through your résumé</a>, which we'll keep on file.", 'jobman' ), get_page_link( $applypage->ID ) );
+			$content .= sprintf( __( "We currently don't have any jobs available. Please check back regularly, as we frequently post new jobs. In the meantime, you can also <a href='%s'>send through your rÃ©sumÃ©</a>, which we'll keep on file.", 'jobman' ), get_page_link( $applypage->ID ) );
 		}
 		else {
 			$url = get_page_link( $applypage->ID );
@@ -131,7 +131,7 @@ function jobman_display_jobs_list( $cat ) {
 				else
 					$url .= '/' . $category->slug;
 			}
-			$content .= sprintf( __( "We currently don't have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href='%s'>send through your résumé</a>, which we'll keep on file, and you can check out the <a href='%s'>jobs we have available in other areas</a>.", 'jobman' ), $url, get_page_link( $options['main_page'] ) );
+			$content .= sprintf( __( "We currently don't have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href='%s'>send through your rÃ©sumÃ©a>, which we'll keep on file, and you can check out the <a href='%s'>jobs we have available in other areas</a>.", 'jobman' ), $url, get_page_link( $options['main_page'] ) );
 		}
 	}
 

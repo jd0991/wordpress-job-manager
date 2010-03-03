@@ -330,6 +330,7 @@ function jobman_list_applications() {
 							break;
 						case 'radio':
 						case 'checkbox':
+						case 'select':
 							if( is_array( $_REQUEST["jobman-field-$id"] ) ) {
 								$data = split( ',', $appdata["data$id"] );
 								foreach( $_REQUEST["jobman-field-$id"] as $selected ) {
@@ -397,6 +398,7 @@ function jobman_list_applications() {
 								case 'checkbox':
 								case 'date':
 								case 'textarea':
+								case 'select':
 									$data = $appdata["data$id"];
 									break;
 								case 'file':
@@ -553,6 +555,7 @@ function jobman_application_display_details( $appid ) {
 				case 'checkbox':
 				case 'date':
 				case 'textarea':
+				case 'select':
 					echo $item;
 					break;
 				case 'file':
@@ -697,6 +700,7 @@ function jobman_get_application_csv() {
 							case 'checkbox':
 							case 'date':
 							case 'textarea':
+							case 'select':
 								$data[] = $item;
 								break;
 							case 'file':
