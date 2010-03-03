@@ -95,6 +95,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.6.1 =
+* FIXED: File encoding, causing weird characters to appear
+
 = 0.6 =
 * ADDED: 'Related Categories' section to job list displays
 * ADDED: Mandatory fields filter
