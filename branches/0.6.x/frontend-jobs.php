@@ -117,7 +117,7 @@ function jobman_display_jobs_list( $cat ) {
 		
 		$content .= '<p>';
 		if( 'all' == $cat ||  ! isset( $category->term_id ) ) {
-			$content .= sprintf( __( "We currently don't have any jobs available. Please check back regularly, as we frequently post new jobs. In the meantime, you can also <a href='%s'>send through your résuméa>, which we'll keep on file.", 'jobman' ), get_page_link( $applypage->ID ) );
+			$content .= sprintf( __( "We currently don't have any jobs available. Please check back regularly, as we frequently post new jobs. In the meantime, you can also <a href='%s'>send through your résumé</a>, which we'll keep on file.", 'jobman' ), get_page_link( $applypage->ID ) );
 		}
 		else {
 			$url = get_page_link( $applypage->ID );
