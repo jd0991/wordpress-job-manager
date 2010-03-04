@@ -49,7 +49,7 @@ May 2010
   * List jobs by employer: Issue #66
   * Option to Email Job Owner when it expires: Issue #75
   * "Image" application field: Issue #106
-  * BuddyPress Integration: Issue #125
+  * !BuddyPress Integration: Issue #125
 
 == Changes to Existing Features ==
 
