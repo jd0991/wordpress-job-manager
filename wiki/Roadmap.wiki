@@ -8,7 +8,8 @@ More Small Features
 
 == Due ==
 
-Late March 2010
+Beta: Late March 2010
+Stable: Early April 2010
 
 == New Features ==
 
@@ -40,7 +41,8 @@ M-m-m-multi-user!
 
 == Due ==
 
-May 2010
+Beta: Late May 2010
+Stable: Early June 2010
 
 == New Features ==
 
@@ -65,7 +67,8 @@ Polish v2
 
 == Due ==
 
-Late June 2010
+Beta: Late June 2010
+Stable: Early July 2010
 
 == New Features ==
 
