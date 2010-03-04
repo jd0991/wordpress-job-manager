@@ -26,6 +26,7 @@ Stable: Early April 2010
   * Internal Notes: Issue #83
   * Interview Scheduling: Issue #84
   * Job Dropdown on Application Form: Issue #129
+  * Applying for Multiple Jobs: Issue #130
 
 == Changes to Existing Features ==
 
