@@ -77,6 +77,7 @@ Late June 2010
   * Shortcodes: Issue #102
   * Applicant Matrix: Issue #111
   * Template Tags: Issue #121
+  * Dashboard Job posting: Issue #72
 
 == Changes to Existing Features ==
 
