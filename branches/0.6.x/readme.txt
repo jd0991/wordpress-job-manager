@@ -95,6 +95,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.6.2 =
+* FIXED: Potential PHP Warning when editing the application form
+
 = 0.6.1 =
 * FIXED: File encoding, causing weird characters to appear
 * FIXED: File upload on jobs not uploading correctly
