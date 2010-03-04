@@ -1,52 +1,38 @@
 #summary Roadmap for upcoming releases of Job Manager
 
-= 0.6 =
+= 0.7 =
 
 == Abstract ==
 
-Add some polish
+More Small Features
 
 == Due ==
 
-Mid February 2010
+Late March 2010
 
 == New Features ==
 
-  * Settings link in Plugin List: Issue #14
-  * Widget to show latest jobs: Issue #11
-  * Add a new filter to block applications if no data is entered: Issue #27
-  * Add related jobs links to job lists: Issue #42
-  * Export data to CSV: Issue #44
-  * Sticky Jobs: Issue #46
-  * Job List sort order: Issue #49 (basic sort implemented, extended sort will be in 0.7)
-  * Editable `<title>` prefix: Issue #51
-  * Use the text stored in the Jobs Page on that or other pages: Issue #56
-  * Customise the Thankyou For Applying text: Issue #57
-  * Make the Job Editing page more like WP's Post/Page editing: Issue #62, Issue #63
+  * Job List sort order: Issue #49
+  * Add a "Disable Job" button: Issue #63
   * Customize the application method: Issue #66
   * Make the admin Jobs List prettier: Issue #67
-  * Feature Job Widget: Issue #70
-  * Option to include categories under main job page in page list: Issue #73
-  * Link to related applications from Job List: Issue #75 (multi-request issue, this has been implemented)
-  * Change the name on application emails: Issue #77
   * Limit number of jobs/page, add Back/Forward buttons: Issue #79
-  * CSS classes on display elements: Issue #80
-  * Improved Uninstall: Issue #82
   * Block application fields being emailed: Issue #87
-  * Captcha support: Issue #90
   * Category Dropdown on Application Form: Issue #103
   * !WordPress.com Support: Issue #105
+  * Geolocation Application Form Input Item: Issue #126
+  * Application Form layout: Issue #76
+  * Internal Notes: Issue #83
+  * Interview Scheduling: Issue #84
 
 == Changes to Existing Features ==
 
-  * Add nicer CSS classes to admin pages: Issue #94
-  * Removing Star rating: Issue #97
-  * Customizable Job fields: Issue #58
-  * File Uploads and Icons should be WP Attachments: Issue #104
+  * Tweaking dates: Issue #128
+  * Nicer File Upload Errors: Issue #113
 
 ----
 
-= 0.7 =
+= 0.8 =
 
 == Abstract ==
 
@@ -54,7 +40,7 @@ M-m-m-multi-user!
 
 == Due ==
 
-Late February 2010
+May 2010
 
 == New Features ==
 
@@ -67,12 +53,10 @@ Late February 2010
 == Changes to Existing Features ==
 
   * Add Job Reference as a default Job Field: Issue #68
-  * Sort by any field: Issue #49
-  * Nicer File Upload Errors: Issue #113
 
 ----
 
-= 0.8 =
+= 0.9 =
 
 == Abstract ==
 
@@ -80,12 +64,13 @@ Polish v2
 
 == Due ==
 
-Mid March 2010
+Late June 2010
 
 == New Features ==
 
   * Add Scribd Support: Issue #31
   * Search: Issue #47
+  * Use !WordPress 3.0's custom post_type editing: Issue #62
   * Search Filters: Issue #75
   * Email Notification of new jobs: Issue #71
   * Dashboard: Issue #88
@@ -100,7 +85,7 @@ Mid March 2010
 
 ----
 
-= 0.9 =
+= 1.0 =
 
 == Abstract == 
 
@@ -108,21 +93,18 @@ Advanced Features
 
 == Due ==
 
-April 2010
+August 2010
 
 == New Features ==
 
   * Import/Export: Issue #64
   * Advanced registration features: Issue #8
   * Advanced application features: Issue #66
-  * Application Form layout: Issue #76
-  * Internal Notes: Issue #83
-  * Interview Scheduling: Issue #84
   * Track inbound emails: Issue #85
 
 ----
 
-= 1.0 =
+= 1.1 =
 
 == Abstract == 
 
@@ -130,7 +112,7 @@ HR and Recruiting Consultants will like this release
 
 == Due ==
 
-May 2010
+October 2010
 
 == New Features ==
 
