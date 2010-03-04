@@ -25,6 +25,7 @@ Stable: Early April 2010
   * Application Form layout: Issue #76
   * Internal Notes: Issue #83
   * Interview Scheduling: Issue #84
+  * Job Dropdown on Application Form: Issue #129
 
 == Changes to Existing Features ==
 
