@@ -351,7 +351,7 @@ function jobman_edit_job( $jobid ) {
 					
 					if( ! empty( $data ) ) {
 						$content .= '<br/><a href="' . wp_get_attachment_url( $data ) . '">' . wp_get_attachment_url( $data ) . '</a>';
-						$content .= "<input type='checkbox' name='jobman-field-current-$id' value='$data' />";
+						$content .= "<input type='hidden' name='jobman-field-current-$id' value='$data' />";
 						$content .= "<br/><input type='checkbox' name='jobman-field-delete-$id' value='1' />" . __( 'Delete File?', 'jobman' );
 					}
 
