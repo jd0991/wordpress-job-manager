@@ -1,0 +1,311 @@
+=== Job Manager ===
+Contributors: pento
+Donate link: http://pento.net/donate/
+Tags: jobs, job, manager, list, listing, employer, application, board
+Requires at least: 2.9
+Tested up to: 3.0-alpha
+Stable tag: trunk
+
+A job listing and job application management plugin for WordPress.
+
+== Description ==
+
+A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
+
+Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
+
+*    *Job Listing*
+    *    Categories to create multiple job boards
+    *    Jobs can be filed under multiple categories
+    *    Icons can be assigned to jobs, to make them stand out in the listing
+	*    Customisable fields, so you can display information about your jobs specific to your situation
+	*    Powerful templating system, allowing you to control the look and feel of your jobs and job boards
+*    *Job Management*
+    *    Jobs can be defined to display between certain dates, or indefinitely
+    *    Simple admin interface for editing, updating and creating jobs
+*    *Applications*
+    *    Applicants can apply through the website, using a form that you can customize, so you get the information you need
+    *    Advanced filtering on application forms, to ensure you only get applications that match your criteria: [Documentation](http://code.google.com/p/wordpress-job-manager/wiki/CustomApplicationForm)
+    *    Upon successful application, you can be emailed the details, so you're always up to date with new applicants
+*    *Applicant Management*
+    *    Simple interface for viewing all applicants
+    *    List can be filtered based on any criteria in your custom application form
+    *    Email individual or groups of candidates, to keep them updated on new job opportunities in your organisation
+
+Related links:
+
+* [Plugin Homepage](http://pento.net/projects/wordpress-job-manager-plugin/)
+* [Support Forum](http://wordpress.org/tags/job-manager?forum_id=10)
+* [Report Bugs and Request Features](http://code.google.com/p/wordpress-job-manager/issues/list)
+* [Development Roadmap](http://code.google.com/p/wordpress-job-manager/wiki/Roadmap)
+* [Translations](http://translations.pento.net/)
+
+== Installation ==
+
+= The Good Way =
+
+1. In your WordPress Admin, go to the Add New Plugins page
+1. Search for: job manager
+1. Job Manager should be the first result. Click the Install link.
+
+= The Old Way =
+
+1. Upload the plugin to the `/wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
+
+= The Living-On-The-Edge Way =
+(Please don't do this in production, you will almost certainly break something!)
+
+1. Checkout the current development version from http://wordpress-job-manager.googlecode.com/svn/trunk/
+1. Subscribe to the [update feed](http://code.google.com/p/wordpress-job-manager/source/list) to be notified of changes
+
+== Frequently Asked Questions ==
+
+= How do I setup a custom application form? =
+
+For a full description of how to use the application form customization features, please read [this page in the documentation](http://code.google.com/p/wordpress-job-manager/wiki/CustomApplicationForm).
+
+== Other Plugin Support ==
+
+The Job Manager supports added functionality when other plugins are installed. If you think your plugin could add some functionality to Job Manager, please [submit a feature request](http://code.google.com/p/wordpress-job-manager/issues/list).
+
+= Google XML Sitemaps =
+
+Job Manager will add all of your job lists and job detail pages to your sitemap, when [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) is installed on your site.
+
+= SI CAPTCHA =
+
+If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Application Form, install the [SI CAPTCHA](http://wordpress.org/extend/plugins/si-captcha-for-wordpress/) plugin.
+
+== Credits ==
+
+= Translations =
+
+Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
+
+* French Translation (0.6.x, frontend complete, admin 95% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
+* Dutch Translation (0.6.x), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
+
+= Special Thanks =
+
+* [EuroPlacements](http://europlacements.it/), for their input and support of the initial development of Job Manager.
+* All the wonderful people who've submitted bugs, feedback and feature requests - you're the people who keep me with things to work on!
+
+Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
+
+== Changelog ==
+
+= 0.6.3 =
+* FIXED: Jobs not saving properly if not empty fields are changed to being empty
+* FIXED: Files attached to jobs could be deleted when saving the job
+* FIXED: More PHP warnings
+
+= 0.6.2 =
+* FIXED: Potential PHP Warning when editing the application form
+* FIXED: Files attached to jobs not displaying properly when using the individual field code in the template
+
+= 0.6.1 =
+* FIXED: File encoding, causing weird characters to appear
+* FIXED: File upload on jobs not uploading correctly
+
+= 0.6 =
+* ADDED: 'Related Categories' section to job list displays
+* ADDED: Mandatory fields filter
+* ADDED: Widgets for Latest Jobs, Categories and Highlighted Jobs
+* ADDED: Option to change sort order of job lists
+* ADDED: Options to highlight jobs, and stick them to the top of job lists
+* ADDED: Exporting Applications to CSV
+* ADDED: Link on jobs list to applications for that job
+* ADDED: IDs to all admin tables, so they can be styled more easily
+* ADDED: Uninstall options
+* ADDED: Options to change text before/after data being displayed
+* ADDED: Option to change Job title prefix
+* ADDED: Option to change Application Acceptance message
+* ADDED: Option to set the name in the "From" field of application emails
+* ADDED: Support for CAPTCHAs, through the [SI CAPTCHA](http://wordpress.org/extend/plugins/si-captcha-for-wordpress/) plugin.
+* ADDED: RSS feed for jobs
+* ADDED: Ability to customise job fields
+* ADDED: Shortcode-based templates for jobs and job list displays
+* ADDED: Dutch Translation, provided by [Patrick Tessels](http://www.centrologic.nl/)
+* CHANGED: Removed pages hack for displaying categories. This will change category list permalinks if nice permalinks are off.
+* CHANGED: Split admin and display settings into two admin pages
+* CHANGED: HTML fields now stretch across both columns of the application table. The label is no longer displayed.
+* CHANGED: Can now remove ratings from applications
+* CHANGED: Uploads and icons are now stored as attachments
+* FIXED: Some small string changes for clarity
+* FIXED: Added category links to Google XML Sitemap
+* FIXED: Admin CSS/JS are only loaded on the appropriate pages
+* FIXED: Job list filter not filtering by categories
+* FIXED: Some PHP warnings
+* FIXED: No empty message on emails list
+* FIXED: Added some CSS to make Full lists line up nicely
+* FIXED: WP themes could think they were on the front page when in Job Manager
+
+= 0.5.4 =
+* ADDED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)
+
+= 0.5.3 =
+* FIXED: Application list not filtering correctly if no rating selected
+* FIXED: Warning when deleting applications with no file attached
+
+= 0.5.2 =
+* FIXED: Job list not loading after creating a new job
+* FIXED: Application categories somehow got wiped, restored them
+* FIXED: Category could not be stored on application, under some circumstances
+* FIXED: Wrong translation domain on a string
+
+= 0.5.1 =
+* FIXED: Moved upload directories outside of the plugin directory
+
+= 0.5 =
+* ADDED: Ability for applicants to register
+* ADDED: New settings for user registration
+* ADDED: Nicer explanations of settings
+* ADDED: Links to categories from settings page
+* ADDED: Applicant filter on Applications list
+* ADDED: Application star rating, and filtering by rating
+* ADDED: 'Add Job' item to the wp-admin menu
+* ADDED: Job field for applications to be emailed to a custom address
+* ADDED: Emails are now stored when they're sent
+* ADDED: Interface for browsing sent emails
+* ADDED: Admin print stylesheet, so applications can be printed nicely
+* ADDED: Print icon to Application Details page
+* ADDED: Option in Application Details to email application a different person
+* ADDED: HTML Code field to Application Form Settings
+* ADDED: A bunch of CSS classes to the front end elements
+* CHANGED: User permissions: 'publish_posts' capability (author) is required for posting jobs, 'read_private_pages' capability (editor) is required for viewing applications
+* CHANGED: Removed main URL editing from settings
+* CHANGED: Settings page layout, for readability
+* CHANGED: Removed the "WordPress" name from application emails
+* FIXED: Category listing now significantly more efficient
+* FIXED: Google XML Sitemaps option not saving correctly
+* FIXED: Google XML Sitemaps code updated to use new data storage format
+* FIXED: Some strings not going through i18n functions
+* FIXED: A handful of grammar/spelling mistakes
+* FIXED: Code cleanup, to conform more closely with [WordPress Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards)
+* FIXED: Job Lists not obeying Display End Date
+* FIXED: Default Application Form had an incorrect data entry
+* FIXED: Bug in file naming for downloading applicant files
+
+= 0.4.8 =
+* FIXED: Timeout problem on Application List page, if there are less than 5 applications
+
+= 0.4.7 =
+* FIXED: Empty job list message not displaying correctly
+* FIXED: New job showing a bad start date
+* FIXED: Some PHP notices
+* FIXED: Template from main page not being used correctly
+* FIXED: Removed 5 job limit from display code
+
+= 0.4.6 =
+* FIXED: Application email not being sent correctly
+* FIXED: Not displaying if used with a theme that doesn't have a page.php
+* FIXED: Broken XHTML tag in admin
+* FIXED: Jobs with no icon had a broken icon displaying
+* FIXED: 'Job: ' job title prefix displaying in wrong place
+* FIXED: Escape error message in application form setup
+* FIXED: Escape default values in application form display
+* FIXED: Custom filter error messages not displaying
+* FIXED: `<title>` not being displayed correctly
+* FIXED: Some PHP notices
+
+= 0.4.5 =
+* FIXED: Job list not displaying under some circumstances
+* FIXED: Not retrieving job list in category pages
+
+= 0.4.4 =
+* FIXED: Job permalinks now being treated as pages
+* FIXED: Jobs/application form not showing if main jobs page was set as a child page
+* FIXED: Not all applications displaying in application list
+* FIXED: Permalinks now allow for a lack of trailing '/'
+* FIXED: Application field sort order not being obeyed
+* FIXED: Job link not being display in application list
+* FIXED: Category pages not storing correctly
+
+= 0.4.3 =
+* FIXED: Removed some references to the old code removed in 0.4.2
+
+= 0.4.2 =
+* FIXED: Google XML Sitemap option not showing correctly
+* FIXED: Incorrect check could cause plugin activation to fail
+* FIXED: Removed some dead code
+
+= 0.4.1 =
+* FIXED: Application fields not saving properly
+* FIXED: Miscellaneous PHP warnings
+* FIXED: Upload directory write check failing under some circumstances
+
+= 0.4.0 =
+* ADDED: Check to make sure data directories are writeable by the plugin
+* ADDED: Nonce fields are now in all Admin forms, for added security
+* ADDED: Ability to delete jobs
+* ADDED: Ability to change the page template used
+* CHANGED: Job Manager now requires WordPress 2.9 or higher
+* CHANGED: All data is now stored in default WordPress tables
+* CHANGED: All options are now stored in a single wp_options entry
+* FIXED: A job being displayed could include an incorrect <title>
+* FIXED: No longer re-write the .htaccess file. Unnecessary, and was causing problems on 1&1 hosting.
+* FIXED: Problem with including symlinked files
+* FIXED: Secured the uploaded files directory
+* FIXED: Link to files in the Application List
+
+= 0.3.3 =
+* FIXED: SQL errors when deleting applications
+
+= 0.3.2 =
+* FIXED: SQL error when submitting an application
+
+= 0.3.1 =
+* FIXED: A default value for Category slugs is now inserted. Upgrading will create default slugs if no slug exists.
+* FIXED: Bug preventing icons from being deleted.
+* FIXED: Code cleanup
+
+= 0.3.0 =
+* ADDED: Framework for supporting extra functionality through other plugins
+* ADDED: Google Sitemap support, through the [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) plugin.
+* ADDED: POT file, for translations
+* FIXED: Potential Application submission error
+* FIXED: Storing incorrect information if no file was uploaded
+* FIXED: Logic bug in plugin activation
+* FIXED: Options upgrade function wasn't being called
+* FIXED: Minor string fixes
+
+= 0.2.4 =
+* FIXED: Still some circumstances where jobs weren't displaying
+* FIXED: Removed some CSS that should be in a site's main.css
+
+= 0.2.3 =
+* FIXED: Jobs were not displaying if the start or end date was empty.
+
+= 0.2.2 =
+* FIXED: Applications without an associated job were not being stored correctly.
+* FIXED: Minor bugs with filtering applications.
+
+= 0.2.1 =
+* FIXED: Bad homepage link
+
+= 0.2.0 =
+* ADDED: Ability to switch between summary and full view for the Job List
+
+= 0.1.0 =
+* Initial release
+
+== Upgrade Notice ==
+
+= 0.6-beta6 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
+
+= 0.6-beta5 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
+
+= 0.6-beta4 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
+
+= 0.6-beta3 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
+
+= 0.6-beta2 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
+
+= 0.6-beta1 =
+This is a beta release of Job Manager. Please do not use it in a production environment.
