@@ -267,6 +267,9 @@ function jobman_edit_job( $jobid ) {
 
 			if( 'heading' != $field['type'] )
 				$content .= '<tr>';
+				
+			if( ! array_key_exists( 'description', $field ) )
+				$field['description'] = '';
 			
 			switch( $field['type'] ) {
 				case 'text':
@@ -348,7 +351,8 @@ function jobman_edit_job( $jobid ) {
 					
 					if( ! empty( $data ) ) {
 						$content .= '<br/><a href="' . wp_get_attachment_url( $data ) . '">' . wp_get_attachment_url( $data ) . '</a>';
-						$content .= "<br/><input type='checkbox' name='jobman-field-delete-$id' value='$data' />" . __( 'Delete File?', 'jobman' );
+						$content .= "<input type='checkbox' name='jobman-field-current-$id' value='$data' />";
+						$content .= "<br/><input type='checkbox' name='jobman-field-delete-$id' value='1' />" . __( 'Delete File?', 'jobman' );
 					}
 
 					$content .= "</td>";
@@ -483,23 +487,21 @@ function jobman_updatedb() {
 		$fields = $options['job_fields'];
 		if( count( $fields ) > 0 ) {
 			foreach( $fields as $fid => $field ) {
-				if($field['type'] != 'file' && ( ! array_key_exists( "jobman-field-$fid", $_REQUEST ) || '' == $_REQUEST["jobman-field-$fid"] ) )
-					continue;
-				
 				if( 'file' == $field['type'] && ! array_key_exists( "jobman-field-$fid", $_FILES ) && ! array_key_exists( "jobman-field-delete-$fid", $_REQUEST ) )
 					continue;
 				
 				$data = '';
 				switch( $field['type'] ) {
 					case 'file':
-						if( array_key_exists( "jobman-field-delete-$fid", $_REQUEST ) )
+						if( array_key_exists( "jobman-field-delete-$fid", $_REQUEST ) ) {
 							wp_delete_attachment( $_REQUEST["jobman-field-current-$fid"] );
-
-						if( is_uploaded_file( $_FILES["jobman-field-$fid"]['tmp_name'] ) ) {
+						}
+						else if( is_uploaded_file( $_FILES["jobman-field-$fid"]['tmp_name'] ) ) {
 							$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( $_FILES["jobman-field-$fid"]['tmp_name'] ) );
 							if( ! $upload['error'] ) {
 								// Delete the old attachment
-								wp_delete_attachment( $_REQUEST["jobman-field-current-$fid"] );
+								if( array_key_exists( "jobman-field-current-$fid", $_REQUEST ) )
+									wp_delete_attachment( $_REQUEST["jobman-field-current-$fid"] );
 								
 								$attachment = array(
 												'post_title' => '',
@@ -511,13 +513,21 @@ function jobman_updatedb() {
 								$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
 								wp_update_attachment_metadata( $data, $attach_data );
 							}
+							else {
+								$data = get_post_meta( $id, "data$fid", true );
+							}
+						}
+						else {
+							$data = get_post_meta( $id, "data$fid", true );
 						}
 						break;
 					case 'checkbox':
-						$data = implode( ', ', $_REQUEST["jobman-field-$fid"] );
+						if( array_key_exists( "jobman-field-$fid", $_REQUEST ) && is_array( $_REQUEST["jobman-field-$fid"] ) )
+							$data = implode( ', ', $_REQUEST["jobman-field-$fid"] );
 						break;
 					default:
-						$data = $_REQUEST["jobman-field-$fid"];
+						if( array_key_exists( "jobman-field-$fid", $_REQUEST ) )
+							$data = $_REQUEST["jobman-field-$fid"];
 				}
 				
 				update_post_meta( $id, "data$fid", $data );
