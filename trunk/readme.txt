@@ -83,8 +83,8 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
-* French Translation (0.6.x, frontend complete, admin 95% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
 * Dutch Translation (0.6.x), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
+* French Translation (0.6.x, frontend complete, admin 95% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
 
 = Special Thanks =
 
@@ -100,7 +100,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Optional template for application form
 * ADDED: <select> type to application forms
 * ADDED: Support for wp.com sites
+* ADDED: Ability to apply for multiple jobs at once
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It was running a bad query, so had to go.
+* FIXED: Some PHP warnings
 
 = 0.6.1 =
 * FIXED: File encoding, causing weird characters to appear

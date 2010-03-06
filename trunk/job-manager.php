@@ -31,7 +31,7 @@ Tags: job, jobs, manager, list, listing, employment, employer, career
 
 // Version
 define( 'JOBMAN_VERSION', '0.7-alpha' );
-define( 'JOBMAN_DB_VERSION', 14 );
+define( 'JOBMAN_DB_VERSION', 15 );
 
 // Define the URL to the plugin folder
 define( 'JOBMAN_FOLDER', 'job-manager' );
@@ -52,6 +52,9 @@ $jobman_field_shortcodes = array();
 if( is_array( $jobman_options ) && array_key_exists( 'job_fields', $jobman_options ) )
 	foreach( $jobman_options['job_fields'] as $fid => $field )
 		$jobman_field_shortcodes[] = "job_field$fid";
+
+global $jobman_app_shortcodes;
+$jobman_app_shortcodes = array( 'job_list', 'job_app_submit', 'job_link', 'job_title', 'job_id' );
 
 global $jobman_app_field_shortcodes;
 $jobman_app_field_shortcodes = array();

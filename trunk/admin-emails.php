@@ -30,7 +30,7 @@ function jobman_list_emails() {
 <?php
 	$args = array();
 	$args['post_type'] = 'jobman_email';
-	$args['post_status'] = array( 'private', 'publish' );
+	$args['post_status'] = 'private,publish';
 	$args['offset'] = 0;
 	$args['numberposts'] = -1;
 

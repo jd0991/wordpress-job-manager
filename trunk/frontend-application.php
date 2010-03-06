@@ -101,12 +101,16 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 		$content .= jobman_display_apply_generated( $foundjob, $job );
 	}
 	else {
-		global $jobman_app_field_shortcodes;
+		global $jobman_app_field_shortcodes, $jobman_app_shortcodes, $jobman_shortcode_job;
+		
+		$jobman_shortcode_job = $job;
+		
 		jobman_add_app_field_shortcodes( $jobman_app_field_shortcodes );
+		jobman_add_app_shortcotes( $jobman_app_shortcodes );
 		
 		$content .= do_shortcode( $options['templates']['application_form'] );
 		
-		jobman_remove_shortcodes( $jobman_app_field_shortcodes );
+		jobman_remove_shortcodes( array_merge( $jobman_app_field_shortcodes, $jobman_app_shortcodes ) );
 	}
 	
 	$content .= '</form>';
@@ -281,17 +285,12 @@ function jobman_store_application( $jobid, $cat ) {
 
 	$options = get_option( 'jobman_options' );
 	
-	$parent = $options['main_page'];
-	
-	$job = NULL;
-	if( -1 != $jobid ) {
-		$job = get_post( $jobid );
-		if( NULL != $job )
-			$parent = $job->ID;
-	}
-	
 	$fields = $options['fields'];
 	
+	$job = NULL;
+	if( -1 != $jobid )
+		$job = get_post( $jobid );
+
 	// Workaround for WP to Twitter plugin tweeting about new application
 	$_POST['jd_tweet_this'] = 'no';
 	
@@ -302,12 +301,12 @@ function jobman_store_application( $jobid, $cat ) {
 				'post_type' => 'jobman_app',
 				'post_content' => '',
 				'post_title' => __( 'Application', 'jobman' ),
-				'post_parent' => $parent
+				'post_parent' => $options['main_page']
 			);
 
 	$appid = wp_insert_post( $page );
 
-	// Add the categories to the page
+	// Add the categories to the application
 	$append = false;
 	if( NULL != $cat && is_term( $cat->slug, 'jobman_category' ) ) {
 		wp_set_object_terms( $appid, $cat->slug, 'jobman_category', false );
@@ -323,6 +322,22 @@ function jobman_store_application( $jobid, $cat ) {
 				$append = true;
 			}
 		}
+	}
+	
+	// Add the jobs to the application
+	$jobs = array();
+	if( -1 != $jobid )
+		$jobs[] = $jobid;
+		
+	if( array_key_exists( 'jobman-joblist', $_REQUEST ) && is_array( $_REQUEST['jobman-joblist'] ) ) {
+		foreach( $_REQUEST['jobman-joblist'] as $data )
+			$jobs[] = $data;
+	}
+	
+	$jobs = array_unique( $jobs );
+	
+	foreach( $jobs as $data ) {
+		add_post_meta( $appid, 'job', $data, false );
 	}
 	
 	if( count( $fields ) > 0 ) {

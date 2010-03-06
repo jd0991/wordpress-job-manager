@@ -137,4 +137,15 @@ function jobman_print_about_box() {
 		</ul>
 <?php
 }
+
+function jobman_print_translators_box() {
+?>
+		<p><?php _e( "If you're using Job Manager in a language other than English, you have some of my wonderful translators to thank for it!", 'jobman' ) ?></p>
+		<p><?php printf( __( "If you're fluent in a language not listed here, and would like to appear on this list, please <a href='%1s'>contact me</a>!", 'jobman' ), 'http://pento.net/contact/' ) ?>
+		<ul>
+			<li><strong><?php _e( 'Dutch', 'jobman' ) ?></strong> - <a href="http://www.centrologic.nl/">Patrick Tessels</a>, <a href="http://webtaurus.nl/">Henk van den Bor</a></li>
+			<li><strong><?php _e( 'French', 'jobman' ) ?></strong> - <a href="http://www.procure-smart.com/">Fabrice Fotso</a>, Vincent Clady</li>
+		</ul>
+<?php
+}
 ?>

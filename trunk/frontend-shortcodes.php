@@ -33,6 +33,14 @@ function jobman_add_field_shortcodes( $array ) {
 	}
 }
 
+function jobman_add_app_shortcodes( $array ) {
+	foreach ( (array) $array as $shortcode ) {
+		$conditional = 'if_' . $shortcode;
+		add_shortcode( $shortcode, 'jobman_app_shortcode' );
+		add_shortcode( $conditional, 'jobman_app_shortcode_conditional' );
+	}
+}
+
 function jobman_add_app_field_shortcodes( $array ) {
 	foreach ( (array) $array as $shortcode ) {
 		$conditional = 'if_' . $shortcode;
@@ -201,6 +209,32 @@ function jobman_field_shortcode_conditional( $atts, $content, $tag ) {
 	$test_output = jobman_field_shortcode( NULL, NULL, $test_tag );
 	if ( !empty( $test_output ) )
 		return do_shortcode( $content );
+}
+
+function jobman_app_shortcode( $atts, $content, $tag ) {
+	global $jobman_shortcode_job;
+	
+	switch( $tag ) {
+		case 'job_id':
+			if( NULL != $jobman_shortcode_job )
+				return $jobman_shortcode_job->ID;
+			else
+				return NULL;
+		case 'job_title';
+			if( NULL != $jobman_shortcode_job )
+				return $jobman_shortcode_job->post_title;
+			else
+				return NULL;
+		case 'job_link':
+			if( NULL != $jobman_shortcode_job )
+				return '<a href="' . get_page_link( $jobman_shortcode_job->ID ) . '">' . do_shortcode( $content ) . '</a>';
+			else
+				return NULL;
+		case 'job_list':
+			return "WHEEEEEEEE";
+		case 'job_app_submit':
+			return '<input type="submit" name="submit"  class="button-primary" value="' . do_shortcode( $content ) . '" />';
+	}
 }
 
 function jobman_app_field_shortcode( $atts, $content, $tag ) {

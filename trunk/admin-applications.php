@@ -233,17 +233,11 @@ function jobman_list_applications() {
 <?php
 	$args = array();
 	$args['post_type'] = 'jobman_app';
-	$args['post_status'] = array( 'private', 'publish' );
+	$args['post_status'] = 'private,publish';
 	$args['offset'] = 0;
 	$args['numberposts'] = -1;
 	
 	$filtered = false;
-	
-	// Add job filter
-	if( array_key_exists( 'jobman-jobid', $_REQUEST ) ) {
-		$filtered = true;
-		$args['post_parent'] = $_REQUEST['jobman-jobid'];
-	}
 	
 	// Add applicant filter
 	if( array_key_exists( 'jobman-applicant', $_REQUEST ) )
@@ -271,6 +265,14 @@ function jobman_list_applications() {
 	$app_displayed = false;
 	if( count( $applications ) > 0 ) {
 		foreach( $applications as $app ) {
+			// Filter jobs
+			if( array_key_exists( 'jobman-jobid', $_REQUEST ) && ! empty ( $_REQUEST['jobman-jobid'] ) ) {
+				$jobs = get_post_meta( $app->ID, 'job', false );
+				
+				if( empty( $jobs ) || ! in_array( $_REQUEST['jobman-jobid'], $jobs ) )
+					continue;
+			}
+			
 			$appmeta = get_post_custom( $app->ID );
 
 			$appdata = array();
@@ -351,10 +353,15 @@ function jobman_list_applications() {
 			<tr>
 				<th scope="row" class="check-column"><input type="checkbox" name="application[]" value="<?php echo $app->ID ?>" /></th>
 <?php
-			$parent = get_post( $app->post_parent );
-			if( NULL != $parent && 'jobman_job' == $parent->post_type ) {
+			$parents = get_post_meta( $app->ID, 'job', false );
+			if( ! empty( $parents ) ) {
+				$parentstr = array();
+				foreach( $parents as $parent ) {
+					$data = get_post( $parent );
+					$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->post_title</a>";
+				}
 ?>
-				<td><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $parent->ID ?>"><?php echo $parent->post_title ?></a></strong></td>
+				<td><strong><?php echo implode( ', ', $parentstr ) ?></strong></td>
 <?php
 			}
 			else {
