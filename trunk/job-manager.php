@@ -44,7 +44,7 @@ define( 'JOBMAN_BASENAME', plugin_basename(__FILE__) );
 // Some Global vars
 
 global $jobman_shortcodes;
-$jobman_shortcodes = array( 'job_loop', 'job_row_number', 'job_id', 'job_highlighted', 'job_odd_even', 'job_link', 'job_icon', 'job_title', 'job_field', 'job_field_label', 'job_categories', 'job_category_links', 'job_field_loop', 'job_apply_link' );
+$jobman_shortcodes = array( 'job_loop', 'job_row_number', 'job_id', 'job_highlighted', 'job_odd_even', 'job_link', 'job_icon', 'job_title', 'job_field', 'job_field_label', 'job_categories', 'job_category_links', 'job_field_loop', 'job_apply_link', 'job_checkbox', 'job_apply_multi' );
 
 $jobman_options = get_option( 'jobman_options' );
 global $jobman_field_shortcodes;
@@ -54,7 +54,7 @@ if( is_array( $jobman_options ) && array_key_exists( 'job_fields', $jobman_optio
 		$jobman_field_shortcodes[] = "job_field$fid";
 
 global $jobman_app_shortcodes;
-$jobman_app_shortcodes = array( 'job_list', 'job_app_submit', 'job_link', 'job_title', 'job_id' );
+$jobman_app_shortcodes = array( 'job_app_submit', 'job_links', 'job_list' );
 
 global $jobman_app_field_shortcodes;
 $jobman_app_field_shortcodes = array();

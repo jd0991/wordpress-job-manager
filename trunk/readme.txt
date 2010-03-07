@@ -101,6 +101,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: <select> type to application forms
 * ADDED: Support for wp.com sites
 * ADDED: Ability to apply for multiple jobs at once
+* ADDED: Job selector in application form
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It was running a bad query, so had to go.
 * FIXED: Some PHP warnings
 

@@ -97,16 +97,20 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	$content .= '<input type="hidden" name="jobman-jobid" value="' . $jobid . '">';
 	$content .= '<input type="hidden" name="jobman-categoryid" value="' . implode( ',', $cat_arr ) . '">';
 	
+	if( array_key_exists( 'jobman-joblist', $_REQUEST ) )
+		$content .= '<input type="hidden" name="jobman-joblist" value="' . implode( ',', $_REQUEST['jobman-joblist'] ) . '">';
+	
 	if( empty( $options['templates']['application_form'] ) ) {
 		$content .= jobman_display_apply_generated( $foundjob, $job );
 	}
 	else {
-		global $jobman_app_field_shortcodes, $jobman_app_shortcodes, $jobman_shortcode_job;
+		global $jobman_app_field_shortcodes, $jobman_app_shortcodes, $jobman_shortcode_job, $jobman_shortcode_categories;
 		
 		$jobman_shortcode_job = $job;
+		$jobman_shortcode_categories = $cat_arr;
 		
 		jobman_add_app_field_shortcodes( $jobman_app_field_shortcodes );
-		jobman_add_app_shortcotes( $jobman_app_shortcodes );
+		jobman_add_app_shortcodes( $jobman_app_shortcodes );
 		
 		$content .= do_shortcode( $options['templates']['application_form'] );
 		
@@ -329,9 +333,17 @@ function jobman_store_application( $jobid, $cat ) {
 	if( -1 != $jobid )
 		$jobs[] = $jobid;
 		
-	if( array_key_exists( 'jobman-joblist', $_REQUEST ) && is_array( $_REQUEST['jobman-joblist'] ) ) {
-		foreach( $_REQUEST['jobman-joblist'] as $data )
-			$jobs[] = $data;
+	if( array_key_exists( 'jobman-joblist', $_REQUEST ) ) {
+		$joblist = explode( ',', $_REQUEST['jobman-joblist'] );
+		$jobs = array_merge( $jobs, $joblist );
+	}
+	
+	// Add any extra jobs to the application
+	if( array_key_exists( 'jobman-jobselect', $_REQUEST ) && !empty( $_REQUEST['jobman-jobselect'] ) ) {
+		if( is_array( $_REQUEST['jobman-jobselect'] ) )
+			$jobs = array_merge( $jobs, $_REQUEST['jobman-jobselect'] );
+		else
+			$jobs[] = $_REQUEST['jobman-jobselect'];
 	}
 	
 	$jobs = array_unique( $jobs );

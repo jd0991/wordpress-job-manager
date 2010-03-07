@@ -1,6 +1,6 @@
 <?php
 
-global $jobman_shortcode_jobs, $jobman_shortcode_job;
+global $jobman_shortcode_jobs, $jobman_shortcode_job, $jobman_shortcode_categories;
 
 function jobman_add_shortcodes( $array ) {
 	foreach ( (array) $array as $shortcode ) {
@@ -179,6 +179,16 @@ function jobman_shortcode( $atts, $content, $tag ) {
 				return '<a href="'. $url . '">' . do_shortcode( $content ) . '</a>';
 			}
 			return NULL;
+		case 'job_checkbox':
+			if( $options['multi_applications'] ) {
+				return "<input type='checkbox' name='jobman-joblist[]' value='$jobman_shortcode_job->ID' />";
+			}
+			return NULL;
+		case 'job_apply_multi':
+			if( $options['multi_applications'] ) {
+				return '<input type="submit" name="submit" value="' . do_shortcode( $content ) . '" />';
+			}
+			return NULL;
 	}
 	
 	return do_shortcode( $content );
@@ -212,28 +222,131 @@ function jobman_field_shortcode_conditional( $atts, $content, $tag ) {
 }
 
 function jobman_app_shortcode( $atts, $content, $tag ) {
-	global $jobman_shortcode_job;
+	global $jobman_shortcode_job, $jobman_shortcode_categories;
+	
+	$options = get_option( 'jobman_options' );
 	
 	switch( $tag ) {
-		case 'job_id':
+		case 'job_links':
+			$jobs = array();
 			if( NULL != $jobman_shortcode_job )
-				return $jobman_shortcode_job->ID;
-			else
+				$jobs[] = $jobman_shortcode_job->ID;
+				
+			if( array_key_exists( 'jobman-joblist', $_REQUEST ) )
+				$jobs = array_merge( $jobs, $_REQUEST['jobman-joblist'] );
+				
+			if( empty( $jobs ) )
 				return NULL;
-		case 'job_title';
-			if( NULL != $jobman_shortcode_job )
-				return $jobman_shortcode_job->post_title;
-			else
-				return NULL;
-		case 'job_link':
-			if( NULL != $jobman_shortcode_job )
-				return '<a href="' . get_page_link( $jobman_shortcode_job->ID ) . '">' . do_shortcode( $content ) . '</a>';
-			else
-				return NULL;
-		case 'job_list':
-			return "WHEEEEEEEE";
+				
+			$jobstr = array();
+			foreach( $jobs as $job ) {
+				$data = get_post( $job );
+				if( empty( $data ) )
+					continue;
+					
+				$jobstr[] = "<a href='" . get_page_link( $data->ID ) . "'>$data->post_title</a>";
+			}
+			
+			return implode( ', ', $jobstr );
 		case 'job_app_submit':
 			return '<input type="submit" name="submit"  class="button-primary" value="' . do_shortcode( $content ) . '" />';
+		case 'job_list':
+			$sortby = '';
+			switch( $options['sort_by'] ) {
+				case 'title':
+					$sortby = '&orderby=title';
+					break;
+				case 'dateposted':
+					$sortby = '&orderby=date';
+					break;
+				case 'closingdate':
+					$sortby = '&orderby=meta_value&meta_key=displayenddate';
+					break;
+			}
+			
+			$sortorder = '';
+			if( in_array( $options['sort_order'], array( 'ASC', 'DESC' ) ) )
+				$sortorder = '&order=' . $options['sort_order'];
+			
+			if( empty( $jobman_shortcode_categories ) ) {
+				$jobs = get_posts( "post_type=jobman_job&numberposts=-1$sortby$sortorder" );
+			}
+			else {
+				$cat = $jobman_shortcode_categories[0];
+				$jobs = get_posts( "post_type=jobman_job&jcat=$cat&numberposts=-1$sortby$sortorder" );
+			}
+			
+			foreach( $jobs as $id => $job ) {
+				// Remove expired jobs
+				$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
+				if( '' != $displayenddate && strtotime( $displayenddate ) <= time() ) {
+					unset( $jobs[$id] );
+					continue;
+				}
+
+				// Remove future jobs
+				$displaystartdate = $job->post_date;
+				if( '' != $displaystartdate && strtotime( $displaystartdate ) > time() ) {
+					unset( $jobs[$id] );
+					continue;
+				}
+			}
+			
+			if( 'sticky' == $options['highlighted_behaviour'] )
+				// Sort the sticky jobs to the top
+				uasort( $jobs, 'jobman_sort_highlighted_jobs' );
+				
+			$content = '<span id="jobman-jobselect">';
+
+			$atts = shortcode_atts( array( 'type' => 'select' ), $atts );
+			
+			$inputtype = 'radio';
+			$inputarray = '';
+			$selectsize = 1;
+			$selectmultiple = '';
+			if( $options['multi_applications'] ) {
+				$inputtype = 'checkbox';
+				$inputarray = '[]';
+				$selectsize = 5;
+				$selectmultiple = ' multiple="multiple"';
+			}
+			
+			$style = '';
+			$class = '';
+			if( 'popout' == $atts['type'] ) {
+				$style = 'display: none;';
+				$class = 'jobselect-popout';
+				$content .= '<span id="jobman-jobselect-echo"></span>';
+			}
+			
+			switch( $atts['type'] ) {
+				case 'popout':
+				case 'individual':
+					$content .= "<div style='$style' class='$class'>";
+					foreach( $jobs as $job ) {
+						$checked = '';
+						if( array_key_exists( 'jobman-joblist', $_REQUEST ) && in_array( $job->ID, $_REQUEST['jobman-joblist'] ) )
+							$checked = ' checked="checked"';
+						$content .= "<span><input type='$inputtype' name='jobman-jobselect$inputarray' title='$job->post_title' value='$job->ID'$checked /> $job->post_title</span>";
+					}
+					$content .= '</div>';
+					break;
+				case 'select':
+				default:
+					$content .= "<select name='jobman-jobselect$inputarray'$selectmultiple>";
+					$content .= '<option value="">' . _e( 'None', 'jobman' ) . '</option>';
+					foreach( $jobs as $job ) {
+						$selected = '';
+						if( array_key_exists( 'jobman-joblist', $_REQUEST ) && in_array( $job->ID, $_REQUEST['jobman-joblist'] ) )
+							$selected = ' selected="selected"';
+						$content .= "<option value='$job->ID'$selected>$job->post_title</option>";
+					}
+					$content .= '</select>';
+			}
+			
+			$content .= '</span>';
+			
+			return $content;
 	}
 }
 

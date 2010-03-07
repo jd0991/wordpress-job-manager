@@ -339,6 +339,27 @@ function jobman_display_head() {
 jQuery(document).ready(function() {
 	jQuery(".datepicker").datepicker({dateFormat: 'yy-mm-dd', changeMonth: true, changeYear: true, gotoCurrent: true});
 	jQuery("#ui-datepicker-div").css('display', 'none');
+	
+	jQuery("#jobman-jobselect-echo").click(function() {
+		if( jQuery(this).hasClass("open") ) {
+			jQuery(this).removeClass("open");
+		}
+		else {
+			jQuery(".jobselect-popout").css( "left", jQuery("#jobman-jobselect").offset().left + "px" );
+			jQuery(".jobselect-popout").css( "top", ( jQuery("#jobman-jobselect").offset().top + 20 ) + "px" );
+			jQuery(this).addClass("open");
+		}
+
+		jQuery(".jobselect-popout").animate({ opacity: 'toggle', height: 'toggle' }, "fast");
+		return false;
+	});
+	
+	jQuery(".jobselect-popout input").click(function() {
+		jobman_update_selected_jobs();
+		return true;
+	});
+	
+	jobman_update_selected_jobs();
 });
 //]]>
 var jobman_mandatory_ids = <?php echo json_encode( $mandatory_ids ) ?>;
@@ -346,6 +367,26 @@ var jobman_mandatory_labels = <?php echo json_encode( $mandatory_labels ) ?>;
 
 var jobman_strings = new Array();
 jobman_strings['apply_submit_mandatory_warning'] = "<?php _e( 'The following fields must be filled out before submitting', 'jobman' ) ?>";
+jobman_strings['no_selected_jobs'] = "<?php _e( 'click to select', 'jobman' ) ?>";
+
+var jobman_selected_jobs_names;
+function jobman_update_selected_jobs() {
+	jobman_selected_jobs_names = new Array();
+
+	jQuery(".jobselect-popout").find("input:checked").each( function() {
+		jobman_selected_jobs_names.push( jQuery(this).attr( 'title' ) );
+	});
+	
+	var jobs;
+	if( jobman_selected_jobs_names.length ) {
+		jobs = jobman_selected_jobs_names.join( ", " );
+	}
+	else {
+		jobs = "&lt;" + jobman_strings['no_selected_jobs'] + "&gt;";
+	}
+	jQuery("#jobman-jobselect-echo").html( jobs );
+
+}
 </script> 
 <?php
 }

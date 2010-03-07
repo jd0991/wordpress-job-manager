@@ -76,6 +76,11 @@ function jobman_print_settings_box() {
 				</td>
 			</tr>
 			<tr>
+				<th scope="row"><?php _e( 'Allow Multi-Applications', 'jobman' ) ?></th>
+				<td><input type="checkbox" name="multi-applications" value="1" <?php echo ( $options['multi_applications'] )?( 'checked="checked" ' ):( '' )?> /></td>
+				<td><span class="description"><?php _e( 'This will allow applicants to send through a single application for multiple jobs.', 'jobman' ) ?></span></td>
+			</tr>
+			<tr>
 				<th scope="row"><?php _e( 'Default email', 'jobman' ) ?></th>
 				<td colspan="2"><input class="regular-text code" type="text" name="default-email" value="<?php echo $options['default_email'] ?>" /></td>
 			</tr>
@@ -472,6 +477,11 @@ function jobman_conf_updatedb() {
 	$options = get_option( 'jobman_options' );
 	
 	$options['default_email'] = $_REQUEST['default-email'];
+
+	if( array_key_exists( 'multi-applications', $_REQUEST ) && $_REQUEST['multi-applications'] )
+		$options['multi_applications'] = 1;
+	else
+		$options['multi_applications'] = 0;
 
 	update_option( 'jobman_options', $options );
 }

@@ -172,7 +172,12 @@ function jobman_print_template_box() {
 			<code>[if_job_categories]<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Categories', 'jobman' ) ?>: [job_categories]<br/>
 [/if_job_categories]
-			</code>
+			</code><br/><br/>
+			
+			<strong><?php _e( 'Multi-Applications', 'jobman' ) ?></strong><br/>
+			<?php _e( 'These shortcodes are only valid if the "Allow Multi-Applications" option is checked under Admin Options. If it is not checked, they will not display.', 'jobman' ) ?><br/>
+			<tt>[job_checkbox]</tt> - <?php _e( 'While inside a <tt>[job_field_loop]</tt>, this will display a checkbox associated with the current job.', 'jobman' ) ?><br/>
+			<tt>[job_apply_multi]...[/job_apply_multi]</tt> - <?php _e( 'This will display a button to allow the applicant to apply for all checked jobs, with the contained text as the button text.', 'jobman' ) ?>
 		</p>
 		<form action="" method="post">
 		<input type="hidden" name="jobmantemplatesubmit" value="1" />
@@ -200,6 +205,12 @@ function jobman_print_app_template_box() {
 		<p><?php _e( "This setting allows you to define the template for displaying the application form. If you're happy with the current application form, just leave this blank, as you'll need to update it each time you add a new field to the application form.", 'jobman' ) ?></p>
 		<p><?php _e( 'If you do want to do this, you will need to make use of the available shortcodes.', 'jobman' ) ?></p>
 		<p>
+			<strong><?php _e( 'Application Form', 'jobman' ) ?></strong><br/>
+			<tt>[job_links]</tt> - <?php _e( 'Display a list of links to the jobs being applied for.', 'jobman' ) ?><br/>
+			<tt>[job_list]</tt> - <?php _e( 'This will display a list of jobs to select from. If a category application form is being used, it will display all the jobs in that category. Otherwise, it will display all jobs. It has one optional attribute:', 'jobman' ) ?><br/>
+			<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type</tt> - <?php _e( 'Can be set to one of: "select", "individual" or "popout". "select" will show a dropdown box, "individual" will show a list with radio buttons or checkboxes, "popout" is the same as "individual", but only shows the list when it is clicked on.', 'jobman' ) ?><br/>
+			<tt>[job_app_submit]...[/job_app_submit]</tt> - <?php _e( 'Display a submit button for the application form, with the contained text as the button text.', 'jobman' ) ?><br/><br/>
+			
 			<strong><?php _e( 'Custom Application Field Information', 'jobman' ) ?></strong><br/>
 			<?php _e( "For each of the Custom Job Fields defined, there are several shortcodes defined. Note that the numbers ('n' in the samples) won't change, even if you re-order, add or delete Application Fields.", 'jobman' ) ?><br/><br/>
 			<tt>[job_app_field<em>n</em>_label]</tt> - <?php _e( 'Display the field label', 'jobman' ) ?><br/>

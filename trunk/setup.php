@@ -310,6 +310,7 @@ EOT;
 		
 		if( $oldversion < 14 ) {
 			$options['templates']['application_form'] = '';
+			$options['multi_applications'] = 0;
 		}
 		
 		update_option( 'jobman_options', $options );
