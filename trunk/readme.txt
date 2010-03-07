@@ -108,6 +108,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Job selector in application form
 * ADDED: Geolocation field to application form
 * ADDED: Ability to search applications by distance from a given location
+* ADDED: WordPress.com support
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It was running a bad query, so had to go.
 * FIXED: Some PHP warnings
 

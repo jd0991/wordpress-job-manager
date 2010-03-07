@@ -69,44 +69,48 @@ function jobman_display_register() {
 	
 	$page = get_post( $options['register_page'] );
 	
-	$content = '<div id="jobman_register">';
+	$content = '';
 	
-	$content .= '<form action="" method="post">';
-	$content .= '<input type="hidden" name="jobman_register" value="1" />';
+	$register_html = '<div id="jobman_register">';
 	
-	$content .= '<table>';
+	$register_html .= '<form action="" method="post">';
+	$register_html .= '<input type="hidden" name="jobman_register" value="1" />';
+	
+	$register_html .= '<table>';
 	
 	if( 4 == $jobman_register_failed )
-		$content .= '<tr><td>&nbsp;</td><td class="error">' . __( 'Please fill in all fields.', 'jobman' ) . '</td></tr>';
+		$register_html .= '<tr><td>&nbsp;</td><td class="error">' . __( 'Please fill in all fields.', 'jobman' ) . '</td></tr>';
 	
 	if( 1 == $jobman_register_failed )
-		$content .= '<tr><td>&nbsp;</td><td class="error">' . __( 'This username has already been registered.', 'jobman' ) . '</td></tr>';
+		$register_html .= '<tr><td>&nbsp;</td><td class="error">' . __( 'This username has already been registered.', 'jobman' ) . '</td></tr>';
 	
-	$content .= '<tr><th scope="row"><label class="username" for="jobman_username">' . __( 'Username', 'jobman' ) . '</label>:</th>';
-	$content .= '<td><input class="username" type="text" name="jobman_username" id="jobman_username" value="';
-	$content .= ( array_key_exists( 'jobman_username', $wp_query->query_vars ) )?( $wp_query->query_vars['jobman_username'] ):( '' );
-	$content .= '" /></td></tr>';
+	$register_html .= '<tr><th scope="row"><label class="username" for="jobman_username">' . __( 'Username', 'jobman' ) . '</label>:</th>';
+	$register_html .= '<td><input class="username" type="text" name="jobman_username" id="jobman_username" value="';
+	$register_html .= ( array_key_exists( 'jobman_username', $wp_query->query_vars ) )?( $wp_query->query_vars['jobman_username'] ):( '' );
+	$register_html .= '" /></td></tr>';
 	
 	if( 2 == $jobman_register_failed )
-		$content .= '<tr><td>&nbsp;</td><td class="error">' . __( 'Passwords do not match.', 'jobman' ) . '</td></tr>';
+		$register_html .= '<tr><td>&nbsp;</td><td class="error">' . __( 'Passwords do not match.', 'jobman' ) . '</td></tr>';
 	
-	$content .= '<tr><th scope="row"><label class="password" for="jobman_password">' . __( 'Password', 'jobman' ) . '</label>:</th>';
-	$content .= '<td><input class="password" type="password" name="jobman_password" id="jobman_password" /></td></tr>';
+	$register_html .= '<tr><th scope="row"><label class="password" for="jobman_password">' . __( 'Password', 'jobman' ) . '</label>:</th>';
+	$register_html .= '<td><input class="password" type="password" name="jobman_password" id="jobman_password" /></td></tr>';
 	
-	$content .= '<tr><th scope="row"><label class="password" for="jobman_password2">' . __( 'Password Again', 'jobman' ) . '</label>:</th>';
-	$content .= '<td><input class="password" type="password" name="jobman_password2" id="jobman_password2" /></td></tr>';
+	$register_html .= '<tr><th scope="row"><label class="password" for="jobman_password2">' . __( 'Password Again', 'jobman' ) . '</label>:</th>';
+	$register_html .= '<td><input class="password" type="password" name="jobman_password2" id="jobman_password2" /></td></tr>';
 	
 	if( 3 == $jobman_register_failed )
-		$content .= '<tr><td>&nbsp;</td><td class="error">' . sprintf( __( "This email address has already been registered. If you've previously registered but don't remember your password, please visit the <a href='%1s'>password reset page</a>.", 'jobman' ), wp_lostpassword_url( jobman_current_url() ) ) . '</td></tr>';
+		$register_html .= '<tr><td>&nbsp;</td><td class="error">' . sprintf( __( "This email address has already been registered. If you've previously registered but don't remember your password, please visit the <a href='%1s'>password reset page</a>.", 'jobman' ), wp_lostpassword_url( jobman_current_url() ) ) . '</td></tr>';
 	
-	$content .= '<tr><th scope="row"><label class="email" for="jobman_email">' . __( 'Email Address', 'jobman' ) . '</label>:</th>';
-	$content .= '<td><input class="email" type="text" name="jobman_email" id="jobman_email" value="';
-	$content .= ( array_key_exists( 'jobman_email', $wp_query->query_vars ) )?( $wp_query->query_vars['jobman_email'] ):( '' );
-	$content .= '" /></td></tr>';
+	$register_html .= '<tr><th scope="row"><label class="email" for="jobman_email">' . __( 'Email Address', 'jobman' ) . '</label>:</th>';
+	$register_html .= '<td><input class="email" type="text" name="jobman_email" id="jobman_email" value="';
+	$register_html .= ( array_key_exists( 'jobman_email', $wp_query->query_vars ) )?( $wp_query->query_vars['jobman_email'] ):( '' );
+	$register_html .= '" /></td></tr>';
 	
-	$content .= '<tr><td colspan="2"><input class="submit" type="submit" name="submit" value="' . __( 'Register', 'jobman' ) . '" /></td></tr>';
+	$register_html .= '<tr><td colspan="2"><input class="submit" type="submit" name="submit" value="' . __( 'Register', 'jobman' ) . '" /></td></tr>';
 
-	$content .= '</table></form></div>';
+	$register_html .= '</table></form></div>';
+	
+	$content .= apply_filters( 'jobman_register_html', $register_html );
 	
 	$page->post_content = $content;
 	

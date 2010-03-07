@@ -52,7 +52,9 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	if( $options['user_registration'] && $options['user_registration_required'] && ! is_user_logged_in() ) {
 		// Skip the application form if the user hasn't registered yet, and we're enforcing registration. 
 		
-		$content .= '<p>' . __( 'Before completing your application, please login using the form above, or register using the form below.', 'jobman' ) . '</p>';
+		$pleaseregister = '<p>' . __( 'Before completing your application, please login using the form above, or register using the form below.', 'jobman' ) . '</p>';
+		
+		$content .= apply_filters( 'jobman_pleaseregister_html', $pleaseregister );
 		
 		$reg = jobman_display_register();
 		$content .= $reg[0]->post_content;

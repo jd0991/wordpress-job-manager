@@ -377,9 +377,6 @@ jQuery(document).ready(function() {
 								{ enableHighAccuracy: true,
                                      gearsRequestAddress: true } );
 	}
-	else {
-		alert ( "OTHER" );
-	}
 });
 //]]>
 var jobman_mandatory_ids = <?php echo json_encode( $mandatory_ids ) ?>;

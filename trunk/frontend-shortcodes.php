@@ -211,7 +211,20 @@ function jobman_field_shortcode( $atts, $content, $tag ) {
 	if( array_key_exists( 2, $matches ) )
 		return $options['job_fields'][$matches[1]]['label'];
 	
-	return get_post_meta( $jobman_shortcode_job->ID, 'data' . $matches[1], true );
+	$data = get_post_meta( $jobman_shortcode_job->ID, 'data' . $matches[1], true );
+	
+	if( empty( $data ) )
+		return NULL;
+	
+	switch( $options['job_fields'][$matches[1]]['type'] ) {
+		case 'textarea':
+			return wpautop( $data );
+		case 'file':
+			return '<a href="' . wp_get_attachment_url( $data ) . '">' . __( 'Download', 'jobman' ) . '</a>';
+		default:
+			return $data;
+	}
+
 }
 
 function jobman_field_shortcode_conditional( $atts, $content, $tag ) {
