@@ -112,6 +112,15 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It was running a bad query, so had to go.
 * FIXED: Some PHP warnings
 
+= 0.6.3 =
+* FIXED: Jobs not saving properly if not empty fields are changed to being empty
+* FIXED: Files attached to jobs could be deleted when saving the job
+* FIXED: More PHP warnings
+
+= 0.6.2 =
+* FIXED: Potential PHP Warning when editing the application form
+* FIXED: Files attached to jobs not displaying properly when using the individual field code in the template
+
 = 0.6.1 =
 * FIXED: File encoding, causing weird characters to appear
 * FIXED: File upload on jobs not uploading correctly

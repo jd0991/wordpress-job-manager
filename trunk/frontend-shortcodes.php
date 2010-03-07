@@ -212,7 +212,7 @@ function jobman_field_shortcode( $atts, $content, $tag ) {
 		return $options['job_fields'][$matches[1]]['label'];
 	
 	$data = get_post_meta( $jobman_shortcode_job->ID, 'data' . $matches[1], true );
-	
+
 	if( empty( $data ) )
 		return NULL;
 	
@@ -224,7 +224,6 @@ function jobman_field_shortcode( $atts, $content, $tag ) {
 		default:
 			return $data;
 	}
-
 }
 
 function jobman_field_shortcode_conditional( $atts, $content, $tag ) {

@@ -118,6 +118,7 @@ function jobman_job_setup_updatedb() {
 												'label' => $_REQUEST['jobman-label'][$ii],
 												'type' => $_REQUEST['jobman-type'][$ii],
 												'data' => stripslashes( $_REQUEST['jobman-data'][$ii] ),
+												'description' => '',
 												'sortorder' => $ii
 											);
 			}
