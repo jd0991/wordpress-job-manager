@@ -182,6 +182,7 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
 				case 'date':
 				case 'file':
 				case 'select':
+				case 'geoloc':
 					if( '' != $field['label'] )
 						$content .= "<th scope='row'>{$field['label']}$mandatory</th>";
 					else
@@ -268,6 +269,11 @@ function jobman_app_field_input_html( $id, $field, $data ) {
 			return "<input type='text' class='datepicker' name='jobman-field-$id' value='$data' />";
 		case 'file':
 			return "<input type='file' name='jobman-field-$id' />";
+		case 'geoloc':
+			$content .= "<input type='hidden' class='jobman-geoloc-data' name='jobman-field-$id' />";
+			$content .= "<input type='hidden' class='jobman-geoloc-original-display' name='jobman-field-original-display-$id' />";
+			$content .= "<input type='text' class='jobman-geoloc-display' name='jobman-field-display-$id' />";
+			return $content;
 		case 'html':
 			return $field['data'];
 		case 'heading':
@@ -384,6 +390,14 @@ function jobman_store_application( $jobid, $cat ) {
 					break;
 				case 'checkbox':
 					$data = implode( ', ', $_REQUEST["jobman-field-$fid"] );
+					break;
+				case 'geoloc':
+					if( $_REQUEST["jobman-field-original-display-$fid"] == $_REQUEST["jobman-field-display-$fid"] )
+						$data = $_REQUEST["jobman-field-$fid"];
+					else
+						$data = $_REQUEST["jobman-field-display-$fid"];
+						
+					add_post_meta( $appid, "data-display$fid", $_REQUEST["jobman-field-display-$fid"], true );
 					break;
 				default:
 					$data = $_REQUEST["jobman-field-$fid"];
@@ -662,6 +676,9 @@ function jobman_email_application( $appid, $sendto = '' ) {
 					break;
 				case 'file':
 					$msg .= $field['label'] . ': ' . wp_get_attachment_url( $appdata["data$id"] ) . PHP_EOL;
+					break;
+				case 'geoloc':
+					$msg .= $field['label'] . ': ' . $appdata['data-display'.$id] . '(' . $appdata['data'.$id] . ')' . PHP_EOL;
 					break;
 			}
 		}

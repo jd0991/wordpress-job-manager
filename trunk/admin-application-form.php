@@ -15,6 +15,7 @@ function jobman_application_setup() {
 						'textarea' => __( 'Large Text Input (textarea)', 'jobman' ),
 						'date' => __( 'Date Selector', 'jobman' ),
 						'file' => __( 'File Upload', 'jobman' ),
+						'geoloc' => __( 'Geolocation', 'jobman' ),
 						'heading' => __( 'Heading', 'jobman' ),
 						'html' => __( 'HTML Code', 'jobman' ),
 						'blank' => __( 'Blank Space', 'jobman' )
@@ -164,9 +165,9 @@ function jobman_application_setup_updatedb() {
 			$newcount++;
 			$listdisplay = 0;
 			$mandatory = 0;
-			if( array_key_exists( 'new', $_REQUEST['jobman-listdisplay'] ) && array_key_exists( $newcount, $_REQUEST['jobman-listdisplay']['new'] ) )
+			if( array_key_exists( 'jobman-listdisplay', $_REQUEST ) && array_key_exists( 'new', $_REQUEST['jobman-listdisplay'] ) && array_key_exists( $newcount, $_REQUEST['jobman-listdisplay']['new'] ) )
 				$listdisplay = 1;
-			if( array_key_exists( 'new', $_REQUEST['jobman-mandatory'] ) && array_key_exists( $newcount, $_REQUEST['jobman-mandatory']['new'] ) )
+			if( array_key_exists( 'jobman-mandatory', $_REQUEST ) && array_key_exists( 'new', $_REQUEST['jobman-mandatory'] ) && array_key_exists( $newcount, $_REQUEST['jobman-mandatory']['new'] ) )
 				$mandatory = 1;
 
 			// INSERT new field
@@ -191,9 +192,9 @@ function jobman_application_setup_updatedb() {
 		else {
 			$listdisplay = 0;
 			$mandatory = 0;
-			if( array_key_exists( $id, $_REQUEST['jobman-listdisplay'] ) )
+			if( array_key_exists( 'jobman-listdisplay', $_REQUEST ) && array_key_exists( $id, $_REQUEST['jobman-listdisplay'] ) )
 				$listdisplay = 1;
-			if( array_key_exists( $id, $_REQUEST['jobman-mandatory'] ) )
+			if( array_key_exists( 'jobman-mandatory', $_REQUEST ) && array_key_exists( $id, $_REQUEST['jobman-mandatory'] ) )
 				$mandatory = 1;
 
 			// UPDATE existing field

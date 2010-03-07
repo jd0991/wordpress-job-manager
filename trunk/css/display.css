@@ -117,13 +117,14 @@ p.jobmanpromo {
 	padding: 1px;
 }
 
-div.jobselect-popout {
+span.jobselect-popout {
 	position: absolute;
+	display: block;
 	background-color: #eee;
 	border: 1px solid #111;
 }
 
-div.jobselect-popout span{
+span.jobselect-popout span{
 	display: block;
 	min-width: 150px;
 }

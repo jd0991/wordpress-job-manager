@@ -42,6 +42,10 @@ Related links:
 
 == Installation ==
 
+Job Manager Requires:
+* WordPress 2.9 or later
+* PHP 5 or later
+
 = The Good Way =
 
 1. In your WordPress Admin, go to the Add New Plugins page
@@ -102,6 +106,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Support for wp.com sites
 * ADDED: Ability to apply for multiple jobs at once
 * ADDED: Job selector in application form
+* ADDED: Geolocation field to application form
+* ADDED: Ability to search applications by distance from a given location
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It was running a bad query, so had to go.
 * FIXED: Some PHP warnings
 

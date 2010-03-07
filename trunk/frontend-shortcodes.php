@@ -322,14 +322,14 @@ function jobman_app_shortcode( $atts, $content, $tag ) {
 			switch( $atts['type'] ) {
 				case 'popout':
 				case 'individual':
-					$content .= "<div style='$style' class='$class'>";
+					$content .= "<span style='$style' class='$class'>";
 					foreach( $jobs as $job ) {
 						$checked = '';
 						if( array_key_exists( 'jobman-joblist', $_REQUEST ) && in_array( $job->ID, $_REQUEST['jobman-joblist'] ) )
 							$checked = ' checked="checked"';
 						$content .= "<span><input type='$inputtype' name='jobman-jobselect$inputarray' title='$job->post_title' value='$job->ID'$checked /> $job->post_title</span>";
 					}
-					$content .= '</div>';
+					$content .= '</span>';
 					break;
 				case 'select':
 				default:

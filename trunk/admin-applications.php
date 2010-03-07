@@ -131,7 +131,6 @@ function jobman_list_applications() {
 			switch( $field['type'] ) {
 				case 'text':
 				case 'textarea':
-					
 						echo "<td><input type='text' name='jobman-field-$id' value='$req_value' /></td>";
 					break;
 				case 'date':
@@ -150,8 +149,25 @@ function jobman_list_applications() {
 					}
 					echo '</td>';
 					break;
+				case 'geoloc':
+					if( $options['api_keys']['google_maps'] ) {
+						$msg = __( 'Up to %1s km from %2s', 'jobman' );
+						
+						$km_value = '';
+						if( array_key_exists( "jobman-field2-$id", $_REQUEST ) )
+							$km_value = $_REQUEST["jobman-field2-$id"];
+						
+						$km = "<input type='text' name='jobman-field2-$id' class='small-text' value='$km_value' />";
+						$loc = "<input type='text' name='jobman-field-$id' class='small-text' value='$req_value' />";
+						$msg = sprintf( $msg, $km, $loc );
+					}
+					else {
+						$msg = __( 'Please enter a Google Maps API key in your Admin Settings.', 'jobman' );
+					}
+					echo "<td>$msg</td>";
+					break;
 				default:
-					'<td>' . __( 'This field cannot be filtered.', 'jobman' ) . '</td>';
+					echo '<td>' . __( 'This field cannot be filtered.', 'jobman' ) . '</td>';
 			}
 		}
 		echo '</tr>';
@@ -345,6 +361,64 @@ function jobman_list_applications() {
 								continue 3;
 							}
 							break;
+						case 'geoloc':
+							if( empty( $_REQUEST["jobman-field2-$id"] ) || ! is_numeric( $_REQUEST["jobman-field2-$id"] ) )
+								// No value or bad value entered for distance
+								continue 2;
+								
+							$url = 'http://maps.google.com/maps/geo?output=xml&key=' . $options['api_keys']['google_maps'];
+							$searchurl = "$url&q=" . urlencode( $_REQUEST["jobman-field-$id"] );
+							
+							if( ! $xml = simplexml_load_file( $searchurl ) )
+								// Something broken with XML load
+								continue 2;
+							$status = $xml->Response->Status->code;
+							if (strcmp($status, "200") == 0) {
+								$coordinates = $xml->Response->Placemark->Point->coordinates;
+								$coordinatesSplit = split(",", $coordinates);
+
+								$search_lat = $coordinatesSplit[1];
+								$search_lng = $coordinatesSplit[0];
+								
+								$data = $appdata["data$id"];
+								if( ! preg_match( '/^[0-9.]+,[0-9.]+$/', $data ) ) {
+									// Data not stored as lat,long. Ask Google.
+									$searchurl = "$url&q=" . urlencode( $data );
+									if( ! $xml = simplexml_load_file( $searchurl ) )
+										// Something broken with XML load
+										continue 2;
+									
+									$status = $xml->Response->Status->code;
+									if (strcmp($status, "200") == 0) {
+										$coordinates = $xml->Response->Placemark->Point->coordinates;
+										$coordinatesSplit = split(",", $coordinates);
+
+										$data_lat = $coordinatesSplit[1];
+										$data_lng = $coordinatesSplit[0];
+									}
+									else {
+										// Geocode failed
+										continue 2;
+									}
+								}
+								else {
+									list( $data_lat, $data_lng ) = split( ',', $data );
+								}
+								
+								// Calculate distance between locations
+								$distance = sin( deg2rad( $data_lat ) ) * sin( deg2rad( $search_lat ) ) +
+											cos( deg2rad( $data_lat ) ) * cos( deg2rad( $search_lat ) ) * cos( deg2rad( $data_lng - $search_lng ) );
+								
+								$distance = rad2deg( acos( $distance ) ) * 69.09 * 1.609344;
+								
+								if( $distance > $_REQUEST["jobman-field2-$id"] )
+									// Too far away. Move to the next $app
+									continue 3;
+							}
+							else {
+								// Geocode failed
+								continue 2;
+							}
 					}
 				}
 			}
@@ -410,6 +484,9 @@ function jobman_list_applications() {
 									break;
 								case 'file':
 									$data = '<a href="' . wp_get_attachment_url( $appdata["data$id"] ) . '">' . __( 'Download', 'jobman' ) . '</a>';
+									break;
+								case 'geoloc':
+									$data = $appdata["data-display$id"];
 									break;
 							}
 						}

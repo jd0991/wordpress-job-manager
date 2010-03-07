@@ -231,6 +231,7 @@ function jobman_display_jobs( $posts ) {
 
 function jobman_display_init() {
 	wp_enqueue_script( 'jquery-ui-datepicker', JOBMAN_URL . '/js/jquery-ui-datepicker.js', array( 'jquery-ui-core' ), JOBMAN_VERSION );
+	wp_enqueue_script( 'google-gears', JOBMAN_URL . '/js/gears_init.js', false, JOBMAN_VERSION );
 	wp_enqueue_script( 'jquery-display', JOBMAN_URL . '/js/display.js', false, JOBMAN_VERSION );
 	wp_enqueue_style( 'jobman-display', JOBMAN_URL . '/css/display.css', false, JOBMAN_VERSION );
 }
@@ -340,7 +341,7 @@ jQuery(document).ready(function() {
 	jQuery(".datepicker").datepicker({dateFormat: 'yy-mm-dd', changeMonth: true, changeYear: true, gotoCurrent: true});
 	jQuery("#ui-datepicker-div").css('display', 'none');
 	
-	jQuery("#jobman-jobselect-echo").click(function() {
+	jQuery("#jobman-jobselect-echo").click(function( event ) {
 		if( jQuery(this).hasClass("open") ) {
 			jQuery(this).removeClass("open");
 		}
@@ -351,7 +352,8 @@ jQuery(document).ready(function() {
 		}
 
 		jQuery(".jobselect-popout").animate({ opacity: 'toggle', height: 'toggle' }, "fast");
-		return false;
+		
+		event.preventDefault();
 	});
 	
 	jQuery(".jobselect-popout input").click(function() {
@@ -360,6 +362,24 @@ jQuery(document).ready(function() {
 	});
 	
 	jobman_update_selected_jobs();
+	
+	var geo;
+	if( navigator.geolocation ) {
+		// HTML5
+		geo = navigator.geolocation;
+		geo.getCurrentPosition( jobman_html5_geo_success );
+	}
+	else if( google.gears ) {
+		// Google Gears
+		geo = google.gears.factory.create('beta.geolocation');
+		geo.getCurrentPosition( jobman_gears_geo_success, 
+								jobman_gears_geo_error,
+								{ enableHighAccuracy: true,
+                                     gearsRequestAddress: true } );
+	}
+	else {
+		alert ( "OTHER" );
+	}
 });
 //]]>
 var jobman_mandatory_ids = <?php echo json_encode( $mandatory_ids ) ?>;
@@ -387,6 +407,27 @@ function jobman_update_selected_jobs() {
 	jQuery("#jobman-jobselect-echo").html( jobs );
 
 }
+
+function jobman_html5_geo_success( pos ) {
+	var description = pos.address.city + ", " + pos.address.region + ", " + pos.address.country;
+	jobman_geo_set_values( description, pos.coords.latitude, pos.coords.longitude );
+}
+
+function jobman_gears_geo_success( pos ) {
+	var description = pos.gearsAddress.city + ", " + pos.gearsAddress.region + ", " + pos.gearsAddress.country;
+	jobman_geo_set_values( description, pos.latitude, pos.longitude );
+}
+
+function jobman_gears_geo_error( err ) {
+	return;
+}
+
+function jobman_geo_set_values( description, latitude, longitude ) {
+	jQuery(".jobman-geoloc-data").val( latitude + "," + longitude );
+	jQuery(".jobman-geoloc-original-display").val( description );
+	jQuery(".jobman-geoloc-display").val( description );
+}
+
 </script> 
 <?php
 }

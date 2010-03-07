@@ -74,6 +74,9 @@ function jobman_create_default_settings() {
 					'plugins' => array(
 									'gxs' => 1,
 									'sicaptcha' => 0
+								),
+					'api_keys' => array(
+									'google_maps' => ''
 								)
 				);
 
@@ -311,6 +314,9 @@ EOT;
 		if( $oldversion < 14 ) {
 			$options['templates']['application_form'] = '';
 			$options['multi_applications'] = 0;
+			$options['api_keys'] = array(
+										'google_maps' => ''
+									);
 		}
 		
 		update_option( 'jobman_options', $options );
