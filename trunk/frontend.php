@@ -345,8 +345,8 @@ jQuery(document).ready(function() {
 			jQuery(this).removeClass("open");
 		}
 		else {
-			jQuery(".jobselect-popout").css( "left", jQuery("#jobman-jobselect").offset().left + "px" );
-			jQuery(".jobselect-popout").css( "top", ( jQuery("#jobman-jobselect").offset().top + 20 ) + "px" );
+			jQuery(".jobselect-popout").css( "left", jQuery("#jobman-jobselect").position().left + "px" );
+			jQuery(".jobselect-popout").css( "top", ( jQuery("#jobman-jobselect").position().top + 20 ) + "px" );
 			jQuery(this).addClass("open");
 		}
 
