@@ -111,6 +111,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: WordPress.com support
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It was running a bad query, so had to go.
 * FIXED: Some PHP warnings
+* FIXED: Admin menu now uses handles rather than file references
 
 = 0.6.3 =
 * FIXED: Jobs not saving properly if not empty fields are changed to being empty

@@ -158,7 +158,7 @@ function jobman_list_applications() {
 							$km_value = $_REQUEST["jobman-field2-$id"];
 						
 						$km = "<input type='text' name='jobman-field2-$id' class='small-text' value='$km_value' />";
-						$loc = "<input type='text' name='jobman-field-$id' class='small-text' value='$req_value' />";
+						$loc = "<input type='text' name='jobman-field-$id' value='$req_value' />";
 						$msg = sprintf( $msg, $km, $loc );
 					}
 					else {
