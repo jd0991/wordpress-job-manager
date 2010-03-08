@@ -325,16 +325,19 @@ function jobman_app_shortcode( $atts, $content, $tag ) {
 			
 			$style = '';
 			$class = '';
+			$closebutton = '';
 			if( 'popout' == $atts['type'] ) {
 				$style = 'display: none;';
 				$class = 'jobselect-popout';
 				$content .= '<span id="jobman-jobselect-echo"></span>';
+				$closebutton = '<span id="jobman-jobselect-close"><a href="#">[x]</a></span>';
 			}
 			
 			switch( $atts['type'] ) {
 				case 'popout':
 				case 'individual':
 					$content .= "<span style='$style' class='$class'>";
+					$content .= $closebutton;
 					foreach( $jobs as $job ) {
 						$checked = '';
 						if( array_key_exists( 'jobman-joblist', $_REQUEST ) && in_array( $job->ID, $_REQUEST['jobman-joblist'] ) )

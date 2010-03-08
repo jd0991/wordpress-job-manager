@@ -117,11 +117,19 @@ p.jobmanpromo {
 	padding: 1px;
 }
 
+#jobman-jobselect-close a {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10px;
+	float: right;
+	margin-top: -10px;
+}
+
 span.jobselect-popout {
 	position: absolute;
 	display: block;
-	background-color: #eee;
-	border: 1px solid #111;
+	background-color: #f1f1f1;
+	border: 1px solid #7d7e88;
+	padding: 10px 5px 5px;
 }
 
 span.jobselect-popout span{

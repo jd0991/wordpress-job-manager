@@ -356,6 +356,8 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 	});
 	
+	jQuery("#jobman-jobselect-close a").click( function() { jQuery("#jobman-jobselect-echo").click(); return false; } );
+	
 	jQuery(".jobselect-popout input").click(function() {
 		jobman_update_selected_jobs();
 		return true;
