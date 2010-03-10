@@ -249,6 +249,7 @@ function jobman_display_template() {
 	$id = $root->ID;
 	$template = get_post_meta( $id, '_wp_page_template', true );
 	$pagename = get_query_var( 'pagename' );
+	$category = get_query_var( 'jcat' );
 
 	if( 'default' == $template )
 		$template = '';
@@ -256,12 +257,14 @@ function jobman_display_template() {
 	$templates = array();
 	if( ! empty( $template ) && ! validate_file( $template ) )
 		$templates[] = $template;
+	if( $category )
+		$templates[] = "category-$category.php";
 	if( $pagename )
 		$templates[] = "page-$pagename.php";
 	if( $id )
 		$templates[] = "page-$id.php";
 	$templates[] = "page.php";
-	
+
 	$template = apply_filters( 'page_template', locate_template( $templates ) );
 
 	if( '' != $template ) {

@@ -97,7 +97,7 @@ function jobman_application_setup() {
 ?>
 					<input type="checkbox" name="jobman-mandatory[<?php echo $id ?>]" value="1"<?php echo $checked ?> /> <?php _e( 'Mandatory field?', 'jobman' ) ?><br/>
 					<textarea class="large-text code" name="jobman-filter[]"><?php echo $field['filter'] ?></textarea><br/>
-					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php esc_attr_e( $field['error'] ) ?>" />
+					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php echo esc_attr( $field['error'] ) ?>" />
 				</td>
 				<td><a href="#" onclick="jobman_sort_field_up( this ); return false;"><?php _e( 'Up', 'jobman' ) ?></a> <a href="#" onclick="jobman_sort_field_down( this ); return false;"><?php _e( 'Down', 'jobman' ) ?></a></td>
 				<td><a href="#" onclick="jobman_delete( this, 'jobman-fieldid', 'jobman-delete-list' ); return false;"><?php _e( 'Delete', 'jobman' ) ?></a></td>

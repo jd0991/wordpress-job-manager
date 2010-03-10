@@ -69,6 +69,14 @@ Job Manager Requires:
 
 For a full description of how to use the application form customization features, please read [this page in the documentation](http://code.google.com/p/wordpress-job-manager/wiki/CustomApplicationForm).
 
+= DOCX files don't download properly =
+
+Apache's `mod_mime_magic` doesn't recognise docx file type properly, and older versions of Apache don't have docx in their mime.types file. You should update your copy of Apache to something more recent, or (if you're unable to update or turn off `mod_mime_magic`) create a .htaccess file as [described here](http://www.webdeveloper.com/forum/showpost.php?p=898935&postcount=2).
+
+= I can't upload DOC files in WordPress MU =
+
+In your WordPress MU admin, go to Site Admin->Options. Update the "Upload File Types" option to include the various extensions (doc, docx, pdf, odt) that people are likely to upload their resume with.
+
 == Other Plugin Support ==
 
 The Job Manager supports added functionality when other plugins are installed. If you think your plugin could add some functionality to Job Manager, please [submit a feature request](http://code.google.com/p/wordpress-job-manager/issues/list).
@@ -109,6 +117,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Geolocation field to application form
 * ADDED: Ability to search applications by distance from a given location
 * ADDED: WordPress.com support
+* ADDED: Category template option
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It was running a bad query, so had to go.
 * FIXED: Some PHP warnings
 * FIXED: Admin menu now uses handles rather than file references

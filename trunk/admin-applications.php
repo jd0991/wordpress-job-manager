@@ -138,6 +138,7 @@ function jobman_list_applications() {
 					break;
 				case 'radio':
 				case 'checkbox':
+				case 'select':
 					echo '<td>';
 					$values = split( "\n", $field['data'] );
 					foreach( $values as $value ) {
@@ -645,6 +646,9 @@ function jobman_application_display_details( $appid ) {
 				case 'file':
 					echo "<a href='" . wp_get_attachment_url( $item ) . "'>" . __( 'Download', 'jobman' ) . "</a>";
 					break;
+				case 'geoloc':
+					echo '<a href="http://maps.google.com/maps?q=' . urlencode( $item ) . '">' . $appdata['data-display'.$fid] . ' (' . $item . ')</a>';
+					break;
 			}
 			if( $fid == $fromid ) {
 				echo '</a>';
@@ -788,7 +792,10 @@ function jobman_get_application_csv() {
 								$data[] = $item;
 								break;
 							case 'file':
-								$data[] =  admin_url("admin.php?page=jobman-list-applications&amp;appid=$app->ID&amp;getfile=$item");
+								$data[] = admin_url("admin.php?page=jobman-list-applications&appid=$app->ID&getfile=$item");
+								break;
+							case 'geoloc':
+								$data[] = $appdata['data-display'.$id] . ' (' . $item . ')';
 								break;
 							default:
 								$data[] = '';

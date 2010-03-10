@@ -159,8 +159,6 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
 				$rowcount = 1;
 			}
 
-			$data = strip_tags( $field['data'] );
-
 			// Auto-populate logged in user email address
 			if( $id == $options['application_email_from'] && '' == $data && is_user_logged_in() ) {
 			    $data = $current_user->user_email;
@@ -232,6 +230,8 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
 function jobman_app_field_input_html( $id, $field, $data ) {
 	$content = '';
 	
+	$data = esc_attr( $data );
+
 	switch( $field['type'] ) {
 		case 'text':
 			return "<input type='text' name='jobman-field-$id' value='$data' />";
@@ -293,7 +293,10 @@ function jobman_store_application( $jobid, $cat ) {
 	}
 
 	$dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
+
+	require_once( "$dir/wp-admin/includes/file.php" );
 	require_once( "$dir/wp-admin/includes/image.php" );
+	require_once( "$dir/wp-admin/includes/media.php" );
 
 	$options = get_option( 'jobman_options' );
 	
@@ -372,26 +375,10 @@ function jobman_store_application( $jobid, $cat ) {
 			switch( $field['type'] ) {
 				case 'file':
 					if( is_uploaded_file( $_FILES["jobman-field-$fid"]['tmp_name'] ) ) {
-							$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( $_FILES["jobman-field-$fid"]['tmp_name'] ) );
-							if( ! $upload['error'] ) {
-								$filetype = wp_check_filetype( $upload['file'] );
-								$attachment = array(
-												'post_title' => '',
-												'post_content' => '',
-												'post_status' => 'private',
-												'post_mime_type' => $filetype['type']
-											);
-								$data = wp_insert_attachment( $attachment, $upload['file'], $appid );
-								$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );
-								wp_update_attachment_metadata( $data, $attach_data );
-
-								add_post_meta( $data, '_jobman_attachment', 1, true );
-								add_post_meta( $data, '_jobman_attachment_upload', 1, true );
-							}
+							$data = media_handle_upload( "jobman-field-$fid", $appid, array( 'post_status' => 'private' ) );
+							add_post_meta( $data, '_jobman_attachment', 1, true );
+							add_post_meta( $data, '_jobman_attachment_upload', 1, true );
 					}
-					break;
-				case 'checkbox':
-					$data = implode( ', ', $_REQUEST["jobman-field-$fid"] );
 					break;
 				case 'geoloc':
 					if( $_REQUEST["jobman-field-original-display-$fid"] == $_REQUEST["jobman-field-display-$fid"] )
@@ -402,7 +389,10 @@ function jobman_store_application( $jobid, $cat ) {
 					add_post_meta( $appid, "data-display$fid", $_REQUEST["jobman-field-display-$fid"], true );
 					break;
 				default:
-					$data = $_REQUEST["jobman-field-$fid"];
+					if( is_array( $_REQUEST["jobman-field-$fid"] ) )
+						$data = implode( ', ', $_REQUEST["jobman-field-$fid"] );
+					else
+						$data = $_REQUEST["jobman-field-$fid"];
 			}
 			
 			add_post_meta( $appid, "data$fid", $data, true );
@@ -435,7 +425,7 @@ function jobman_check_filters( $jobid, $cat ) {
 				$data = $_REQUEST["jobman-field-$id"];
 
 			if( 'checkbox' != $field['type'] )
-				$data = trim( $data );
+				$data = esc_attr( trim( $data ) );
 			else if( ! is_array( $data ) )
 				$data = array();
 
@@ -647,7 +637,7 @@ function jobman_email_application( $appid, $sendto = '' ) {
 	
 	$msg = '';
 	
-	$msg .= __( 'Application Link', 'jobman' ) . ': ' . admin_url( 'admin.php?page=jobman-list-applications&amp;appid=' . $app->ID ) . PHP_EOL;
+	$msg .= __( 'Application Link', 'jobman' ) . ': ' . admin_url( 'admin.php?page=jobman-list-applications&appid=' . $app->ID ) . PHP_EOL;
 
 	$parent = get_post( $app->post_parent );
 	if( NULL != $parent && 'jobman_job' == $parent->post_type ) {
@@ -680,7 +670,8 @@ function jobman_email_application( $appid, $sendto = '' ) {
 					$msg .= $field['label'] . ': ' . wp_get_attachment_url( $appdata["data$id"] ) . PHP_EOL;
 					break;
 				case 'geoloc':
-					$msg .= $field['label'] . ': ' . $appdata['data-display'.$id] . '(' . $appdata['data'.$id] . ')' . PHP_EOL;
+					$msg .= $field['label'] . ': ' . $appdata['data-display'.$id] . ' (' . $appdata['data'.$id] . ')' . PHP_EOL;
+					$msg .= 'http://maps.google.com/maps?q=' . urlencode( $appdata['data'.$id] ) . PHP_EOL;
 					break;
 			}
 		}
