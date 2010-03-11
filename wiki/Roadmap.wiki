@@ -108,6 +108,7 @@ August 2010
   * Advanced registration features: Issue #8
   * Advanced application features: Issue #66
   * Track inbound emails: Issue #85
+  * Plugin Interface: Issue #134
 
 ----
 
