@@ -95,6 +95,14 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.6.4 =
+* ADDED: Support for category templates, as category-{foo}.php
+* FIXED: Add new job fields not working
+* FIXED: Add new application form fields not working
+* FIXED: Application details page not displaying fields in correct order
+* FIXED: Application details page not printing correctly
+* FIXED: One more potential PHP warning
+
 = 0.6.3 =
 * FIXED: Jobs not saving properly if not empty fields are changed to being empty
 * FIXED: Files attached to jobs could be deleted when saving the job

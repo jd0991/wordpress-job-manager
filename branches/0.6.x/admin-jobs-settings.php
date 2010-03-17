@@ -75,7 +75,7 @@ function jobman_job_setup() {
 	$template .= '<select name="jobman-type[]">';
 
 	foreach( $fieldtypes as $type => $label ) {
-		$template .= "<option value='$type'>$label</option>";
+		$template .= '<option value="' . $type. '">' . $label . '</option>';
 	}
 	$template .= '</select>';
 	$template .= '<td><textarea class="large-text code" name="jobman-data[]"></textarea></td>';

@@ -95,7 +95,7 @@ function jobman_application_setup() {
 ?>
 					<input type="checkbox" name="jobman-mandatory[<?php echo $id ?>]" value="1"<?php echo $checked ?> /> <?php _e( 'Mandatory field?', 'jobman' ) ?><br/>
 					<textarea class="large-text code" name="jobman-filter[]"><?php echo $field['filter'] ?></textarea><br/>
-					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php esc_attr_e( $field['error'] ) ?>" />
+					<input class="regular-text code" type="text" name="jobman-error[]" value="<?php echo esc_attr( $field['error'] ) ?>" />
 				</td>
 				<td><a href="#" onclick="jobman_sort_field_up( this ); return false;"><?php _e( 'Up', 'jobman' ) ?></a> <a href="#" onclick="jobman_sort_field_down( this ); return false;"><?php _e( 'Down', 'jobman' ) ?></a></td>
 				<td><a href="#" onclick="jobman_delete( this, 'jobman-fieldid', 'jobman-delete-list' ); return false;"><?php _e( 'Delete', 'jobman' ) ?></a></td>
@@ -109,14 +109,14 @@ function jobman_application_setup() {
 	$template .= '<select name="jobman-type[]">';
 
 	foreach( $fieldtypes as $type => $label ) {
-		$template .= "<option value='$type'>$label</option>";
+		$template .= '<option value="' . $type . '">' . $label . '</option>';
 	}
-	$template .= '</select>';
+	$template .= '</select><br/>';
 	$template .= '<input type="checkbox" name="jobman-listdisplay" value="1" />' . __( 'Show this field in the Application List?', 'jobman' ) . '</td>';
 	$template .= '<td>';
 	if( count( $categories ) > 0 ) {
 		foreach( $categories as $cat ) {
-			$template .= "<input type='checkbox' name='jobman-categories' class='jobman-categories' value='$cat->term_id' />$cat->name<br/>";
+			$template .= '<input type="checkbox" name="jobman-categories" class="jobman-categories" value="' . $cat->term_id . '" />' . $cat->name . '<br/>';
 		}
 	}
 	$template .= '</td>';
@@ -163,9 +163,9 @@ function jobman_application_setup_updatedb() {
 			$newcount++;
 			$listdisplay = 0;
 			$mandatory = 0;
-			if( array_key_exists( 'new', $_REQUEST['jobman-listdisplay'] ) && array_key_exists( $newcount, $_REQUEST['jobman-listdisplay']['new'] ) )
+			if( array_key_exists( 'jobman-listdisplay', $_REQUEST ) && array_key_exists( 'new', $_REQUEST['jobman-listdisplay'] ) && array_key_exists( $newcount, $_REQUEST['jobman-listdisplay']['new'] ) )
 				$listdisplay = 1;
-			if( is_array( $_REQUEST['jobman-mandatory'] ) && array_key_exists( 'new', $_REQUEST['jobman-mandatory'] ) && array_key_exists( $newcount, $_REQUEST['jobman-mandatory']['new'] ) )
+			if( array_key_exists( 'jobman-mandatory', $_REQUEST ) && array_key_exists( 'new', $_REQUEST['jobman-mandatory'] ) && array_key_exists( $newcount, $_REQUEST['jobman-mandatory']['new'] ) )
 				$mandatory = 1;
 
 			// INSERT new field
@@ -190,9 +190,9 @@ function jobman_application_setup_updatedb() {
 		else {
 			$listdisplay = 0;
 			$mandatory = 0;
-			if( array_key_exists( $id, $_REQUEST['jobman-listdisplay'] ) )
+			if( array_key_exists( 'jobman-listdisplay', $_REQUEST ) && array_key_exists( $id, $_REQUEST['jobman-listdisplay'] ) )
 				$listdisplay = 1;
-			if( is_array( $_REQUEST['jobman-mandatory'] ) && array_key_exists( $id, $_REQUEST['jobman-mandatory'] ) )
+			if( array_key_exists( 'jobman-mandatory', $_REQUEST ) && array_key_exists( $id, $_REQUEST['jobman-mandatory'] ) )
 				$mandatory = 1;
 
 			// UPDATE existing field

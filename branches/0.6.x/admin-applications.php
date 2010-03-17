@@ -524,11 +524,13 @@ function jobman_application_display_details( $appid ) {
 	$appmeta = get_post_custom( $appid );
 
 	$appdata = array();
-	foreach( $appmeta as $key => $value ) {
-		if( is_array( $value ) )
-			$appdata[$key] = $value[0];
-		else
-			$appdata[$key] = $value;
+	if( ! empty( $appmeta ) ) {
+		foreach( $appmeta as $key => $value ) {
+			if( is_array( $value ) )
+				$appdata[$key] = $value[0];
+			else
+				$appdata[$key] = $value;
+		}
 	}
 	
 	if( NULL != $app ) {
@@ -552,33 +554,35 @@ function jobman_application_display_details( $appid ) {
 		echo '</div></td><tr><td colspan="2">&nbsp;</td></tr>';
 
 		$fields = $options['fields'];
-		foreach( $appdata as $key => $item ) {
-			$matches = array();
-			if( ! preg_match( '/^data(\d+)$/', $key, $matches ) )
-				// Not a data key
-				continue;
-			$fid = $matches[1];
+		if( count( $fields ) > 0 ) {
+			uasort( $fields, 'jobman_sort_fields' );
+			foreach( $fields as $fid => $field ) {
+				if( ! array_key_exists( "data$fid", $appdata ) )
+					continue;
+					
+				$item = $appdata["data$fid"];
 			
-			echo '<tr><th scope="row" style="white-space: nowrap;"><strong>' . $fields[$fid]['label'] . '</strong></th><td>';
-			if( $fid == $fromid ) {
-				echo "<a href='mailto:$item'>";
+				echo '<tr><th scope="row" style="white-space: nowrap;"><strong>' . $fields[$fid]['label'] . '</strong></th><td>';
+				if( $fid == $fromid ) {
+					echo "<a href='mailto:$item'>";
+				}
+				switch( $fields[$fid]['type'] ) {
+					case 'text':
+					case 'radio':
+					case 'checkbox':
+					case 'date':
+					case 'textarea':
+						echo $item;
+						break;
+					case 'file':
+						echo "<a href='" . wp_get_attachment_url( $item ) . "'>" . __( 'Download', 'jobman' ) . "</a>";
+						break;
+				}
+				if( $fid == $fromid ) {
+					echo '</a>';
+				}
+				echo '</td></tr>';
 			}
-			switch( $fields[$fid]['type'] ) {
-				case 'text':
-				case 'radio':
-				case 'checkbox':
-				case 'date':
-				case 'textarea':
-					echo $item;
-					break;
-				case 'file':
-					echo "<a href='" . wp_get_attachment_url( $item ) . "'>" . __( 'Download', 'jobman' ) . "</a>";
-					break;
-			}
-			if( $fid == $fromid ) {
-				echo '</a>';
-			}
-			echo '</td></tr>';
 		}
 ?>
 		</table>
