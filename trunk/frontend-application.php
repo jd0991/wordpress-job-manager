@@ -158,6 +158,8 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
 				$tablecount++;
 				$rowcount = 1;
 			}
+			
+			$data = $field['data'];
 
 			// Auto-populate logged in user email address
 			if( $id == $options['application_email_from'] && '' == $data && is_user_logged_in() ) {
@@ -173,7 +175,7 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
 			$mandatory = '';
 			if( $field['mandatory'] )
 				$mandatory = ' *';
-			
+				
 			switch( $field['type'] ) {
 				case 'text':
 				case 'radio':
@@ -228,6 +230,7 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
 }
 
 function jobman_app_field_input_html( $id, $field, $data ) {
+	global $jobman_geoloc;
 	$content = '';
 	
 	$data = esc_attr( $data );
@@ -272,6 +275,7 @@ function jobman_app_field_input_html( $id, $field, $data ) {
 		case 'file':
 			return "<input type='file' name='jobman-field-$id' />";
 		case 'geoloc':
+			$jobman_geoloc = true;
 			$content .= "<input type='hidden' class='jobman-geoloc-data' name='jobman-field-$id' />";
 			$content .= "<input type='hidden' class='jobman-geoloc-original-display' name='jobman-field-original-display-$id' />";
 			$content .= "<input type='text' class='jobman-geoloc-display' name='jobman-field-display-$id' />";
@@ -623,7 +627,7 @@ function jobman_email_application( $appid, $sendto = '' ) {
 	$from = "\"$fromname\" <$from>";
 	
 	$subject = $options['application_email_subject_text'];
-	if( '' != $subject )
+	if( ! empty( $subject ) )
 		$subject .= ' ';
 
 	$fids = $options['application_email_subject_fields'];
@@ -635,14 +639,24 @@ function jobman_email_application( $appid, $sendto = '' ) {
 		}
 	}
 	
+	trim( $subject );
+	
+	if( empty( $subject ) )
+		$subject = __( 'Job Application', 'jobman' );
+	
 	$msg = '';
 	
 	$msg .= __( 'Application Link', 'jobman' ) . ': ' . admin_url( 'admin.php?page=jobman-list-applications&appid=' . $app->ID ) . PHP_EOL;
 
-	$parent = get_post( $app->post_parent );
-	if( NULL != $parent && 'jobman_job' == $parent->post_type ) {
-		$msg .= __( 'Job', 'jobman' ) . ': ' . $parent->ID . ' - ' . $parent->post_title . PHP_EOL;
-		$msg .= get_page_link( $parent->ID ) . PHP_EOL;
+	$parents = get_post_meta( $app->ID, 'job', false );
+	if( ! empty( $parents ) ) {
+		$msg .= PHP_EOL;
+		foreach( $parents as $parent ) {
+			$data = get_post( $parent );
+			$msg .= __( 'Job', 'jobman' ) . ': ' . $data->ID . ' - ' . $data->post_title . PHP_EOL;
+			$msg .= get_page_link( $data->ID ) . PHP_EOL;
+		}
+		$msg .= PHP_EOL;
 	}
 	
 	$msg .= __( 'Timestamp', 'jobman' ) . ': ' . $app->post_date . PHP_EOL . PHP_EOL;

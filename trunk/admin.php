@@ -14,7 +14,8 @@ require_once( dirname( __FILE__ ) . '/admin-application-form.php' );
 require_once( dirname( __FILE__ ) . '/admin-applications.php' );
 // Emails
 require_once( dirname( __FILE__ ) . '/admin-emails.php' );
-
+// Interview Scheduling
+require_once( dirname( __FILE__ ) . '/admin-interviews.php' );
 
 function jobman_admin_setup() {
 	// Setup the admin menu item
@@ -28,6 +29,7 @@ function jobman_admin_setup() {
 	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'List Jobs', 'jobman' ), 'publish_posts', 'jobman-list-jobs', 'jobman_list_jobs' );
 	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'List Applications', 'jobman' ), 'read_private_pages', 'jobman-list-applications', 'jobman_list_applications' );
 	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'List Emails', 'jobman' ), 'read_private_pages', 'jobman-list-emails', 'jobman_list_emails' );
+	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Interviews', 'jobman' ), 'read_private_pages', 'jobman-interviews', 'jobman_interviews' );
 
 	// Load our header info
 	foreach( $pages as $page ) {
@@ -73,10 +75,11 @@ addLoadEvent(function() {
 		jQuery(this).parent().parent().find("div.star-rating").css("width", (count * 19) + "px");
 		
         var data = jQuery(this).parent().parent().find("input[name=callbackid]");
+        var func = jQuery(this).parent().parent().find("input[name=callbackfunction]");
         var callback;
         if( data.length > 0 ) {
 			callback = {
-			        action: 'jobman_rate_application',
+			        action: func[0].value,
 			        appid: data[0].value,
 			        rating: count
 			};
@@ -97,14 +100,14 @@ addLoadEvent(function() {
 	});
 });
 
-function jobman_reset_rating( application ) {
-	jQuery( "#jobman-rating-" + application ).attr("value", 0);
-	jQuery( "#jobman-star-rating-" + application ).css("width", "0px");
+function jobman_reset_rating( id, func ) {
+	jQuery( "#jobman-rating-" + id ).attr("value", 0);
+	jQuery( "#jobman-star-rating-" + id ).css("width", "0px");
 	
-	if( "filter" != application ) {
+	if( "filter" != id ) {
 		callback = {
-				action: 'jobman_rate_application',
-				appid: application,
+				action: func,
+				appid: id,
 				rating: 0
 		};
 		

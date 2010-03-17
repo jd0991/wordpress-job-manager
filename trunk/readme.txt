@@ -9,7 +9,7 @@ Stable tag: trunk
 A job listing and job application management plugin for WordPress.
 
 == Description ==
-
+z
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
 
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
@@ -111,16 +111,27 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 = 0.7 =
 * ADDED: Optional template for application form
 * ADDED: <select> type to application forms
-* ADDED: Support for wp.com sites
 * ADDED: Ability to apply for multiple jobs at once
 * ADDED: Job selector in application form
 * ADDED: Geolocation field to application form
 * ADDED: Ability to search applications by distance from a given location
 * ADDED: WordPress.com support
 * ADDED: Category template option
-* CHANGED: Removed user dropdown from Application filter, replaced with a text box. It was running a bad query, so had to go.
+* ADDED: Option to show job fields in admin job list
+* ADDED: Interview scheduling
+* CHANGED: Removed user dropdown from Application filter, replaced with a text box. It required a bad query, so had to go.
 * FIXED: Some PHP warnings
+* FIXED: HTML errors in Admin
 * FIXED: Admin menu now uses handles rather than file references
+* FIXED: Some strings not going through the translation functions
+
+= 0.6.4 =
+* ADDED: Support for category templates, as category-{foo}.php
+* FIXED: Add new job fields not working
+* FIXED: Add new application form fields not working
+* FIXED: Application details page not displaying fields in correct order
+* FIXED: Application details page not printing correctly
+* FIXED: One more potential PHP warning
 
 = 0.6.3 =
 * FIXED: Jobs not saving properly if not empty fields are changed to being empty

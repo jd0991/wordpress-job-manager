@@ -52,6 +52,8 @@ add_action( 'admin_menu', 'jobman_admin_setup' );
 add_filter( 'plugin_row_meta', 'jobman_plugin_row_meta', 10, 2 );
 // For the application rating AJAX call
 add_action( 'wp_ajax_jobman_rate_application', 'jobman_rate_application' );
+// For the interview rating AJAX call
+add_action( 'wp_ajax_jobman_rate_interview', 'jobman_rate_interview' );
 
 //
 // Plugins

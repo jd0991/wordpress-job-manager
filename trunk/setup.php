@@ -37,8 +37,11 @@ function jobman_create_default_settings() {
 					'list_type' => 'full',
 					'application_email_from' => 4,
 					'application_email_from_fields' => array( 2, 3 ),
-					'application_email_subject_text' => 'Job Application:',
+					'application_email_subject_text' => __( 'Job Application', 'jobman' ) . ':',
 					'application_email_subject_fields' => array( 2, 3 ),
+					'interview_default_view' => 'month',
+					'interview_title_text' => '',
+					'interview_title_fields' => array( 2, 3 ),
 					'promo_link' => 0,
 					'user_registration' => 0,
 					'user_registration_required' => 0,
@@ -317,6 +320,9 @@ EOT;
 			$options['api_keys'] = array(
 										'google_maps' => ''
 									);
+			$options['interview_default_view'] = 'month';
+			$options['interview_title_text'] = '';
+			$options['interview_title_fields'] = array();
 		}
 		
 		update_option( 'jobman_options', $options );

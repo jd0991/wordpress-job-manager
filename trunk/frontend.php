@@ -11,8 +11,8 @@ require_once( dirname( __FILE__ ) . '/frontend-rss.php' );
 // Shortcode magic
 require_once( dirname( __FILE__ ) . '/frontend-shortcodes.php' );
 
-global $jobman_displaying, $jobman_finishedpage;
-$jobman_finishedpage = $jobman_displaying = false;
+global $jobman_displaying, $jobman_finishedpage, $jobman_geoloc;
+$jobman_finishedpage = $jobman_displaying = $jobman_geoloc = false;
 
 function jobman_queryvars( $qvars ) {
 	$qvars[] = 'j';
@@ -309,7 +309,7 @@ function jobman_display_title( $title, $sep, $seploc ) {
 }
 
 function jobman_display_head() {
-	global $jobman_displaying;
+	global $jobman_displaying, $jobman_geoloc;
 	
 	if( ! $jobman_displaying )
 		return;
@@ -367,7 +367,8 @@ jQuery(document).ready(function() {
 	});
 	
 	jobman_update_selected_jobs();
-	
+
+<?php if( $jobman_geoloc ) { ?>
 	var geo;
 	if( navigator.geolocation ) {
 		// HTML5
@@ -382,6 +383,7 @@ jQuery(document).ready(function() {
 								{ enableHighAccuracy: true,
                                      gearsRequestAddress: true } );
 	}
+<?php } ?>
 });
 //]]>
 var jobman_mandatory_ids = <?php echo json_encode( $mandatory_ids ) ?>;
@@ -410,6 +412,7 @@ function jobman_update_selected_jobs() {
 
 }
 
+<?php if( $jobman_geoloc ) { ?>
 function jobman_html5_geo_success( pos ) {
 	var description = pos.address.city + ", " + pos.address.region + ", " + pos.address.country;
 	jobman_geo_set_values( description, pos.coords.latitude, pos.coords.longitude );
@@ -429,7 +432,7 @@ function jobman_geo_set_values( description, latitude, longitude ) {
 	jQuery(".jobman-geoloc-original-display").val( description );
 	jQuery(".jobman-geoloc-display").val( description );
 }
-
+<?php } ?>
 </script> 
 <?php
 }

@@ -215,6 +215,7 @@ function jobman_list_applications() {
 ?>
 				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Emails', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Interviews', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
 			</tr>
 			</thead>
@@ -244,6 +245,7 @@ function jobman_list_applications() {
 ?>
 				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Emails', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Interviews', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
 			</tr>
 			</tfoot>
@@ -271,7 +273,7 @@ function jobman_list_applications() {
 	}*/
 	
 	// Add star rating filter
-	if( array_key_exists( 'jobman-rating', $_REQUEST ) && is_int( $_REQUEST['jobman-rating'] ) ) {
+	if( array_key_exists( 'jobman-rating', $_REQUEST ) && is_numeric( $_REQUEST['jobman-rating'] ) ) {
 	    $args['meta_key'] = 'rating';
 	    $args['meta_value'] = $_REQUEST['jobman-rating'];
 	    $args['meta_compare'] = '>=';
@@ -306,7 +308,6 @@ function jobman_list_applications() {
 				if( count( $cats ) > 0 ) {
 					$found = false;
 					foreach( $cats as $cat ) {
-						echo "$cat->term_id ";
 						if( in_array( $cat->term_id, $_REQUEST['jobman-categories'] ) ) {
 							// $app is in the list of selected categories. Let it through.
 							$found = true;
@@ -510,13 +511,18 @@ function jobman_list_applications() {
 				</td>
 				<td>
 <?php
+			$iids = get_post_meta( $app->ID, 'interview', false );
+		    echo "<a href='?page=jobman-interviews&amp;display=application&filter=$app->ID'>" . count( $iids ) . '</a>';
+?>
+				</td>
+				<td>
+<?php
 	$rating = 0;
 	if( array_key_exists( 'rating', $appdata ) )
     	$rating = $appdata['rating'];
 
 	jobman_print_rating_stars( $app->ID, $rating );
 ?>
-					</div>
 				</td>
 			</tr>
 <?php
@@ -552,21 +558,6 @@ function jobman_list_applications() {
 <?php
 }
 
-function jobman_print_rating_stars( $id, $rating ) {
-?>
-			        <div class="star-holder">
-						<a href="#" onclick="jobman_reset_rating('<?php echo $id ?>'); return false;"><?php _e( 'No rating', 'jobman' ) ?></a>
-						<div id="jobman-star-rating-<?php echo $id ?>" class="star-rating" style="width: <?php echo $rating * 19 ?>px"></div>
-						<input type="hidden" id="jobman-rating-<?php echo $id ?>" name="jobman-rating" value="<?php echo $rating ?>" />
-						<input type="hidden" name="callbackid" value="<?php echo $id ?>" />
-<?php
-	for( $ii = 1; $ii <= 5; $ii++) {
-?>
-						<div class="star star<?php echo $ii ?>"><img src="<?php echo JOBMAN_URL ?>/images/star.gif" alt="<?php echo $ii ?>" /></div>
-<?php
-	}
-}
-
 function jobman_rate_application() {
 	$rating = get_post_meta( $_REQUEST['appid'], 'rating', true );
 	if( '' == $rating )
@@ -577,7 +568,7 @@ function jobman_rate_application() {
 	die();
 }
 
-function jobman_application_display_details( $appid ) {
+function jobman_application_display_details( $appid, $displaytype = 'full' ) {
 	$options = get_option( 'jobman_options' );
 	$fromid = $options['application_email_from'];
 	
@@ -587,27 +578,41 @@ function jobman_application_display_details( $appid ) {
  }
 ?>
 	<div id="jobman-application" class="wrap">
+<?php
+	if( 'full' == $displaytype ) {
+?>
 		<h2><?php _e( 'Job Manager: Application Details', 'jobman' ) ?></h2>
 		<div class="printicon"><a href="javascript:window.print()"><img src="<?php echo JOBMAN_URL ?>/images/print-icon.png" /></a></div>
 		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
+	}
 	$app = get_post( $appid );
 	$appmeta = get_post_custom( $appid );
 
 	$appdata = array();
-	foreach( $appmeta as $key => $value ) {
-		if( is_array( $value ) )
-			$appdata[$key] = $value[0];
-		else
-			$appdata[$key] = $value;
+	if( ! empty( $appmeta ) ) {
+		foreach( $appmeta as $key => $value ) {
+			if( is_array( $value ) )
+				$appdata[$key] = $value[0];
+			else
+				$appdata[$key] = $value;
+		}
 	}
 	
 	if( NULL != $app ) {
 		echo '<table class="form-table">';
 		
-		$parent = get_post( $app->post_parent );
-		if( NULL != $parent && 'jobman_job' == $parent->post_type ) {
-			echo '<tr><th scope="row"><strong>' . __( 'Job', 'jobman' ) . "</strong></th><td><strong><a href='" . get_page_link( $parent->ID ) . "'>$parent->ID - $parent->post_title</a></strong></td></tr>";
+		$parents = get_post_meta( $app->ID, 'job', false );
+		if( ! empty( $parents ) ) {
+			$parentstr = array();
+			foreach( $parents as $parent ) {
+				$data = get_post( $parent );
+				$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->post_title</a>";
+			}
+			$title = __( 'Job', 'jobman' );
+			if( count( $parentstr ) > 1 )
+				$title = __( 'Jobs', 'jobman' );
+			echo "<tr><th scope='row'><strong>$title</strong></th><td><strong>" . implode( ', ', $parentstr ) . '</strong></td></tr>';
 		}
 		echo '<tr><th scope="row"><strong>' . __( 'Timestamp', 'jobman' ) . "</strong></th><td>$app->post_date</td></tr>";
 		
@@ -623,47 +628,52 @@ function jobman_application_display_details( $appid ) {
 		echo '</div></td><tr><td colspan="2">&nbsp;</td></tr>';
 
 		$fields = $options['fields'];
-		foreach( $appdata as $key => $item ) {
-			$matches = array();
-			if( ! preg_match( '/^data(\d+)$/', $key, $matches ) )
-				// Not a data key
-				continue;
-			$fid = $matches[1];
+		if( count( $fields ) > 0 ) {
+			uasort( $fields, 'jobman_sort_fields' );
+			foreach( $fields as $fid => $field ) {
+				if( ! array_key_exists( "data$fid", $appdata ) )
+					continue;
+					
+				$item = $appdata["data$fid"];
 			
-			echo '<tr><th scope="row" style="white-space: nowrap;"><strong>' . $fields[$fid]['label'] . '</strong></th><td>';
-			if( $fid == $fromid ) {
-				echo "<a href='mailto:$item'>";
+				echo '<tr><th scope="row" style="min-width: 150px;"><strong>' . $fields[$fid]['label'] . '</strong></th><td>';
+				if( $fid == $fromid ) {
+					echo "<a href='mailto:$item'>";
+				}
+				switch( $fields[$fid]['type'] ) {
+					case 'text':
+					case 'radio':
+					case 'checkbox':
+					case 'date':
+					case 'textarea':
+					case 'select':
+						echo $item;
+						break;
+					case 'file':
+						echo "<a href='" . wp_get_attachment_url( $item ) . "'>" . __( 'Download', 'jobman' ) . "</a>";
+						break;
+					case 'geoloc':
+						echo '<a href="http://maps.google.com/maps?q=' . urlencode( $item ) . '">' . $appdata['data-display'.$fid] . ' (' . $item . ')</a>';
+						break;
+				}
+				if( $fid == $fromid ) {
+					echo '</a>';
+				}
+				echo '</td></tr>';
 			}
-			switch( $fields[$fid]['type'] ) {
-				case 'text':
-				case 'radio':
-				case 'checkbox':
-				case 'date':
-				case 'textarea':
-				case 'select':
-					echo $item;
-					break;
-				case 'file':
-					echo "<a href='" . wp_get_attachment_url( $item ) . "'>" . __( 'Download', 'jobman' ) . "</a>";
-					break;
-				case 'geoloc':
-					echo '<a href="http://maps.google.com/maps?q=' . urlencode( $item ) . '">' . $appdata['data-display'.$fid] . ' (' . $item . ')</a>';
-					break;
-			}
-			if( $fid == $fromid ) {
-				echo '</a>';
-			}
-			echo '</td></tr>';
 		}
 ?>
 		</table>
 
+<?php
+		if( 'full' == $displaytype ) {
+?>
 		<div class="emailapplication">
 			<h3><?php _e( 'Email Application', 'jobman' ) ?></h3>
 			<p><?php _e( 'Use this form to email the application to a new email address.', 'jobman' ) ?></p>
 			<form action="" method="post">
 <?php
-	wp_nonce_field( 'jobman-reemail-application' );
+			wp_nonce_field( 'jobman-reemail-application' );
 ?>
 			<input type="text" name="jobman-email" />
 			<input type="submit" name="submit" value="<?php _e( 'Email', 'jobman' ) ?>!" />
@@ -671,6 +681,7 @@ function jobman_application_display_details( $appid ) {
 		</div>
 		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
+		}
 	}
 	else {
 		echo '<p class="error">' . __( 'No such application.', 'jobman' ) . '</p>';

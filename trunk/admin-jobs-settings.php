@@ -60,7 +60,15 @@ function jobman_job_setup() {
 <?php
 			}
 ?>
-					</select>
+					</select><br />
+<?php
+			if( 1 == $field['listdisplay'] )
+				$checked = ' checked="checked"';
+			else
+				$checked = '';
+?>
+					<input type="checkbox" name="jobman-listdisplay[<?php echo $id ?>]" value="1"<?php echo $checked ?> /> <?php _e( 'Show this field in the Admin Job List?', 'jobman' ) ?>
+
 				</td>
 				<td><textarea class="large-text code" name="jobman-data[]"><?php echo $field['data'] ?></textarea></td>
 				<td><a href="#" onclick="jobman_sort_field_up( this ); return false;"><?php _e( 'Up', 'jobman' ) ?></a> <a href="#" onclick="jobman_sort_field_down( this ); return false;"><?php _e( 'Down', 'jobman' ) ?></a></td>
@@ -75,14 +83,18 @@ function jobman_job_setup() {
 	$template .= '<select name="jobman-type[]">';
 
 	foreach( $fieldtypes as $type => $label ) {
-		$template .= "<option value='$type'>$label</option>";
+		$template .= '<option value="' . $type. '">' . $label . '</option>';
 	}
-	$template .= '</select>';
+	$template .= '</select><br/>';
+	$template .= '<input type="checkbox" name="jobman-listdisplay" value="1" />' . __( 'Show this field in the Admin Job List?', 'jobman' ) . '</td>';
 	$template .= '<td><textarea class="large-text code" name="jobman-data[]"></textarea></td>';
 	$template .= '<td><a href="#" onclick="jobman_sort_field_up( this ); return false;">' . __( 'Up', 'jobman' ) . '</a> <a href="#" onclick="jobman_sort_field_down( this ); return false;">' . __( 'Down', 'jobman' ) . '</a></td>';
 	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'jobman-fieldid\\\', \\\'jobman-delete-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td></tr>';
 		
-	echo $template;
+	// Replace names for the empty version being displayed
+	$display_template = str_replace( 'jobman-listdisplay', 'jobman-listdisplay[new][0][]', $template );
+
+	echo $display_template;
 ?>
 		<tr id="jobman-fieldnew">
 				<td colspan="4" style="text-align: right;">
@@ -112,11 +124,16 @@ function jobman_job_setup_updatedb() {
 		if( -1 == $id ) {
 			$newcount++;
 
+			$listdisplay = 0;
+			if( array_key_exists( 'jobman-listdisplay', $_REQUEST ) && array_key_exists( 'new', $_REQUEST['jobman-listdisplay'] ) && array_key_exists( $newcount, $_REQUEST['jobman-listdisplay']['new'] ) )
+				$listdisplay = 1;
+
 			// INSERT new field
 			if( '' != $_REQUEST['jobman-label'][$ii]  || '' != $_REQUEST['jobman-data'][$ii] || 'blank' == $_REQUEST['jobman-type'][$ii] ) {
 					$options['job_fields'][] = array(
 												'label' => $_REQUEST['jobman-label'][$ii],
 												'type' => $_REQUEST['jobman-type'][$ii],
+												'listdisplay' => $listdisplay,
 												'data' => stripslashes( $_REQUEST['jobman-data'][$ii] ),
 												'description' => '',
 												'sortorder' => $ii
@@ -129,10 +146,14 @@ function jobman_job_setup_updatedb() {
 			}
 		}
 		else {
+			$listdisplay = 0;
+			if( array_key_exists( 'jobman-listdisplay', $_REQUEST ) && array_key_exists( $id, $_REQUEST['jobman-listdisplay'] ) )
+				$listdisplay = 1;
 			// UPDATE existing field
 			if( array_key_exists( $id, $options['fields'] ) ) {
 				$options['job_fields'][$id]['label'] = $_REQUEST['jobman-label'][$ii];
 				$options['job_fields'][$id]['type'] = $_REQUEST['jobman-type'][$ii];
+				$options['job_fields'][$id]['listdisplay'] = $listdisplay;
 				$options['job_fields'][$id]['data'] = stripslashes( $_REQUEST['jobman-data'][$ii] );
 				$options['job_fields'][$id]['sortorder'] = $ii;
 			}

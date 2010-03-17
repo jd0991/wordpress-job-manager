@@ -1,5 +1,5 @@
 <?php
-function jobman_create_dashboard( $widths, $functions, $titles ) {
+function jobman_create_dashboard( $widths, $functions, $titles, $params = array() ) {
 ?>
 <div id="dashboard-widgets-wrap">
 	<div id='dashboard-widgets' class='metabox-holder'>
@@ -12,7 +12,10 @@ function jobman_create_dashboard( $widths, $functions, $titles ) {
 <?php
 		$jj = 0;
 		foreach( $functions[$ii] as $function ) {
-			jobman_create_widget( $function, $titles[$ii][$jj] );
+			if( array_key_exists( $ii, $params ) && array_key_exists( $jj, $params[$ii] ) )
+				jobman_create_widget( $function, $titles[$ii][$jj], $params[$ii][$jj] );
+			else
+				jobman_create_widget( $function, $titles[$ii][$jj] );
 			$jj++;
 		}
 ?>
@@ -28,18 +31,47 @@ function jobman_create_dashboard( $widths, $functions, $titles ) {
 <?php
 }
 
-function jobman_create_widget( $function, $title ) {
+function jobman_create_widget( $function, $title, $params = array() ) {
 ?>
 				<div id="jobman-<?php echo $function ?>" class="postbox jobman-postbox">
 					<div class="handlediv" title="<?php _e( 'Click to toggle' ) ?>"><br /></div>
 					<h3 class='hndle'><span><?php echo $title ?></span></h3>
 					<div class="inside">
 <?php
-	call_user_func( $function );
+	call_user_func_array( $function, $params );
 ?>
 						<div class="clear"></div>
 					</div>
 				</div>
+<?php
+}
+
+function jobman_print_rating_stars( $id, $rating, $callback = 'jobman_rate_application', $readonly = false ) {
+	if( $readonly )
+		$class = "star-holder-readonly";
+	else
+		$class = "star-holder";
+?>
+			        <div class="<?php echo $class ?>">
+<?php
+	if( ! $readonly ) {
+?>
+						<input type="hidden" id="jobman-rating-<?php echo $id ?>" name="jobman-rating" value="<?php echo $rating ?>" />
+						<input type="hidden" name="callbackid" value="<?php echo $id ?>" />
+						<input type="hidden" name="callbackfunction" value="<?php echo $callback ?>" />
+						<a href="#" onclick="jobman_reset_rating('<?php echo $id ?>', '<?php echo $callback ?>'); return false;"><?php _e( 'No rating', 'jobman' ) ?></a>
+<?php
+	}
+?>
+						<div id="jobman-star-rating-<?php echo $id ?>" class="star-rating" style="width: <?php echo $rating * 19 ?>px"></div>
+<?php
+	for( $ii = 1; $ii <= 5; $ii++) {
+?>
+						<div class="star star<?php echo $ii ?>"><img src="<?php echo JOBMAN_URL ?>/images/star.gif" alt="<?php echo $ii ?>" /></div>
+<?php
+	}
+?>
+					</div>
 <?php
 }
 
@@ -55,6 +87,7 @@ function jobman_page_taxonomy_setup() {
 	register_post_type( 'jobman_app', array( 'exclude_from_search' => true ) );
 	register_post_type( 'jobman_register', array( 'exclude_from_search' => true ) );
 	register_post_type( 'jobman_email', array( 'exclude_from_search' => true ) );
+	register_post_type( 'jobman_interview', array( 'exclude_from_search' => true ) );
 
 	// Create our new taxonomy thing
 	$options = get_option( 'jobman_options' );
