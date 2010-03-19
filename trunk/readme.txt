@@ -121,6 +121,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Option to show job fields in admin job list
 * ADDED: Interview scheduling
 * ADDED: Job mass-edit option to archive/unarchive
+* ADDED: Ability to comment on interviews and applications
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It required a bad query, so had to go.
 * CHANGED: Separated admin jobs list by future/live/expired, so it's easier to read
 * FIXED: Some PHP warnings

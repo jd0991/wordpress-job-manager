@@ -23,6 +23,8 @@ function jobman_list_applications() {
 		return;
 	}
 	else if(array_key_exists( 'appid', $_REQUEST ) ) {
+		if( array_key_exists( 'comment', $_REQUEST ) )
+			jobman_interview_comment();
 		jobman_application_display_details( $_REQUEST['appid'] );
 		return;
 	}
@@ -667,6 +669,8 @@ function jobman_application_display_details( $appid, $displaytype = 'full' ) {
 
 <?php
 		if( 'full' == $displaytype ) {
+			echo '<h3>' . __( 'Application Comments', 'jobman' ) , '</h3>';
+			jobman_interview_comments( $app->ID );
 ?>
 		<div class="emailapplication">
 			<h3><?php _e( 'Email Application', 'jobman' ) ?></h3>
