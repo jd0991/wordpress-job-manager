@@ -4,16 +4,25 @@ function jobman_list_jobs() {
 	$fields = $options['job_fields'];
 	
 	$displayed = 1;
-	if( array_key_exists( 'jobman-mass-edit-jobs', $_REQUEST ) && 'delete' == $_REQUEST['jobman-mass-edit-jobs'] ) {
-		if( array_key_exists( 'jobman-delete-confirmed', $_REQUEST ) ) {
-			check_admin_referer( 'jobman-mass-delete-jobs' );
-			jobman_job_delete();
-			$deleted = true;
+	if( array_key_exists( 'jobman-mass-edit-jobs', $_REQUEST ) ) {
+		if( 'delete' == $_REQUEST['jobman-mass-edit-jobs'] ) {
+			if( array_key_exists( 'jobman-delete-confirmed', $_REQUEST ) ) {
+				check_admin_referer( 'jobman-mass-delete-jobs' );
+				jobman_job_delete();
+			}
+			else {
+				check_admin_referer( 'jobman-mass-edit-jobs' );
+				jobman_job_delete_confirm();
+				return;
+			}
 		}
-		else {
+		else if( 'archive' == $_REQUEST['jobman-mass-edit-jobs'] ) {
 			check_admin_referer( 'jobman-mass-edit-jobs' );
-			jobman_job_delete_confirm();
-			return;
+			jobman_job_archive();
+		}
+		else if( 'unarchive' == $_REQUEST['jobman-mass-edit-jobs'] ) {
+			check_admin_referer( 'jobman-mass-edit-jobs' );
+			jobman_job_unarchive();
 		}
 	}
 	else if( isset( $_REQUEST['jobman-jobid'] ) ) {
@@ -43,7 +52,7 @@ function jobman_list_jobs() {
 			break;
 	}
 	
-	$jobs = get_posts( 'post_type=jobman_job&numberposts=-1' );
+	$jobs = get_posts( 'post_type=jobman_job&numberposts=-1&post_status=publish,draft' );
 ?>
 		<form action="" method="post">
 <?php 
@@ -75,6 +84,13 @@ function jobman_list_jobs() {
 <?php
 	if( count( $jobs ) > 0 ) {
 		$expired = jobman_list_jobs_data( $jobs, false );
+		if( count( $expired ) ) {
+?>
+		<tr class="jobman-expired-jobs">
+			<td colspan="<?php echo $fieldcount + 5 ?>"><?php _e( 'Expired jobs', 'jobman' ) ?></td>
+		</tr>
+<?php
+		}
 		jobman_list_jobs_data( $expired, true );
 	}
 	else {
@@ -91,6 +107,8 @@ function jobman_list_jobs() {
 			<select name="jobman-mass-edit-jobs">
 				<option value=""><?php _e( 'Bulk Actions', 'jobman' ) ?></option>
 				<option value="delete"><?php _e( 'Delete', 'jobman' ) ?></option>
+				<option value="archive"><?php _e( 'Archive', 'jobman' ) ?></option>
+				<option value="unarchive"><?php _e( 'Unarchive', 'jobman' ) ?></option>
 			</select>
 			<input type="submit" value="<?php _e( 'Apply', 'jobman' ) ?>" name="submit" class="button-secondary action" />
 		</div>
@@ -120,7 +138,7 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 			$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
 			
 			$display = false;
-			if( '' == $displayenddate || strtotime( $displayenddate ) > time() )
+			if( ( '' == $displayenddate || strtotime( $displayenddate ) > time() ) && 'publish' == $job->post_status )
 				$display = true;
 				
 			if( ! ( $display || $showexpired ) ) {
@@ -128,13 +146,23 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 				continue;
 			}
 			
+			$future = false;
+			if( strtotime( $job->post_date ) > time() )
+				$future = true;
+			
 			$children = get_posts( "post_type=jobman_app&meta_key=job&meta_value=$job->ID&post_status=publish,private" );
 			if( count( $children ) > 0 )
 				$applications = '<a href="' . admin_url("admin.php?page=jobman-list-applications&amp;jobman-jobid=$job->ID") . '">' . count( $children ) . '</a>';
 			else
 				$applications = 0;
+				
+			$class = "live";
+			if( $future )
+				$class = "future";
+			elseif( ! $display )
+				$class = "expired";
 ?>
-			<tr>
+			<tr class="<?php echo $class ?>">
 				<th scope="row" class="check-column"><input type="checkbox" name="job[]" value="<?php echo $job->ID ?>" /></th>
 				<td class="post-title page-title column-title"><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php echo $job->post_title ?></a></strong>
 				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php _e( 'Edit', 'jobman' ) ?></a> | <a href="<?php echo get_page_link( $job->ID ) ?>"><?php _e( 'View', 'jobman' ) ?></a></div></td>
@@ -158,7 +186,7 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 			}
 ?>
 				<td><?php echo date( 'Y-m-d', strtotime( $job->post_date ) ) ?> - <?php echo ( '' == $displayenddate )?( __( 'End of Time', 'jobman' ) ):( $displayenddate ) ?><br/>
-				<?php echo ( $display )?( __( 'Live/Upcoming', 'jobman' ) ):( __( 'Expired', 'jobman' ) ) ?></td>
+				<?php echo ( $display )?( ( $future )?( __( 'Future', 'jobman' ) ):( __( 'Live', 'jobman' ) ) ):( __( 'Expired', 'jobman' ) ) ?></td>
 				<td><?php echo $applications ?></td>
 			</tr>
 <?php
@@ -608,8 +636,6 @@ function jobman_job_delete_confirm() {
 }
 
 function jobman_job_delete() {
-	$options = get_option( 'jobman_options' );
-	
 	$jobs = explode( ',', $_REQUEST['jobman-job-ids'] );
 	
 	foreach( $jobs as $job ) {
@@ -622,6 +648,34 @@ function jobman_job_delete() {
 		}
 		// Delete the job
 		wp_delete_post( $job );
+	}
+}
+
+function jobman_job_archive() {
+	$jobs = $_REQUEST['job'];
+	
+	if( ! is_array( $jobs ) )
+		return;
+	
+	$data = array( 'post_status' => 'draft' );
+	foreach( $jobs as $job ) {
+		$data['ID'] = $job;
+		wp_update_post( $data );
+	}
+}
+
+function jobman_job_unarchive() {
+	$jobs = $_REQUEST['job'];
+	
+	if( ! is_array( $jobs ) )
+		return;
+	
+	$data = array( 'post_status' => 'publish' );
+	foreach( $jobs as $job ) {
+		$data['ID'] = $job;
+		wp_update_post( $data );
+		
+		update_post_meta( $job, 'displayenddate', '' );
 	}
 }
 

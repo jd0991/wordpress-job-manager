@@ -66,7 +66,7 @@ function jobman_page_link( $link, $page = NULL ) {
 
 function jobman_display_jobs( $posts ) {
 	global $wp_query, $wpdb, $jobman_displaying, $jobman_finishedpage;
-	
+
 	if( $jobman_finishedpage )
 		return $posts;
 	
@@ -105,7 +105,7 @@ function jobman_display_jobs( $posts ) {
 	$jobman_displaying = true;
 	$wp_query->is_home = false;
 	remove_filter( 'the_content', 'wpautop' );
-	
+
 	if( NULL != $post ) {
 		$postmeta = get_post_custom( $post->ID );
 		$postcats = wp_get_object_terms( $post->ID, 'jobman_category' );

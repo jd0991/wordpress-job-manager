@@ -607,9 +607,9 @@ function jobman_categories_updatedb() {
 		else {
 			// UPDATE existing field
 			if( '' != $_REQUEST['slug'][$ii] )
-				wp_update_term( $id, 'jobman_category', array( 'slug' => $_REQUEST['slug'][$ii], 'description' => $_REQUEST['email'][$ii] ) );
+				wp_update_term( $id, 'jobman_category', array( 'name' => $_REQUEST['title'][$ii], 'slug' => $_REQUEST['slug'][$ii], 'description' => $_REQUEST['email'][$ii] ) );
 			else
-				wp_update_term( $id, 'jobman_category', array( 'description' => $_REQUEST['email'][$ii] ) );
+				wp_update_term( $id, 'jobman_category', array( 'name' => $_REQUEST['title'][$ii], 'description' => $_REQUEST['email'][$ii] ) );
 		}
 		$ii++;
 	}

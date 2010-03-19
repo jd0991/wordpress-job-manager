@@ -19,10 +19,14 @@ function jobman_display_jobs_list( $cat ) {
 	
 	if( 'all' != $cat ) {
 		$category = get_term( $cat, 'jobman_category' );
-		if( NULL == $category )
+		if( NULL == $category ) {
 			$cat = 'all';
-		else
+		}
+		else {
 			$page->post_title = $category->name;
+			$page->post_parent = $options['main_page'];
+			$page->post_name = $category->slug;
+		}
 	}
 	
 	$sortby = '';

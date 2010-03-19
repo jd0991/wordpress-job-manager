@@ -354,6 +354,8 @@ function jobman_interview_past_comments( $current_iid, $aid ) {
 			
 			$interview = get_post( $iid );
 			
+			$rating = get_post_meta( $iid, 'rating', true );
+			
 			echo '<strong>' . date( 'Y-m-d H:i', strtotime( $interview->post_date ) ) . '</strong><br/>';
 			
 			jobman_print_rating_stars( $interview->ID, $rating, NULL, true );
@@ -373,7 +375,9 @@ function jobman_interview_display_comments( $comments ) {
 	}
 	
 	foreach( $comments as $comment ) {
-		
+		$author = get_userdata( $comment->user_id );
+		echo "<br/><strong>$comment->comment_date - $author->user_nicename</strong><br/>";
+		echo wpautop( $comment->comment_content );
 	}
 }
 
@@ -470,7 +474,7 @@ function jobman_interview_new() {
 	$options = get_option( 'jobman_options' );
 	
 	$aid = $_REQUEST['application'];
-	$post_date = $_REQUEST['date'] . ' ' . $_REQUEST['hour'] . ':' . $_REQUEST['minute'];
+	$post_date = $_REQUEST['date'] . ' ' . $_REQUEST['hour'] . ':' . $_REQUEST['minute'] . ':00';
 
 	$title = $options['interview_title_text'];
 	if( ! empty( $title ) )
@@ -506,6 +510,15 @@ function jobman_interview_new() {
 }
 
 function jobman_interview_comment() {
-	echo "COMMENT STORED";
+	global $current_user;
+	get_currentuserinfo();
+	
+	$comment = array(
+		'comment_post_ID' => $_REQUEST['interview'],
+		'comment_content' => $_REQUEST['comment'],
+		'user_id' => $current_user->ID
+	);
+	
+	wp_insert_comment( $comment );
 }
 ?>

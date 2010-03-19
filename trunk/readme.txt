@@ -97,6 +97,7 @@ Notice the version number in brackets. This is the version series that the trans
 
 * Dutch Translation (0.6.x), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
 * French Translation (0.6.x, frontend complete, admin 95% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
+* German Translation (0.6.x), provided by [tolingo translations](http://www.tolingo.com/)
 
 = Special Thanks =
 
@@ -119,11 +120,19 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Category template option
 * ADDED: Option to show job fields in admin job list
 * ADDED: Interview scheduling
+* ADDED: Job mass-edit option to archive/unarchive
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It required a bad query, so had to go.
+* CHANGED: Separated admin jobs list by future/live/expired, so it's easier to read
 * FIXED: Some PHP warnings
 * FIXED: HTML errors in Admin
 * FIXED: Admin menu now uses handles rather than file references
 * FIXED: Some strings not going through the translation functions
+* FIXED: Email form being printed with application details
+* FIXED: Renaming category titles not saving
+* FIXED: Categories not playing nicely with breadcrumb plugins
+
+= 0.6.5 =
+* ADDED: German translation, provided by [tolingo translations](http://www.tolingo.com/)
 
 = 0.6.4 =
 * ADDED: Support for category templates, as category-{foo}.php
