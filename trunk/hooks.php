@@ -42,6 +42,7 @@ add_action( 'do_feed_jobman', 'jobman_rss_feed', 1, 1 );
 add_action('widgets_init', create_function('', 'return register_widget("JobmanLatestJobsWidget");'));
 add_action('widgets_init', create_function('', 'return register_widget("JobmanCategoriesWidget");'));
 add_action('widgets_init', create_function('', 'return register_widget("JobmanHighlightedJobsWidget");'));
+add_action('widgets_init', create_function('', 'return register_widget("JobmanJobsWidget");'));
 
 //
 // Admin Hooks

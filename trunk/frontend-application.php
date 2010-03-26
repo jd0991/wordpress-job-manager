@@ -78,8 +78,8 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 		
 		$categories = wp_get_object_terms( $job->ID, 'jobman_category' );
 		if( count( $categories ) > 0 ) {
-			foreach( $categories as $cat ) {
-				$cat_arr[] = $cat->term_id;
+			foreach( $categories as $category ) {
+				$cat_arr[] = $category->slug;
 			}
 		}
 	}
@@ -89,8 +89,8 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 		$jobid = -1;
 		if( NULL != $cat ) {
 			$data = get_term_by( 'slug', $cat, 'jobman_category' );
-			if( isset( $data->term_id ) )
-				$cat_arr[] = $data->term_id;
+			if( isset( $data->slug ) )
+				$cat_arr[] = $data->slug;
 		}
 	}
 	
@@ -103,7 +103,11 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 		$content .= '<input type="hidden" name="jobman-joblist" value="' . implode( ',', $_REQUEST['jobman-joblist'] ) . '">';
 	
 	if( empty( $options['templates']['application_form'] ) ) {
-		$content .= jobman_display_apply_generated( $foundjob, $job );
+		$gencat = NULL;
+		if( ! empty( $cat_arr ) )
+			$gencat = $cat_arr[0];
+		
+		$content .= jobman_display_apply_generated( $foundjob, $job, $gencat );
 	}
 	else {
 		global $jobman_app_field_shortcodes, $jobman_app_shortcodes, $jobman_shortcode_job, $jobman_shortcode_categories;
@@ -126,7 +130,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	return array( $page );
 }
 
-function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
+function jobman_display_apply_generated( $foundjob = false, $job = NULL, $cat = NULL ) {
 	global $current_user, $si_image_captcha;
 	$options = get_option( 'jobman_options' );
 	
@@ -134,6 +138,13 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
 	
 	if( $foundjob )
 		$content .= '<p>' . __( 'Title', 'jobman' ) . ': <a href="'. get_page_link( $job->ID ) . '">' . $job->post_title . '</a></p>';
+		
+	if( ! $foundjob ) {
+		if( ! empty( $options['app_job_select'] ) )
+			$content .= '<p><strong>' . __( 'Select the jobs you would like to apply for', 'jobman' ) . '</strong>: ' . jobman_generate_job_select( $cat, $options['app_job_select'] ) . '</p>';
+		if( ! empty( $options['app_cat_select'] ) )
+			$content .= '<p><strong>' . __( 'Select the categories that you are interested in', 'jobman' ) . '</strong>: ' . jobman_generate_cat_select( $cat, $options['app_cat_select'] ) . '</p>';
+	}
 
 	$fields = $options['fields'];
 
@@ -226,6 +237,151 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL ) {
 	$content .= '<tr><td colspan="2" class="submit"><input type="submit" name="submit"  class="button-primary" value="' . __( 'Submit Your Application', 'jobman' ) . '" /></td></tr>';
 	$content .= '</table>';
 
+	return $content;
+}
+
+function jobman_generate_job_select( $cat, $type = 'select' ) {
+	$sortby = '';
+	switch( $options['sort_by'] ) {
+		case 'title':
+			$sortby = '&orderby=title';
+			break;
+		case 'dateposted':
+			$sortby = '&orderby=date';
+			break;
+		case 'closingdate':
+			$sortby = '&orderby=meta_value&meta_key=displayenddate';
+			break;
+	}
+	
+	$sortorder = '';
+	if( in_array( $options['sort_order'], array( 'ASC', 'DESC' ) ) )
+		$sortorder = '&order=' . $options['sort_order'];
+	
+	if( empty( $cat ) ) {
+		$jobs = get_posts( "post_type=jobman_job&numberposts=-1$sortby$sortorder" );
+	}
+	else {
+		$jobs = get_posts( "post_type=jobman_job&jcat=$cat&numberposts=-1$sortby$sortorder" );
+	}
+	
+	foreach( $jobs as $id => $job ) {
+		// Remove expired jobs
+		$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
+		if( '' != $displayenddate && strtotime( $displayenddate ) <= time() ) {
+			unset( $jobs[$id] );
+			continue;
+		}
+
+		// Remove future jobs
+		$displaystartdate = $job->post_date;
+		if( '' != $displaystartdate && strtotime( $displaystartdate ) > time() ) {
+			unset( $jobs[$id] );
+			continue;
+		}
+	}
+	
+	if( 'sticky' == $options['highlighted_behaviour'] )
+		// Sort the sticky jobs to the top
+		uasort( $jobs, 'jobman_sort_highlighted_jobs' );
+		
+	$content = '<span id="jobman-jobselect">';
+
+	$inputtype = 'radio';
+	$inputarray = '';
+	$selectsize = 1;
+	$selectmultiple = '';
+	if( $options['multi_applications'] ) {
+		$inputtype = 'checkbox';
+		$inputarray = '[]';
+		$selectsize = 5;
+		$selectmultiple = ' multiple="multiple"';
+	}
+	
+	$style = '';
+	$class = '';
+	$closebutton = '';
+	if( 'popout' == $type ) {
+		$style = 'display: none;';
+		$class = 'jobselect-popout';
+		$content .= '<span id="jobman-jobselect-echo"></span>';
+		$closebutton = '<span id="jobman-jobselect-close"><a href="#">[x]</a></span>';
+	}
+	
+	switch( $type ) {
+		case 'popout':
+		case 'individual':
+			$content .= "<span style='$style' class='$class'>";
+			$content .= $closebutton;
+			foreach( $jobs as $job ) {
+				$checked = '';
+				if( array_key_exists( 'jobman-joblist', $_REQUEST ) && in_array( $job->ID, $_REQUEST['jobman-joblist'] ) )
+					$checked = ' checked="checked"';
+				$content .= "<span><input type='$inputtype' name='jobman-jobselect$inputarray' title='$job->post_title' value='$job->ID'$checked /> $job->post_title</span>";
+			}
+			$content .= '</span>';
+			break;
+		case 'select':
+		default:
+			$content .= "<select name='jobman-jobselect$inputarray'$selectmultiple>";
+			$content .= '<option value="">' . _e( 'None', 'jobman' ) . '</option>';
+			foreach( $jobs as $job ) {
+				$selected = '';
+				if( array_key_exists( 'jobman-joblist', $_REQUEST ) && in_array( $job->ID, $_REQUEST['jobman-joblist'] ) )
+					$selected = ' selected="selected"';
+				$content .= "<option value='$job->ID'$selected>$job->post_title</option>";
+			}
+			$content .= '</select>';
+	}
+	
+	$content .= '</span>';
+	
+	return $content;
+}
+
+function jobman_generate_cat_select( $cat, $type ) {
+	$categories = get_terms( 'jobman_category', 'hide_empty=0' );
+
+	$content = '<span id="jobman-catselect">';
+
+	$style = '';
+	$class = '';
+	$closebutton = '';
+	if( 'popout' == $type ) {
+		$style = 'display: none;';
+		$class = 'catselect-popout';
+		$content .= '<span id="jobman-catselect-echo"></span>';
+		$closebutton = '<span id="jobman-catselect-close"><a href="#">[x]</a></span>';
+	}
+	
+	switch( $type ) {
+		case 'popout':
+		case 'individual':
+			$content .= "<span style='$style' class='$class'>";
+			$content .= $closebutton;
+			foreach( $categories as $category ) {
+				$checked = '';
+				if( $category->slug == $cat )
+					$checked = ' checked="checked"';
+				$content .= "<span><input type='checkbox' name='jobman-catselect[]' title='$category->name' value='$category->slug'$checked /> $category->name</span>";
+			}
+			$content .= '</span>';
+			break;
+		case 'select':
+		default:
+			$content .= "<select name='jobman-catselect[]' multiple='multiple'>";
+			$content .= '<option value="">' . _e( 'None', 'jobman' ) . '</option>';
+			foreach( $categories as $category ) {
+				$selected = '';
+				if( $category->slug == $cat )
+					$selected = ' selected="selected"';
+				$content .= "<option value='$category->slug'$selected>$category->name</option>";
+			}
+			$content .= '</select>';
+	}
+	
+	$content .= '</span>';
+	
 	return $content;
 }
 
@@ -343,6 +499,16 @@ function jobman_store_application( $jobid, $cat ) {
 		}
 	}
 	
+	if( array_key_exists( 'jobman-catselect', $_REQUEST ) && ! empty( $_REQUEST['jobman-catselect'] ) && is_array( $_REQUEST['jobman-catselect'] ) ) {
+		// Get any categories selected from the category dropdown
+		foreach( $_REQUEST['jobman-catselect'] as $bonuscat ) {
+			if( is_term( $bonuscat, 'jobman_category' ) ) {
+				wp_set_object_terms( $appid, $bonuscat, 'jobman_category', $append );
+				$append = true;
+			}
+		}
+	}
+	
 	// Add the jobs to the application
 	$jobs = array();
 	if( -1 != $jobid )
@@ -354,7 +520,7 @@ function jobman_store_application( $jobid, $cat ) {
 	}
 	
 	// Add any extra jobs to the application
-	if( array_key_exists( 'jobman-jobselect', $_REQUEST ) && !empty( $_REQUEST['jobman-jobselect'] ) ) {
+	if( array_key_exists( 'jobman-jobselect', $_REQUEST ) && ! empty( $_REQUEST['jobman-jobselect'] ) ) {
 		if( is_array( $_REQUEST['jobman-jobselect'] ) )
 			$jobs = array_merge( $jobs, $_REQUEST['jobman-jobselect'] );
 		else
@@ -666,7 +832,12 @@ function jobman_email_application( $appid, $sendto = '' ) {
 	if( count( $fields ) > 0 ) {
 		uasort( $fields, 'jobman_sort_fields' );
 		foreach( $fields as $id => $field ) {
+			// Don't include the field if it has no data
 			if( ! array_key_exists("data$id", $appdata ) || '' == $appdata["data$id"] )
+				continue;
+			
+			// Don't include the field if it has been blocked
+			if( $field['emailblock'] )
 				continue;
 
 			switch( $field['type'] ) {

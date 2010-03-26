@@ -359,14 +359,37 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 	});
 	
+	jQuery("#jobman-catselect-echo").click(function( event ) {
+		if( jQuery(this).hasClass("open") ) {
+			jQuery(this).removeClass("open");
+		}
+		else {
+			jQuery(".catselect-popout").css( "left", jQuery("#jobman-catselect").position().left + "px" );
+			jQuery(".catselect-popout").css( "top", ( jQuery("#jobman-catselect").position().top + 20 ) + "px" );
+			jQuery(this).addClass("open");
+		}
+
+		jQuery(".catselect-popout").animate({ opacity: 'toggle', height: 'toggle' }, "fast");
+		
+		event.preventDefault();
+	});
+	
 	jQuery("#jobman-jobselect-close a").click( function() { jQuery("#jobman-jobselect-echo").click(); return false; } );
+
+	jQuery("#jobman-catselect-close a").click( function() { jQuery("#jobman-catselect-echo").click(); return false; } );
 	
 	jQuery(".jobselect-popout input").click(function() {
 		jobman_update_selected_jobs();
 		return true;
 	});
 	
+	jQuery(".catselect-popout input").click(function() {
+		jobman_update_selected_cats();
+		return true;
+	});
+	
 	jobman_update_selected_jobs();
+	jobman_update_selected_cats();
 
 <?php if( $jobman_geoloc ) { ?>
 	var geo;
@@ -392,6 +415,7 @@ var jobman_mandatory_labels = <?php echo json_encode( $mandatory_labels ) ?>;
 var jobman_strings = new Array();
 jobman_strings['apply_submit_mandatory_warning'] = "<?php _e( 'The following fields must be filled out before submitting', 'jobman' ) ?>";
 jobman_strings['no_selected_jobs'] = "<?php _e( 'click to select', 'jobman' ) ?>";
+jobman_strings['no_selected_cats'] = "<?php _e( 'click to select', 'jobman' ) ?>";
 
 var jobman_selected_jobs_names;
 function jobman_update_selected_jobs() {
@@ -409,6 +433,25 @@ function jobman_update_selected_jobs() {
 		jobs = "&lt;" + jobman_strings['no_selected_jobs'] + "&gt;";
 	}
 	jQuery("#jobman-jobselect-echo").html( jobs );
+
+}
+
+var jobman_selected_cats_names;
+function jobman_update_selected_cats() {
+	jobman_selected_cats_names = new Array();
+
+	jQuery(".catselect-popout").find("input:checked").each( function() {
+		jobman_selected_cats_names.push( jQuery(this).attr( 'title' ) );
+	});
+	
+	var cats;
+	if( jobman_selected_cats_names.length ) {
+		cats = jobman_selected_cats_names.join( ", " );
+	}
+	else {
+		cats = "&lt;" + jobman_strings['no_selected_cats'] + "&gt;";
+	}
+	jQuery("#jobman-catselect-echo").html( cats );
 
 }
 

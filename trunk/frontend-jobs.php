@@ -30,16 +30,21 @@ function jobman_display_jobs_list( $cat ) {
 	}
 	
 	$sortby = '';
-	switch( $options['sort_by'] ) {
-		case 'title':
-			$sortby = '&orderby=title';
-			break;
-		case 'dateposted':
-			$sortby = '&orderby=date';
-			break;
-		case 'closingdate':
-			$sortby = '&orderby=meta_value&meta_key=displayenddate';
-			break;
+	if( ! empty( $options['sort_by'] ) ) {
+		switch( $options['sort_by'] ) {
+			case 'title':
+				$sortby = '&orderby=title';
+				break;
+			case 'dateposted':
+				$sortby = '&orderby=date';
+				break;
+			case 'closingdate':
+				$sortby = '&orderby=meta_value&meta_key=displayenddate';
+				break;
+			default:
+				$sortby = '&orderby=meta_value&meta_key=' . $options['sort_by'];
+				break;
+		}
 	}
 	
 	$sortorder = '';

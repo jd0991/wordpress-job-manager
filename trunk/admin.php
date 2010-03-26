@@ -16,6 +16,8 @@ require_once( dirname( __FILE__ ) . '/admin-applications.php' );
 require_once( dirname( __FILE__ ) . '/admin-emails.php' );
 // Interview Scheduling
 require_once( dirname( __FILE__ ) . '/admin-interviews.php' );
+// Comment handling functions
+require_once( dirname( __FILE__ ) . '/admin-comments.php' );
 
 function jobman_admin_setup() {
 	// Setup the admin menu item

@@ -801,6 +801,11 @@ function jobman_upgrade_db( $oldversion ) {
 				
 			add_post_meta( $app->ID, 'job', $parent->ID, false );
 		}
+		
+		// Add the 'email block' field option
+		foreach( $options['fields'] as $id => $field ) {
+			$options['fields'][$id]['emailblock'] = 0;
+		}
 	}
 	
 	update_option( 'jobman_options', $options );

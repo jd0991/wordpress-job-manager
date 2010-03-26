@@ -15,7 +15,7 @@ function jobman_interviews() {
 		jobman_interview_new();
 		
 	if( array_key_exists( 'comment', $_REQUEST ) )
-		jobman_interview_comment();
+		jobman_store_comment();
 		
 	switch( $display_type ) {
 		case 'year':
@@ -310,39 +310,20 @@ function jobman_interview_details( $iid ) {
 	$widths = array( '49%', '49%' );
 	$functions = array(
 					array( 'jobman_application_display_details' ),
-					array( 'jobman_interview_comments', 'jobman_interview_past_comments', 'jobman_interview_application_comments' )
+					array( 'jobman_comments', 'jobman_interview_past_comments', 'jobman_comments' )
 				);
 	$titles = array(
 				array( __( 'Application', 'jobman' ) ),
 				array( __( 'Interview Comments', 'jobman' ), __( 'Previous Interview Comments', 'jobman' ), __( 'Application Comments', 'jobman' ) )
 			);
 	$params = array(
-					array( array( $aid, 'summary' ) ),
-					array( array( $iid ), array( $iid, $aid ), array( $aid ) )
+					array( array( $aid ) ),
+					array( array( $iid, true ), array( $iid, $aid ), array( $aid ) )
 			);
 	jobman_create_dashboard( $widths, $functions, $titles, $params );
 ?>
 	</div>
 <?php
-}
-
-function jobman_interview_application_comments( $aid ) {
-	$comments = get_comments( "post_id=$aid" );
-	
-	jobman_interview_display_comments( $comments );
-}
-
-function jobman_interview_comments( $iid ) {
-?>
-	<form action="" method="post">
-		<input type="hidden" name="interview" value="<?php echo $iid ?>" />
-		<textarea class="large-text code" name="comment"></textarea>
-		<input type="submit" name="submit" value="<?php _e( 'Comment', 'jobman' )?>" />
-	</form>
-<?php
-	$comments = get_comments( "post_id=$iid" );
-	
-	jobman_interview_display_comments( $comments );
 }
 
 function jobman_interview_past_comments( $current_iid, $aid ) {
@@ -360,7 +341,7 @@ function jobman_interview_past_comments( $current_iid, $aid ) {
 			
 			jobman_print_rating_stars( $interview->ID, $rating, NULL, true );
 			
-			jobman_interview_display_comments( $comments );
+			jobman_display_comments( $comments );
 		}
 	}
 }
@@ -368,20 +349,7 @@ function jobman_interview_past_comments( $current_iid, $aid ) {
 function jobman_interview_job( $jid ) {
 }
 
-function jobman_interview_display_comments( $comments ) {
-	if( empty( $comments ) ) {
-		echo '<p class="error">' . __( 'No comments found', 'jobman' ) . '</p>';
-		return;
-	}
-	
-	foreach( $comments as $comment ) {
-		$author = get_userdata( $comment->user_id );
-		echo "<br/><strong>$comment->comment_date - $author->user_nicename</strong><br/>";
-		echo wpautop( $comment->comment_content );
-	}
-}
-
-function jobman_interview_application( $aid ) {
+function jobman_interview_application( $aid, $display = 'full' ) {
 	$filter = array( 
 				'post_type' => 'jobman_interview',
 				'post_status' => 'private',
@@ -393,8 +361,12 @@ function jobman_interview_application( $aid ) {
 	$interviews = get_posts( $filter );
 ?>
 	<div class="wrap">
+<?php
+	if( 'full' == $display ) {
+?>
 	<h2><?php _e( 'Job Manager: Application Interview Summary', 'jobman' ) ?></h2>
 <?php
+	}
 	jobman_interview_new_form( date( 'Y-m-d' ), $aid );
 ?>
 	<table class="widefat page fixed">
@@ -507,18 +479,5 @@ function jobman_interview_new() {
 	add_post_meta( $iid, 'application', $aid, true );
 	
 	add_post_meta( $aid, 'interview', $iid, false );
-}
-
-function jobman_interview_comment() {
-	global $current_user;
-	get_currentuserinfo();
-	
-	$comment = array(
-		'comment_post_ID' => $_REQUEST['interview'],
-		'comment_content' => $_REQUEST['comment'],
-		'user_id' => $current_user->ID
-	);
-	
-	wp_insert_comment( $comment );
 }
 ?>

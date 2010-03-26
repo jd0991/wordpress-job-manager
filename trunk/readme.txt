@@ -9,8 +9,10 @@ Stable tag: trunk
 A job listing and job application management plugin for WordPress.
 
 == Description ==
-z
+
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
+
+***WARNING:*** this is a **BETA** release of Job Manager, and it may contain bugs that will eat your data. **DO NOT** use it in a production environment. There will be a stable release of 0.7 in early April, please wait until then before upgrading production. If you have time to test it in your development environment, please do so, and (let me know any bugs you run into)[http://code.google.com/p/wordpress-job-manager/issues/list]. You can download the current stable release, version 0.6.5, here!
 
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
@@ -24,7 +26,7 @@ Do you speak a language other than English? Do you have time to translate some s
     *    Jobs can be defined to display between certain dates, or indefinitely
     *    Simple admin interface for editing, updating and creating jobs
 *    *Applications*
-    *    Applicants can apply through the website, using a form that you can customize, so you get the information you need
+    *    Applicants can apply through the website, using a form that you can customize and template, so you get the information you need
     *    Advanced filtering on application forms, to ensure you only get applications that match your criteria: [Documentation](http://code.google.com/p/wordpress-job-manager/wiki/CustomApplicationForm)
     *    Upon successful application, you can be emailed the details, so you're always up to date with new applicants
 *    *Applicant Management*
@@ -122,8 +124,11 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Interview scheduling
 * ADDED: Job mass-edit option to archive/unarchive
 * ADDED: Ability to comment on interviews and applications
+* ADDED: Option to block application fields from being included in the application email
+* ADDED: Widget to show a custom list of selected jobs
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It required a bad query, so had to go.
 * CHANGED: Separated admin jobs list by future/live/expired, so it's easier to read
+* CHANGED: Job list sorting now allows sorting by any job field
 * FIXED: Some PHP warnings
 * FIXED: HTML errors in Admin
 * FIXED: Admin menu now uses handles rather than file references
@@ -131,6 +136,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Email form being printed with application details
 * FIXED: Renaming category titles not saving
 * FIXED: Categories not playing nicely with breadcrumb plugins
+* FIXED: Emails not working properly
+* FIXED: Some performance tweaks
+* FIXED: Some print CSS tweaks
 
 = 0.6.5 =
 * ADDED: German translation, provided by [tolingo translations](http://www.tolingo.com/)
@@ -340,20 +348,20 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Upgrade Notice ==
 
-= 0.6-beta6 =
-This is a beta release of Job Manager. Please do not use it in a production environment.
+= 0.7-beta6 =
+This is a BETA release of Job Manager. DO NOT use it in a production environment.
 
-= 0.6-beta5 =
-This is a beta release of Job Manager. Please do not use it in a production environment.
+= 0.7-beta5 =
+This is a BETA release of Job Manager. DO NOT use it in a production environment.
 
-= 0.6-beta4 =
-This is a beta release of Job Manager. Please do not use it in a production environment.
+= 0.7-beta4 =
+This is a BETA release of Job Manager. DO NOT use it in a production environment.
 
-= 0.6-beta3 =
-This is a beta release of Job Manager. Please do not use it in a production environment.
+= 0.7-beta3 =
+This is a BETA release of Job Manager. DO NOT use it in a production environment.
 
-= 0.6-beta2 =
-This is a beta release of Job Manager. Please do not use it in a production environment.
+= 0.7-beta2 =
+This is a BETA release of Job Manager. DO NOT use it in a production environment.
 
-= 0.6-beta1 =
-This is a beta release of Job Manager. Please do not use it in a production environment.
+= 0.7-beta1 =
+This is a BETA release of Job Manager. DO NOT use it in a production environment.

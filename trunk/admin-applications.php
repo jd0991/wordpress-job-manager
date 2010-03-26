@@ -23,9 +23,7 @@ function jobman_list_applications() {
 		return;
 	}
 	else if(array_key_exists( 'appid', $_REQUEST ) ) {
-		if( array_key_exists( 'comment', $_REQUEST ) )
-			jobman_interview_comment();
-		jobman_application_display_details( $_REQUEST['appid'] );
+		jobman_application_details_layout( $_REQUEST['appid'] );
 		return;
 	}
 	else if( array_key_exists( 'jobman-mailout-send', $_REQUEST ) ) {
@@ -570,24 +568,48 @@ function jobman_rate_application() {
 	die();
 }
 
-function jobman_application_display_details( $appid, $displaytype = 'full' ) {
-	$options = get_option( 'jobman_options' );
-	$fromid = $options['application_email_from'];
-	
+function jobman_application_details_layout( $appid ) {
 	if( array_key_exists( 'jobman-email', $_REQUEST ) ) {
 		check_admin_referer( 'jobman-reemail-application' );
 	    jobman_email_application( $appid, $_REQUEST['jobman-email'] );
- }
+	}
+
+	if( array_key_exists( 'new-interview', $_REQUEST ) )
+		jobman_interview_new();
+
+	if( array_key_exists( 'comment', $_REQUEST ) )
+		jobman_store_comment();
 ?>
 	<div id="jobman-application" class="wrap">
-<?php
-	if( 'full' == $displaytype ) {
-?>
 		<h2><?php _e( 'Job Manager: Application Details', 'jobman' ) ?></h2>
 		<div class="printicon"><a href="javascript:window.print()"><img src="<?php echo JOBMAN_URL ?>/images/print-icon.png" /></a></div>
 		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
-	}
+
+	$widths = array( '59%', '39%' );
+	$functions = array(
+					array( 'jobman_application_display_details' ),
+					array( 'jobman_comments', 'jobman_interview_application', 'jobman_application_email_form' )
+				);
+	$titles = array(
+				array( __( 'Application', 'jobman' ) ),
+				array( __( 'Application Comments', 'jobman' ), __( 'Interviews', 'jobman' ), __( 'Email Application', 'jobman' ) )
+			);
+	$params = array(
+					array( array( $appid ) ),
+					array( array( $appid, true ), array( $appid, 'summary' ), array() )
+			);
+	jobman_create_dashboard( $widths, $functions, $titles, $params );
+?>
+		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
+	</div>
+<?php
+}
+
+function jobman_application_display_details( $appid ) {
+	$options = get_option( 'jobman_options' );
+	$fromid = $options['application_email_from'];
+
 	$app = get_post( $appid );
 	$appmeta = get_post_custom( $appid );
 
@@ -664,16 +686,15 @@ function jobman_application_display_details( $appid, $displaytype = 'full' ) {
 				echo '</td></tr>';
 			}
 		}
+	}
 ?>
 		</table>
-
 <?php
-		if( 'full' == $displaytype ) {
-			echo '<h3>' . __( 'Application Comments', 'jobman' ) , '</h3>';
-			jobman_interview_comments( $app->ID );
+}
+
+function jobman_application_email_form() {
 ?>
 		<div class="emailapplication">
-			<h3><?php _e( 'Email Application', 'jobman' ) ?></h3>
 			<p><?php _e( 'Use this form to email the application to a new email address.', 'jobman' ) ?></p>
 			<form action="" method="post">
 <?php
@@ -683,14 +704,7 @@ function jobman_application_display_details( $appid, $displaytype = 'full' ) {
 			<input type="submit" name="submit" value="<?php _e( 'Email', 'jobman' ) ?>!" />
 			</form>
 		</div>
-		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
-		}
-	}
-	else {
-		echo '<p class="error">' . __( 'No such application.', 'jobman' ) . '</p>';
-	}
-	echo '</div>';
 }
 
 function jobman_application_delete_confirm() {
@@ -778,7 +792,7 @@ function jobman_get_application_csv() {
 		$posts = array();
 		if( array_key_exists( 'application', $_REQUEST ) && is_array( $_REQUEST['application'] ) )
 			$posts = $_REQUEST['application'];
-		$apps = get_posts( array( 'post_type' => 'jobman_app', 'post__in' => $posts, 'numberposts' => -1 ) );
+		$apps = get_posts( array( 'post_type' => 'jobman_app', 'post__in' => $posts, 'numberposts' => -1, 'post_status' => 'public,private' ) );
 
 		if( count( $apps ) > 0 ) {
 			foreach( $apps as $app ) {

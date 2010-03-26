@@ -54,7 +54,7 @@ if( is_array( $jobman_options ) && array_key_exists( 'job_fields', $jobman_optio
 		$jobman_field_shortcodes[] = "job_field$fid";
 
 global $jobman_app_shortcodes;
-$jobman_app_shortcodes = array( 'job_app_submit', 'job_links', 'job_list' );
+$jobman_app_shortcodes = array( 'job_app_submit', 'job_links', 'job_list', 'cat_list' );
 
 global $jobman_app_field_shortcodes;
 $jobman_app_field_shortcodes = array();

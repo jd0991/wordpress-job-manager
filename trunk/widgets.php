@@ -329,4 +329,88 @@ class JobmanHighlightedJobsWidget extends WP_Widget {
 	}
 
 }
+
+
+class JobmanJobsWidget extends WP_Widget {
+    /** constructor */
+    function JobmanJobsWidget() {
+		$name = __( 'Job Manager: Selected Jobs', 'jobman');
+		$options = array( 'description' => __( 'A customizable list jobs posted to your site', 'jobman' ) );
+		
+        parent::WP_Widget( false, $name, $options );	
+    }
+
+    function widget( $args, $instance ) {		
+        extract( $args );
+        $title = apply_filters( 'widget_title', $instance['title'] );
+        
+		echo $before_widget;
+		
+		if ( $title )
+			echo $before_title . $title . $after_title;
+
+		$args = array( 
+					'post_type' => 'jobman_job',
+					'numberposts' => -1,
+					'post__in' => explode( ',', $instance['jobs'] )
+				);
+		$jobs = get_posts( $args );
+
+		foreach( $jobs as $id => $job ) {
+			// Remove expired jobs
+			$displayenddate = get_post_meta( $job->ID, 'displayenddate', true );
+			if( '' != $displayenddate && strtotime( $displayenddate ) <= time() ) {
+				unset( $jobs[$id] );
+				continue;
+			}
+			
+			// Remove future jobs
+			$displaystartdate = $job->post_date;
+			if( '' != $displaystartdate && strtotime( $displaystartdate ) > time() ) {
+				unset( $jobs[$id] );
+				continue;
+			}
+		}
+		
+		if( count( $jobs ) > 0 ) {
+			echo '<ul>';
+			foreach( $jobs as $job ) {
+				echo '<li><a href="' . get_page_link( $job->ID ) . '">' . $job->post_title . '</a></li>';
+			}
+			echo '</ul>';
+		}
+		else {
+			echo '<p>' . __( 'There are no jobs to display at this time.', 'jobman' ) . '</p>';
+		}
+
+		echo $after_widget;
+    }
+
+    function update( $new_instance, $old_instance ) {
+		return $new_instance;
+    }
+
+    function form( $instance ) {
+		$title = '';
+		if( array_key_exists( 'title', $instance ) )
+			$title = esc_attr( $instance['title'] );
+?>
+            <p>
+				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'jobman' ); ?>: 
+					<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
+				</label>
+			</p>
+<?php
+			$jobs = esc_attr( $instance['jobs'] );
+?>
+            <p>
+				<label for="<?php echo $this->get_field_id( 'jobs' ); ?>"><?php _e( 'Comma separated list of Job IDs', 'jobman' ); ?>: 
+					<input class="widefat" id="<?php echo $this->get_field_id( 'jobs' ); ?>" name="<?php echo $this->get_field_name( 'jobs' ); ?>" type="text" value="<?php echo $jobs; ?>" />
+				</label>
+			</p>
+<?php
+	}
+
+}
+
 ?>
