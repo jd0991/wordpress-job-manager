@@ -1,0 +1,35 @@
+body, body * {
+	overflow: visible !important;
+}
+
+#wphead {
+	display: none;
+}
+
+#adminmenu {
+	display: none;
+}
+
+#wpbody {
+	margin-left: 0px;
+}
+
+#screen-meta {
+	display: none;
+}
+
+a.backlink {
+	display: none;
+}
+
+div.clear {
+	display: none;
+}
+
+#ui-datepicker-div {
+	display: none;
+}
+
+#footer {
+	display: none;
+}
