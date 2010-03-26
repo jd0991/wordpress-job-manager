@@ -109,7 +109,7 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 				continue;
 			}
 			
-			$children = get_posts( "post_type=jobman_app&post_parent=$job->ID" );
+			$children = get_posts( "post_type=jobman_app&post_parent=$job->ID&post_status=publish,private" );
 			if( count( $children ) > 0 )
 				$applications = '<a href="' . admin_url("admin.php?page=jobman-list-applications&amp;jobman-jobid=$job->ID") . '">' . count( $children ) . '</a>';
 			else
@@ -502,12 +502,12 @@ function jobman_updatedb() {
 								// Delete the old attachment
 								if( array_key_exists( "jobman-field-current-$fid", $_REQUEST ) )
 									wp_delete_attachment( $_REQUEST["jobman-field-current-$fid"] );
-								
+								$filetype = wp_check_filetype( $upload['file'] );
 								$attachment = array(
 												'post_title' => '',
 												'post_content' => '',
 												'post_status' => 'publish',
-												'post_mime_type' => mime_content_type( $upload['file'] )
+												'post_mime_type' => $filetype['type']
 											);
 								$data = wp_insert_attachment( $attachment, $upload['file'], $id );
 								$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );

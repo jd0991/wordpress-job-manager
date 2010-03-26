@@ -125,7 +125,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 				$rowcount = 1;
 			}
 
-			$data = strip_tags( $field['data'] );
+			$data = trim( strip_tags( $field['data'] ) );
 
 			// Auto-populate logged in user email address
 			if( $id == $options['application_email_from'] && '' == $data && is_user_logged_in() ) {
