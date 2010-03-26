@@ -121,7 +121,7 @@ function jobman_application_setup() {
 		$template .= '<option value="' . $type . '">' . $label . '</option>';
 	}
 	$template .= '</select><br/>';
-	$template .= '<input type="checkbox" name="jobman-listdisplay" value="1" />' . __( 'Show this field in the Application List?', 'jobman' ) . '</td><br/>';
+	$template .= '<input type="checkbox" name="jobman-listdisplay" value="1" />' . __( 'Show this field in the Application List?', 'jobman' ) . '<br/>';
 	$template .= '<input type="checkbox" name="jobman-emailblock" value="1" />' . __( 'Block this field from application emails?', 'jobman' ) . '</td>';
 	$template .= '<td>';
 	if( count( $categories ) > 0 ) {
