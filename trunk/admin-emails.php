@@ -97,7 +97,7 @@ function jobman_email_display( $emailid ) {
 		        <td><?php echo $email->post_title ?></td>
 		    </tr>
 <?php
-    $apps = get_posts( "post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID&numberposts=-1&post_status=public,private" );
+    $apps = get_posts( "post_type=jobman_app&meta_key=contactmail&meta_value=$email->ID&numberposts=-1&post_status=publish,private" );
 
 	$appstrings = array();
 	$emails = array();

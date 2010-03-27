@@ -170,7 +170,7 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL, $cat = 
 				$rowcount = 1;
 			}
 			
-			$data = $field['data'];
+			$data = trim( strip_tags( $field['data'] ) );
 
 			// Auto-populate logged in user email address
 			if( $id == $options['application_email_from'] && '' == $data && is_user_logged_in() ) {

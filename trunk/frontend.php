@@ -205,7 +205,7 @@ function jobman_display_jobs( $posts ) {
 	else if( NULL != $post && $post->ID == $options['main_page'] ) {
 		// We're looking at the main job list page
 		$posts = jobman_display_jobs_list( 'all' );
-		
+
 		$wp_query->queried_object = $post;
 		$wp_query->queried_object_id = $post->ID;
 		$wp_query->is_page = true;
@@ -250,6 +250,21 @@ function jobman_display_template() {
 	$template = get_post_meta( $id, '_wp_page_template', true );
 	$pagename = get_query_var( 'pagename' );
 	$category = get_query_var( 'jcat' );
+	
+	$post_id = get_query_var( 'page_id' );
+
+	$job_cats = array();
+	if( ! empty( $post_id ) ) {
+		$post = get_post( $post_id );
+		if( ! empty( $post ) && 'jobman_job' == $post->post_type ) {
+			$categories = wp_get_object_terms( $post->ID, 'jobman_category' );
+			if( ! empty( $categories ) ) {
+				foreach( $categories as $cat ) {
+					$job_cats[] = $cat->slug;
+				}
+			}
+		}
+	}
 
 	if( 'default' == $template )
 		$template = '';
@@ -259,6 +274,11 @@ function jobman_display_template() {
 		$templates[] = $template;
 	if( $category )
 		$templates[] = "category-$category.php";
+	if( ! empty( $job_cats ) ) {
+		foreach( $job_cats as $jcat ) {
+			$templates[] = "category-$jcat.php";
+		}
+	}
 	if( $pagename )
 		$templates[] = "page-$pagename.php";
 	if( $id )

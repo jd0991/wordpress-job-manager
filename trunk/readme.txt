@@ -140,6 +140,13 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Some performance tweaks
 * FIXED: Some print CSS tweaks
 
+= 0.6.6 =
+* ADDED: Individual job pages will try to load category templates before default template
+* FIXED: Potential upload error when attaching a file to a job
+* FIXED: Applications/emails not displaying in fresh installations
+* FIXED: Job List breaking in WordPress 3
+* FIXED: Trimming whitespace from application form data fields
+
 = 0.6.5 =
 * ADDED: German translation, provided by [tolingo translations](http://www.tolingo.com/)
 
