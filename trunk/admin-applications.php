@@ -215,7 +215,13 @@ function jobman_list_applications() {
 ?>
 				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Emails', 'jobman' ) ?></th>
+<?php
+	if( $options['interviews'] ) {
+?>
 				<th scope="col"><?php _e( 'Interviews', 'jobman' ) ?></th>
+<?php
+	}
+?>
 				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
 			</tr>
 			</thead>
@@ -245,7 +251,13 @@ function jobman_list_applications() {
 ?>
 				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
 				<th scope="col"><?php _e( 'Emails', 'jobman' ) ?></th>
+<?php
+	if( $options['interviews'] ) {
+?>
 				<th scope="col"><?php _e( 'Interviews', 'jobman' ) ?></th>
+<?php
+	}
+?>
 				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
 			</tr>
 			</tfoot>
@@ -509,12 +521,14 @@ function jobman_list_applications() {
 			    echo '0';
 ?>
 				</td>
-				<td>
 <?php
-			$iids = get_post_meta( $app->ID, 'interview', false );
-		    echo "<a href='?page=jobman-interviews&amp;display=application&filter=$app->ID'>" . count( $iids ) . '</a>';
+			if( $options['interviews'] ) {
+				echo '<td>';
+				$iids = get_post_meta( $app->ID, 'interview', false );
+				echo "<a href='?page=jobman-interviews&amp;display=application&filter=$app->ID'>" . count( $iids ) . '</a>';
+				echo '</td>';
+			}
 ?>
-				</td>
 				<td>
 <?php
 	$rating = 0;
@@ -569,6 +583,8 @@ function jobman_rate_application() {
 }
 
 function jobman_application_details_layout( $appid ) {
+	$options = get_option( 'jobman_options' );
+	
 	if( array_key_exists( 'jobman-email', $_REQUEST ) ) {
 		check_admin_referer( 'jobman-reemail-application' );
 	    jobman_email_application( $appid, $_REQUEST['jobman-email'] );
@@ -589,16 +605,22 @@ function jobman_application_details_layout( $appid ) {
 	$widths = array( '59%', '39%' );
 	$functions = array(
 					array( 'jobman_application_display_details' ),
-					array( 'jobman_comments', 'jobman_interview_application', 'jobman_application_email_form' )
+					array( 'jobman_comments', 'jobman_application_email_form' )
 				);
 	$titles = array(
 				array( __( 'Application', 'jobman' ) ),
-				array( __( 'Application Comments', 'jobman' ), __( 'Interviews', 'jobman' ), __( 'Email Application', 'jobman' ) )
+				array( __( 'Application Comments', 'jobman' ), __( 'Email Application', 'jobman' ) )
 			);
 	$params = array(
 					array( array( $appid ) ),
-					array( array( $appid, true ), array( $appid, 'summary' ), array() )
+					array( array( $appid, true ), array() )
 			);
+			
+	if( $options['interviews'] ) {
+		$functions[1] = array_insert( $functions[1], 1, 'jobman_interview_application' );
+		$titles[1] = array_insert( $titles[1], 1, __( 'Interviews', 'jobman' ) );
+		$params[1] = array_insert( $params[1], 1, array( $appid, 'summary' ) );
+	}
 	jobman_create_dashboard( $widths, $functions, $titles, $params );
 ?>
 		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>

@@ -174,7 +174,9 @@ function jobman_print_template_box() {
 			<strong><?php _e( 'Custom Job Field Information', 'jobman' ) ?></strong><br/>
 			<?php _e( "For each of the Custom Job Fields defined, there are two shortcodes defined, one for the Label and one for the Data. Note that these numbers won't change, even if you re-order, add or delete Job Fields.", 'jobman' ) ?><br/>
 <?php
-	foreach( $options['job_fields'] as $jfid => $field ) {
+	$fields = $options['job_fields'];
+	uasort( $fields, 'jobman_sort_fields' );
+	foreach( $fields as $jfid => $field ) {
 		echo "<tt>[job_field{$jfid}_label], [job_field{$jfid}]</tt> - {$field['label']}<br/>";
 	}
 ?>
@@ -280,7 +282,9 @@ function jobman_print_app_template_box() {
 			
 			<strong><?php _e( 'Custom Application Fields', 'jobman' ) ?></strong><br/>
 <?php
-	foreach( $options['fields'] as $fid => $field ) {
+	$fields = $options['fields'];
+	uasort( $fields, 'jobman_sort_fields' );
+	foreach( $fields as $fid => $field ) {
 		$fieldlabel = '';
 		if( ! empty( $field['label'] ) )
 			$fieldlabel = $field['label'];

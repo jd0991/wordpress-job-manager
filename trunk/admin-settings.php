@@ -1,6 +1,9 @@
 <?php
 function jobman_conf() {
 	global $jobman_formats;
+	
+	$options = get_option( 'jobman_options' );
+	
 	if( array_key_exists( 'jobmanconfsubmit', $_REQUEST ) ) {
 		// Configuration form as been submitted. Updated the database.
 		check_admin_referer( 'jobman-conf-updatedb' );
@@ -45,24 +48,34 @@ function jobman_conf() {
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(
-						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_interview_box', 'jobman_print_api_keys_box', 'jobman_print_other_plugins_box', 'jobman_print_uninstall_box' ),
+						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_api_keys_box', 'jobman_print_other_plugins_box', 'jobman_print_uninstall_box' ),
 						array( 'jobman_print_donate_box', 'jobman_print_about_box', 'jobman_print_translators_box' )
 					);
 		$titles = array(
-					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __( 'Interview Settings', 'jobman' ), __( 'API Keys', 'jobman' ), __( 'Other Plugins', 'jobman' ), __( 'Uninstall Settings', 'jobman' ) ),
+					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __( 'API Keys', 'jobman' ), __( 'Other Plugins', 'jobman' ), __( 'Uninstall Settings', 'jobman' ) ),
 					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ), __( 'Translators', 'jobman' ) )
 				);
+				
+		if( $options['interviews'] ) {
+			$functions[0] = array_insert( $functions[0], 5, 'jobman_print_interview_box' );
+			$titles[0] = array_insert( $titles[0], 5, __( 'Interview Settings', 'jobman' ) );
+		}
 	}
 	else {
 		$widths = array( '49%', '49%' );
 		$functions = array(
 						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_api_keys_box', 'jobman_print_other_plugins_box' ),
-						array( 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_interview_box', 'jobman_print_uninstall_box' )
+						array( 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_uninstall_box' )
 					);
 		$titles = array(
 					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'API Keys', 'jobman' ), __( 'Other Plugins', 'jobman' ) ),
-					array( __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __( 'Interview Settings', 'jobman' ), __( 'Uninstall Settings', 'jobman' ) )
+					array( __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __( 'Uninstall Settings', 'jobman' ) )
 				);
+
+		if( $options['interviews'] ) {
+			$functions[1] = array_insert( $functions[1], 3, 'jobman_print_interview_box' );
+			$titles[1] = array_insert( $titles[1], 3, __( 'Interview Settings', 'jobman' ) );
+		}
 	}
 	jobman_create_dashboard( $widths, $functions, $titles );
 ?>
@@ -90,6 +103,11 @@ function jobman_print_settings_box() {
 				<th scope="row"><?php _e( 'Allow Multi-Applications', 'jobman' ) ?></th>
 				<td><input type="checkbox" name="multi-applications" value="1" <?php echo ( $options['multi_applications'] )?( 'checked="checked" ' ):( '' )?> /></td>
 				<td><span class="description"><?php _e( 'This will allow applicants to send through a single application for multiple jobs.', 'jobman' ) ?></span></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Enable Interview Scheduling', 'jobman' ) ?></th>
+				<td><input type="checkbox" name="interviews" value="1" <?php echo ( $options['interviews'] )?( 'checked="checked" ' ):( '' )?> /></td>
+				<td><span class="description"><?php _e( 'This will enable interview scheduling functionality.', 'jobman' ) ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Default email', 'jobman' ) ?></th>
@@ -582,6 +600,11 @@ function jobman_conf_updatedb() {
 		$options['multi_applications'] = 1;
 	else
 		$options['multi_applications'] = 0;
+
+	if( array_key_exists( 'interviews', $_REQUEST ) && $_REQUEST['interviews'] )
+		$options['interviews'] = 1;
+	else
+		$options['interviews'] = 0;
 
 	update_option( 'jobman_options', $options );
 }

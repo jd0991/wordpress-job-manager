@@ -130,4 +130,14 @@ function jobman_current_url() {
 		return $pageURL;
 }
 
+if( ! function_exists( 'array_insert' ) ) {
+	function array_insert( $array, $pos, $val )	{
+		$array2 = array_splice( $array, $pos );
+		$array[] = $val;
+		$array = array_merge( $array, $array2 );
+	   
+		return $array;
+	}
+}
+
 ?>

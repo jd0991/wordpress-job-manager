@@ -241,6 +241,8 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL, $cat = 
 }
 
 function jobman_generate_job_select( $cat, $type = 'select' ) {
+	$options = get_option( 'jobman_options' );
+	
 	$sortby = '';
 	switch( $options['sort_by'] ) {
 		case 'title':

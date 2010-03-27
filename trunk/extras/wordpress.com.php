@@ -9,7 +9,9 @@ function jobman_change_loggedin_html( $html ) {
 }
 
 function jobman_change_login_html( $html ) {
-	$loginurl = 'http://automattic.wordpress.com/wp-login.php?redirect_to=';
+	if( 'automattic' == JOBMAN_VIP_SITE )
+		$loginurl = 'http://automattic.wordpress.com/wp-login.php?redirect_to=';
+	
 	$registerurl = 'http://en.wordpress.com/signup/?redirect_to=';
 	
 	$data = get_posts( 'post_type=jobman_app_form&numberposts=1' );
@@ -38,4 +40,29 @@ add_filter( 'jobman_loggedin_html', 'jobman_change_loggedin_html' );
 add_filter( 'jobman_login_html', 'jobman_change_login_html' );
 add_filter( 'jobman_register_html', 'jobman_change_register_html' );
 add_filter( 'jobman_pleaseregister_html', 'jobman_change_pleaseregister_html' );
+
+if( 'automattic' == JOBMAN_VIP_SITE )
+	add_action( 'wp_head', 'jobman_automattic_display_head' );
+
+function jobman_automattic_display_head() {
+	global $jobman_displaying;
+
+	if( ! $jobman_displaying )
+		return;
+	
+	if( is_feed() )
+		return;
+?>
+<script type="text/javascript"> 
+//<![CDATA[
+jQuery(document).ready(function() {
+	jQuery("#jobman-appform p.jobman-oss span").css( 'display', 'none' );
+	jQuery("#jobman-appform p.jobman-oss select").change(function( event ) {
+		jQuery("#jobman-appform p.jobman-oss span").animate({ opacity: 'toggle', height: 'toggle' }, "fast");
+	});
+});
+//]]>
+</script> 
+<?php
+}
 ?>

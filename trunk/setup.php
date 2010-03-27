@@ -39,6 +39,7 @@ function jobman_create_default_settings() {
 					'application_email_from_fields' => array( 2, 3 ),
 					'application_email_subject_text' => __( 'Job Application', 'jobman' ) . ':',
 					'application_email_subject_fields' => array( 2, 3 ),
+					'interviews' => 1,
 					'interview_default_view' => 'month',
 					'interview_title_text' => '',
 					'interview_title_fields' => array( 2, 3 ),
@@ -320,6 +321,7 @@ EOT;
 			$options['api_keys'] = array(
 										'google_maps' => ''
 									);
+			$options['interviews'] = 1;
 			$options['interview_default_view'] = 'month';
 			$options['interview_title_text'] = '';
 			$options['interview_title_fields'] = array();

@@ -428,7 +428,7 @@ jQuery(document).ready(function() {
 	}
 <?php } ?>
 });
-//]]>
+
 var jobman_mandatory_ids = <?php echo json_encode( $mandatory_ids ) ?>;
 var jobman_mandatory_labels = <?php echo json_encode( $mandatory_labels ) ?>;
 
@@ -496,6 +496,7 @@ function jobman_geo_set_values( description, latitude, longitude ) {
 	jQuery(".jobman-geoloc-display").val( description );
 }
 <?php } ?>
+//]]>
 </script> 
 <?php
 }
