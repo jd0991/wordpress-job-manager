@@ -70,6 +70,16 @@ function jobman_print_display_settings_box() {
 				<th scope="row"><?php _e( 'Job Manager Page Template', 'jobman' ) ?></th>
 				<td colspan="2"><?php printf( __( 'You can edit the page template used by Job Manager, by editing the Template Attribute of <a href="%s">this page</a>.', 'jobman' ), admin_url( 'page.php?action=edit&post=' . $options['main_page'] ) ) ?></td>
 			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Jobs Per Page', 'jobman' ) ?></th>
+				<td><input type="text" name="jobs-per-page" class="small-text" value="<?php echo $options['jobs_per_page'] ?>" /></td>
+				<td><span class="description"><?php _e( 'The number of jobs to display per page in the main and category jobs lists. For no limit, set this to 0.', 'jobman' ) ?></span></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e( 'Date Format', 'jobman' ) ?></th>
+				<td><input type="text" name="date-format" class="small-text" value="<?php echo $options['date_format'] ?>" /></td>
+				<td><span class="description"><?php printf( __( "The format to use for Job date fields. Leave blank to use the dates as they're entered. See the <a href='%1s'>documentation on date formatting</a> for further details.", 'jobman' ), 'http://codex.wordpress.org/Formatting_Date_and_Time' ) ?></span></td>
+			</tr>
 <?php
 	if( ! get_option( 'pento_consulting' ) ) {
 ?>
@@ -169,7 +179,7 @@ function jobman_print_template_box() {
 			<strong><?php _e( 'Job Field Information', 'jobman' ) ?></strong><br/>
 			<tt>[job_field_loop]...[/job_field_loop]</tt> - <?php _e( 'This will loop over all of the defined Job Fields, and display the contained HTML and shortcodes for each. This can be used inside a <tt>[job_loop]</tt>, or on an Individual Job page.', 'jobman' ) ?><br/>
 			<tt>[job_field_label]</tt> - <?php _e( 'While inside a <tt>[job_field_loop]</tt>, this will display the label of the current field being displayed.', 'jobman' ) ?><br/>
-			<tt>[job_field]</tt> - <?php _e( 'While inside a <tt>[job_field_loop]</tt>, this will display the data associated with the current field and Job being displayed.', 'jobman' ) ?><br/><br/>
+			<tt>[job_field]</tt> - <?php _e( 'While inside a <tt>[job_field_loop]</tt>, this will display the data associated with the current field and Job being displayed. If the field is a file, you can specify the <tt>type="url"</tt> attribute, to only return the URL, instead of a link to the file, or the <tt>type="image"</tt> attribute, to return an image.', 'jobman' ) ?><br/><br/>
 			
 			<strong><?php _e( 'Custom Job Field Information', 'jobman' ) ?></strong><br/>
 			<?php _e( "For each of the Custom Job Fields defined, there are two shortcodes defined, one for the Label and one for the Data. Note that these numbers won't change, even if you re-order, add or delete Job Fields.", 'jobman' ) ?><br/>
@@ -177,7 +187,10 @@ function jobman_print_template_box() {
 	$fields = $options['job_fields'];
 	uasort( $fields, 'jobman_sort_fields' );
 	foreach( $fields as $jfid => $field ) {
-		echo "<tt>[job_field{$jfid}_label], [job_field{$jfid}]</tt> - {$field['label']}<br/>";
+		echo "<tt>[job_field{$jfid}_label], [job_field{$jfid}]</tt> - {$field['label']} ";
+		if( 'file' == $field['type'] )
+			echo '(' . __( 'As a file field, the <tt>type="(url|image)"</tt> attribute can be used.', 'jobman' ) . ')';
+		echo '<br/>';
 	}
 ?>
 			<br/>
@@ -354,7 +367,8 @@ function jobman_print_wrap_text_box() {
 				'main' => array( 'before' => __( 'Before the Main Jobs List', 'jobman' ), 'after' => __( 'After the Main Jobs List', 'jobman' ) ),
 				'category' => array( 'before' => __( 'Before any Category Jobs Lists', 'jobman' ), 'after' => __( 'After any Category Jobs Lists', 'jobman' ) ),
 				'job' => array( 'before' => __( 'Before a Job', 'jobman' ), 'after' => __( 'After a Job', 'jobman' ) ),
-				'apply' => array( 'before' => __( 'Before the Application Form', 'jobman' ), 'after' => __( 'After the Application Form', 'jobman' ) )
+				'apply' => array( 'before' => __( 'Before the Application Form', 'jobman' ), 'after' => __( 'After the Application Form', 'jobman' ) ),
+				'registration' => array( 'before' => __( 'Before the Registration Form', 'jobman' ), 'after' => __( 'After the Registration Form', 'jobman' ) )
 			);
 	$positions = array( 'before', 'after' );
 	foreach( $fields as $key => $field ) {
@@ -380,6 +394,9 @@ function jobman_print_wrap_text_box() {
 function jobman_display_updatedb() {
 	$options = get_option( 'jobman_options' );
 	
+	$options['jobs_per_page'] = $_REQUEST['jobs-per-page'];
+	$options['date_format'] = $_REQUEST['date-format'];
+
 	if( array_key_exists( 'promo-link', $_REQUEST ) && $_REQUEST['promo-link'] )
 		$options['promo_link'] = 1;
 	else
@@ -439,7 +456,7 @@ function jobman_misc_text_updatedb() {
 function jobman_wrap_text_updatedb() {
 	$options = get_option( 'jobman_options' );
 	
-	$pages = array( 'main', 'category', 'job', 'apply' );
+	$pages = array( 'main', 'category', 'job', 'apply', 'registration' );
 	
 	foreach( $pages as $page ) {
 		$options['text']["{$page}_before"] = stripslashes( $_REQUEST["{$page}-before"] );

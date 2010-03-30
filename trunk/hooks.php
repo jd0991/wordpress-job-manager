@@ -1,7 +1,10 @@
 <?php //encoding: utf-8
 
-// Hooks for initial setup
+// Hook for initial setup
 register_activation_hook( WP_PLUGIN_DIR . '/' . JOBMAN_FOLDER . '/job-manager.php', 'jobman_activate' );
+
+// Huh. Upgrades.
+add_filter( 'upgrader_post_install', 'jobman_activate' );
 
 // Translation hook
 add_action( 'init', 'jobman_load_translation_file' );

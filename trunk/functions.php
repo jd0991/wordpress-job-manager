@@ -130,6 +130,18 @@ function jobman_current_url() {
 		return $pageURL;
 }
 
+function jobman_job_live_where( $where = '' ) {
+	global $wpdb;
+	$where .= " AND $wpdb->posts.post_date <= NOW() AND jobman_postmeta.meta_key='displayenddate' AND ( jobman_postmeta.meta_value='' OR jobman_postmeta.meta_value >= NOW() ) ";
+	return $where;
+}
+
+function jobman_job_live_join( $join = '' ) {
+	global $wpdb;
+	$join .= " LEFT JOIN $wpdb->postmeta AS jobman_postmeta ON $wpdb->posts.ID = jobman_postmeta.post_id ";
+	return $join;
+}
+
 if( ! function_exists( 'array_insert' ) ) {
 	function array_insert( $array, $pos, $val )	{
 		$array2 = array_splice( $array, $pos );

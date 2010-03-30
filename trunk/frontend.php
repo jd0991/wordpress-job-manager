@@ -37,13 +37,15 @@ function jobman_add_rewrite_rules( $wp_rewrite ) {
 		return;
 
 	$new_rules = array( 
-						"$url/?$" => "index.php?jobman_root_id=$root->ID",
+						"$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
+						'&page=' . $wp_rewrite->preg_index(2),
 						"$url/apply/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
 						"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(1),
 						"$url/register/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
 						"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(1),
 						"$url/feed/?" => "index.php?feed=jobman",
-						"$url/([^/]+)/?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(1),
+						"$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(1) .
+						'&page=' . $wp_rewrite->preg_index(3),
 				);
 
 	$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
@@ -67,7 +69,7 @@ function jobman_page_link( $link, $page = NULL ) {
 function jobman_display_jobs( $posts ) {
 	global $wp_query, $wpdb, $jobman_displaying, $jobman_finishedpage;
 
-	if( $jobman_finishedpage )
+	if( $jobman_finishedpage || $jobman_displaying )
 		return $posts;
 	
 	$options = get_option( 'jobman_options' );
@@ -192,6 +194,8 @@ function jobman_display_jobs( $posts ) {
 				}
 				else {
 					$posts = jobman_display_register();
+					if( count( $posts ) > 0 )
+						$posts[0]->post_content = $options['text']['registration_before'] . $posts[0]->post_content . $options['text']['registration_after'];
 				}
 			}
 			else {

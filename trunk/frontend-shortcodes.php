@@ -65,7 +65,7 @@ function jobman_add_app_field_shortcodes( $array ) {
 global $jobman_shortcode_row_number, $jobman_shortcode_field_id, $jobman_shortcode_field;
 							
 function jobman_shortcode( $atts, $content, $tag ) {
-	global $jobman_shortcode_jobs, $jobman_shortcode_job, $jobman_shortcode_row_number, $jobman_shortcode_field_id, $jobman_shortcode_field;
+	global $jobman_shortcode_jobs, $jobman_shortcode_job, $jobman_shortcode_row_number, $jobman_shortcode_field_id, $jobman_shortcode_field, $wp_query;
 	$options = get_option( 'jobman_options' );
 
 	$return = '';
@@ -148,7 +148,16 @@ function jobman_shortcode( $atts, $content, $tag ) {
 				case 'textarea':
 					return wpautop( $data );
 				case 'file':
-					return '<a href="' . wp_get_attachment_url( $data ) . '">' . __( 'Download', 'jobman' ) . '</a>';
+					$atts = shortcode_atts( array( 'type' => 'link' ), $atts );
+					switch( $atts['type'] ) {
+						case 'url':
+							return wp_get_attachment_url( $data );
+						case 'image':
+						case 'img':
+							return '<img src="' . wp_get_attachment_url( $data ) . '" />';
+						default:
+							return '<a href="' . wp_get_attachment_url( $data ) . '">' . __( 'Download', 'jobman' ) . '</a>';
+					}
 				default:
 					return $data;
 			}
@@ -189,6 +198,92 @@ function jobman_shortcode( $atts, $content, $tag ) {
 				return '<input type="submit" name="submit" value="' . do_shortcode( $content ) . '" />';
 			}
 			return NULL;
+		case 'job_page_count':
+			return $options['jobs_per_page'];
+		case 'job_page_previous_number':
+			if( ! array_key_exists( 'page', $wp_query->query_vars ) || $wp_query->query_vars['page'] <= 1 )
+				return NULL;
+
+			return $wp_query->query_vars['page'] - 1;
+		case 'job_page_previous_link':
+			if( ! array_key_exists( 'page', $wp_query->query_vars ) || $wp_query->query_vars['page'] <= 1 )
+				return NULL;
+
+			if( array_key_exists( 'jcat', $wp_query->query_vars ) )
+				$url = get_term_link( $wp_query->query_vars['jcat'], 'jobman_category' );
+			else
+				$url = get_page_link( $options['main_page'] );
+			
+			// Previous page is first page, don't bother adding page info
+			if( $wp_query->query_vars['page'] == 2 )
+				return "<a href='$url'>". do_shortcode( $content ) . '</a>';
+				
+			$structure = get_option( 'permalink_structure' );
+			
+			if( empty( $structure ) ) {
+				$url .= '&amp;page=' . ( $wp_query->query_vars['page'] - 1 );
+			}
+			else {
+				if( substr( $url, -1 ) == '/' )
+					$url .= 'page/' . ( $wp_query->query_vars['page'] - 1 ) . '/';
+				else
+					$url .= '/page/' . ( $wp_query->query_vars['page'] - 1 );
+			}
+			
+			return "<a href='$url'>". do_shortcode( $content ) . '</a>';
+		case 'job_page_next_number':
+			if( array_key_exists( 'page', $wp_query->query_vars ) )
+				$page = $wp_query->query_vars['page'];
+			else
+				$page = 1;
+				
+			if( $page * $options['jobs_per_page'] >= count( $jobman_shortcode_jobs ) )
+				return NULL;
+				
+			return $page + 1;
+		case 'job_page_next_link':
+			if( array_key_exists( 'page', $wp_query->query_vars ) )
+				$page = $wp_query->query_vars['page'];
+			else
+				$page = 1;
+				
+			if( $page * $options['jobs_per_page'] >= count( $jobman_shortcode_jobs ) )
+				return NULL;
+				
+			if( array_key_exists( 'jcat', $wp_query->query_vars ) )
+				$url = get_term_link( $wp_query->query_vars['jcat'], 'jobman_category' );
+			else
+				$url = get_page_link( $options['main_page'] );
+			
+			$structure = get_option( 'permalink_structure' );
+			
+			if( empty( $structure ) ) {
+				$url .= '&amp;page=' . ( $page + 1 );
+			}
+			else {
+				if( substr( $url, -1 ) == '/' )
+					$url .= 'page/' . ( $page + 1 ) . '/';
+				else
+					$url .= '/page/' . ( $page + 1 );
+			}
+			
+			return "<a href='$url'>". do_shortcode( $content ) . '</a>';
+		case 'job_page_minimum':
+			if( array_key_exists( 'page', $wp_query->query_vars ) )
+				$page = $wp_query->query_vars['page'];
+			else
+				$page = 1;
+
+			return ( $page - 1 ) * $options['jobs_per_page'] + 1;
+		case 'job_page_maximum':
+			if( array_key_exists( 'page', $wp_query->query_vars ) )
+				$page = $wp_query->query_vars['page'];
+			else
+				$page = 1;
+
+			return $page * $options['jobs_per_page'];
+		case 'job_page_total':
+			return count( $jobman_shortcode_jobs );
 	}
 	
 	return do_shortcode( $content );
@@ -217,10 +312,24 @@ function jobman_field_shortcode( $atts, $content, $tag ) {
 		return NULL;
 	
 	switch( $options['job_fields'][$matches[1]]['type'] ) {
+		case 'date':
+			if( ! empty( $options['date_format'] ) )
+				return date( $options['date_format'], strtotime( $data ) );
+			else
+				return $data;
 		case 'textarea':
 			return wpautop( $data );
 		case 'file':
-			return '<a href="' . wp_get_attachment_url( $data ) . '">' . __( 'Download', 'jobman' ) . '</a>';
+			$atts = shortcode_atts( array( 'type' => 'link' ), $atts );
+			switch( $atts['type'] ) {
+				case 'url':
+					return wp_get_attachment_url( $data );
+				case 'image':
+				case 'img':
+					return '<img src="' . wp_get_attachment_url( $data ) . '" />';
+				default:
+					return '<a href="' . wp_get_attachment_url( $data ) . '">' . __( 'Download', 'jobman' ) . '</a>';
+			}
 		default:
 			return $data;
 	}

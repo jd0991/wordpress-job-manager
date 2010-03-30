@@ -373,11 +373,17 @@ function jobman_edit_job( $jobid ) {
 					$values = split( "\n", strip_tags( $field['data'] ) );
 					$display_values = split( "\n", $field['data'] );
 					
+					if( 'new' == $jobid )
+						$data = array();
+					else
+						$data = split( "\n", strip_tags( $data ) );
+					
 					foreach( $values as $key => $value ) {
+						$value = trim( $value );
 						$checked = '';
-						if( $value == $data )
+						if( in_array( $value, $data ) )
 							$checked = ' checked="checked"';
-						$content .= "<input type='checkbox' name='jobman-field-{$id}[]' value='" . trim( $value ) . "'$checked /> {$display_values[$key]}<br/>";
+						$content .= "<input type='checkbox' name='jobman-field-{$id}[]' value='$value'$checked /> {$display_values[$key]}<br/>";
 					}
 					$content .= '</td>';
 					$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
@@ -445,17 +451,17 @@ function jobman_edit_job( $jobid ) {
 ?>
 			<tr>
 				<th scope="row"><?php _e( 'Display Start Date', 'jobman' ) ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-displaystartdate" value="<?php echo ( 'new' != $jobid )?( date( 'Y-m-d', strtotime( $job->post_date ) ) ):( '' ) ?>" /></td>
+				<td><input class="datepicker" type="text" name="jobman-displaystartdate" value="<?php echo ( 'new' != $jobid )?( date( 'Y-m-d', strtotime( $job->post_date ) ) ):( '' ) ?>" /></td>
 				<td><span class="description"><?php _e( 'The date this job should start being displayed on the site. To start displaying immediately, leave blank.', 'jobman' ) ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Display End Date', 'jobman' ) ?></th>
-				<td><input class="regular-text code datepicker" type="text" name="jobman-displayenddate" value="<?php echo ( array_key_exists( 'displayenddate', $jobdata ) )?( $jobdata['displayenddate'] ):( '' ) ?>" /></td>
+				<td><input class="datepicker" type="text" name="jobman-displayenddate" value="<?php echo ( array_key_exists( 'displayenddate', $jobdata ) )?( $jobdata['displayenddate'] ):( '' ) ?>" /></td>
 				<td><span class="description"><?php _e( 'The date this job should stop being displayed on the site. To display indefinitely, leave blank.', 'jobman' ) ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Application Email', 'jobman' ) ?></th>
-				<td><input class="regular-text code" type="text" name="jobman-email" value="<?php echo ( array_key_exists( 'email', $jobdata ) )?( $jobdata['email'] ):( '' ) ?>" /></td>
+				<td><input class="regular-text" type="text" name="jobman-email" value="<?php echo ( array_key_exists( 'email', $jobdata ) )?( $jobdata['email'] ):( '' ) ?>" /></td>
 				<td><span class="description"><?php _e( 'The email address to notify when an application is submitted for this job. For default behaviour (category email or global email), leave blank.', 'jobman' ) ?></span></td>
 			</tr>
 <?php
@@ -482,7 +488,7 @@ function jobman_updatedb() {
 	
 	$displaystartdate = stripslashes( $_REQUEST['jobman-displaystartdate'] );
 	if( empty( $displaystartdate ) )
-		$displaystartdate = date( 'Y-m-d', strtotime( '-1 day' ) );
+		$displaystartdate = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
 
 	$page = array(
 				'comment_status' => 'closed',
@@ -640,10 +646,10 @@ function jobman_job_delete() {
 	
 	foreach( $jobs as $job ) {
 		// Remove reference from applications
-		$apps = get_posts( 'post_type=jobman_app&numberposts=-1&meta_key=job&meta_value=' . $job->ID );
+		$apps = get_posts( 'post_type=jobman_app&numberposts=-1&meta_key=job&meta_value=' . $job );
 		if( ! empty( $apps ) ) {
 			foreach( $apps as $app ) {
-				delete_post_meta( $app->ID, 'job', $job->ID );
+				delete_post_meta( $app->ID, 'job', $job );
 			}
 		}
 		// Delete the job

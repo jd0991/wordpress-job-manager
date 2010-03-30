@@ -126,9 +126,16 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Ability to comment on interviews and applications
 * ADDED: Option to block application fields from being included in the application email
 * ADDED: Widget to show a custom list of selected jobs
+* ADDED: Before/After text for Registration form
+* ADDED: Option to format job date fields. Defaults to no formatting.
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It required a bad query, so had to go.
 * CHANGED: Separated admin jobs list by future/live/expired, so it's easier to read
 * CHANGED: Job list sorting now allows sorting by any job field
+* CHANGED: Job file attachments can now be shown as the URL or an <img> tag, instead of just a Download link
+* CHANGED: RSS Feed now uses the Individual Job template
+* CHANGED: Category widget can now show job counts for each category
+* CHANGED: Category widget can now hide empty categories
+* CHANGED: Job edit date selector now opens with button, rather than on click
 * FIXED: Some PHP warnings
 * FIXED: HTML errors in Admin
 * FIXED: Admin menu now uses handles rather than file references
@@ -139,6 +146,11 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Emails not working properly
 * FIXED: Some performance tweaks
 * FIXED: Some print CSS tweaks
+* FIXED: Javascript error when deleting a new the default new field
+* FIXED: Upgrading now works with Maintenance Mode upgrades
+* FIXED: RSS showing expired jobs
+* FIXED: Performance tweaks on job lists, widgets
+* FIXED: Checkboxes not staying checked when editing an existing job
 
 = 0.6.6 =
 * ADDED: Individual job pages will try to load category templates before default template

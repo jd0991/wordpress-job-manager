@@ -70,7 +70,15 @@ function jobman_admin_header() {
 <script type="text/javascript"> 
 //<![CDATA[
 addLoadEvent(function() {
-	jQuery(".datepicker").datepicker({dateFormat: 'yy-mm-dd', changeMonth: true, changeYear: true, gotoCurrent: true});
+	jQuery(".datepicker").datepicker({
+								dateFormat: 'yy-mm-dd', 
+								changeMonth: true, 
+								changeYear: true, 
+								gotoCurrent: true,
+								showOn: 'button',
+								buttonImage: '<?php echo JOBMAN_URL ?>/images/calendar.gif',
+								buttonImageOnly: true
+							});
 	jQuery(".column-cb > *").click(function() { jQuery(".check-column > *").attr('checked', jQuery(this).is(':checked')) } );
 	
 	jQuery("div.star-holder img").click(function() {

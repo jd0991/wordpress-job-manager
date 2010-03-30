@@ -34,7 +34,7 @@ function jobman_activate() {
 function jobman_create_default_settings() {
 	$options = array(
 					'default_email' => get_option( 'admin_email' ),
-					'list_type' => 'full',
+					'date_format' => '',
 					'application_email_from' => 4,
 					'application_email_from_fields' => array( 2, 3 ),
 					'application_email_subject_text' => __( 'Job Application', 'jobman' ) . ':',
@@ -43,6 +43,7 @@ function jobman_create_default_settings() {
 					'interview_default_view' => 'month',
 					'interview_title_text' => '',
 					'interview_title_fields' => array( 2, 3 ),
+					'jobs_per_page' => 0,
 					'promo_link' => 0,
 					'user_registration' => 0,
 					'user_registration_required' => 0,
@@ -84,15 +85,23 @@ function jobman_create_default_settings() {
 								)
 				);
 
+	$titletext = __( 'Title', 'jobman' );
+	$cattext = __( 'Categories', 'jobman' );
+	$applynowtext = __( 'Apply Now', 'jobman' );
+	
+	$navprevious = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_previous_number]' );
+	$navnext = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_next_number]' );
+	$navdesc = sprintf( __( 'Jobs %1s-%2s of %3s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_page_total]' );
+	
 	$options['templates']['job'] = <<<EOT
 <table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
   <tr>
-    <th scope="row">Title</th>
+    <th scope="row">$titletext</th>
     <td>[job_icon] [job_title]</td>
   </tr>
 [if_job_categories]
   <tr>
-     <th scope="row">Categories</th>
+     <th scope="row">$cattext</th>
      <td>[job_category_links]</td>
   </tr>
 [/if_job_categories]
@@ -106,7 +115,7 @@ function jobman_create_default_settings() {
 [/job_field_loop]
   <tr>
     <td></td>
-    <td class="jobs-applynow">[job_apply_link]Apply Now[/job_apply_link]</td>
+    <td class="jobs-applynow">[job_apply_link]{$applynowtext}[/job_apply_link]</td>
   </tr>
 </table>	
 EOT;
@@ -115,12 +124,12 @@ EOT;
 <div class="job[job_row_number] job[job_id] [job_odd_even]">
 <table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
   <tr>
-    <th scope="row">Title</th>
+    <th scope="row">$titletext</th>
     <td>[job_icon] [job_link][job_title][/job_link]</td>
   </tr>
 [if_job_categories]
   <tr>
-     <th scope="row">Categories</th>
+     <th scope="row">$cattext</th>
      <td>[job_category_links]</td>
   </tr>
 [/if_job_categories]
@@ -134,11 +143,19 @@ EOT;
 [/job_field_loop]
   <tr>
     <td></td>
-    <td class="jobs-applynow">[job_apply_link]Apply Now[/job_apply_link]</td>
+    <td class="jobs-applynow">[job_apply_link]{$applynowtext}[/job_apply_link]</td>
   </tr>
 </table>
 </div><br/><br/>
 [/job_loop]
+
+[if_job_page_count]
+<div class="navigation">
+	<div class="nav-previous">[job_page_previous_link]{$navprevious}[/job_page_previous_link]</div>
+	<div class="nav-this">$navdesc</div>
+	<div class="nav-next">[job_page_next_link]{$navnext}[/job_page_next_link]</div>
+</div>
+[/if_job_page_count]
 EOT;
 
 	update_option( 'jobman_options', $options );
@@ -325,6 +342,7 @@ EOT;
 			$options['interview_default_view'] = 'month';
 			$options['interview_title_text'] = '';
 			$options['interview_title_fields'] = array();
+			$options['date_format'] = '';
 		}
 		
 		update_option( 'jobman_options', $options );

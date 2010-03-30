@@ -30,6 +30,10 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 				// No error, stored properly
 				$msg = $options['text']['application_acceptance'];
 				break;
+			case -2:
+				// Recent application form same job
+				$msg = __( 'It seems you recently applied for this job. If you would like to add further information to your application, please contact us directly.', 'jobman' );
+				break;
 			default:
 				// Failed filter rules
 				$msg = $options['fields'][$err]['error'];
@@ -448,6 +452,9 @@ function jobman_app_field_input_html( $id, $field, $data ) {
 }
 
 function jobman_store_application( $jobid, $cat ) {
+	global $current_user;
+	get_currentuserinfo();
+
 	$filter_err = jobman_check_filters( $jobid, $cat );
 	if($filter_err != -1) {
 		// Failed filter rules
@@ -470,6 +477,25 @@ function jobman_store_application( $jobid, $cat ) {
 
 	// Workaround for WP to Twitter plugin tweeting about new application
 	$_POST['jd_tweet_this'] = 'no';
+	
+	// Check for recent applications for the same job by the same user
+	if( ! empty( $current_user ) && -1 != $jobid ) {
+		$args = array(
+					'post_status' => 'private',
+					'post_type' => 'jobman_app',
+					'author' => $current_user->ID,
+					'meta_key' => 'job',
+					'meta_value' => $jobid,
+					'suppress_filters'  => false
+				);
+		
+		add_filter( 'posts_where', 'jobman_dupe_app_check_where' );
+		$posts = get_posts( $args );
+		remove_filter( 'posts_where', 'jobman_dupe_app_check_where' );
+		
+		if( ! empty( $posts ) )
+			return -2;
+	}
 	
 	$page = array(
 				'comment_status' => 'closed',
@@ -575,6 +601,11 @@ function jobman_store_application( $jobid, $cat ) {
 
 	// No error
 	return -1;
+}
+
+function jobman_dupe_app_check_where( $where = '' ) {
+	$where .= " AND post_date > '" . date('Y-m-d H:i:s', strtotime('-5 minutes')) . "'";
+	return $where;
 }
 
 function jobman_check_filters( $jobid, $cat ) {

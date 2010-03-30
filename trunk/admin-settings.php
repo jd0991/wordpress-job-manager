@@ -173,7 +173,9 @@ function jobman_print_categories_box() {
 	$template .= '<td>&nbsp;</td>';
 	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-category-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td>';
 	
-	echo $template;
+	$display_template = str_replace( "\\'", "'", $template );
+	
+	echo $display_template;
 ?>
 			<tr id="jobman-catnew">
 					<td colspan="5" style="text-align: right;">
@@ -643,6 +645,9 @@ function jobman_categories_updatedb() {
 		
 		// Delete the category from any fields
 		foreach( $options['fields'] as $fid => $field ) {
+			if( ! array_key_exists( 'categories', $field ) || ! is_array( $field['categories'] ) )
+				continue;
+			
 			$loc = array_search( $delete, $field['categories'] );
 			if( false !== $loc ) {
 				unset( $options['fields'][$fid]['categories'][$loc] );
