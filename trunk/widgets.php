@@ -209,16 +209,19 @@ class JobmanCategoriesWidget extends WP_Widget {
 				if( array_key_exists( 'jcat', $wp_query->query_vars ) && $wp_query->query_vars['jcat'] == $cat->slug )
 					$selected = ' selected="selected"';
 				
-				$count_args['jcat'] = $cat->slug;
-				add_filter( 'posts_where', 'jobman_job_live_where' );
-				add_filter( 'posts_join', 'jobman_job_live_join' );
+				$jobs = array();
+				if( $hide_empty || $show_counts ) {
+					$count_args['jcat'] = $cat->slug;
+					add_filter( 'posts_where', 'jobman_job_live_where' );
+					add_filter( 'posts_join', 'jobman_job_live_join' );
+					
+					$jobs = get_posts( $count_args );
+					
+					remove_filter( 'posts_where', 'jobman_job_live_where' );
+					remove_filter( 'posts_join', 'jobman_job_live_join' );
+				}
 				
-				$jobs = get_posts( $count_args );
-				
-				remove_filter( 'posts_where', 'jobman_job_live_where' );
-				remove_filter( 'posts_join', 'jobman_job_live_join' );
-				
-				if( empty( $jobs ) && $hide_empty )
+				if( $hide_empty && empty( $jobs ) )
 					continue;
 				
 				$count = '';
