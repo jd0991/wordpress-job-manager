@@ -15,7 +15,7 @@ Stable: Early April 2010
 
   * Job List sort order: Issue #49
   * Add a "Disable Job" button: Issue #63
-  * Customize the application method: Issue #66
+  * Customize the application method: Issue #66 (no nice solution, feature request will be a plugin after 1.0 release.)
   * Make the admin Jobs List prettier: Issue #67
   * Limit number of jobs/page, add Back/Forward buttons: Issue #79
   * Block application fields being emailed: Issue #87
