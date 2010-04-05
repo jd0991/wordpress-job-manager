@@ -174,12 +174,25 @@ function jobman_print_template_box() {
 			
 			<strong><?php _e( 'Job Category Information', 'jobman' ) ?></strong><br/>
 			<tt>[job_categories]</tt> - <?php _e( 'If the current Job is assigned to any Categories, this will display a comma-separated list of the Category Titles.', 'jobman' ) ?><br/>
-			<tt>[job_category_links]</tt> - <?php _e( 'If the current Job is assigned to any Categories, this will display a comma-separated list of the Category Titles, with each Title as a link to that Category.', 'jobman' ) ?><br/><br/>
+			<tt>[job_category_links]</tt> - <?php _e( 'If the current Job is assigned to any Categories, this will display a comma-separated list of the Category Titles, with each Title as a link to that Category.', 'jobman' ) ?><br/>
+			<tt>[current_category_name]</tt> - <?php _e( 'This will display the category name, if the current job list is a category.', 'jobman' ) ?><br/>
+			<tt>[current_category_link]...[/current_category_link]</tt> - <?php _e( 'This will display a link to the current category, with the contained text as the link text.', 'jobman' ) ?><br/><br/>
 			
+			<strong><?php _e( 'Page Navigation', 'jobman' ) ?></strong><br/>
+			<tt>[job_page_count]</tt> - <?php _e( 'Returns the number of jobs that are being shown per page, or 0 for all of them.', 'jobman' ) ?><br/>
+			<tt>[job_page_previous_link]...[/job_page_previous_link]</tt> - <?php _e( 'This will display a link to the previous page, with the contained text as the link text. If the user is on the first page, it will display nothing.', 'jobman' ) ?><br/>
+			<tt>[job_page_previous_number]</tt> - <?php _e( 'Returns the page number of the previous page.', 'jobman' ) ?><br/>
+			<tt>[job_page_next_link]...[/job_page_next_link]</tt> - <?php _e( 'This will display a link to the next page, with the contained text as the link text. If the user is on the last page, it will display nothing.', 'jobman' ) ?><br/>
+			<tt>[job_page_next_number]</tt> - <?php _e( 'Returns the page number of the next page.', 'jobman' ) ?><br/>
+			<tt>[job_page_current_number]</tt> - <?php _e( 'Returns the page number of the current page.', 'jobman' ) ?><br/>
+			<tt>[job_page_minimum]</tt> - <?php _e( 'The job number of the first job being displayed on the current page.', 'jobman' ) ?><br/>
+			<tt>[job_page_maximum]</tt> - <?php _e( 'The job number of the last job being displayed on the current page.', 'jobman' ) ?><br/>
+			<tt>[job_total]</tt> - <?php _e( 'The total number of jobs over all pages of this list.', 'jobman' ) ?><br/><br/>
+
 			<strong><?php _e( 'Job Field Information', 'jobman' ) ?></strong><br/>
 			<tt>[job_field_loop]...[/job_field_loop]</tt> - <?php _e( 'This will loop over all of the defined Job Fields, and display the contained HTML and shortcodes for each. This can be used inside a <tt>[job_loop]</tt>, or on an Individual Job page.', 'jobman' ) ?><br/>
 			<tt>[job_field_label]</tt> - <?php _e( 'While inside a <tt>[job_field_loop]</tt>, this will display the label of the current field being displayed.', 'jobman' ) ?><br/>
-			<tt>[job_field]</tt> - <?php _e( 'While inside a <tt>[job_field_loop]</tt>, this will display the data associated with the current field and Job being displayed. If the field is a file, you can specify the <tt>type="url"</tt> attribute, to only return the URL, instead of a link to the file, or the <tt>type="image"</tt> attribute, to return an image.', 'jobman' ) ?><br/><br/>
+			<tt>[job_field]</tt> - <?php _e( 'While inside a <tt>[job_field_loop]</tt>, this will display the data associated with the current field and Job being displayed. If the field is a file, it will obey the <tt>type="url"</tt> attribute, to only return the URL, instead of a link to the file, or the <tt>type="image"</tt> attribute, to return an image. If the field is a large text field, it will obey the <tt>length="<em>n</em>"</tt> attribute, to restrict the output to <em>n</em> characters.', 'jobman' ) ?><br/><br/>
 			
 			<strong><?php _e( 'Custom Job Field Information', 'jobman' ) ?></strong><br/>
 			<?php _e( "For each of the Custom Job Fields defined, there are two shortcodes defined, one for the Label and one for the Data. Note that these numbers won't change, even if you re-order, add or delete Job Fields.", 'jobman' ) ?><br/>
@@ -190,6 +203,8 @@ function jobman_print_template_box() {
 		echo "<tt>[job_field{$jfid}_label], [job_field{$jfid}]</tt> - {$field['label']} ";
 		if( 'file' == $field['type'] )
 			echo '(' . __( 'As a file field, the <tt>type="(url|image)"</tt> attribute can be used.', 'jobman' ) . ')';
+		if( 'textarea' == $field['type'] )
+			echo '(' . __( 'As a large text field, the <tt>length="<em>n</em>"</tt> attribute can be used.', 'jobman' ) . ')';
 		echo '<br/>';
 	}
 ?>

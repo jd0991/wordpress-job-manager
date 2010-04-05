@@ -3,7 +3,7 @@ Contributors: pento
 Donate link: http://pento.net/donate/
 Tags: jobs, job, manager, list, listing, employer, application, board
 Requires at least: 2.9
-Tested up to: 3.0-alpha
+Tested up to: 3.0-beta1
 Stable tag: trunk
 
 A job listing and job application management plugin for WordPress.
@@ -12,7 +12,7 @@ A job listing and job application management plugin for WordPress.
 
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
 
-***WARNING:*** this is a **BETA** release of Job Manager, and it may contain bugs that will eat your data. **DO NOT** use it in a production environment. There will be a stable release of 0.7 in early April, please wait until then before upgrading production. If you have time to test it in your development environment, please do so, and (let me know any bugs you run into)[http://code.google.com/p/wordpress-job-manager/issues/list]. You can download the current stable release, version 0.6.5, here!
+***WARNING:*** this is a **BETA** release of Job Manager, and it may contain bugs that will eat your data. **DO NOT** use it in a production environment. There will be a stable release of 0.7 in mid April, please wait until then before upgrading production. If you have time to test it in your development environment, please do so, and [let me know any bugs you run into](http://code.google.com/p/wordpress-job-manager/issues/list). You can download the current stable release, [version 0.6.6, here](http://wordpress.org/extend/plugins/job-manager/download/)!
 
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
@@ -22,6 +22,8 @@ Do you speak a language other than English? Do you have time to translate some s
     *    Icons can be assigned to jobs, to make them stand out in the listing
 	*    Customisable fields, so you can display information about your jobs specific to your situation
 	*    Powerful templating system, allowing you to control the look and feel of your jobs and job boards
+	*    Jobs can be easily archived or made public as needed
+	*    Widgets to fit into your WordPress theme
 *    *Job Management*
     *    Jobs can be defined to display between certain dates, or indefinitely
     *    Simple admin interface for editing, updating and creating jobs
@@ -33,6 +35,8 @@ Do you speak a language other than English? Do you have time to translate some s
     *    Simple interface for viewing all applicants
     *    List can be filtered based on any criteria in your custom application form
     *    Email individual or groups of candidates, to keep them updated on new job opportunities in your organisation
+	*    Interview scheduling, linked directly to jobs and applications
+	*    Internal comments, for easy reference when you need to decide
 
 Related links:
 
@@ -45,6 +49,7 @@ Related links:
 == Installation ==
 
 Job Manager Requires:
+
 * WordPress 2.9 or later
 * PHP 5 or later
 
@@ -55,6 +60,8 @@ Job Manager Requires:
 1. Job Manager should be the first result. Click the Install link.
 
 = The Old Way =
+
+If you use this method, please remember to Deactivate/Activate Job Manager between upgrades, to ensure that the upgrade routines are run properly.
 
 1. Upload the plugin to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
@@ -81,7 +88,7 @@ In your WordPress MU admin, go to Site Admin->Options. Update the "Upload File T
 
 == Other Plugin Support ==
 
-The Job Manager supports added functionality when other plugins are installed. If you think your plugin could add some functionality to Job Manager, please [submit a feature request](http://code.google.com/p/wordpress-job-manager/issues/list).
+Job Manager supports added functionality when other plugins are installed. If you think your plugin could add some functionality to Job Manager, please [submit a feature request](http://code.google.com/p/wordpress-job-manager/issues/list).
 
 = Google XML Sitemaps =
 
@@ -100,6 +107,7 @@ Notice the version number in brackets. This is the version series that the trans
 * Dutch Translation (0.6.x), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
 * French Translation (0.6.x, frontend complete, admin 95% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
 * German Translation (0.6.x), provided by [tolingo translations](http://www.tolingo.com/)
+* Spanish Translation (0.6.x), provided by [TradiArt](http://www.tradiart.com)
 
 = Special Thanks =
 
@@ -128,10 +136,14 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Widget to show a custom list of selected jobs
 * ADDED: Before/After text for Registration form
 * ADDED: Option to format job date fields. Defaults to no formatting.
+* ADDED: Option to show a limited number of jobs per page, and related shortcodes
+* ADDED: Shortcodes for the current category
+* ADDED: Spanish Translation, provided by [TradiArt](http://www.tradiart.com)
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It required a bad query, so had to go.
 * CHANGED: Separated admin jobs list by future/live/expired, so it's easier to read
 * CHANGED: Job list sorting now allows sorting by any job field
 * CHANGED: Job file attachments can now be shown as the URL or an <img> tag, instead of just a Download link
+* CHANGED: Large text fields in jobs can be restricted to how much information they'll show.
 * CHANGED: RSS Feed now uses the Individual Job template
 * CHANGED: Category widget can now show job counts for each category
 * CHANGED: Category widget can now hide empty categories
@@ -151,6 +163,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: RSS showing expired jobs
 * FIXED: Performance tweaks on job lists, widgets
 * FIXED: Checkboxes not staying checked when editing an existing job
+* FIXED: Fresh installations not using translated strings for defaults
+* FIXED: Some strings not being translated correctly
 
 = 0.6.6 =
 * ADDED: Individual job pages will try to load category templates before default template

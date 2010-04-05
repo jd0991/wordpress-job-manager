@@ -82,8 +82,8 @@ addLoadEvent(function() {
 	jQuery(".column-cb > *").click(function() { jQuery(".check-column > *").attr('checked', jQuery(this).is(':checked')) } );
 	
 	jQuery("div.star-holder img").click(function() {
-	    var class = jQuery(this).parent().attr("class");
-		var count = class.replace("star star", "");
+	    var cssclass = jQuery(this).parent().attr("class");
+		var count = cssclass.replace("star star", "");
 		jQuery(this).parent().parent().find("input[name=jobman-rating]").attr("value", count);
 		jQuery(this).parent().parent().find("div.star-rating").css("width", (count * 19) + "px");
 		
@@ -102,8 +102,8 @@ addLoadEvent(function() {
 	});
 	
 	jQuery("div.star-holder img").mouseenter(function() {
-	    var class = jQuery(this).parent().attr("class");
-		var count = class.replace("star star", "");
+	    var cssclass = jQuery(this).parent().attr("class");
+		var count = cssclass.replace("star star", "");
 		jQuery(this).parent().parent().find("div.star-rating").css("width", (count * 19) + "px");
 	});
 

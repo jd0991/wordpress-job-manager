@@ -13,6 +13,7 @@ function jobman_activate() {
 	}
 
 	jobman_page_taxonomy_setup();
+	jobman_load_translation_file();
 	
 	if( '' == $dbversion ) {
 		// Never been run, create the database.
@@ -91,7 +92,7 @@ function jobman_create_default_settings() {
 	
 	$navprevious = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_previous_number]' );
 	$navnext = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_next_number]' );
-	$navdesc = sprintf( __( 'Jobs %1s-%2s of %3s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_page_total]' );
+	$navdesc = sprintf( __( 'Jobs %1s-%2s of %3s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_total]' );
 	
 	$options['templates']['job'] = <<<EOT
 <table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
@@ -150,10 +151,10 @@ EOT;
 [/job_loop]
 
 [if_job_page_count]
-<div class="navigation">
-	<div class="nav-previous">[job_page_previous_link]{$navprevious}[/job_page_previous_link]</div>
-	<div class="nav-this">$navdesc</div>
-	<div class="nav-next">[job_page_next_link]{$navnext}[/job_page_next_link]</div>
+<div class="job-nav">
+	<div class="previous">[job_page_previous_link]{$navprevious}[/job_page_previous_link]</div>
+	<div class="this">$navdesc</div>
+	<div class="next">[job_page_next_link]{$navnext}[/job_page_next_link]</div>
 </div>
 [/if_job_page_count]
 EOT;
@@ -343,6 +344,21 @@ EOT;
 			$options['interview_title_text'] = '';
 			$options['interview_title_fields'] = array();
 			$options['date_format'] = '';
+
+			$navprevious = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_previous_number]' );
+			$navnext = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_next_number]' );
+			$navdesc = sprintf( __( 'Jobs %1s-%2s of %3s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_total]' );
+			
+			$options['templates']['job_list'] .= <<<EOT
+
+[if_job_page_count]
+<div class="job-nav">
+	<div class="previous">[job_page_previous_link]{$navprevious}[/job_page_previous_link]</div>
+	<div class="this">$navdesc</div>
+	<div class="next">[job_page_next_link]{$navnext}[/job_page_next_link]</div>
+</div>
+[/if_job_page_count]
+EOT;
 		}
 		
 		update_option( 'jobman_options', $options );

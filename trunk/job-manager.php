@@ -49,7 +49,8 @@ $jobman_shortcodes = array( 'job_loop', 'job_row_number', 'job_id', 'job_highlig
 							'job_categories', 'job_category_links', 'job_field_loop', 'job_apply_link', 
 							'job_checkbox', 'job_apply_multi', 'job_page_count', 'job_page_previous_link',
 							'job_page_previous_number', 'job_page_next_link', 'job_page_next_number',
-							'job_page_minimum', 'job_page_maximum', 'job_page_total' );
+							'job_page_minimum', 'job_page_maximum', 'job_total', 'current_category_name',
+							'current_category_link' );
 
 $jobman_options = get_option( 'jobman_options' );
 global $jobman_field_shortcodes;

@@ -561,6 +561,8 @@ function jobman_store_application( $jobid, $cat ) {
 		add_post_meta( $appid, 'job', $data, false );
 	}
 	
+	$errors = array();
+	
 	if( count( $fields ) > 0 ) {
 		foreach( $fields as $fid => $field ) {
 			if($field['type'] != 'file' && ( ! array_key_exists( "jobman-field-$fid", $_REQUEST ) || '' == $_REQUEST["jobman-field-$fid"] ) )
@@ -574,6 +576,12 @@ function jobman_store_application( $jobid, $cat ) {
 				case 'file':
 					if( is_uploaded_file( $_FILES["jobman-field-$fid"]['tmp_name'] ) ) {
 							$data = media_handle_upload( "jobman-field-$fid", $appid, array( 'post_status' => 'private' ) );
+							if( is_wp_error( $data ) ) {
+								// Upload failed, move to next field
+								$errors[] = $data;
+								continue 2;
+							}
+							
 							add_post_meta( $data, '_jobman_attachment', 1, true );
 							add_post_meta( $data, '_jobman_attachment_upload', 1, true );
 					}

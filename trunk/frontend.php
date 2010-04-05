@@ -227,7 +227,7 @@ function jobman_display_jobs( $posts ) {
 		$hidepromo = true;
 	
 	if( ! $hidepromo && count( $posts ) > 0 )
-		$posts[0]->post_content .= '<p class="jobmanpromo">' . sprintf( __( 'This job listing was created using <a href="%s" title="%s">Job Manager</a> for WordPress, by <a href="%s">Gary Pendergast</a>.', 'resman'), 'http://pento.net/projects/wordpress-job-manager/', __( 'WordPress Job Manager', 'resman' ), 'http://pento.net' ) . '</p>';
+		$posts[0]->post_content .= '<p class="jobmanpromo">' . sprintf( __( 'This job listing was created using <a href="%s" title="%s">Job Manager</a> for WordPress, by <a href="%s">Gary Pendergast</a>.', 'jobman'), 'http://pento.net/projects/wordpress-job-manager/', __( 'WordPress Job Manager', 'jobman' ), 'http://pento.net' ) . '</p>';
 
 	$jobman_finishedpage = true;
 	return $posts;
