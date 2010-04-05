@@ -35,12 +35,17 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 				$msg = __( 'It seems you recently applied for this job. If you would like to add further information to your application, please contact us directly.', 'jobman' );
 				break;
 			default:
-				// Failed filter rules
-				$msg = $options['fields'][$err]['error'];
-				
-				if( NULL == $msg || '' == $msg )
-					$msg = __( "Thank you for your application. While your application doesn't fit our current requirements, please contact us directly to see if we have other positions available.", 'jobman' );
-				
+				if( is_array( $err ) ) {
+					$msg = __( 'There was an error uploading your application. Please contact us directly, and quote the information below:', 'jobman' );
+					$msg .= '<div class="jobman-error">' . esc_html( $err->get_error_message() ) . '</div>';
+				}
+				else {
+					// Failed filter rules
+					$msg = $options['fields'][$err]['error'];
+					
+					if( NULL == $msg || '' == $msg )
+						$msg = __( "Thank you for your application. While your application doesn't fit our current requirements, please contact us directly to see if we have other positions available.", 'jobman' );
+				}
 				break;
 		}
 		
@@ -606,6 +611,9 @@ function jobman_store_application( $jobid, $cat ) {
 	}
 	
 	jobman_email_application( $appid );
+	
+	if( ! empty( $errors ) )
+		return $errors;
 
 	// No error
 	return -1;

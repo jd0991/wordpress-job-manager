@@ -148,6 +148,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * CHANGED: Category widget can now show job counts for each category
 * CHANGED: Category widget can now hide empty categories
 * CHANGED: Job edit date selector now opens with button, rather than on click
+* CHANGED: Display an error to users if there was a problem with file upload
 * FIXED: Some PHP warnings
 * FIXED: HTML errors in Admin
 * FIXED: Admin menu now uses handles rather than file references
