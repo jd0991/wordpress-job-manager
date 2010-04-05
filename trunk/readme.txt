@@ -119,6 +119,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7-beta2 =
+* FIXED: Upgrade function didn't work correctly
+
 = 0.7 =
 * ADDED: Optional template for application form
 * ADDED: <select> type to application forms

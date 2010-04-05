@@ -333,23 +333,28 @@ EOT;
 EOT;
 		}
 		
-		if( $oldversion < 14 ) {
-			$options['templates']['application_form'] = '';
-			$options['multi_applications'] = 0;
-			$options['api_keys'] = array(
-										'google_maps' => ''
-									);
-			$options['interviews'] = 1;
-			$options['interview_default_view'] = 'month';
-			$options['interview_title_text'] = '';
-			$options['interview_title_fields'] = array();
-			$options['date_format'] = '';
+		update_option( 'jobman_options', $options );
+	}
 
-			$navprevious = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_previous_number]' );
-			$navnext = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_next_number]' );
-			$navdesc = sprintf( __( 'Jobs %1s-%2s of %3s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_total]' );
-			
-			$options['templates']['job_list'] .= <<<EOT
+	if( $oldversion < 16 ) {
+		$options = get_option( 'jobman_options' );
+		
+		$options['templates']['application_form'] = '';
+		$options['multi_applications'] = 0;
+		$options['api_keys'] = array(
+									'google_maps' => ''
+								);
+		$options['interviews'] = 1;
+		$options['interview_default_view'] = 'month';
+		$options['interview_title_text'] = '';
+		$options['interview_title_fields'] = array();
+		$options['date_format'] = '';
+
+		$navprevious = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_previous_number]' );
+		$navnext = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_next_number]' );
+		$navdesc = sprintf( __( 'Jobs %1s-%2s of %3s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_total]' );
+		
+		$options['templates']['job_list'] .= <<<EOT
 
 [if_job_page_count]
 <div class="job-nav">
@@ -359,7 +364,6 @@ EOT;
 </div>
 [/if_job_page_count]
 EOT;
-		}
 		
 		update_option( 'jobman_options', $options );
 	}
