@@ -367,6 +367,15 @@ EOT;
 		
 		update_option( 'jobman_options', $options );
 	}
+
+	if( $oldversion < 17 ) {
+		$options = get_option( 'jobman_options' );
+
+		if( ! array_key_exists( 'jobs_per_page', $options ) )
+			$options['jobs_per_page'] = 0;
+		
+		update_option( 'jobman_options', $options );
+	}
 }
 
 function jobman_uninstall() {
