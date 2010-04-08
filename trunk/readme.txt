@@ -104,10 +104,10 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
-* Dutch Translation (0.7.x), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
+* Dutch Translation (0.7-beta2), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
 * French Translation (0.6.x, frontend complete, admin 95% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
 * German Translation (0.6.x), provided by [tolingo translations](http://www.tolingo.com/)
-* Spanish Translation (0.6.x), provided by [TradiArt](http://www.tradiart.com)
+* Spanish Translation (0.7-beta2), provided by [TradiArt](http://www.tradiart.com)
 
 = Special Thanks =
 
@@ -121,10 +121,13 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.7-beta3 =
 * UPDATED: Dutch translation, provided by [Patrick Tessels](http://www.centrologic.nl/)
+* UPDATED: Spanish translation, provided by [TradiArt](http://www.tradiart.com)
 * FIXED: Jobs Per Page default setting missing from upgrade
 * FIXED: Missing Spanish translation credits
 * FIXED: Uninstall not working properly
 * FIXED: Job lists not obeying ASC/DESC sorting setting
+* FIXED: Upload error message causing PHP error
+* FIXED: New installation settings not being translated
 
 = 0.7-beta2 =
 * FIXED: Upgrade function didn't work correctly

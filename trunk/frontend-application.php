@@ -37,7 +37,8 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 			default:
 				if( is_array( $err ) ) {
 					$msg = __( 'There was an error uploading your application. Please contact us directly, and quote the information below:', 'jobman' );
-					$msg .= '<div class="jobman-error">' . esc_html( $err->get_error_message() ) . '</div>';
+					foreach( $err as $e )
+						$msg .= '<div class="jobman-error">' . esc_html( $e->get_error_message() ) . '</div>';
 				}
 				else {
 					// Failed filter rules
