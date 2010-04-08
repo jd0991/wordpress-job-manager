@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin Job Manager 0.7-beta1 by Gary Pendergast.
+# Translation of the WordPress plugin Job Manager 0.7-beta3 by Gary Pendergast.
 # Copyright (C) 2010 Gary Pendergast
 # This file is distributed under the same license as the Job Manager package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Job Manager 0.7-beta1\n"
+"Project-Id-Version: Job Manager 0.7-beta3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/job-manager\n"
-"POT-Creation-Date: 2010-04-05 17:24+0000\n"
+"POT-Creation-Date: 2010-04-08 17:24+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -186,7 +186,7 @@ msgid "Hide Filter Options"
 msgstr ""
 
 #: admin-applications.php:196 admin-applications.php:232
-#: admin-applications.php:658 frontend-application.php:871 setup.php:74
+#: admin-applications.php:658 frontend-application.php:872 setup.php:74
 #: setup.php:246
 msgid "Job"
 msgstr ""
@@ -262,7 +262,7 @@ msgid "Back to Application List"
 msgstr ""
 
 #: admin-applications.php:611 admin-interviews.php:316 db.php:487
-#: frontend-application.php:511
+#: frontend-application.php:512
 msgid "Application"
 msgstr ""
 
@@ -278,7 +278,7 @@ msgstr ""
 msgid "Jobs"
 msgstr ""
 
-#: admin-applications.php:663 frontend-application.php:877
+#: admin-applications.php:663 frontend-application.php:878
 msgid "Timestamp"
 msgstr ""
 
@@ -536,7 +536,7 @@ msgid ""
 "available shortcodes."
 msgstr ""
 
-#: admin-frontend-settings.php:164
+#: admin-frontend-settings.php:164 db.php:243 db.php:692
 msgid "Job Information"
 msgstr ""
 
@@ -1092,7 +1092,7 @@ msgstr ""
 
 #: admin-jobs.php:65 admin-jobs.php:316 admin-settings.php:128
 #: admin-settings.php:141 admin-settings.php:210 admin-settings.php:222
-#: admin-settings.php:433 frontend-application.php:149 setup.php:89
+#: admin-settings.php:433 frontend-application.php:150 setup.php:89
 #: widgets.php:99 widgets.php:276 widgets.php:379 widgets.php:445
 msgid "Title"
 msgstr ""
@@ -1443,13 +1443,13 @@ msgid ""
 "to the appropriate user. These options allow you to customise that email."
 msgstr ""
 
-#: admin-settings.php:318 frontend-user.php:104
+#: admin-settings.php:318 db.php:43 frontend-user.php:104
 msgid "Email Address"
 msgstr ""
 
 #: admin-settings.php:320 admin-settings.php:344 admin-settings.php:370
-#: admin-settings.php:437 frontend-application.php:338
-#: frontend-application.php:384
+#: admin-settings.php:437 frontend-application.php:339
+#: frontend-application.php:385
 msgid "None"
 msgstr ""
 
@@ -1613,7 +1613,7 @@ msgstr ""
 msgid "Update Uninstall Settings"
 msgstr ""
 
-#. #-#-#-#-#  plugin.pot (Job Manager 0.7-beta1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (Job Manager 0.7-beta3)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: admin.php:26 admin.php:27 admin.php:28 admin.php:29 admin.php:30
 #: admin.php:31 admin.php:32 admin.php:33 admin.php:34 admin.php:37
@@ -1703,14 +1703,105 @@ msgstr ""
 msgid "German"
 msgstr ""
 
+#: admin.php:164
+msgid "Spanish"
+msgstr ""
+
+#: db.php:10
+msgid "Personal Details"
+msgstr ""
+
+#: db.php:21
+msgid "Name"
+msgstr ""
+
+#: db.php:32
+msgid "Surname"
+msgstr ""
+
+#: db.php:54
+msgid "Contact Details"
+msgstr ""
+
+#: db.php:65
+msgid "Address"
+msgstr ""
+
+#: db.php:76
+msgid "City"
+msgstr ""
+
+#: db.php:87
+msgid "Post code"
+msgstr ""
+
+#: db.php:98
+msgid "Country"
+msgstr ""
+
+#: db.php:109
+msgid "Telephone"
+msgstr ""
+
+#: db.php:120
+msgid "Cell phone"
+msgstr ""
+
+#: db.php:131
+msgid "Qualifications"
+msgstr ""
+
+#: db.php:142
+msgid "Do you have a degree?"
+msgstr ""
+
+#: db.php:153
+msgid "Where did you complete your degree?"
+msgstr ""
+
+#: db.php:164
+msgid "Title of your degree"
+msgstr ""
+
+#: db.php:175
+msgid "Upload your CV"
+msgstr ""
+
+#: db.php:200 db.php:202
+msgid "I have read and understood the privacy policy."
+msgstr ""
+
+#: db.php:203
+msgid ""
+"You need to read and agree to our privacy policy before we can accept your "
+"application. Please click the 'Back' button in your browser, read our "
+"privacy policy, and confirm that you accept."
+msgstr ""
+
+#: db.php:211 db.php:660
+msgid "Salary"
+msgstr ""
+
+#: db.php:219 db.php:668
+msgid "Start Date"
+msgstr ""
+
 #: db.php:223 db.php:672
 msgid ""
 "The date that the job starts. For positions available immediately, leave "
 "blank."
 msgstr ""
 
+#: db.php:227 db.php:676
+msgid "End Date"
+msgstr ""
+
 #: db.php:231 db.php:680
 msgid "The date that the job finishes. For ongoing positions, leave blank."
+msgstr ""
+
+#: db.php:235 db.php:684
+msgid "Location"
 msgstr ""
 
 #: db.php:258 db.php:332 frontend-jobs.php:17
@@ -1725,9 +1816,9 @@ msgid ""
 "site."
 msgstr ""
 
-#: db.php:274 db.php:545 frontend-application.php:52
-#: frontend-application.php:84 frontend-application.php:96
-#: frontend-application.php:860 frontend.php:314 setup.php:41
+#: db.php:274 db.php:545 frontend-application.php:53
+#: frontend-application.php:85 frontend-application.php:97
+#: frontend-application.php:861 frontend.php:314 setup.php:41
 msgid "Job Application"
 msgstr ""
 
@@ -1747,37 +1838,37 @@ msgid ""
 "and quote the information below:"
 msgstr ""
 
-#: frontend-application.php:47
+#: frontend-application.php:48
 msgid ""
 "Thank you for your application. While your application doesn't fit our "
 "current requirements, please contact us directly to see if we have other "
 "positions available."
 msgstr ""
 
-#: frontend-application.php:64
+#: frontend-application.php:65
 msgid ""
 "Before completing your application, please login using the form above, or "
 "register using the form below."
 msgstr ""
 
-#: frontend-application.php:153
+#: frontend-application.php:154
 msgid "Select the jobs you would like to apply for"
 msgstr ""
 
-#: frontend-application.php:155
+#: frontend-application.php:156
 msgid "Select the categories that you are interested in"
 msgstr ""
 
-#: frontend-application.php:162
+#: frontend-application.php:163
 msgid ""
 "Fields marked with an asterisk (*) must be filled out before submitting."
 msgstr ""
 
-#: frontend-application.php:246
+#: frontend-application.php:247
 msgid "Submit Your Application"
 msgstr ""
 
-#: frontend-application.php:864
+#: frontend-application.php:865
 msgid "Application Link"
 msgstr ""
 
@@ -1921,12 +2012,12 @@ msgstr ""
 msgid "Apply Now"
 msgstr ""
 
-#: setup.php:93 setup.php:94 setup.php:348 setup.php:349
+#: setup.php:93 setup.php:94 setup.php:353 setup.php:354
 #, php-format
 msgid "Page %1s"
 msgstr ""
 
-#: setup.php:95 setup.php:350
+#: setup.php:95 setup.php:355
 #, php-format
 msgid "Jobs %1s-%2s of %3s"
 msgstr ""
