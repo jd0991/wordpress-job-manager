@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the 0.7 Series package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2010-04-08 18:34+0100\n"
+"PO-Revision-Date: 2010-04-08 20:08+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,6 +12,99 @@ msgstr ""
 "POT-Creation-Date: \n"
 "Last-Translator: Gary Pendergast <gary@pento.net>\n"
 "Language-Team: \n"
+
+#: db.php:235
+#: db.php:684
+msgid "Location"
+msgstr "Ubicación"
+
+#: db.php:227
+#: db.php:676
+msgid "End Date"
+msgstr "Fecha de finalización"
+
+#: db.php:219
+#: db.php:668
+msgid "Start Date"
+msgstr "Fecha de Inicio"
+
+#: db.php:211
+#: db.php:660
+msgid "Salary"
+msgstr "Sueldo"
+
+#: db.php:203
+msgid "You need to read and agree to our privacy policy before we can accept your application. Please click the 'Back' button in your browser, read our privacy policy, and confirm that you accept."
+msgstr "Es necesario leer y aceptar nuestra política de privacidad antes de que podamos aceptar su candidatura. Por favor, haga clic en el botón 'Retroceder' de su navegador, consulte nuestra política de privacidad, y confirme que la acepta."
+
+#: db.php:200
+#: db.php:202
+msgid "I have read and understood the privacy policy."
+msgstr "He leído y comprendido la política de privacidad."
+
+#: db.php:175
+msgid "Upload your CV"
+msgstr "Suba su CV"
+
+#: db.php:164
+msgid "Title of your degree"
+msgstr "Titulación"
+
+#: db.php:153
+msgid "Where did you complete your degree?"
+msgstr "¿Dónde obtuvo su titulación?"
+
+#: db.php:142
+msgid "Do you have a degree?"
+msgstr "¿Dispone de alguna titulación?"
+
+#: db.php:131
+msgid "Qualifications"
+msgstr "Cualificaciones"
+
+#: db.php:120
+msgid "Cell phone"
+msgstr "Móvil"
+
+#: db.php:109
+msgid "Telephone"
+msgstr "Teléfono"
+
+#: db.php:98
+msgid "Country"
+msgstr "País"
+
+#: db.php:87
+msgid "Post code"
+msgstr "Código postal"
+
+#: db.php:76
+msgid "City"
+msgstr "Ciudad"
+
+#: db.php:65
+msgid "Address"
+msgstr "Dirección"
+
+#: db.php:54
+msgid "Contact Details"
+msgstr "Datos de Contacto"
+
+#: db.php:32
+msgid "Surname"
+msgstr "Apellidos"
+
+#: db.php:21
+msgid "Name"
+msgstr "Nombre"
+
+#: db.php:10
+msgid "Personal Details"
+msgstr "Datos Personales"
+
+#: admin.php:164
+msgid "Spanish"
+msgstr "Castellano"
 
 #: admin-application-form.php:11
 #: admin-jobs-settings.php:11
@@ -222,7 +315,7 @@ msgstr "Ocultar opciones filtro"
 #: admin-applications.php:196
 #: admin-applications.php:232
 #: admin-applications.php:658
-#: frontend-application.php:871
+#: frontend-application.php:872
 #: setup.php:74
 #: setup.php:246
 msgid "Job"
@@ -317,7 +410,7 @@ msgstr "Volver a la lista de candidaturas"
 #: admin-applications.php:611
 #: admin-interviews.php:316
 #: db.php:487
-#: frontend-application.php:511
+#: frontend-application.php:512
 msgid "Application"
 msgstr "Candidatura"
 
@@ -336,7 +429,7 @@ msgid "Jobs"
 msgstr "Empleos"
 
 #: admin-applications.php:663
-#: frontend-application.php:877
+#: frontend-application.php:878
 msgid "Timestamp"
 msgstr "Fecha y hora"
 
@@ -589,6 +682,8 @@ msgid "These settings allow you to define the templates for displaying lists of 
 msgstr "Estas opciones le permiten definir las plantillas para presentar listas de puestos de trabajo, y trabajos individuales. Para ello, tendrá que hacer uso de los atajos disponibles."
 
 #: admin-frontend-settings.php:164
+#: db.php:243
+#: db.php:692
 msgid "Job Information"
 msgstr "Información del Empleo"
 
@@ -1059,7 +1154,7 @@ msgstr "Empleo actualizado"
 #: admin-settings.php:210
 #: admin-settings.php:222
 #: admin-settings.php:433
-#: frontend-application.php:149
+#: frontend-application.php:150
 #: setup.php:89
 #: widgets.php:99
 #: widgets.php:276
@@ -1399,6 +1494,7 @@ msgid "When an applicant successfully submits an application, an email will be s
 msgstr "Si un candidato presenta con éxito una candidatura, un correo electrónico será enviado al usuario apropiado. Estas opciones le permiten personalizar ese correo electrónico."
 
 #: admin-settings.php:318
+#: db.php:43
 #: frontend-user.php:104
 msgid "Email Address"
 msgstr "Dirección de correo electrónico"
@@ -1407,8 +1503,8 @@ msgstr "Dirección de correo electrónico"
 #: admin-settings.php:344
 #: admin-settings.php:370
 #: admin-settings.php:437
-#: frontend-application.php:338
-#: frontend-application.php:384
+#: frontend-application.php:339
+#: frontend-application.php:385
 msgid "None"
 msgstr "Ninguno"
 
@@ -1671,10 +1767,10 @@ msgstr "¡Hola! Esta página es utilizada por su plugin de Gestor de Empleos com
 
 #: db.php:274
 #: db.php:545
-#: frontend-application.php:52
-#: frontend-application.php:84
-#: frontend-application.php:96
-#: frontend-application.php:860
+#: frontend-application.php:53
+#: frontend-application.php:85
+#: frontend-application.php:97
+#: frontend-application.php:861
 #: frontend.php:314
 #: setup.php:41
 msgid "Job Application"
@@ -1695,31 +1791,31 @@ msgstr "Parece que recientemente se presentó a este puesto de trabajo. Si desea
 msgid "There was an error uploading your application. Please contact us directly, and quote the information below:"
 msgstr "Hubo un error al actualizar la aplicación. Por favor, contacte directamente con nosotros, y cite textualmente la siguiente información:"
 
-#: frontend-application.php:47
+#: frontend-application.php:48
 msgid "Thank you for your application. While your application doesn't fit our current requirements, please contact us directly to see if we have other positions available."
 msgstr "Gracias por su candidatura. En el caso de que su solicitud no se ajuste a nuestras necesidades actuales, por favor póngase en contacto con nosotros para ver si tenemos otras vacantes disponibles."
 
-#: frontend-application.php:64
+#: frontend-application.php:65
 msgid "Before completing your application, please login using the form above, or register using the form below."
 msgstr "Antes de completar su candidatura, por favor inicie sesión a través del formulario de arriba, o regístrese en el sitio utilizando el siguiente formulario."
 
-#: frontend-application.php:153
+#: frontend-application.php:154
 msgid "Select the jobs you would like to apply for"
 msgstr "Seleccione los empleos a los que le gustaría presentar su candidatura"
 
-#: frontend-application.php:155
+#: frontend-application.php:156
 msgid "Select the categories that you are interested in"
 msgstr "Seleccione las categorías en las que usted está interesado"
 
-#: frontend-application.php:162
+#: frontend-application.php:163
 msgid "Fields marked with an asterisk (*) must be filled out before submitting."
 msgstr "Los campos marcados con un asterisco (*) deben ser rellenados antes de enviar."
 
-#: frontend-application.php:246
+#: frontend-application.php:247
 msgid "Submit Your Application"
 msgstr "Envíe su Candidatura"
 
-#: frontend-application.php:864
+#: frontend-application.php:865
 msgid "Application Link"
 msgstr "Enlace de candidatura"
 
@@ -1848,13 +1944,13 @@ msgstr "Solicite el puesto ahora"
 
 #: setup.php:93
 #: setup.php:94
-#: setup.php:348
-#: setup.php:349
+#: setup.php:353
+#: setup.php:354
 msgid "Page %1s"
 msgstr "Página %1s"
 
 #: setup.php:95
-#: setup.php:350
+#: setup.php:355
 msgid "Jobs %1s-%2s of %3s"
 msgstr "Empleos %1s-%2s de %3s"
 
