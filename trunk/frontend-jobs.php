@@ -64,7 +64,7 @@ function jobman_display_jobs_list( $cat ) {
 		$args['numberposts'] = -1;
 	}
 	
-	if( in_array( $options['sort_order'], array( 'ASC', 'DESC' ) ) )
+	if( in_array( $options['sort_order'], array( 'asc', 'desc' ) ) )
 		$args['order'] = $options['sort_order'];
 	
 	if( 'all' != $cat )

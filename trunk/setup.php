@@ -380,6 +380,8 @@ EOT;
 
 function jobman_uninstall() {
 	jobman_drop_db();
+	
+	$options = get_option( 'jobman_options' );
 
 	if( $options['uninstall']['options'] ) {
 		// Delete the icon uploads

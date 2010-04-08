@@ -123,6 +123,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * UPDATED: Dutch translation, provided by [Patrick Tessels](http://www.centrologic.nl/)
 * FIXED: Jobs Per Page default setting missing from upgrade
 * FIXED: Missing Spanish translation credits
+* FIXED: Uninstall not working properly
+* FIXED: Job lists not obeying ASC/DESC sorting setting
 
 = 0.7-beta2 =
 * FIXED: Upgrade function didn't work correctly
