@@ -200,7 +200,7 @@ function jobman_create_db() {
 								'data' => __( 'I have read and understood the privacy policy.', 'jobman' ),
 								'mandatory' => 1,
 								'filter' => __( 'I have read and understood the privacy policy.', 'jobman' ),
-								'error' => __( "You need to read and agree to our privacy policy before we can accept your application. Please click the 'Back' button in your browser, read our privacy policy, and confirm that you accept.",
+								'error' => __( "You need to read and agree to our privacy policy before we can accept your application. Please click the 'Back' button in your browser, read our privacy policy, and confirm that you accept.", 'jobman' ),
 								'sortorder' => 17,
 								'categories' => array()
 							);

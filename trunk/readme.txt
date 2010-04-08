@@ -119,6 +119,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7-beta4 =
+* FIXED: Activation error
+
 = 0.7-beta3 =
 * UPDATED: Dutch translation, provided by [Patrick Tessels](http://www.centrologic.nl/)
 * UPDATED: Spanish translation, provided by [TradiArt](http://www.tradiart.com)
