@@ -215,6 +215,7 @@ function jobman_edit_job( $jobid ) {
 		$title = __( 'Job Manager: New Job', 'jobman' );
 		$submit = __( 'Create Job', 'jobman' );
 		$job = array();
+		$display_jobid = __( 'New', 'jobman' );
 	}
 	else {
 		$title = __( 'Job Manager: Edit Job', 'jobman' );
@@ -224,6 +225,8 @@ function jobman_edit_job( $jobid ) {
 		if( NULL == $job )
 			// No job associated with that id.
 			return 0;
+		
+		$display_jobid = $jobid;
 	}
 	
 	if( isset( $job->ID ) ) {
@@ -257,7 +260,7 @@ function jobman_edit_job( $jobid ) {
 		<table id="jobman-job-edit" class="form-table">
 			<tr>
 				<th scope="row"><?php _e( 'Job ID', 'jobman' ) ?></th>
-				<td><?php echo $jobid ?></td>
+				<td><?php echo $display_jobid ?></td>
 				<td></td>
 			</tr>
 			<tr>

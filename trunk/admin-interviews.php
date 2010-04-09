@@ -67,14 +67,14 @@ function jobman_interview_month( $filter, $caltype = 'full' ) {
 <?php
 	if( 'full' == $caltype ) {
 ?>
-		<h2><?php printf( __( 'Job Manager: %1s Interviews', 'jobman' ), date( 'F Y', strtotime( $filter ) ) ) ?></h2>
+		<h2><?php printf( __( 'Job Manager: %1s Interviews', 'jobman' ), date_i18n( 'F Y', strtotime( $filter ) ) ) ?></h2>
 		<form action="" method="post">
 		<div class="jobman-interview-nav">
-			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=month&amp;filter=' . date( 'Y-m', strtotime( "$filter -1 month" ) ) ) ?>">&lt;&lt;-- <?php echo date( 'F Y', strtotime( "$filter -1 month" ) ) ?></a>
+			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=month&amp;filter=' . date( 'Y-m', strtotime( "$filter -1 month" ) ) ) ?>">&lt;&lt;-- <?php echo date_i18n( 'F Y', strtotime( "$filter -1 month" ) ) ?></a>
 			<select name="month">
 <?php
 		for( $ii = 1; $ii <= 12; $ii++ ) {
-			$iiname = date( 'F', strtotime( "2009-$ii" ) );
+			$iiname = date_i18n( 'F', strtotime( "2009-$ii" ) );
 			
 			$selected = '';
 			if( $ii == $month )
@@ -96,14 +96,14 @@ function jobman_interview_month( $filter, $caltype = 'full' ) {
 ?>
 			</select>
 			<input type="submit" name="submit" value="<?php _e( 'Go', 'jobman' ) ?>" />
-			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=month&amp;filter=' . date( 'Y-m', strtotime( "$filter +1 month" ) ) ) ?>"><?php echo date( 'F Y', strtotime( "$filter +1 month" ) ) ?> --&gt;&gt;</a>
+			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=month&amp;filter=' . date( 'Y-m', strtotime( "$filter +1 month" ) ) ) ?>"><?php echo date_i18n( 'F Y', strtotime( "$filter +1 month" ) ) ?> --&gt;&gt;</a>
 		</div>
 		</form>
 <?php
 	}
 	else {
 ?>
-		<div class="jobman-month-name"><a href="<?php echo admin_url( "admin.php?page=jobman-interviews&amp;display=month&amp;filter=$filter" ) ?>"><?php echo date( 'F', strtotime( $filter ) ) ?></a></div>
+		<div class="jobman-month-name"><a href="<?php echo admin_url( "admin.php?page=jobman-interviews&amp;display=month&amp;filter=$filter" ) ?>"><?php echo date_i18n( 'F', strtotime( $filter ) ) ?></a></div>
 <?php
 	}
 ?>
@@ -111,13 +111,13 @@ function jobman_interview_month( $filter, $caltype = 'full' ) {
 		<table class="<?php echo $tableclass ?>">
 			<thead>
 			<tr>
-				<th><?php echo date( $dayformat, strtotime( 'Monday' ) ) ?></th>
-				<th><?php echo date( $dayformat, strtotime( 'Tuesday' ) ) ?></th>
-				<th><?php echo date( $dayformat, strtotime( 'Wednesday' ) ) ?></th>
-				<th><?php echo date( $dayformat, strtotime( 'Thursday' ) ) ?></th>
-				<th><?php echo date( $dayformat, strtotime( 'Friday' ) ) ?></th>
-				<th><?php echo date( $dayformat, strtotime( 'Saturday' ) ) ?></th>
-				<th><?php echo date( $dayformat, strtotime( 'Sunday' ) ) ?></th>
+				<th><?php echo date_i18n( $dayformat, strtotime( 'Monday' ) ) ?></th>
+				<th><?php echo date_i18n( $dayformat, strtotime( 'Tuesday' ) ) ?></th>
+				<th><?php echo date_i18n( $dayformat, strtotime( 'Wednesday' ) ) ?></th>
+				<th><?php echo date_i18n( $dayformat, strtotime( 'Thursday' ) ) ?></th>
+				<th><?php echo date_i18n( $dayformat, strtotime( 'Friday' ) ) ?></th>
+				<th><?php echo date_i18n( $dayformat, strtotime( 'Saturday' ) ) ?></th>
+				<th><?php echo date_i18n( $dayformat, strtotime( 'Sunday' ) ) ?></th>
 			</tr>
 			</thead>
 <?php
@@ -223,10 +223,10 @@ function jobman_interview_day( $filter ) {
 	$day = date( 'j', strtotime( $filter ) );
 ?>
 	<div class="wrap">
-		<h2><?php printf( __( 'Job Manager: %1s Interviews', 'jobman' ), date( 'l jS F Y', strtotime( $filter ) ) ) ?></h2>
+		<h2><?php printf( __( 'Job Manager: %1s Interviews', 'jobman' ), date_i18n( 'l jS F Y', strtotime( $filter ) ) ) ?></h2>
 		<form action="" method="post">
 		<div class="jobman-interview-nav">
-			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=day&amp;filter=' . date( 'Y-m-d', strtotime( "$filter -1 day" ) ) ) ?>">&lt;&lt;-- <?php echo date( 'l jS F Y', strtotime( "$filter -1 day" ) ) ?></a>
+			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=day&amp;filter=' . date( 'Y-m-d', strtotime( "$filter -1 day" ) ) ) ?>">&lt;&lt;-- <?php echo date_i18n( 'l jS F Y', strtotime( "$filter -1 day" ) ) ?></a>
 			<select name="day">
 <?php
 		for( $ii = 1; $ii <= 31; $ii++ ) {
@@ -241,7 +241,7 @@ function jobman_interview_day( $filter ) {
 			<select name="month">
 <?php
 		for( $ii = 1; $ii <= 12; $ii++ ) {
-			$iiname = date( 'F', strtotime( "2009-$ii" ) );
+			$iiname = date_i18n( 'F', strtotime( "2009-$ii" ) );
 			
 			$selected = '';
 			if( $ii == $month )
@@ -263,7 +263,7 @@ function jobman_interview_day( $filter ) {
 ?>
 			</select>
 			<input type="submit" name="submit" value="<?php _e( 'Go', 'jobman' ) ?>" />
-			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=day&amp;filter=' . date( 'Y-m-d', strtotime( "$filter +1 day" ) ) ) ?>"><?php echo date( 'l jS F Y', strtotime( "$filter +1 day" ) ) ?> --&gt;&gt;</a>
+			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=day&amp;filter=' . date( 'Y-m-d', strtotime( "$filter +1 day" ) ) ) ?>"><?php echo date_i18n( 'l jS F Y', strtotime( "$filter +1 day" ) ) ?> --&gt;&gt;</a>
 		</div>
 		</form>
 <?php

@@ -142,7 +142,7 @@ function jobman_create_db() {
 								'label' => __( 'Do you have a degree?', 'jobman' ),
 								'type' => 'radio',
 								'listdisplay' => 1,
-								'data' => "Yes\r\nNo",
+								'data' => __( 'Yes', 'jobman' ) . "\r\n" . __( 'No', 'jobman' ),
 								'mandatory' => 0,
 								'filter' => '',
 								'error' => '',
