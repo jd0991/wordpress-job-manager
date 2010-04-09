@@ -54,6 +54,7 @@ Stable: Early July 2010
   * Option to Email Job Owner when it expires: Issue #75
   * "Image" application field: Issue #106
   * !BuddyPress Integration: Issue #125
+  * Social Bookmark support: Issue #148
 
 == Changes to Existing Features ==
 
@@ -84,6 +85,7 @@ Stable: Early August 2010
   * Applicant Matrix: Issue #111
   * Template Tags: Issue #121
   * Dashboard Job posting: Issue #72
+  * Auto-scrolling Widget: Issue #149
 
 == Changes to Existing Features ==
 
