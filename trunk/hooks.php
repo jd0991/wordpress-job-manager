@@ -30,6 +30,7 @@ add_action( 'wp_head', 'jobman_display_head' );
 add_filter( 'hierarchical_post_types', 'jobman_page_hierarchical_setup' );
 // For the page links
 add_filter( 'post_link', 'jobman_page_link', 10, 2 );
+add_filter( 'post_type_link', 'jobman_page_link', 10, 2 );
 add_filter( 'the_permalink_rss', 'jobman_rss_page_link', 10 );
 
 // Our custom page/taxonomy setup

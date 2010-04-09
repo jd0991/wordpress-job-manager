@@ -124,6 +124,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Admin boxes being too wide on small screens
 * FIXED: One more string not being translated
 * FIXED: Dates not being translated
+* FIXED: Job URL occasionally not being generated properly
 
 = 0.7-beta4 =
 * FIXED: Activation error

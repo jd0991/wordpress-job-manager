@@ -57,9 +57,16 @@ function jobman_flush_rewrite_rules() {
 }
 
 function jobman_page_link( $link, $page = NULL ) {
-	if( $page == NULL )
+	global $post;
+	if( NULL == $page && NULL == $post )
 		return $link;
-
+		
+	if( NULL == $page )
+		$page = $post;
+	
+	if( is_int( $page ) )
+		$page = get_post( $page );
+	
 	if( ! in_array( $page->post_type, array( 'jobman_job', 'jobman_app_form' ) ) )
 		return $link;
 	
