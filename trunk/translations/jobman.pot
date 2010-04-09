@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin Job Manager 0.7-beta3 by Gary Pendergast.
+# Translation of the WordPress plugin Job Manager 0.7-beta5 by Gary Pendergast.
 # Copyright (C) 2010 Gary Pendergast
 # This file is distributed under the same license as the Job Manager package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Job Manager 0.7-beta3\n"
+"Project-Id-Version: Job Manager 0.7-beta5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/job-manager\n"
-"POT-Creation-Date: 2010-04-08 17:24+0000\n"
+"POT-Creation-Date: 2010-04-09 16:43+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,7 +70,7 @@ msgstr ""
 
 #: admin-application-form.php:37 admin-applications.php:67
 #: admin-applications.php:204 admin-applications.php:240
-#: admin-frontend-settings.php:216 admin-jobs.php:66 admin-jobs.php:264
+#: admin-frontend-settings.php:216 admin-jobs.php:66 admin-jobs.php:267
 #: admin-settings.php:55 admin-settings.php:71 admin-settings.php:586
 #: setup.php:90 widgets.php:138
 msgid "Categories"
@@ -144,7 +144,7 @@ msgstr ""
 msgid "Standard Filters"
 msgstr ""
 
-#: admin-applications.php:53 admin-jobs.php:259
+#: admin-applications.php:53 admin-jobs.php:262
 msgid "Job ID"
 msgstr ""
 
@@ -1090,7 +1090,7 @@ msgstr ""
 msgid "Job updated"
 msgstr ""
 
-#: admin-jobs.php:65 admin-jobs.php:316 admin-settings.php:128
+#: admin-jobs.php:65 admin-jobs.php:319 admin-settings.php:128
 #: admin-settings.php:141 admin-settings.php:210 admin-settings.php:222
 #: admin-settings.php:433 frontend-application.php:150 setup.php:89
 #: widgets.php:99 widgets.php:276 widgets.php:379 widgets.php:445
@@ -1149,87 +1149,91 @@ msgstr ""
 msgid "Create Job"
 msgstr ""
 
-#: admin-jobs.php:220
-msgid "Job Manager: Edit Job"
+#: admin-jobs.php:218
+msgid "New"
 msgstr ""
 
 #: admin-jobs.php:221
+msgid "Job Manager: Edit Job"
+msgstr ""
+
+#: admin-jobs.php:222
 msgid "Update Job"
 msgstr ""
 
-#: admin-jobs.php:286
+#: admin-jobs.php:289
 msgid ""
 "Categories that this job belongs to. It will be displayed in the job list "
 "for each category selected."
 msgstr ""
 
-#: admin-jobs.php:289 admin-settings.php:209 admin-settings.php:221
+#: admin-jobs.php:292 admin-settings.php:209 admin-settings.php:221
 msgid "Icon"
 msgstr ""
 
-#: admin-jobs.php:311
+#: admin-jobs.php:314
 msgid "No Icon"
 msgstr ""
 
-#: admin-jobs.php:313
+#: admin-jobs.php:316
 msgid "Icon to display for this job in the Job List"
 msgstr ""
 
-#: admin-jobs.php:426
+#: admin-jobs.php:429
 msgid "Delete File?"
 msgstr ""
 
-#: admin-jobs.php:453
+#: admin-jobs.php:456
 msgid "Display Start Date"
 msgstr ""
 
-#: admin-jobs.php:455
+#: admin-jobs.php:458
 msgid ""
 "The date this job should start being displayed on the site. To start "
 "displaying immediately, leave blank."
 msgstr ""
 
-#: admin-jobs.php:458
+#: admin-jobs.php:461
 msgid "Display End Date"
 msgstr ""
 
-#: admin-jobs.php:460
+#: admin-jobs.php:463
 msgid ""
 "The date this job should stop being displayed on the site. To display "
 "indefinitely, leave blank."
 msgstr ""
 
-#: admin-jobs.php:463
+#: admin-jobs.php:466
 msgid "Application Email"
 msgstr ""
 
-#: admin-jobs.php:465
+#: admin-jobs.php:468
 msgid ""
 "The email address to notify when an application is submitted for this job. "
 "For default behaviour (category email or global email), leave blank."
 msgstr ""
 
-#: admin-jobs.php:473
+#: admin-jobs.php:476
 msgid "Highlighted?"
 msgstr ""
 
-#: admin-jobs.php:475
+#: admin-jobs.php:478
 msgid ""
 "Mark this job as highlighted? For the behaviour of highlighted jobs, see the "
 "Display Settings admin page."
 msgstr ""
 
-#: admin-jobs.php:636
+#: admin-jobs.php:639
 msgid "Job Manager: Jobs"
 msgstr ""
 
-#: admin-jobs.php:637
+#: admin-jobs.php:640
 msgid ""
 "This will permanently delete all of the selected jobs. Please confirm that "
 "you want to continue."
 msgstr ""
 
-#: admin-jobs.php:638
+#: admin-jobs.php:641
 msgid "Delete Jobs"
 msgstr ""
 
@@ -1613,7 +1617,7 @@ msgstr ""
 msgid "Update Uninstall Settings"
 msgstr ""
 
-#. #-#-#-#-#  plugin.pot (Job Manager 0.7-beta3)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (Job Manager 0.7-beta5)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: admin.php:26 admin.php:27 admin.php:28 admin.php:29 admin.php:30
 #: admin.php:31 admin.php:32 admin.php:33 admin.php:34 admin.php:37
@@ -1755,6 +1759,14 @@ msgstr ""
 msgid "Do you have a degree?"
 msgstr ""
 
+#: db.php:145
+msgid "Yes"
+msgstr ""
+
+#: db.php:145
+msgid "No"
+msgstr ""
+
 #: db.php:153
 msgid "Where did you complete your degree?"
 msgstr ""
@@ -1818,7 +1830,7 @@ msgstr ""
 
 #: db.php:274 db.php:545 frontend-application.php:53
 #: frontend-application.php:85 frontend-application.php:97
-#: frontend-application.php:861 frontend.php:314 setup.php:41
+#: frontend-application.php:861 frontend.php:321 setup.php:41
 msgid "Job Application"
 msgstr ""
 
@@ -1964,30 +1976,30 @@ msgid ""
 "1s'>password reset page</a>."
 msgstr ""
 
-#: frontend.php:230
+#: frontend.php:237
 #, php-format
 msgid ""
 "This job listing was created using <a href=\"%s\" title=\"%s\">Job Manager</"
 "a> for WordPress, by <a href=\"%s\">Gary Pendergast</a>."
 msgstr ""
 
-#: frontend.php:230
+#: frontend.php:237
 msgid "WordPress Job Manager"
 msgstr ""
 
-#: frontend.php:317 frontend.php:320
+#: frontend.php:324 frontend.php:327
 msgid "Job Listing"
 msgstr ""
 
-#: frontend.php:364
+#: frontend.php:371
 msgid "Latest Jobs"
 msgstr ""
 
-#: frontend.php:440
+#: frontend.php:447
 msgid "The following fields must be filled out before submitting"
 msgstr ""
 
-#: frontend.php:441 frontend.php:442
+#: frontend.php:448 frontend.php:449
 msgid "click to select"
 msgstr ""
 
