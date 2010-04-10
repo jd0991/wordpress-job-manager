@@ -146,6 +146,9 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL, $cat = 
 	
 	$content = '';
 	
+	if( ! empty( $cat ) )
+		$cat = get_term_by( 'slug', $cat, 'jobman_category' );
+	
 	if( $foundjob )
 		$content .= '<p>' . __( 'Title', 'jobman' ) . ': <a href="'. get_page_link( $job->ID ) . '">' . $job->post_title . '</a></p>';
 		
@@ -170,7 +173,7 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL, $cat = 
 		foreach( $fields as $id => $field ) {
 			if( array_key_exists( 'categories', $field ) && count( $field['categories'] ) > 0 ) {
 				// If there are cats defined for this field, check that either the job has one of those categories, or we're submitting to that category
-				if( count( array_intersect( $field['categories'], $cat_arr ) ) <= 0)
+				if( empty( $cat ) || ! in_array( $cat->term_id, $field['categories'] ) )
 					continue;
 			}
 			

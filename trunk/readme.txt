@@ -107,7 +107,7 @@ Notice the version number in brackets. This is the version series that the trans
 * Dutch Translation (0.7-beta2), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
 * French Translation (0.6.x, frontend complete, admin 95% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
 * German Translation (0.6.x), provided by [tolingo translations](http://www.tolingo.com/)
-* Spanish Translation (0.7-beta5), provided by [TradiArt](http://www.tradiart.com)
+* Spanish Translation (0.7.x), provided by [TradiArt](http://www.tradiart.com)
 
 = Special Thanks =
 
@@ -118,6 +118,11 @@ Notice the version number in brackets. This is the version series that the trans
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
+
+= 0.7-beta6 =
+* UPDATED: Spanish translation, provided by [TradiArt](http://www.tradiart.com)
+* FIXED: Application form category restrictions not working
+* FIXED: Play nice-ish with WPML - proper support will be in a later version
 
 = 0.7-beta5 =
 * UPDATED: Spanish translation, provided by [TradiArt](http://www.tradiart.com)

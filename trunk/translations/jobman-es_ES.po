@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the 0.7 Series package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2010-04-08 20:08+0100\n"
+"PO-Revision-Date: 2010-04-10 11:27+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,6 +12,18 @@ msgstr ""
 "POT-Creation-Date: \n"
 "Last-Translator: Gary Pendergast <gary@pento.net>\n"
 "Language-Team: \n"
+
+#: db.php:145
+msgid "No"
+msgstr "No"
+
+#: admin-jobs.php:218
+msgid "New"
+msgstr "Nuevo"
+
+#: db.php:145
+msgid "Yes"
+msgstr "Sí"
 
 #: db.php:235
 #: db.php:684
@@ -175,7 +187,7 @@ msgstr "Etiqueta de campo / Tipo"
 #: admin-applications.php:240
 #: admin-frontend-settings.php:216
 #: admin-jobs.php:66
-#: admin-jobs.php:264
+#: admin-jobs.php:267
 #: admin-settings.php:55
 #: admin-settings.php:71
 #: admin-settings.php:586
@@ -272,7 +284,7 @@ msgid "Standard Filters"
 msgstr "Filtros estándar"
 
 #: admin-applications.php:53
-#: admin-jobs.php:259
+#: admin-jobs.php:262
 msgid "Job ID"
 msgstr "Identificación del empleo"
 
@@ -1148,7 +1160,7 @@ msgid "Job updated"
 msgstr "Empleo actualizado"
 
 #: admin-jobs.php:65
-#: admin-jobs.php:316
+#: admin-jobs.php:319
 #: admin-settings.php:128
 #: admin-settings.php:141
 #: admin-settings.php:210
@@ -1215,77 +1227,77 @@ msgstr "Gestor de Empleos: Nuevo Empleo"
 msgid "Create Job"
 msgstr "Crear Empleo"
 
-#: admin-jobs.php:220
+#: admin-jobs.php:221
 msgid "Job Manager: Edit Job"
 msgstr "Gestor de Empleos: Crear Empleo"
 
-#: admin-jobs.php:221
+#: admin-jobs.php:222
 msgid "Update Job"
 msgstr "Actualizar Empleo"
 
-#: admin-jobs.php:286
+#: admin-jobs.php:289
 msgid "Categories that this job belongs to. It will be displayed in the job list for each category selected."
 msgstr "Categorías a las que este trabajo pertenece. Se mostrará en la lista de empleos para cada categoría seleccionada."
 
-#: admin-jobs.php:289
+#: admin-jobs.php:292
 #: admin-settings.php:209
 #: admin-settings.php:221
 msgid "Icon"
 msgstr "Icono"
 
-#: admin-jobs.php:311
+#: admin-jobs.php:314
 msgid "No Icon"
 msgstr "Sin icono"
 
-#: admin-jobs.php:313
+#: admin-jobs.php:316
 msgid "Icon to display for this job in the Job List"
 msgstr "Icono para mostrar para este empleo en la lista de empleos"
 
-#: admin-jobs.php:426
+#: admin-jobs.php:429
 msgid "Delete File?"
 msgstr "¿Eliminar Fichero?"
 
-#: admin-jobs.php:453
+#: admin-jobs.php:456
 msgid "Display Start Date"
 msgstr "Mostrar Fecha de inicio"
 
-#: admin-jobs.php:455
+#: admin-jobs.php:458
 msgid "The date this job should start being displayed on the site. To start displaying immediately, leave blank."
 msgstr "La fecha en la que este trabajo debe empezar a mostrarse en el sitio. Para empezar a mostrar de inmediato, deje en blanco."
 
-#: admin-jobs.php:458
+#: admin-jobs.php:461
 msgid "Display End Date"
 msgstr "Mostrar fecha de finalización"
 
-#: admin-jobs.php:460
+#: admin-jobs.php:463
 msgid "The date this job should stop being displayed on the site. To display indefinitely, leave blank."
 msgstr "La fecha en la que este trabajo debe dejar de ser mostrado en el sitio. Para mostrar de forma indefinida, deje en blanco."
 
-#: admin-jobs.php:463
+#: admin-jobs.php:466
 msgid "Application Email"
 msgstr "Correo electrónico de candidatura"
 
-#: admin-jobs.php:465
+#: admin-jobs.php:468
 msgid "The email address to notify when an application is submitted for this job. For default behaviour (category email or global email), leave blank."
 msgstr "La dirección de correo electrónico para notificar cuando se presenta una candidatura para este trabajo. Para comportamiento por defecto (correo de categoría ó correo global), dejar en blanco."
 
-#: admin-jobs.php:473
+#: admin-jobs.php:476
 msgid "Highlighted?"
 msgstr "¿Destacado?"
 
-#: admin-jobs.php:475
+#: admin-jobs.php:478
 msgid "Mark this job as highlighted? For the behaviour of highlighted jobs, see the Display Settings admin page."
 msgstr "¿Marcar este trabajo como destacado? Para el comportamiento de los puestos de trabajo destacados, consulte la página configuración de visualización en el área de administración."
 
-#: admin-jobs.php:636
+#: admin-jobs.php:639
 msgid "Job Manager: Jobs"
 msgstr "Gestor de Empleos: Empleos"
 
-#: admin-jobs.php:637
+#: admin-jobs.php:640
 msgid "This will permanently delete all of the selected jobs. Please confirm that you want to continue."
 msgstr "Esto borrará permanentemente todos los trabajos seleccionados. Por favor, confirme que desea continuar."
 
-#: admin-jobs.php:638
+#: admin-jobs.php:641
 msgid "Delete Jobs"
 msgstr "Eliminar Empleos"
 
@@ -1771,7 +1783,7 @@ msgstr "¡Hola! Esta página es utilizada por su plugin de Gestor de Empleos com
 #: frontend-application.php:85
 #: frontend-application.php:97
 #: frontend-application.php:861
-#: frontend.php:314
+#: frontend.php:321
 #: setup.php:41
 msgid "Job Application"
 msgstr "Candidatura a empleo"
@@ -1895,29 +1907,29 @@ msgstr "Contraseña nuevamente"
 msgid "This email address has already been registered. If you've previously registered but don't remember your password, please visit the <a href='%1s'>password reset page</a>."
 msgstr "Esta dirección de correo electrónico ya ha sido registrada. Si previamente se ha registrado pero no recuerda su contraseña, por favor visite la <a href='%1s'>página de restablecimiento de contraseña</a>."
 
-#: frontend.php:230
+#: frontend.php:237
 msgid "This job listing was created using <a href=\"%s\" title=\"%s\">Job Manager</a> for WordPress, by <a href=\"%s\">Gary Pendergast</a>."
 msgstr "Este listado de empleos fue creado usando el <a href=\"%s\" title=\"%s\">Gestor de Empleos</a> para WordPress, por <a href=\"%s\">Gary Pendergast</a>."
 
-#: frontend.php:230
+#: frontend.php:237
 msgid "WordPress Job Manager"
 msgstr "Gestor de Empleos de WordPress"
 
-#: frontend.php:317
-#: frontend.php:320
+#: frontend.php:324
+#: frontend.php:327
 msgid "Job Listing"
 msgstr "Listado de Empleos"
 
-#: frontend.php:364
+#: frontend.php:371
 msgid "Latest Jobs"
 msgstr "Últimos Empleos"
 
-#: frontend.php:440
+#: frontend.php:447
 msgid "The following fields must be filled out before submitting"
 msgstr "Los siguientes campos deben ser rellenados antes de enviar"
 
-#: frontend.php:441
-#: frontend.php:442
+#: frontend.php:448
+#: frontend.php:449
 msgid "click to select"
 msgstr "haga clic para seleccionar"
 

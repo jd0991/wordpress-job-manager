@@ -36,17 +36,49 @@ function jobman_add_rewrite_rules( $wp_rewrite ) {
 	if( ! $url )
 		return;
 
-	$new_rules = array( 
-						"$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
-						'&page=' . $wp_rewrite->preg_index(2),
-						"$url/apply/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-						"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(1),
-						"$url/register/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-						"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(1),
-						"$url/feed/?" => "index.php?feed=jobman",
-						"$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(1) .
-						'&page=' . $wp_rewrite->preg_index(3),
-				);
+	$lang = '';
+	// Hack to support WPML languages in the nice URL
+	if( defined( 'ICL_SITEPRESS_VERSION' ) && function_exists( 'icl_get_languages' ) ) {
+		$languages = icl_get_languages('skip_missing=0');
+		if( ! empty( $languages ) ) {
+			$lang_arr = array();
+			foreach( $languages as $language ) {
+				$lang_arr[] = $language['language_code'];
+			}
+			$lang = '(' . implode( '|', $lang_arr ) . ')/';
+		}
+	}
+
+	if( empty( $lang ) ) {
+		$new_rules = array( 
+							"$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
+							'&page=' . $wp_rewrite->preg_index(2),
+							"$url/apply/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
+							"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(1),
+							"$url/register/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
+							"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(1),
+							"$url/feed/?" => "index.php?feed=jobman",
+							"$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(1) .
+							'&page=' . $wp_rewrite->preg_index(3),
+					);
+	}
+	else {
+		$new_rules = array( 
+							"($lang)?$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
+							'&lang=' . $wp_rewrite->preg_index(2) . 
+							'&page=' . $wp_rewrite->preg_index(4),
+							"($lang)?$url/apply/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
+							'&lang=' . $wp_rewrite->preg_index(2) . 
+							"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(3),
+							"($lang)?$url/register/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
+							'&lang=' . $wp_rewrite->preg_index(2) . 
+							"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(3),
+							"($lang)?$url/feed/?" => 'index.php?feed=jobman&lang=' . $wp_rewrite->preg_index(2),
+							"($lang)?$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(3) .
+							'&lang=' . $wp_rewrite->preg_index(2) . 
+							'&page=' . $wp_rewrite->preg_index(5),
+					);
+	}
 
 	$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 }
@@ -74,7 +106,7 @@ function jobman_page_link( $link, $page = NULL ) {
 }
 
 function jobman_display_jobs( $posts ) {
-	global $wp_query, $wpdb, $jobman_displaying, $jobman_finishedpage;
+	global $wp_query, $wpdb, $jobman_displaying, $jobman_finishedpage, $sitepress;
 
 	if( $jobman_finishedpage || $jobman_displaying )
 		return $posts;
@@ -115,6 +147,12 @@ function jobman_display_jobs( $posts ) {
 	$wp_query->is_home = false;
 	remove_filter( 'the_content', 'wpautop' );
 
+	// Hack to kill WPML on Job Manager pages. Need to add proper support later.
+	if( defined( 'ICL_SITEPRESS_VERSION' ) && ! empty( $sitepress ) ) {
+		remove_filter('posts_join', array($sitepress,'posts_join_filter'));
+		remove_filter('posts_where', array($sitepress,'posts_where_filter'));
+	}
+	
 	if( NULL != $post ) {
 		$postmeta = get_post_custom( $post->ID );
 		$postcats = wp_get_object_terms( $post->ID, 'jobman_category' );
