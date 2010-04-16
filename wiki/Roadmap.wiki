@@ -55,6 +55,7 @@ Stable: Early July 2010
   * "Image" application field: Issue #106
   * !BuddyPress Integration: Issue #125
   * Social Bookmark support: Issue #148
+  * Email Formatting and Templates: Issue #155
 
 == Changes to Existing Features ==
 
