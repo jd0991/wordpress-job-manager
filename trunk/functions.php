@@ -117,7 +117,7 @@ function jobman_sort_fields( $a, $b ) {
 function jobman_current_url() {
 		$pageURL = 'http';
 		
-		if( array_key_exists( 'HTTPS', $_SERVER ) && $_SERVER["HTTPS"] == "on" )
+		if( is_ssl() )
 			$pageURL .= "s";
 		
 		$pageURL .= "://";

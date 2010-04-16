@@ -142,6 +142,7 @@ function jobman_application_setup() {
 	$display_template = str_replace( 'jobman-listdisplay', 'jobman-listdisplay[new][0][]', $display_template );
 	$display_template = str_replace( 'jobman-emailblock', 'jobman-emailblock[new][0][]', $display_template );
 	$display_template = str_replace( 'jobman-mandatory', 'jobman-mandatory[new][0][]', $display_template );
+	$display_template = str_replace( "\\'", "'", $display_template );
 	
 	echo $display_template;
 ?>

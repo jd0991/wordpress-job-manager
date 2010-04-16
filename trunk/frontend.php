@@ -255,10 +255,6 @@ function jobman_display_jobs( $posts ) {
 		// We're looking at the main job list page
 		$posts = jobman_display_jobs_list( 'all' );
 
-		$wp_query->queried_object = $post;
-		$wp_query->queried_object_id = $post->ID;
-		$wp_query->is_page = true;
-
 		if( count( $posts ) > 0 )
 			$posts[0]->post_content = $options['text']['main_before'] . $posts[0]->post_content . $options['text']['main_after'];
 	}
@@ -266,6 +262,12 @@ function jobman_display_jobs( $posts ) {
 		$posts = array();
 	}
 
+	if( ! empty( $posts ) ) {
+		$wp_query->queried_object = $posts[0];
+		$wp_query->queried_object_id = $posts[0]->ID;
+		$wp_query->is_page = true;
+	}
+	
 	$hidepromo = $options['promo_link'];
 	
 	if( get_option( 'pento_consulting' ) )

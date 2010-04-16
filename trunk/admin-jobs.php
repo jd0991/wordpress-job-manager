@@ -45,10 +45,10 @@ function jobman_list_jobs() {
 			echo '<div class="error">' . __( 'There is no job associated with that Job ID', 'jobman' ) . '</div>';
 			break;
 		case 2:
-			echo '<div class="error">' . __( 'New job created', 'jobman' ) . '</div>';
+			echo '<div class="updated">' . __( 'New job created', 'jobman' ) . '</div>';
 			break;
 		case 3:
-			echo '<div class="error">' . __( 'Job updated', 'jobman' ) . '</div>';
+			echo '<div class="updated">' . __( 'Job updated', 'jobman' ) . '</div>';
 			break;
 	}
 	
@@ -521,12 +521,13 @@ function jobman_updatedb() {
 					case 'file':
 						if( is_uploaded_file( $_FILES["jobman-field-$fid"]['tmp_name'] ) ) {
 							$upload = wp_upload_bits( $_FILES["jobman-field-$fid"]['name'], NULL, file_get_contents( $_FILES["jobman-field-$fid"]['tmp_name'] ) );
+							$filetype = wp_check_filetype( $upload['file'] );
 							if( ! $upload['error'] ) {
 								$attachment = array(
 												'post_title' => '',
 												'post_content' => '',
 												'post_status' => 'publish',
-												'post_mime_type' => mime_content_type( $upload['file'] )
+												'post_mime_type' => $filetype['type']
 											);
 								$data = wp_insert_attachment( $attachment, $upload['file'], $id );
 								$attach_data = wp_generate_attachment_metadata( $data, $upload['file'] );

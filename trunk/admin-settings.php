@@ -412,7 +412,7 @@ function jobman_print_interview_box() {
 					<select name="jobman-default-view">
 <?php
 	$views = array(
-					'day' => __( 'Day', 'month' ),
+					'day' => __( 'Day', 'jobman' ),
 					'month' => __( 'Month', 'jobman' ),
 					'year' => __( 'Year', 'jobman' )
 				);

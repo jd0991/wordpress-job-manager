@@ -72,9 +72,9 @@ class JobmanLatestJobsWidget extends WP_Widget {
     }
 
     function update( $new_instance, $old_instance ) {
-		if( ! is_int( $new_instance['jobslimit'] ) )
-			$new_instance['jobslimit'] = 5;
-		else if( $new_instance['jobslimit'] < 0 )
+		$new_instance['jobslimit'] = (int)$new_instance['jobslimit'];
+
+		if( $new_instance['jobslimit'] < 0 )
 			$new_instance['jobslimit'] = 0;
 		else if( $new_instance['jobslimit'] > 15 )
 			$new_instance['jobslimit'] = 15;

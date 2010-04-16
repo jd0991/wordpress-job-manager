@@ -119,6 +119,16 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7-beta7 =
+* CHANGED: Job saving success message now has yellow background, to fit in with WP style
+* FIXED: Possible PHP error when uploading files to jobs
+* FIXED: String not being translated properly
+* FIXED: Some dropdowns not displaying properly on small screens
+* FIXED: Bad SSL check
+* FIXED: Forcing WP to think that all lists are a single page (some themes had issues)
+* FIXED: Recent Jobs widget sometimes not saving job count properly
+* FIXED: Some IE8 admin JS errors
+
 = 0.7-beta6 =
 * UPDATED: Spanish translation, provided by [TradiArt](http://www.tradiart.com)
 * FIXED: Application form category restrictions not working
@@ -409,6 +419,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * Initial release
 
 == Upgrade Notice ==
+
+= 0.7-beta7 =
+This is a BETA release of Job Manager. DO NOT use it in a production environment.
 
 = 0.7-beta6 =
 This is a BETA release of Job Manager. DO NOT use it in a production environment.

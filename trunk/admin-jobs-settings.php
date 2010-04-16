@@ -93,6 +93,7 @@ function jobman_job_setup() {
 		
 	// Replace names for the empty version being displayed
 	$display_template = str_replace( 'jobman-listdisplay', 'jobman-listdisplay[new][0][]', $template );
+	$display_template = str_replace( "\\'", "'", $display_template );
 
 	echo $display_template;
 ?>
