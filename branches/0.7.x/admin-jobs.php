@@ -248,6 +248,9 @@ function jobman_edit_job( $jobid ) {
 		else
 			$jobdata[$key] = $value;
 	}
+	
+	if( user_can_richedit() )
+		wp_tiny_mce( false, array( 'editor_selector' => 'jobman-editor' ) );
 ?>
 	<form action="<?php echo admin_url('admin.php?page=jobman-list-jobs') ?>" enctype="multipart/form-data" method="post">
 	<input type="hidden" name="jobmansubmit" value="1" />
@@ -398,11 +401,16 @@ function jobman_edit_job( $jobid ) {
 						$content .= '<td class="th"></td>';
 
 					if( '' == $field['description'] ) {
-						$content .= "<td colspan='2'><textarea class='large-text code' name='jobman-field-$id' rows='7'>$data</textarea></td></tr>";
+						$content .= "<td colspan='2'>";
+						if( user_can_richedit() )
+							$content .= "<p id='field-toolbar-$id' class='jobman-editor-toolbar'><a class='button toggleVisual'>" . __( 'Visual' ) . '</a><a class="button toggleHTML">' . __( 'HTML' ) . '</a></p>';
+						$content .= "<textarea class='large-text code jobman-editor jobman-field-$id' name='jobman-field-$id' id='jobman-field-$id' rows='7'>$data</textarea></td></tr>";
 					}
 					else {
-						$content .= "<td><textarea class='large-text code' name='jobman-field-$id' rows='7'>$data</textarea></td>";
-						$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
+						$content .= '<td>';
+						if( user_can_richedit() )
+							$content .= "<p id='field-toolbar-$id' class='jobman-editor-toolbar'><a class='button toggleVisual'>" . __( 'Visual' ) . '</a><a class="button toggleHTML">' . __( 'HTML' ) . '</a></p>';
+						$content .= "<textarea class='large-text code jobman-editor jobman-field-$id' name='jobman-field-$id' id='jobman-field-$id' rows='7'>$data</textarea></td>";
 					}
 					break;
 				case 'date':
@@ -447,6 +455,8 @@ function jobman_edit_job( $jobid ) {
 					$content .= '<td colspan="3">&nbsp;</td></tr>';
 					break;
 			}
+			
+			$previd = "jobman-field-$id";
 		}
 	}
 	

@@ -12,8 +12,6 @@ A job listing and job application management plugin for WordPress.
 
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
 
-***WARNING:*** this is a **BETA** release of Job Manager, and it may contain bugs that will eat your data. **DO NOT** use it in a production environment. There will be a stable release of 0.7 in mid April, please wait until then before upgrading production. If you have time to test it in your development environment, please do so, and [let me know any bugs you run into](http://code.google.com/p/wordpress-job-manager/issues/list). You can download the current stable release, [version 0.6.6, here](http://wordpress.org/extend/plugins/job-manager/download/)!
-
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
 *    *Job Listing*
@@ -118,6 +116,10 @@ Notice the version number in brackets. This is the version series that the trans
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
+
+= 0.7.1 =
+* CHANGED: Job editor now uses TinyMCE for editing textareas
+* FIXED: JavaScript error with Geoloc code in Chrome Dev Channel
 
 = 0.7 =
 * ADDED: Optional template for application form

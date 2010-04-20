@@ -472,13 +472,13 @@ jQuery(document).ready(function() {
 	if( navigator.geolocation ) {
 		// HTML5
 		geo = navigator.geolocation;
-		geo.getCurrentPosition( jobman_html5_geo_success );
+		geo.getCurrentPosition( jobman_geo_success );
 	}
 	else if( google.gears ) {
 		// Google Gears
 		geo = google.gears.factory.create('beta.geolocation');
-		geo.getCurrentPosition( jobman_gears_geo_success, 
-								jobman_gears_geo_error,
+		geo.getCurrentPosition( jobman_geo_success, 
+								jobman_geo_error,
 								{ enableHighAccuracy: true,
                                      gearsRequestAddress: true } );
 	}
@@ -532,25 +532,24 @@ function jobman_update_selected_cats() {
 }
 
 <?php if( $jobman_geoloc ) { ?>
-function jobman_html5_geo_success( pos ) {
-	var description = pos.address.city + ", " + pos.address.region + ", " + pos.address.country;
-	jobman_geo_set_values( description, pos.coords.latitude, pos.coords.longitude );
-}
-
-function jobman_gears_geo_success( pos ) {
-	var description = pos.gearsAddress.city + ", " + pos.gearsAddress.region + ", " + pos.gearsAddress.country;
-	jobman_geo_set_values( description, pos.latitude, pos.longitude );
-}
-
-function jobman_gears_geo_error( err ) {
-	return;
-}
-
-function jobman_geo_set_values( description, latitude, longitude ) {
-	jQuery(".jobman-geoloc-data").val( latitude + "," + longitude );
+function jobman_geo_success( pos ) {
+	var description = "";
+	if( pos.address ) {
+		description = pos.address.city + ", " + pos.address.region + ", " + pos.address.country;
+	}
+	else if( pos.gearsAddress ) {
+		description = pos.gearsAddress.city + ", " + pos.gearsAddress.region + ", " + pos.gearsAddress.country;
+	}
+	
+	jQuery(".jobman-geoloc-data").val( pos.coords.latitude + "," + pos.coords.longitude );
 	jQuery(".jobman-geoloc-original-display").val( description );
 	jQuery(".jobman-geoloc-display").val( description );
 }
+
+function jobman_geo_error( err ) {
+	return;
+}
+
 <?php } ?>
 //]]>
 </script> 

@@ -66,6 +66,14 @@ function jobman_admin_print_scripts() {
 }
 
 function jobman_admin_header() {
+	$options = get_option( 'jobman_options' );
+
+	$textareas = array();
+	foreach( $options['job_fields'] as $id => $field ) {
+		if( 'textarea' == $field['type'] ) {
+			$textareas[] = $id;
+		}
+	}
 ?>
 <script type="text/javascript"> 
 //<![CDATA[
@@ -111,6 +119,25 @@ addLoadEvent(function() {
 		var count = jQuery(this).parent().parent().find("input[name=jobman-rating]").attr("value");
 		jQuery(this).parent().parent().find("div.star-rating").css("width", (count * 19) + "px");
 	});
+	
+<?php
+	if( user_can_richedit() ) {
+?>
+	var jobman_textareas = <?php echo json_encode( $textareas ) ?>;
+
+	for( ii in jobman_textareas ) {
+		fieldid = 'jobman-field-' + jobman_textareas[ii];
+		jQuery('#field-toolbar-' + jobman_textareas[ii] + ' a.toggleVisual').click(function() {
+			tinyMCE.execCommand('mceAddControl', false, jQuery(this).parent().parent().find('textarea').attr('id'));
+		});
+		
+		jQuery('#field-toolbar-' + jobman_textareas[ii] + ' a.toggleHTML').click(function() {
+			tinyMCE.execCommand('mceRemoveControl', false, jQuery(this).parent().parent().find('textarea').attr('id'));
+		});
+	}
+<?php
+	}
+?>
 });
 
 function jobman_reset_rating( id, func ) {
