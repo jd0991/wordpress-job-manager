@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the 0.7 Series package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2010-04-07 22:20+0100\n"
+"PO-Revision-Date: 2010-04-20 15:27+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,6 +12,111 @@ msgstr ""
 "POT-Creation-Date: \n"
 "Last-Translator: Gary Pendergast <gary@pento.net>\n"
 "Language-Team: \n"
+
+#: db.php:145
+msgid "No"
+msgstr ""
+
+#: admin-jobs.php:218
+msgid "New"
+msgstr ""
+
+#: db.php:145
+msgid "Yes"
+msgstr ""
+
+#: db.php:235
+#: db.php:684
+msgid "Location"
+msgstr ""
+
+#: db.php:227
+#: db.php:676
+msgid "End Date"
+msgstr ""
+
+#: db.php:219
+#: db.php:668
+msgid "Start Date"
+msgstr ""
+
+#: db.php:211
+#: db.php:660
+msgid "Salary"
+msgstr ""
+
+#: db.php:203
+msgid "You need to read and agree to our privacy policy before we can accept your application. Please click the 'Back' button in your browser, read our privacy policy, and confirm that you accept."
+msgstr ""
+
+#: db.php:200
+#: db.php:202
+msgid "I have read and understood the privacy policy."
+msgstr ""
+
+#: db.php:175
+msgid "Upload your CV"
+msgstr ""
+
+#: db.php:164
+msgid "Title of your degree"
+msgstr ""
+
+#: db.php:153
+msgid "Where did you complete your degree?"
+msgstr ""
+
+#: db.php:142
+msgid "Do you have a degree?"
+msgstr ""
+
+#: db.php:131
+msgid "Qualifications"
+msgstr ""
+
+#: db.php:120
+msgid "Cell phone"
+msgstr ""
+
+#: db.php:109
+msgid "Telephone"
+msgstr ""
+
+#: db.php:98
+msgid "Country"
+msgstr ""
+
+#: db.php:87
+msgid "Post code"
+msgstr ""
+
+#: db.php:76
+msgid "City"
+msgstr ""
+
+#: db.php:65
+msgid "Address"
+msgstr ""
+
+#: db.php:54
+msgid "Contact Details"
+msgstr ""
+
+#: db.php:32
+msgid "Surname"
+msgstr ""
+
+#: db.php:21
+msgid "Name"
+msgstr ""
+
+#: db.php:10
+msgid "Personal Details"
+msgstr ""
+
+#: admin.php:164
+msgid "Spanish"
+msgstr ""
 
 #: admin-application-form.php:11
 #: admin-jobs-settings.php:11
@@ -82,7 +187,7 @@ msgstr "Veld label/type"
 #: admin-applications.php:240
 #: admin-frontend-settings.php:216
 #: admin-jobs.php:66
-#: admin-jobs.php:264
+#: admin-jobs.php:267
 #: admin-settings.php:55
 #: admin-settings.php:71
 #: admin-settings.php:586
@@ -179,7 +284,7 @@ msgid "Standard Filters"
 msgstr "Standaard filters"
 
 #: admin-applications.php:53
-#: admin-jobs.php:259
+#: admin-jobs.php:262
 msgid "Job ID"
 msgstr "Vacature-ID"
 
@@ -222,7 +327,7 @@ msgstr "Filteropies verbergen"
 #: admin-applications.php:196
 #: admin-applications.php:232
 #: admin-applications.php:658
-#: frontend-application.php:871
+#: frontend-application.php:872
 #: setup.php:74
 #: setup.php:246
 msgid "Job"
@@ -317,7 +422,7 @@ msgstr "Terug naar de sollicitatielijst"
 #: admin-applications.php:611
 #: admin-interviews.php:316
 #: db.php:487
-#: frontend-application.php:511
+#: frontend-application.php:512
 msgid "Application"
 msgstr "Sollicitatie"
 
@@ -336,7 +441,7 @@ msgid "Jobs"
 msgstr "Vacatures"
 
 #: admin-applications.php:663
-#: frontend-application.php:877
+#: frontend-application.php:878
 msgid "Timestamp"
 msgstr "Tijdsstempel"
 
@@ -589,6 +694,8 @@ msgid "These settings allow you to define the templates for displaying lists of 
 msgstr "Deze instellingen laten u de sjablonen voor het weergeven van lijsten van vacatures en individuele vacatures kiezen. Om dit te doen, moet u gebruik te maken van de beschikbare shortcodes."
 
 #: admin-frontend-settings.php:164
+#: db.php:243
+#: db.php:692
 msgid "Job Information"
 msgstr "Vacature informatie"
 
@@ -1053,13 +1160,13 @@ msgid "Job updated"
 msgstr "Vacaturewijzigignen opgeslagen"
 
 #: admin-jobs.php:65
-#: admin-jobs.php:316
+#: admin-jobs.php:319
 #: admin-settings.php:128
 #: admin-settings.php:141
 #: admin-settings.php:210
 #: admin-settings.php:222
 #: admin-settings.php:433
-#: frontend-application.php:149
+#: frontend-application.php:150
 #: setup.php:89
 #: widgets.php:99
 #: widgets.php:276
@@ -1120,77 +1227,77 @@ msgstr "Job Manager: Nieuwe vacature"
 msgid "Create Job"
 msgstr "vacature aanmaken"
 
-#: admin-jobs.php:220
+#: admin-jobs.php:221
 msgid "Job Manager: Edit Job"
 msgstr "Job Manager: Vacature bewerken"
 
-#: admin-jobs.php:221
+#: admin-jobs.php:222
 msgid "Update Job"
 msgstr "Vacature opslaan"
 
-#: admin-jobs.php:286
+#: admin-jobs.php:289
 msgid "Categories that this job belongs to. It will be displayed in the job list for each category selected."
 msgstr "Catogoriën waar deze vacature bij hoort. Het zal worden weergegeven in de vacaturelijst voor elke geselecteerde categorie"
 
-#: admin-jobs.php:289
+#: admin-jobs.php:292
 #: admin-settings.php:209
 #: admin-settings.php:221
 msgid "Icon"
 msgstr "Pictogram"
 
-#: admin-jobs.php:311
+#: admin-jobs.php:314
 msgid "No Icon"
 msgstr "Geen pictogram"
 
-#: admin-jobs.php:313
+#: admin-jobs.php:316
 msgid "Icon to display for this job in the Job List"
 msgstr "Pictogram dat wordt weergegeven bij deze facature in de vacaturelijst"
 
-#: admin-jobs.php:426
+#: admin-jobs.php:429
 msgid "Delete File?"
 msgstr "Bestand verwijderen?"
 
-#: admin-jobs.php:453
+#: admin-jobs.php:456
 msgid "Display Start Date"
 msgstr "Startdatum weergeven"
 
-#: admin-jobs.php:455
+#: admin-jobs.php:458
 msgid "The date this job should start being displayed on the site. To start displaying immediately, leave blank."
 msgstr "De datum waarop deze vacature weergegeven zal worden. Indien hij direct moet worden weergegeven, kunt u dit vak leeg laten."
 
-#: admin-jobs.php:458
+#: admin-jobs.php:461
 msgid "Display End Date"
 msgstr "Einddatum weergeven"
 
-#: admin-jobs.php:460
+#: admin-jobs.php:463
 msgid "The date this job should stop being displayed on the site. To display indefinitely, leave blank."
 msgstr "De datum waarop deze vacature niet meer weergegeven zal worden. Indien hij altijd moet worden weergegeven, kunt u dit vak leeg laten."
 
-#: admin-jobs.php:463
+#: admin-jobs.php:466
 msgid "Application Email"
 msgstr "Sollicitatie e-mail"
 
-#: admin-jobs.php:465
+#: admin-jobs.php:468
 msgid "The email address to notify when an application is submitted for this job. For default behaviour (category email or global email), leave blank."
 msgstr "Het e-mailadres waar meldingen van sollicitaties voor deze vacature heen worden verzonden. Om het standaard catagorie e-mailadres te gebruiken kunt u het vak leeg laten."
 
-#: admin-jobs.php:473
+#: admin-jobs.php:476
 msgid "Highlighted?"
 msgstr "Geaccentueerd?"
 
-#: admin-jobs.php:475
+#: admin-jobs.php:478
 msgid "Mark this job as highlighted? For the behaviour of highlighted jobs, see the Display Settings admin page."
 msgstr "Deze vacature als geaccentueerd weergeven? Voor de instellingen van geaccentueerde vacatures zie de Weergave Instellingen Admin pagina"
 
-#: admin-jobs.php:636
+#: admin-jobs.php:639
 msgid "Job Manager: Jobs"
 msgstr "Job Manager: Vacatures"
 
-#: admin-jobs.php:637
+#: admin-jobs.php:640
 msgid "This will permanently delete all of the selected jobs. Please confirm that you want to continue."
 msgstr "De geselecteerde vacatures zullen permanent worden verwijderd. Bevestig alstublieft dat u wilt doorgaan."
 
-#: admin-jobs.php:638
+#: admin-jobs.php:641
 msgid "Delete Jobs"
 msgstr "Vacatures verwijderen"
 
@@ -1399,6 +1506,7 @@ msgid "When an applicant successfully submits an application, an email will be s
 msgstr "Wanneer een sollicitant succesvol een sollicitatie instuurt, zal er een e-mail verstuurd worden naar de betreffende gebruiker. Deze opties zorgen dat u deze e-mail kunt aanpassen."
 
 #: admin-settings.php:318
+#: db.php:43
 #: frontend-user.php:104
 msgid "Email Address"
 msgstr "E-mailadres"
@@ -1407,8 +1515,8 @@ msgstr "E-mailadres"
 #: admin-settings.php:344
 #: admin-settings.php:370
 #: admin-settings.php:437
-#: frontend-application.php:338
-#: frontend-application.php:384
+#: frontend-application.php:339
+#: frontend-application.php:385
 msgid "None"
 msgstr "Geen"
 
@@ -1671,11 +1779,11 @@ msgstr "Hoi! Deze pagina wordt gebruikt door de Job Manager plugin als basis. U 
 
 #: db.php:274
 #: db.php:545
-#: frontend-application.php:52
-#: frontend-application.php:84
-#: frontend-application.php:96
-#: frontend-application.php:860
-#: frontend.php:314
+#: frontend-application.php:53
+#: frontend-application.php:85
+#: frontend-application.php:97
+#: frontend-application.php:861
+#: frontend.php:321
 #: setup.php:41
 msgid "Job Application"
 msgstr "Vacature sollicitatie"
@@ -1695,31 +1803,31 @@ msgstr "Het lijkt erop dat u onlangs gesolliciteerd heeft op deze vacature. Wilt
 msgid "There was an error uploading your application. Please contact us directly, and quote the information below:"
 msgstr "Er was een fout met het uploaden van uw sollicitatie. Neem direct contact met ons op en geef de informatie hieronder:"
 
-#: frontend-application.php:47
+#: frontend-application.php:48
 msgid "Thank you for your application. While your application doesn't fit our current requirements, please contact us directly to see if we have other positions available."
 msgstr "Bedankt voor uw sollicitatie. Uw aanvraag voldoet niet aan onze huidige eisen, u kunt  contact met ons op nemen om te kijken of er andere functies beschikbaar zijn."
 
-#: frontend-application.php:64
+#: frontend-application.php:65
 msgid "Before completing your application, please login using the form above, or register using the form below."
 msgstr "Om uw sollicitatie te voltooien, kunt u inloggen met het formulier bovenaan, of registreren via het formulier onderaan."
 
-#: frontend-application.php:153
+#: frontend-application.php:154
 msgid "Select the jobs you would like to apply for"
 msgstr "Selecteer de vacature waarvoor u wilt solliciteren"
 
-#: frontend-application.php:155
+#: frontend-application.php:156
 msgid "Select the categories that you are interested in"
 msgstr "Selecteer de categorieën waarin u geïnteresseerd bent"
 
-#: frontend-application.php:162
+#: frontend-application.php:163
 msgid "Fields marked with an asterisk (*) must be filled out before submitting."
 msgstr "Velden gemarkeerd met een sterretje (*) moeten ingevuld zijn om te kunnen verzenden."
 
-#: frontend-application.php:246
+#: frontend-application.php:247
 msgid "Submit Your Application"
 msgstr "Sollicitatie versturen"
 
-#: frontend-application.php:864
+#: frontend-application.php:865
 msgid "Application Link"
 msgstr "Sollicitatielink"
 
@@ -1799,29 +1907,29 @@ msgstr "Wachtwoord herhalen"
 msgid "This email address has already been registered. If you've previously registered but don't remember your password, please visit the <a href='%1s'>password reset page</a>."
 msgstr "Dit e-mailadres is al geregistreerd. Als u zich al eerder geregistreerd heeft maar uw wachtwoord kwijt bent, ga dan naar de <a href='%1s'>wachtwoord-herstelpagina</a>."
 
-#: frontend.php:230
+#: frontend.php:237
 msgid "This job listing was created using <a href=\"%s\" title=\"%s\">Job Manager</a> for WordPress, by <a href=\"%s\">Gary Pendergast</a>."
 msgstr "Deze vacaturelijst is gegenereerd met <a href=\"%s\" title=\"%s\">Job Manager</a> for WordPress, door <a href=\"%s\">Gary Pendergast</a>."
 
-#: frontend.php:230
+#: frontend.php:237
 msgid "WordPress Job Manager"
 msgstr "WordPress Job Manager"
 
-#: frontend.php:317
-#: frontend.php:320
+#: frontend.php:324
+#: frontend.php:327
 msgid "Job Listing"
 msgstr "Vacaturelijst"
 
-#: frontend.php:364
+#: frontend.php:371
 msgid "Latest Jobs"
 msgstr "Meest recente vacatures"
 
-#: frontend.php:440
+#: frontend.php:447
 msgid "The following fields must be filled out before submitting"
 msgstr "De volgende velden moeten ingevuld worden voor u kunt verzenden"
 
-#: frontend.php:441
-#: frontend.php:442
+#: frontend.php:448
+#: frontend.php:449
 msgid "click to select"
 msgstr "klik om te selecteren"
 
@@ -1848,13 +1956,13 @@ msgstr "Solliciteer Nu"
 
 #: setup.php:93
 #: setup.php:94
-#: setup.php:348
-#: setup.php:349
+#: setup.php:353
+#: setup.php:354
 msgid "Page %1s"
 msgstr "Pagina %1s"
 
 #: setup.php:95
-#: setup.php:350
+#: setup.php:355
 msgid "Jobs %1s-%2s of %3s"
 msgstr "Vacatures %1s-%2s van %3s"
 

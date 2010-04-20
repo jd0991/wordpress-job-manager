@@ -7,12 +7,9 @@ function jobman_display_jobs_list( $cat ) {
 	
 	$list_type = $options['list_type'];
 	
-	if( 'all' == $cat ) {
-		$page = get_post( $options['main_page'] );
-	}
-	else {
-		$page = get_post( $options['main_page'] );
-		
+	$page = get_post( $options['main_page'] );
+
+	if( 'all' != $cat ) {
 		$page->post_type = 'jobman_joblist';
 		$page->post_title = __( 'Jobs Listing', 'jobman' );
 	}

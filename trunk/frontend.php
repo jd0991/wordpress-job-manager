@@ -305,6 +305,7 @@ function jobman_display_template() {
 	$post_id = get_query_var( 'page_id' );
 
 	$job_cats = array();
+	$post = NULL;
 	if( ! empty( $post_id ) ) {
 		$post = get_post( $post_id );
 		if( ! empty( $post ) && 'jobman_job' == $post->post_type ) {
@@ -334,6 +335,10 @@ function jobman_display_template() {
 		$templates[] = "page-$pagename.php";
 	if( $id )
 		$templates[] = "page-$id.php";
+
+	if( ! empty( $post ) && 'jobman_job' == $post->post_type )
+		$templates[] = 'job.php';
+
 	$templates[] = "page.php";
 
 	$template = apply_filters( 'page_template', locate_template( $templates ) );

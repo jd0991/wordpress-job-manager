@@ -104,8 +104,8 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
-* Dutch Translation (0.7-beta2), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
-* French Translation (0.6.x, frontend complete, admin 95% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
+* Dutch Translation (0.7.x, 95% complete), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
+* French Translation (0.7.x, 90% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
 * German Translation (0.6.x), provided by [tolingo translations](http://www.tolingo.com/)
 * Spanish Translation (0.7.x), provided by [TradiArt](http://www.tradiart.com)
 
@@ -118,44 +118,6 @@ Notice the version number in brackets. This is the version series that the trans
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
-
-= 0.7-beta7 =
-* CHANGED: Job saving success message now has yellow background, to fit in with WP style
-* FIXED: Possible PHP error when uploading files to jobs
-* FIXED: String not being translated properly
-* FIXED: Some dropdowns not displaying properly on small screens
-* FIXED: Bad SSL check
-* FIXED: Forcing WP to think that all lists are a single page (some themes had issues)
-* FIXED: Recent Jobs widget sometimes not saving job count properly
-* FIXED: Some IE8 admin JS errors
-
-= 0.7-beta6 =
-* UPDATED: Spanish translation, provided by [TradiArt](http://www.tradiart.com)
-* FIXED: Application form category restrictions not working
-* FIXED: Play nice-ish with WPML - proper support will be in a later version
-
-= 0.7-beta5 =
-* UPDATED: Spanish translation, provided by [TradiArt](http://www.tradiart.com)
-* FIXED: Admin boxes being too wide on small screens
-* FIXED: One more string not being translated
-* FIXED: Dates not being translated
-* FIXED: Job URL occasionally not being generated properly
-
-= 0.7-beta4 =
-* FIXED: Activation error
-
-= 0.7-beta3 =
-* UPDATED: Dutch translation, provided by [Patrick Tessels](http://www.centrologic.nl/)
-* UPDATED: Spanish translation, provided by [TradiArt](http://www.tradiart.com)
-* FIXED: Jobs Per Page default setting missing from upgrade
-* FIXED: Missing Spanish translation credits
-* FIXED: Uninstall not working properly
-* FIXED: Job lists not obeying ASC/DESC sorting setting
-* FIXED: Upload error message causing PHP error
-* FIXED: New installation settings not being translated
-
-= 0.7-beta2 =
-* FIXED: Upgrade function didn't work correctly
 
 = 0.7 =
 * ADDED: Optional template for application form
@@ -177,6 +139,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Option to show a limited number of jobs per page, and related shortcodes
 * ADDED: Shortcodes for the current category
 * ADDED: Spanish Translation, provided by [TradiArt](http://www.tradiart.com)
+* ADDED: Jobs will now check for job.php template
+* UPDATED: Dutch translation, provided by [Patrick Tessels](http://www.centrologic.nl/)
+* UPDATED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)
 * CHANGED: Removed user dropdown from Application filter, replaced with a text box. It required a bad query, so had to go.
 * CHANGED: Separated admin jobs list by future/live/expired, so it's easier to read
 * CHANGED: Job list sorting now allows sorting by any job field
@@ -187,6 +152,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * CHANGED: Category widget can now hide empty categories
 * CHANGED: Job edit date selector now opens with button, rather than on click
 * CHANGED: Display an error to users if there was a problem with file upload
+* CHANGED: Job saving success message now has yellow background, to fit in with WP style
 * FIXED: Some PHP warnings
 * FIXED: HTML errors in Admin
 * FIXED: Admin menu now uses handles rather than file references
@@ -204,6 +170,18 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Checkboxes not staying checked when editing an existing job
 * FIXED: Fresh installations not using translated strings for defaults
 * FIXED: Some strings not being translated correctly
+* FIXED: Uninstall not working properly
+* FIXED: Job lists not obeying ASC/DESC sorting setting
+* FIXED: Admin boxes being too wide on small screens
+* FIXED: Job URL occasionally not being generated properly
+* FIXED: Application form category restrictions not working
+* FIXED: Play nice-ish with WPML - proper support will be in a later version
+* FIXED: Possible PHP error when uploading files to jobs
+* FIXED: Some dropdowns not displaying properly on small screens
+* FIXED: Bad SSL check
+* FIXED: Forcing WP to think that all lists are a single page (some themes had issues)
+* FIXED: Recent Jobs widget sometimes not saving job count properly
+* FIXED: Some IE8 admin JS errors
 
 = 0.6.6 =
 * ADDED: Individual job pages will try to load category templates before default template
@@ -419,24 +397,3 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * Initial release
 
 == Upgrade Notice ==
-
-= 0.7-beta7 =
-This is a BETA release of Job Manager. DO NOT use it in a production environment.
-
-= 0.7-beta6 =
-This is a BETA release of Job Manager. DO NOT use it in a production environment.
-
-= 0.7-beta5 =
-This is a BETA release of Job Manager. DO NOT use it in a production environment.
-
-= 0.7-beta4 =
-This is a BETA release of Job Manager. DO NOT use it in a production environment.
-
-= 0.7-beta3 =
-This is a BETA release of Job Manager. DO NOT use it in a production environment.
-
-= 0.7-beta2 =
-This is a BETA release of Job Manager. DO NOT use it in a production environment.
-
-= 0.7-beta1 =
-This is a BETA release of Job Manager. DO NOT use it in a production environment.
