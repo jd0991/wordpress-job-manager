@@ -21,7 +21,7 @@ Stable: Early July 2010
   * !BuddyPress Integration: Issue #125
   * Social Bookmark support: Issue #148
   * Email Formatting and Templates: Issue #155
-  * Attach Uploads to Emails: Issue #154
+  * Attach Uploads to Emails: Issue #153
 
 == Changes to Existing Features ==
 
