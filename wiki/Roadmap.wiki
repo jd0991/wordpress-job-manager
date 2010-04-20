@@ -1,40 +1,5 @@
 #summary Roadmap for upcoming releases of Job Manager
 
-= 0.7 =
-
-== Abstract ==
-
-More Small Features
-
-== Due ==
-
-Beta: Late March 2010<br>
-Stable: Mid April 2010
-
-== New Features ==
-
-  * Job List sort order: Issue #49
-  * Add a "Disable Job" button: Issue #63
-  * Customize the application method: Issue #66 (no nice solution, feature request will be a plugin after 1.0 release.)
-  * Make the admin Jobs List prettier: Issue #67
-  * Limit number of jobs/page, add Back/Forward buttons: Issue #79
-  * Block application fields being emailed: Issue #87
-  * Category Dropdown on Application Form: Issue #103
-  * !WordPress.com Support: Issue #105
-  * Geolocation Application Form Input Item: Issue #126
-  * Application Form layout: Issue #76
-  * Internal Notes: Issue #83
-  * Interview Scheduling: Issue #84
-  * Job Dropdown on Application Form: Issue #129
-  * Applying for Multiple Jobs: Issue #130
-
-== Changes to Existing Features ==
-
-  * Tweaking dates: Issue #128
-  * Nicer File Upload Errors: Issue #113
-
-----
-
 = 0.8 =
 
 == Abstract ==
