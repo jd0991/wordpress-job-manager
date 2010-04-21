@@ -121,6 +121,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * CHANGED: Job editor now uses TinyMCE for editing textareas
 * FIXED: JavaScript error with Geoloc code in Chrome Dev Channel
 * FIXED: RSS feed showing wrong publication dates
+* FIXED: Authors could edit jobs created by other Authors
 
 = 0.7 =
 * ADDED: Optional template for application form
