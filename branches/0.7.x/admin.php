@@ -129,10 +129,16 @@ addLoadEvent(function() {
 		fieldid = 'jobman-field-' + jobman_textareas[ii];
 		jQuery('#field-toolbar-' + jobman_textareas[ii] + ' a.toggleVisual').click(function() {
 			tinyMCE.execCommand('mceAddControl', false, jQuery(this).parent().parent().find('textarea').attr('id'));
+			jQuery(this).parent().find('a.toggleHTML').removeClass('active');
+			jQuery(this).parent().find('a').removeClass('cssadjust');
+			jQuery(this).addClass('active');
 		});
 		
 		jQuery('#field-toolbar-' + jobman_textareas[ii] + ' a.toggleHTML').click(function() {
 			tinyMCE.execCommand('mceRemoveControl', false, jQuery(this).parent().parent().find('textarea').attr('id'));
+			jQuery(this).parent().find('a.toggleVisual').removeClass('active');
+			jQuery(this).parent().find('a').addClass('cssadjust');
+			jQuery(this).addClass('active');
 		});
 	}
 <?php

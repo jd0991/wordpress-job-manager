@@ -403,13 +403,13 @@ function jobman_edit_job( $jobid ) {
 					if( '' == $field['description'] ) {
 						$content .= "<td colspan='2'>";
 						if( user_can_richedit() )
-							$content .= "<p id='field-toolbar-$id' class='jobman-editor-toolbar'><a class='button toggleVisual'>" . __( 'Visual' ) . '</a><a class="button toggleHTML">' . __( 'HTML' ) . '</a></p>';
+							$content .= "<p id='field-toolbar-$id' class='jobman-editor-toolbar'><a class='toggleHTML'>" . __( 'HTML' ) . '</a><a class="active toggleVisual">' . __( 'Visual' ) . '</a></p>';
 						$content .= "<textarea class='large-text code jobman-editor jobman-field-$id' name='jobman-field-$id' id='jobman-field-$id' rows='7'>$data</textarea></td></tr>";
 					}
 					else {
 						$content .= '<td>';
 						if( user_can_richedit() )
-							$content .= "<p id='field-toolbar-$id' class='jobman-editor-toolbar'><a class='button toggleVisual'>" . __( 'Visual' ) . '</a><a class="button toggleHTML">' . __( 'HTML' ) . '</a></p>';
+							$content .= "<p id='field-toolbar-$id' class='jobman-editor-toolbar'><a class='toggleHTML'>" . __( 'HTML' ) . '</a><a class="active toggleVisual">' . __( 'Visual' ) . '</a></p>';
 						$content .= "<textarea class='large-text code jobman-editor jobman-field-$id' name='jobman-field-$id' id='jobman-field-$id' rows='7'>$data</textarea></td>";
 					}
 					break;
