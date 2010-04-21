@@ -808,6 +808,18 @@ function jobman_upgrade_db( $oldversion ) {
 		}
 	}
 	
+	if( $oldversion < 18 ) {
+		// Fix the GMT timestamp on existing jobs
+		$jobs = get_posts( 'post_type=jobman_job&numberposts=-1&post_status=publish,private' );
+		foreach( $jobs as $job ) {
+			$data = array(
+						'ID' => $job->ID,
+						'post_date_gmt' => $job->post_date
+					);
+			wp_update_post( $data );
+		}
+	}
+	
 	update_option( 'jobman_options', $options );
 }
 

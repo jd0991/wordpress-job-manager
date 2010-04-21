@@ -499,7 +499,7 @@ function jobman_updatedb() {
 	global $wpdb;
 	$options = get_option( 'jobman_options' );
 	
-	$displaystartdate = stripslashes( $_REQUEST['jobman-displaystartdate'] );
+	$displaystartdate = date( 'Y-m-d H:i:s', strtotime( stripslashes( $_REQUEST['jobman-displaystartdate'] ) ) );
 	if( empty( $displaystartdate ) )
 		$displaystartdate = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
 
@@ -512,6 +512,7 @@ function jobman_updatedb() {
 				'post_title' => stripslashes( $_REQUEST['jobman-title'] ),
 				'post_type' => 'jobman_job',
 				'post_date' => $displaystartdate,
+				'post_date_gmt' => $displaystartdate,
 				'post_parent' => $options['main_page']);
 	
 	if( 'new' == $_REQUEST['jobman-jobid'] ) {

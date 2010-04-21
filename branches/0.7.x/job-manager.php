@@ -31,7 +31,7 @@ Tags: job, jobs, manager, list, listing, employment, employer, career
 
 // Version
 define( 'JOBMAN_VERSION', '0.7' );
-define( 'JOBMAN_DB_VERSION', 17 );
+define( 'JOBMAN_DB_VERSION', 18 );
 
 // Define the URL to the plugin folder
 define( 'JOBMAN_FOLDER', 'job-manager' );

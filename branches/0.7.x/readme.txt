@@ -110,7 +110,7 @@ Notice the version number in brackets. This is the version series that the trans
 = Special Thanks =
 
 * [EuroPlacements](http://europlacements.it/), for their input and support of the initial development of Job Manager.
-* [Automattic](http://automattic.com/), for their support and continued feedback on features, design and usability.
+* [Automattic](http://automattic.com/), for their support and feedback on features, design and usability.
 * All the wonderful people who've submitted bugs, feedback and feature requests - you're the people who keep me with things to work on!
 
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
@@ -120,6 +120,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 = 0.7.1 =
 * CHANGED: Job editor now uses TinyMCE for editing textareas
 * FIXED: JavaScript error with Geoloc code in Chrome Dev Channel
+* FIXED: RSS feed showing wrong publication dates
 
 = 0.7 =
 * ADDED: Optional template for application form
