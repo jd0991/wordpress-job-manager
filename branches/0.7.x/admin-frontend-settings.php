@@ -30,8 +30,9 @@ function jobman_display_conf() {
 	}
 ?>
 	<div class="wrap">
-		<h2><?php _e( 'Job Manager: Display Settings', 'jobman' ) ?></h2>
 <?php
+	jobman_print_settings_tabs();
+	
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(

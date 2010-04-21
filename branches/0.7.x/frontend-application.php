@@ -332,7 +332,7 @@ function jobman_generate_job_select( $cat, $type = 'select' ) {
 				$checked = '';
 				if( array_key_exists( 'jobman-joblist', $_REQUEST ) && in_array( $job->ID, $_REQUEST['jobman-joblist'] ) )
 					$checked = ' checked="checked"';
-				$content .= "<span><input type='$inputtype' name='jobman-jobselect$inputarray' title='$job->post_title' value='$job->ID'$checked /> $job->post_title</span>";
+				$content .= "<span><label><input type='$inputtype' name='jobman-jobselect$inputarray' title='$job->post_title' value='$job->ID'$checked /> $job->post_title</label></span>";
 			}
 			$content .= '</span>';
 			break;

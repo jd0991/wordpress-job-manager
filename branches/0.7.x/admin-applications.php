@@ -182,8 +182,8 @@ function jobman_list_applications() {
 			
 		</form>
 		</div>
-		<div id="jobman-filter-link-show"><a href="#" onclick="jQuery('#jobman-filter').show('slow'); jQuery('#jobman-filter-link-show').hide(); jQuery('#jobman-filter-link-hide').show(); return false;"><?php _e( 'Show Filter Options', 'jobman' ) ?></a></div>
-		<div id="jobman-filter-link-hide" class="hidden"><a href="#" onclick="jQuery('#jobman-filter').hide('slow'); jQuery('#jobman-filter-link-hide').hide(); jQuery('#jobman-filter-link-show').show(); return false;"><?php _e( 'Hide Filter Options', 'jobman' ) ?></a></div>
+		<div id="jobman-filter-link-show"><a href="#" onclick="jQuery('#jobman-filter').show('fast'); jQuery('#jobman-filter-link-show').hide(); jQuery('#jobman-filter-link-hide').show(); return false;"><?php _e( 'Show Filter Options', 'jobman' ) ?></a></div>
+		<div id="jobman-filter-link-hide" class="hidden"><a href="#" onclick="jQuery('#jobman-filter').hide('fast'); jQuery('#jobman-filter-link-hide').hide(); jQuery('#jobman-filter-link-show').show(); return false;"><?php _e( 'Hide Filter Options', 'jobman' ) ?></a></div>
 		
 		<form action="" method="post">
 <?php 
@@ -284,15 +284,8 @@ function jobman_list_applications() {
 		}
 	}*/
 	
-	// Add star rating filter
-	if( array_key_exists( 'jobman-rating', $_REQUEST ) && is_numeric( $_REQUEST['jobman-rating'] ) ) {
-	    $args['meta_key'] = 'rating';
-	    $args['meta_value'] = $_REQUEST['jobman-rating'];
-	    $args['meta_compare'] = '>=';
-	}
-
 	$applications = get_posts( $args );
-	
+
 	$app_displayed = false;
 	if( count( $applications ) > 0 ) {
 		foreach( $applications as $app ) {
@@ -312,6 +305,13 @@ function jobman_list_applications() {
 					$appdata[$key] = $value[0];
 				else
 					$appdata[$key] = $value;
+			}
+			
+			if( array_key_exists( 'jobman-rating', $_REQUEST ) && is_numeric( $_REQUEST['jobman-rating'] ) && $_REQUEST['jobman-rating'] > 0 ) {
+				if( array_key_exists( 'rating', $appdata ) && $appdata['rating'] < $_REQUEST['jobman-rating'] ) {
+					// App is underrated. Skip it.
+					continue;
+				}
 			}
 			
 			// Workaround for WP_Query not supporting *__in for custom taxonomy.
@@ -599,7 +599,7 @@ function jobman_application_details_layout( $appid ) {
 	<div id="jobman-application" class="wrap">
 		<h2><?php _e( 'Job Manager: Application Details', 'jobman' ) ?></h2>
 		<div class="printicon"><a href="javascript:window.print()"><img src="<?php echo JOBMAN_URL ?>/images/print-icon.png" /></a></div>
-		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
+		<a href="?page=jobman-list-applications" class="backlink">&larr;<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
 
 	$widths = array( '59%', '39%' );
@@ -609,7 +609,7 @@ function jobman_application_details_layout( $appid ) {
 				);
 	$titles = array(
 				array( __( 'Application', 'jobman' ) ),
-				array( __( 'Application Comments', 'jobman' ), __( 'Email Application', 'jobman' ) )
+				array( __( 'Application Comments', 'jobman' ), __( 'Share Application', 'jobman' ) )
 			);
 	$params = array(
 					array( array( $appid ) ),
@@ -623,7 +623,7 @@ function jobman_application_details_layout( $appid ) {
 	}
 	jobman_create_dashboard( $widths, $functions, $titles, $params );
 ?>
-		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
+		<a href="?page=jobman-list-applications" class="backlink">&larr;<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 	</div>
 <?php
 }
@@ -653,14 +653,22 @@ function jobman_application_display_details( $appid ) {
 			$parentstr = array();
 			foreach( $parents as $parent ) {
 				$data = get_post( $parent );
-				$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->post_title</a>";
+				
+				$children = get_posts( "post_type=jobman_app&meta_key=job&meta_value=$data->ID&post_status=publish,private" );
+				if( count( $children ) > 0 )
+					$applications = '<a href="' . admin_url("admin.php?page=jobman-list-applications&amp;jobman-jobid=$data->ID") . '">' . count( $children ) . '</a>';
+				else
+					$applications = 0;
+				
+				$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->post_title</a> ($applications)";
 			}
 			$title = __( 'Job', 'jobman' );
 			if( count( $parentstr ) > 1 )
 				$title = __( 'Jobs', 'jobman' );
 			echo "<tr><th scope='row'><strong>$title</strong></th><td><strong>" . implode( ', ', $parentstr ) . '</strong></td></tr>';
 		}
-		echo '<tr><th scope="row"><strong>' . __( 'Timestamp', 'jobman' ) . "</strong></th><td>$app->post_date</td></tr>";
+		$post_date = date_i18n( 'l, d F Y, H:i:s', strtotime( $app->post_date ) );
+		echo '<tr><th scope="row"><strong>' . __( 'Timestamp', 'jobman' ) . "</strong></th><td>$post_date</td></tr>";
 		
 		echo '<tr><th scope="row"><strong>' . __( 'Rating', 'jobman' ) . '</strong></th>';
 		echo '<td>';

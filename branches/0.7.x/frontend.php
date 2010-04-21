@@ -328,6 +328,8 @@ function jobman_display_template() {
 		$templates[] = "category-$category.php";
 	if( ! empty( $job_cats ) ) {
 		foreach( $job_cats as $jcat ) {
+		if( ! empty( $post ) && 'jobman_job' == $post->post_type )
+			$templates[] = "category-$jcat-job.php";
 			$templates[] = "category-$jcat.php";
 		}
 	}

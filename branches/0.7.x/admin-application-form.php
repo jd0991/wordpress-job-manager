@@ -29,7 +29,10 @@ function jobman_application_setup() {
 	wp_nonce_field( 'jobman-application-setup' ); 
 ?>
 	<div class="wrap">
-		<h2><?php _e( 'Job Manager: Application Setup', 'jobman' ) ?></h2>
+<?php
+	jobman_print_settings_tabs();
+?>
+<br/>
 		<table id="jobman-application-setup" class="widefat page fixed">
 			<thead>
 			<tr>

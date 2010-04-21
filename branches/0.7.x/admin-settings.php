@@ -4,6 +4,20 @@ function jobman_conf() {
 	
 	$options = get_option( 'jobman_options' );
 	
+	if( array_key_exists( 'tab', $_REQUEST ) ) {
+		switch( $_REQUEST['tab'] ) {
+			case 'display':
+				jobman_display_conf();
+				return;
+			case 'appform':
+				jobman_application_setup();
+				return;
+			case 'jobform':
+				jobman_job_setup();
+				return;
+		}
+	}
+	
 	if( array_key_exists( 'jobmanconfsubmit', $_REQUEST ) ) {
 		// Configuration form as been submitted. Updated the database.
 		check_admin_referer( 'jobman-conf-updatedb' );
@@ -43,8 +57,9 @@ function jobman_conf() {
 	}
 ?>
 	<div class="wrap">
-		<h2><?php _e( 'Job Manager: Admin Settings', 'jobman' ) ?></h2>
 <?php
+	jobman_print_settings_tabs();
+	
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(

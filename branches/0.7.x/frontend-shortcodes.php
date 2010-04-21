@@ -180,8 +180,12 @@ function jobman_shortcode( $atts, $content, $tag ) {
 			
 				$url = get_page_link( $applypage->ID );
 				
+				$ref = '';
+				if( array_key_exists( 'ref', $atts ) )
+					$ref = " ref='{$atts['ref']}'";
+				
 				if( ! $jobman_shortcode_job )
-					return '<a href="'. $url . '">' . do_shortcode( $content ) . '</a>';
+					return "<a href='$url'$ref>" . do_shortcode( $content ) . '</a>';
 				
 				$structure = get_option( 'permalink_structure' );
 				
@@ -195,7 +199,7 @@ function jobman_shortcode( $atts, $content, $tag ) {
 						$url .= '/' . $jobman_shortcode_job->ID;
 				}
 
-				return '<a href="'. $url . '">' . do_shortcode( $content ) . '</a>';
+				return "<a href='$url'$ref>" . do_shortcode( $content ) . '</a>';
 			}
 			return NULL;
 		case 'job_checkbox':
