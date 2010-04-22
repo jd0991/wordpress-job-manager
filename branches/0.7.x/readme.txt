@@ -129,6 +129,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Authors could edit jobs created by other Authors
 * FIXED: Using ASCII instead of &larr; on Application Details page
 * FIXED: Application filter not working on un-rated applications
+* FIXED: Forgot password link not working under some circumstances
 
 = 0.7 =
 * ADDED: Optional template for application form
