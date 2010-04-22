@@ -134,6 +134,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	}
 	
 	$content .= '</form>';
+	$content .= '<div id="jobman-map" style="width: 1px; height: 1px; display: none;"></div>';
 
 	$page->post_content = $content;
 		

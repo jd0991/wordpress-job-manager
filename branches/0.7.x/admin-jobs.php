@@ -55,7 +55,7 @@ function jobman_list_jobs() {
 			break;
 	}
 	
-	$jobs = get_posts( 'post_type=jobman_job&numberposts=-1&post_status=publish,draft' );
+	$jobs = get_posts( 'post_type=jobman_job&numberposts=-1&post_status=publish,draft,future' );
 ?>
 		<form action="" method="post">
 <?php 
@@ -159,7 +159,7 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 			
 			$children = get_posts( "post_type=jobman_app&meta_key=job&meta_value=$job->ID&post_status=publish,private" );
 			if( count( $children ) > 0 )
-				$applications = '<a href="' . admin_url("admin.php?page=jobman-list-applications&amp;jobman-jobid=$job->ID") . '">' . count( $children ) . '</a>';
+				$applications = '<a href="' . admin_url( "admin.php?page=jobman-list-applications&amp;jobman-jobid=$job->ID" ) . '">' . count( $children ) . '</a>';
 			else
 				$applications = 0;
 				
@@ -180,7 +180,20 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 <?php
 			}
 ?>
-				<a href="<?php echo get_page_link( $job->ID ) ?>"><?php _e( 'View', 'jobman' ) ?></a></div></td>
+				<a href="<?php echo get_page_link( $job->ID ) ?>"><?php _e( 'View', 'jobman' ) ?></a> |
+<?php
+			if( $display ) {
+?>
+				<a href="<?php echo wp_nonce_url( admin_url( "admin.php?page=jobman-list-jobs&amp;jobman-mass-edit-jobs=archive&amp;job[]=$job->ID" ), 'jobman-mass-edit-jobs' ) ?>"><?php _e( 'Archive', 'jobman' ) ?></a>
+<?php
+			}
+			else {
+?>
+				<a href="<?php echo wp_nonce_url( admin_url( "admin.php?page=jobman-list-jobs&amp;jobman-mass-edit-jobs=unarchive&amp;job[]=$job->ID" ), 'jobman-mass-edit-jobs' ) ?>"><?php _e( 'Unarchive', 'jobman' ) ?></a>
+<?php
+			}
+?>
+				</div></td>
 				<td><?php echo $catstring ?></td>
 <?php
 			if( count( $fields ) ) {
@@ -199,9 +212,14 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 					}
 				}
 			}
+			$status = __( 'Live', 'jobman' );
+			if( $future )
+				$status = __( 'Future', 'jobman' );
+			else if( ! $display )
+				$status = __( 'Expired', 'jobman' );
 ?>
 				<td><?php echo date( 'Y-m-d', strtotime( $job->post_date ) ) ?> - <?php echo ( '' == $displayenddate )?( __( 'End of Time', 'jobman' ) ):( $displayenddate ) ?><br/>
-				<?php echo ( $display )?( ( $future )?( __( 'Future', 'jobman' ) ):( __( 'Live', 'jobman' ) ) ):( __( 'Expired', 'jobman' ) ) ?></td>
+				<?php echo $status ?></td>
 				<td><?php echo $applications ?></td>
 			</tr>
 <?php
@@ -721,6 +739,8 @@ function jobman_job_unarchive() {
 	$data = array( 'post_status' => 'publish' );
 	foreach( $jobs as $job ) {
 		$data['ID'] = $job;
+		$data['post_date'] = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
+		$data['post_date_gmt'] = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
 		wp_update_post( $data );
 		
 		update_post_meta( $job, 'displayenddate', '' );

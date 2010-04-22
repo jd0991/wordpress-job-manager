@@ -44,6 +44,7 @@ add_filter( 'jobman_pleaseregister_html', 'jobman_change_pleaseregister_html' );
 if( 'automattic' == JOBMAN_VIP_SITE ) {
 	add_action( 'wp_head', 'jobman_automattic_display_head' );
 	add_action( 'admin_head-job-manager_page_jobman-list-applications', 'jobman_automattic_display_admin_head' );
+	add_filter( 'wp_get_attachment_url', 'jobman_automattic_filter_attachment_url', 10, 2 );
 }
 
 function jobman_automattic_display_head() {
@@ -76,5 +77,9 @@ div.printicon {
 }
 </style>
 <?php
+}
+
+function jobman_automattic_filter_attachment_url( $url, $postid ) {
+	return str_replace( 'automattic.com/files/', 'automattic.files.wordpress.com/', $url );
 }
 ?>

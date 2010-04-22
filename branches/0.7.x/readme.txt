@@ -120,9 +120,13 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 = 0.7.1 =
 * ADDED: 'category-foo-job.php' template, which overrides 'category-foo.php' when viewing a job in the category 'foo'
 * ADDED: ref attribute to [job_apply_link] shortcode
+* ADDED: Link to individually archive/unarchive jobs
+* ADDED: Reverse GeoLoc lookup for browsers that don't do it be default
+* ADDED: Gravatar support in applications
 * CHANGED: Job editor now uses TinyMCE for editing textareas
 * CHANGED: Applications filter box now displays quicker
 * CHANGED: Settings now on one page, with tabs
+* CHANGED: Tweaked applications list layout
 * FIXED: Job multi-select popout now has `<label>` tags
 * FIXED: JavaScript error with Geoloc code in Chrome Dev Channel
 * FIXED: RSS feed showing wrong publication dates
@@ -130,6 +134,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Using ASCII instead of &larr; on Application Details page
 * FIXED: Application filter not working on un-rated applications
 * FIXED: Forgot password link not working under some circumstances
+* FIXED: Future jobs not displaying in admin job list
+* FIXED: Unable to unarchive future jobs
 
 = 0.7 =
 * ADDED: Optional template for application form

@@ -281,9 +281,17 @@ function jobman_display_jobs( $posts ) {
 }
 
 function jobman_display_init() {
+	$options = get_option( 'jobman_options' );
+	
 	wp_enqueue_script( 'jquery-ui-datepicker', JOBMAN_URL . '/js/jquery-ui-datepicker.js', array( 'jquery-ui-core' ), JOBMAN_VERSION );
 	wp_enqueue_script( 'google-gears', JOBMAN_URL . '/js/gears_init.js', false, JOBMAN_VERSION );
 	wp_enqueue_script( 'jquery-display', JOBMAN_URL . '/js/display.js', false, JOBMAN_VERSION );
+	
+	if( !empty( $options['api_keys']['google_maps'] ) ) {
+		wp_enqueue_script( 'google-maps', "http://maps.google.com/maps?file=api&v=2&key={$options['api_keys']['google_maps']}", false, JOBMAN_VERSION );
+		wp_enqueue_script( 'greverse-geocoder', JOBMAN_URL . '/js/greversegeocoder.js', false, JOBMAN_VERSION );
+	}
+	
 	wp_enqueue_style( 'jobman-display', JOBMAN_URL . '/css/display.css', false, JOBMAN_VERSION );
 }
 
@@ -542,6 +550,32 @@ function jobman_geo_success( pos ) {
 	else if( pos.gearsAddress ) {
 		description = pos.gearsAddress.city + ", " + pos.gearsAddress.region + ", " + pos.gearsAddress.country;
 	}
+<?php	if( !empty( $options['api_keys']['google_maps'] ) ) { ?>
+	else {
+		var map = new GMap2( document.getElementById( "jobman-map" ) );
+		map.setCenter( new GLatLng( 51.05226693177032, 3.723893165588379 ), 15 );
+		var reversegeocoder = new GReverseGeocoder( map );
+
+		GEvent.addListener(reversegeocoder, "load",
+			function( placemark ) {
+				description = placemark.AddressDetails.Country.CountryName;
+				if( placemark.AddressDetails.Country.AdministrativeArea ) {
+					description = placemark.AddressDetails.Country.AdministrativeArea.AdministrativeAreaName + ', ' + description;
+				}
+				if( placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea ) {
+					description = placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName + ', ' + description;
+				}
+				if( placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality ) {
+					description = placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.LocalityName + ', ' + description;
+				}
+				jQuery(".jobman-geoloc-original-display").val( description );
+				jQuery(".jobman-geoloc-display").val( description );
+			}
+		);
+
+		reversegeocoder.reverseGeocode( new GLatLng( pos.coords.latitude, pos.coords.longitude ) );
+	}
+<?php	} ?>
 	
 	jQuery(".jobman-geoloc-data").val( pos.coords.latitude + "," + pos.coords.longitude );
 	jQuery(".jobman-geoloc-original-display").val( description );
