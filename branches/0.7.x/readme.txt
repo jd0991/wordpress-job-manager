@@ -117,6 +117,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7.2 =
+* FIXED: PHP Warning showing on job pages
+
 = 0.7.1 =
 * ADDED: 'category-foo-job.php' template, which overrides 'category-foo.php' when viewing a job in the category 'foo'
 * ADDED: ref attribute to [job_apply_link] shortcode

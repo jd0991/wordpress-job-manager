@@ -181,7 +181,7 @@ function jobman_shortcode( $atts, $content, $tag ) {
 				$url = get_page_link( $applypage->ID );
 				
 				$ref = '';
-				if( array_key_exists( 'ref', $atts ) )
+				if( is_array( $atts ) && array_key_exists( 'ref', $atts ) )
 					$ref = " ref='{$atts['ref']}'";
 				
 				if( ! $jobman_shortcode_job )
