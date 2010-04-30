@@ -815,10 +815,11 @@ function jobman_email_application( $appid, $sendto = '' ) {
 			if( $ii < count( $categories ) )
 				$to .= ', ';
 		}
-	} else {
-		$to = $options['default_email'];
 	}
 	
+	if( '' == $to )
+		$to = $options['default_email'];
+
 	if( '' == $to )
 		return;
 	

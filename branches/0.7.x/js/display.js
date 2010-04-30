@@ -1,7 +1,7 @@
 function jobman_apply_filter() {
 	var ii, field;
 	var empty = new Array();
-	for( ii in jobman_mandatory_ids ) {
+	for( ii = 0; ii < jobman_mandatory_ids.length; ii++ ) {
 		field = jQuery("[name=jobman-field-" + jobman_mandatory_ids[ii] + "]");
 		
 		if( field.length > 0 && '' == field.attr('value') ) {
@@ -11,7 +11,7 @@ function jobman_apply_filter() {
 	
 	if( empty.length > 0 ) {
 		var error = jobman_strings['apply_submit_mandatory_warning'] + ":\n";
-		for( ii in empty ) {
+		for( ii = 0; empty.length; ii++ ) {
 			error += empty[ii] + "\n";
 		}
 		alert( error );

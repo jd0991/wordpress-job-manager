@@ -170,7 +170,15 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 				$class = "expired";
 ?>
 			<tr class="<?php echo $class ?>">
-				<th scope="row" class="check-column"><input type="checkbox" name="job[]" value="<?php echo $job->ID ?>" /></th>
+				<th scope="row" class="check-column">
+<?php
+			if( current_user_can( 'edit_others_posts' ) || $job->post_author == $current_user->ID ) {
+?>
+				<input type="checkbox" name="job[]" value="<?php echo $job->ID ?>" />
+<?php
+			}
+?>
+				</th>
 				<td class="post-title page-title column-title"><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php echo $job->post_title ?></a></strong>
 				<div class="row-actions">
 <?php
@@ -180,17 +188,19 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 <?php
 			}
 ?>
-				<a href="<?php echo get_page_link( $job->ID ) ?>"><?php _e( 'View', 'jobman' ) ?></a> |
+				<a href="<?php echo get_page_link( $job->ID ) ?>"><?php _e( 'View', 'jobman' ) ?></a>
 <?php
-			if( $display ) {
+			if( current_user_can( 'edit_others_posts' ) || $job->post_author == $current_user->ID ) {
+				if( $display ) {
 ?>
-				<a href="<?php echo wp_nonce_url( admin_url( "admin.php?page=jobman-list-jobs&amp;jobman-mass-edit-jobs=archive&amp;job[]=$job->ID" ), 'jobman-mass-edit-jobs' ) ?>"><?php _e( 'Archive', 'jobman' ) ?></a>
+				| <a href="<?php echo wp_nonce_url( admin_url( "admin.php?page=jobman-list-jobs&amp;jobman-mass-edit-jobs=archive&amp;job[]=$job->ID" ), 'jobman-mass-edit-jobs' ) ?>"><?php _e( 'Archive', 'jobman' ) ?></a>
 <?php
-			}
-			else {
+				}
+				else {
 ?>
-				<a href="<?php echo wp_nonce_url( admin_url( "admin.php?page=jobman-list-jobs&amp;jobman-mass-edit-jobs=unarchive&amp;job[]=$job->ID" ), 'jobman-mass-edit-jobs' ) ?>"><?php _e( 'Unarchive', 'jobman' ) ?></a>
+				| <a href="<?php echo wp_nonce_url( admin_url( "admin.php?page=jobman-list-jobs&amp;jobman-mass-edit-jobs=unarchive&amp;job[]=$job->ID" ), 'jobman-mass-edit-jobs' ) ?>"><?php _e( 'Unarchive', 'jobman' ) ?></a>
 <?php
+				}
 			}
 ?>
 				</div></td>

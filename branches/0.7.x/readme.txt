@@ -117,6 +117,12 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7.3 =
+* FIXED: Application email not sending if no email set for the categories
+* FIXED: Application form required field check sometimes failing
+* FIXED: Authors being able to archive or delete other users posts
+* FIXED: Category widget breaking WP < 3.0
+
 = 0.7.2 =
 * FIXED: PHP Warning showing on job pages
 
