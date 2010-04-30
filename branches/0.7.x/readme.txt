@@ -43,6 +43,7 @@ Related links:
 * [Report Bugs and Request Features](http://code.google.com/p/wordpress-job-manager/issues/list)
 * [Development Roadmap](http://code.google.com/p/wordpress-job-manager/wiki/Roadmap)
 * [Translations](http://translations.pento.net/)
+* [Mailing List](http://groups.google.com/group/wordpress-job-manager)
 
 == Installation ==
 
