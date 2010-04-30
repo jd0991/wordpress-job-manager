@@ -22,6 +22,7 @@ Stable: Early July 2010
   * Social Bookmark support: Issue #148
   * Email Formatting and Templates: Issue #155
   * Attach Uploads to Emails: Issue #153
+  * Editable Application page `<title>`: Issue #168
 
 == Changes to Existing Features ==
 
