@@ -23,6 +23,7 @@ Stable: Early July 2010
   * Email Formatting and Templates: Issue #155
   * Attach Uploads to Emails: Issue #153
   * Editable Application page `<title>`: Issue #168
+  * More Shortcodes: Issue #170
 
 == Changes to Existing Features ==
 
