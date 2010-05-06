@@ -118,6 +118,10 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7.4 =
+* FIXED: Application email not sending to individual job addresses
+* FIXED: Job select dropdown not having a job selected when an individual job was being applied for
+
 = 0.7.3 =
 * FIXED: Application email not sending if no email set for the categories
 * FIXED: Application form required field check sometimes failing
