@@ -57,11 +57,13 @@ Stable: Early August 2010
   * Template Tags: Issue #121
   * Dashboard Job posting: Issue #72
   * Auto-scrolling Widget: Issue #149
+  * Track who an Application has been forwarded to: Issue #177
 
 == Changes to Existing Features ==
 
   * Allow Hierarchical Categories: Issue #112
   * Attach uploads to Application emails: Issue #123
+  * Improve New Job Interface: Issue #178
 
 ----
 
