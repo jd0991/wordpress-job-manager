@@ -1,15 +1,15 @@
 <?php //encoding: utf-8
 
 // Job lists and individual jobs
-require_once( dirname( __FILE__ ) . '/frontend-jobs.php' );
+require_once( JOBMAN_DIR . '/frontend-jobs.php' );
 // Application form, application filtering and storage
-require_once( dirname( __FILE__ ) . '/frontend-application.php' );
+require_once( JOBMAN_DIR . '/frontend-application.php' );
 // User registration and login
-require_once( dirname( __FILE__ ) . '/frontend-user.php' );
+require_once( JOBMAN_DIR . '/frontend-user.php' );
 // RSS Feeds
-require_once( dirname( __FILE__ ) . '/frontend-rss.php' );
+require_once( JOBMAN_DIR . '/frontend-rss.php' );
 // Shortcode magic
-require_once( dirname( __FILE__ ) . '/frontend-shortcodes.php' );
+require_once( JOBMAN_DIR . '/frontend-shortcodes.php' );
 
 global $jobman_displaying, $jobman_finishedpage, $jobman_geoloc;
 $jobman_finishedpage = $jobman_displaying = $jobman_geoloc = false;

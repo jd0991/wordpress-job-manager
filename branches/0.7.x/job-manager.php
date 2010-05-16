@@ -39,7 +39,10 @@ if( ! defined( 'JOBMAN_URL' ) )
 	define( 'JOBMAN_URL', WP_PLUGIN_URL . '/' . JOBMAN_FOLDER );
 
 // Define the basename
-define( 'JOBMAN_BASENAME', plugin_basename(__FILE__) );
+define( 'JOBMAN_BASENAME', plugin_basename( __FILE__ ) );
+
+// Define the complete directory path
+define( 'JOBMAN_DIR', dirname( __FILE__ ) );
 
 // Some Global vars
 
@@ -73,28 +76,28 @@ if( is_array( $jobman_options ) && array_key_exists( 'fields', $jobman_options )
 //
 
 // Jobman global functions
-require_once( dirname( __FILE__ ) . '/functions.php' );
+require_once( JOBMAN_DIR . '/functions.php' );
 
 // Jobman setup (for installation/upgrades)
-require_once( dirname( __FILE__ ) . '/setup.php' );
+require_once( JOBMAN_DIR . '/setup.php' );
 
 // Jobman database
-require_once( dirname( __FILE__ ) . '/db.php' );
+require_once( JOBMAN_DIR . '/db.php' );
 
 // Jobman admin
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once( JOBMAN_DIR . '/admin.php' );
 
 // Support for other plugins
-require_once( dirname( __FILE__ ) . '/plugins.php' );
+require_once( JOBMAN_DIR . '/plugins.php' );
 
 // Jobman frontend
-require_once( dirname( __FILE__ ) . '/frontend.php' );
+require_once( JOBMAN_DIR . '/frontend.php' );
 
 // Widgets
-require_once( dirname( __FILE__ ) . '/widgets.php' );
+require_once( JOBMAN_DIR . '/widgets.php' );
 
 // Add hooks at the end
-require_once( dirname( __FILE__ ) . '/hooks.php' );
+require_once( JOBMAN_DIR . '/hooks.php' );
 
 // If the user is after a CSV export, give it to them
 if( array_key_exists( 'jobman-mass-edit', $_REQUEST ) && 'export-csv' == $_REQUEST['jobman-mass-edit'] )

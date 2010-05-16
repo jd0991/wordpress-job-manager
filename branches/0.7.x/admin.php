@@ -1,23 +1,23 @@
 <?php //encoding: utf-8
 
 // Admin Settings
-require_once( dirname( __FILE__ ) . '/admin-settings.php' );
+require_once( JOBMAN_DIR . '/admin-settings.php' );
 // Frontend Display Settings
-require_once( dirname( __FILE__ ) . '/admin-frontend-settings.php' );
+require_once( JOBMAN_DIR . '/admin-frontend-settings.php' );
 // Job Form Setup
-require_once( dirname( __FILE__ ) . '/admin-jobs-settings.php' );
+require_once( JOBMAN_DIR . '/admin-jobs-settings.php' );
 // Job management
-require_once( dirname( __FILE__ ) . '/admin-jobs.php' );
+require_once( JOBMAN_DIR . '/admin-jobs.php' );
 // Application form setup
-require_once( dirname( __FILE__ ) . '/admin-application-form.php' );
+require_once( JOBMAN_DIR . '/admin-application-form.php' );
 // Applications
-require_once( dirname( __FILE__ ) . '/admin-applications.php' );
+require_once( JOBMAN_DIR . '/admin-applications.php' );
 // Emails
-require_once( dirname( __FILE__ ) . '/admin-emails.php' );
+require_once( JOBMAN_DIR . '/admin-emails.php' );
 // Interview Scheduling
-require_once( dirname( __FILE__ ) . '/admin-interviews.php' );
+require_once( JOBMAN_DIR . '/admin-interviews.php' );
 // Comment handling functions
-require_once( dirname( __FILE__ ) . '/admin-comments.php' );
+require_once( JOBMAN_DIR . '/admin-comments.php' );
 
 function jobman_admin_setup() {
 	$options = get_option( 'jobman_options' );
