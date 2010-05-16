@@ -1,0 +1,1438 @@
+# Translation of 0.6 Series in German
+# This file is distributed under the same license as the 0.6 Series package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2010-03-18 15:49+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/0.1\n"
+"Project-Id-Version: 0.6 Series\n"
+"POT-Creation-Date: \n"
+"Last-Translator: Gary Pendergast <gary@pento.net>\n"
+"Language-Team: \n"
+
+#: admin-frontend-settings.php:139
+msgid "This will display the ID of the Job currently being displayed, either in a <tt>[job_loop]</tt> or on an Individual Job page."
+msgstr "Die ID-Kennung des angezeigten Jobs wird  auf einer eigenen Seite oder in <tt>[job_loop]</tt> angezeigt. "
+
+#: admin-frontend-settings.php:138
+msgid "This will loop over a list of all the Jobs, and display the contained HTML and shortcodes for each."
+msgstr "Eine Liste aller Jobs und der jeweils enthaltenden HTML-Befehle und Shortcodes erscheint."
+
+#: admin-frontend-settings.php:137
+msgid "Job Information"
+msgstr "Jobinformation"
+
+#: admin-frontend-settings.php:135
+msgid "These settings allow you to define the templates for displaying lists of jobs, and individual jobs. To do this, you will need to make use of the available shortcodes."
+msgstr "Diese Einstellungen erlauben die Vorlagen für angezeigte Job-Listen und individuelle Jobs zu ändern. Dafür nutzen Sie bitte die verfügbaren Shortcodes."
+
+#: admin-frontend-settings.php:140
+msgid "This will display the Title of the current Job."
+msgstr "Der Titel des aktuellen Jobs wird angezeigt."
+
+#: admin-frontend-settings.php:141
+msgid "While inside a <tt>[job_loop]</tt>, this will display the row number of the job currently being displayed."
+msgstr "Innerhalb <tt>[job_loop]</tt> wird die Zeilennummer des aktuellen Jobs angezeigt."
+
+#: admin-frontend-settings.php:142
+msgid "While inside a <tt>[job_loop]</tt>, this will display \"odd\", if the current <tt>[job_row_number]</tt> is odd, or \"even\" if <tt>[job_row_number]</tt> is even."
+msgstr "Innerhalb <tt>[job_loop]</tt>  wird \"ungerade\" angezeigt, falls die <tt>[job_row_number]</tt> ungerade ist oder \"gerade\" , falls  <tt>[job_row_number]</tt>gerade ist."
+
+#: admin-frontend-settings.php:143
+msgid "If the current Job has been marked as highlighted, this will display the word \"highlighted\"."
+msgstr "Wurde der aktuelle Job hervorgehoben, wird dies durch das Wort \"highlited\" angezeigt."
+
+#: admin-frontend-settings.php:144
+msgid "If the current Job has an icon assigned to it, this will display the icon."
+msgstr "Ist dem aktuellen Job ein Icon hinzugefügt, wird es angezeigt."
+
+#: admin-frontend-settings.php:145
+msgid "This will display a link to the current Job, with the contained text as the link text."
+msgstr "Der Link zum aktuellen Job wird angezeigt und beinhaltet den entsprechenden Text als Linktext."
+
+#: admin-frontend-settings.php:146
+msgid "This will display a link to the Application Form for the current Job, with the contained text as the link text. If it is used outside of the <tt>[job_loop]</tt>, it will display a link to the main Application Form."
+msgstr "Ein Link zum Anwendungsformular des aktuellen Jobs wird angezeigt, mit dem enthaltenden Linktext. Außerhalb von <tt>[job_loop]</tt> verwendet, erscheint ein Link zum Formular der Hauptanwendung."
+
+#: admin-frontend-settings.php:148
+msgid "Job Category Information"
+msgstr "Jobkategorie Information"
+
+#: admin-frontend-settings.php:149
+msgid "If the current Job is assigned to any Categories, this will display a comma-separated list of the Category Titles."
+msgstr "Falls der aktuelle Job irgendeiner Kategorie zugeordnet ist, erscheint eine gesonderte Auflistung der jeweiligen Titel. Die Titel sind durch Kommas getrennt."
+
+#: admin-frontend-settings.php:150
+msgid "If the current Job is assigned to any Categories, this will display a comma-separated list of the Category Titles, with each Title as a link to that Category."
+msgstr "Ist der aktuelle Job irgendeiner Kategorie zugeordnet, erscheint eine gesonderte Auflistung der Kategorien mit jeweils zugehörigem Link. Die Kategorien sind durch Kommas getrennt."
+
+#: admin-frontend-settings.php:152
+msgid "Job Field Information"
+msgstr "Jobfeld Information"
+
+#: admin-frontend-settings.php:153
+msgid "This will loop over all of the defined Job Fields, and display the contained HTML and shortcodes for each. This can be used inside a <tt>[job_loop]</tt>, or on an Individual Job page."
+msgstr "Alle definierten Jobfenster und die jeweiligen HTML-Befehle und Shortcodes werden angezeigt. Dazu kann <tt>[job_loop]</tt> oder eine indiviuelle Jobseite verwendet werden."
+
+#: admin-frontend-settings.php:154
+msgid "While inside a <tt>[job_field_loop]</tt>, this will display the label of the current field being displayed."
+msgstr "Innerhalb <tt>[job_field_loop]</tt> wird das Label des aktuellen Feldes angezeigt."
+
+#: admin-frontend-settings.php:155
+msgid "While inside a <tt>[job_field_loop]</tt>, this will display the data associated with the current field and Job being displayed."
+msgstr "Innerhalb <tt>[job_field_loop]</tt>werden zum aktuellen Feld und Job zugehörige Daten angezeigt."
+
+#: admin-frontend-settings.php:157
+msgid "Custom Job Field Information"
+msgstr "Benutzerdefinierte Jobfeldinformation"
+
+#: admin-frontend-settings.php:158
+msgid "For each of the Custom Job Fields defined, there are two shortcodes defined, one for the Label and one for the Data. Note that these numbers won't change, even if you re-order, add or delete Job Fields."
+msgstr "Für jedes benutzerdefinierte Jobfeld sind zwei Shortcodes definiert, einer für die Bezeichnung und einer für die Daten. Sie ändern sich nicht, auch wenn Jobfelder geändert oder gelöscht werden. "
+
+#: admin-frontend-settings.php:166
+msgid "Conditionals"
+msgstr "Bedingungen"
+
+#: admin-frontend-settings.php:167
+msgid "All of the shortcodes defined above can be prefixed with <tt>if_</tt> to turn them into a conditional statement. For example, if you wanted to display the text \"Categories: \", and then a list of the Categories a job is in, but you don't want to display it if there are no categories, you could put in the template:"
+msgstr "Allen oben definierten Shortcodes  kann<tt>if_</tt> vorangestellt werden, um sie zu einer Bedingung zu machen. Wollen Sie zum Beispiel den Text \"Kategorien\" anzeigen und anschließend eine Liste der Kategorien, die den Job enthalten, aber keine Anzeige wünschen, falls keine Kategorien vorhanden sind, können Sie dies in die Vorlage eintragen: "
+
+#: frontend-jobs.php:183
+msgid "This job doesn't exist"
+msgstr "Dieser Job existiert nicht"
+
+#: frontend-jobs.php:185
+msgid "Perhaps you followed an out-of-date link? Please check out the <a href=\"%s\">jobs we have currently available</a>."
+msgstr "Haben Sie vielleicht einen ungültigen Link aufgerufen? Bitte überprüfen Sie <a href=\"%s\" unsere aktuellen Stellenangebote </a>."
+
+#: frontend-user.php:15
+msgid "Welcome, %1s!"
+msgstr "Willkommen, %1s!"
+
+#: frontend-user.php:25
+msgid "If you've registered with us previously, please login now. If you'd like to register, please click the 'Register' link below."
+msgstr "Wenn Sie bereits bei uns registriert sind, loggen Sie sich bitte ein. Möchten Sie sich neu registrieren, klicken Sie bitte den unteren Link zur Registrierung an."
+
+#: frontend-user.php:27
+#: frontend-user.php:85
+msgid "Username"
+msgstr "Benutzername"
+
+#: frontend-user.php:29
+#: frontend-user.php:93
+msgid "Password"
+msgstr "Passwort"
+
+#: frontend-user.php:31
+msgid "Login"
+msgstr "Login"
+
+#: frontend-user.php:32
+msgid "Forgot your password?"
+msgstr "Passwort vergessen?"
+
+#: frontend-user.php:80
+msgid "Please fill in all fields."
+msgstr "Bitte alle Felder ausfüllen."
+
+#: frontend-user.php:83
+msgid "This username has already been registered."
+msgstr "Dieser Benutzername ist bereits vergeben."
+
+#: frontend-user.php:91
+msgid "Passwords do not match."
+msgstr "Passwort ist ungültig."
+
+#: frontend-user.php:96
+msgid "Password Again"
+msgstr "Passwort wiederholen"
+
+#: frontend-user.php:100
+msgid "This email address has already been registered. If you've previously registered but don't remember your password, please visit the <a href='%1s'>password reset page</a>."
+msgstr "Diese E-Mail-Adresse wurde bereits für eine Registrierung verwendet. Falls Sie sich bereits registriert haben, sich aber nicht mehr an das Passwort erinnern, rufen Sie bitte  <a href='%1s'>die Seite zu den Passworteinstellungen auf </a>."
+
+#: frontend.php:225
+msgid "This job listing was created using <a href=\"%s\" title=\"%s\">Job Manager</a> for WordPress, by <a href=\"%s\">Gary Pendergast</a>."
+msgstr "Diese Jobauflistung wurde mit <a href=\"%s\" title=\"%s\">Job Manager</a> für WordPress, von <a href=\"%s\">Gary Pendergast</a> erstellt."
+
+#: frontend.php:225
+msgid "WordPress Job Manager"
+msgstr "WordPress Job Manager"
+
+#: frontend.php:288
+#: frontend.php:291
+msgid "Job Listing"
+msgstr "Jobanzeige"
+
+#: frontend.php:335
+msgid "Latest Jobs"
+msgstr "Aktuelle Jobs"
+
+#: frontend.php:347
+msgid "The following fields must be filled out before submitting"
+msgstr "Das folgende Feld ist ein Pflichtfeld."
+
+#: functions.php:34
+msgid "Click to toggle"
+msgstr "Klicken Sie zum Schalten"
+
+#: functions.php:65
+msgid "Category"
+msgstr "Kategorie"
+
+#: setup.php:69
+#: setup.php:220
+msgid "Thank you for your application! We'll check it out, and get back to you soon!"
+msgstr "Vielen Dank für Ihre Bewerbung! Wir werden sie prüfen und uns schnellstmöglich mit Ihnen in Verbindung setzen."
+
+#: widgets.php:5
+msgid "Job Manager: Recent Jobs"
+msgstr "Job Manager : Neueste Jobs"
+
+#: widgets.php:6
+msgid "A list of the most recent jobs posted to your site"
+msgstr "Eine Auflistung der neuesten Jobs auf ihrer Seite."
+
+#: widgets.php:63
+#: widgets.php:292
+msgid "There are no jobs to display at this time."
+msgstr "Momentan können keine Jobs angezeigt werden."
+
+#: widgets.php:105
+msgid "Number of Jobs to show"
+msgstr "Anzahl der Jobs, die angezeigt werden können."
+
+#: widgets.php:108
+msgid "at most 15"
+msgstr "maximal 15"
+
+#: widgets.php:117
+msgid "Show Jobs From"
+msgstr "Zeige Jobs aus"
+
+#: widgets.php:119
+msgid "All Categories"
+msgstr "allen Kategorien"
+
+#: widgets.php:120
+msgid "Selected Categories"
+msgstr "ausgewählten Kategorien"
+
+#: widgets.php:144
+msgid "No categories defined."
+msgstr "Keine Kategorien festgelegt."
+
+#: widgets.php:157
+msgid "Job Manager: Categories"
+msgstr "Job Manager: Kategorien"
+
+#: widgets.php:158
+msgid "A list or dropdown of Job Manager categories"
+msgstr "Drop-Down-Liste der Job Manager Kategorien."
+
+#: widgets.php:182
+msgid "Select Category"
+msgstr "Kategorie auswählen"
+
+#: widgets.php:221
+msgid "There are no categories to display at this time."
+msgstr "Momentan können keine Kategorien angezeigt werden."
+
+#: widgets.php:247
+msgid "Show as dropdown"
+msgstr "Als Drop-Down-Liste zeigen"
+
+#: widgets.php:258
+msgid "Job Manager: Highlighted Jobs"
+msgstr "Job Manager: hervorgehobene Jobs"
+
+#: widgets.php:259
+msgid "A list jobs that have been marked as highlighted"
+msgstr "Liste der markierten Jobs."
+
+msgid "http://pento.net/projects/wordpress-job-manager-plugin/"
+msgstr "http://pento.net/projects/wordpress-job-manager-plugin/"
+
+msgid "A job listing and job application management plugin for WordPress."
+msgstr "Jobauflistung und Jobbewerbung Management Plugin für WordPress."
+
+msgid "Gary Pendergast"
+msgstr "Gary Pendergast"
+
+msgid "http://pento.net/"
+msgstr "http://pento.net/"
+
+msgid "job, jobs, manager, list, listing, employment, employer, career"
+msgstr "Job, Job Manager-Liste, Auflistung, Arbeitsplatz, Mitarbeiter, Karriere"
+
+#: admin-application-form.php:11
+#: admin-jobs-settings.php:11
+msgid "Text Input"
+msgstr "Texteingabe"
+
+#: admin-application-form.php:12
+#: admin-jobs-settings.php:12
+msgid "Radio Buttons"
+msgstr "Radiobuttons"
+
+#: admin-application-form.php:13
+#: admin-jobs-settings.php:13
+msgid "Checkboxes"
+msgstr "Checkboxen"
+
+#: admin-application-form.php:14
+#: admin-jobs-settings.php:14
+msgid "Large Text Input (textarea)"
+msgstr "Großes Texteingabefeld"
+
+#: admin-application-form.php:15
+#: admin-jobs-settings.php:15
+msgid "Date Selector"
+msgstr "Datum Auswahl"
+
+#: admin-application-form.php:16
+#: admin-jobs-settings.php:16
+msgid "File Upload"
+msgstr "Datei hochladen"
+
+#: admin-application-form.php:17
+#: admin-jobs-settings.php:17
+msgid "Heading"
+msgstr "Kopfzeile"
+
+#: admin-application-form.php:18
+#: admin-jobs-settings.php:18
+msgid "HTML Code"
+msgstr "HTML Code"
+
+#: admin-application-form.php:19
+#: admin-jobs-settings.php:19
+msgid "Blank Space"
+msgstr "Leerzeichen"
+
+#: admin-application-form.php:30
+#: admin-jobs-settings.php:30
+msgid "Job Manager: Application Setup"
+msgstr "Job Manager: Applikations-Setup"
+
+#: admin-application-form.php:34
+#: admin-jobs-settings.php:34
+msgid "Field Label/Type"
+msgstr "Kennsatztyp/Label"
+
+#: admin-application-form.php:35
+#: admin-applications.php:83
+#: admin-applications.php:203
+#: admin-applications.php:232
+#: admin-frontend-settings.php:169
+#: admin-jobs.php:55
+#: admin-jobs.php:199
+#: admin-settings.php:44
+#: admin-settings.php:55
+#: admin-settings.php:461
+#: widgets.php:133
+msgid "Categories"
+msgstr "Kategorien"
+
+#: admin-application-form.php:36
+#: admin-jobs-settings.php:35
+msgid "Data"
+msgstr "Daten"
+
+#: admin-application-form.php:37
+msgid "Submit Filter/Filter Error Message"
+msgstr "Filter festlegen/Filter Fehlerbenachrichtigung"
+
+#: admin-application-form.php:38
+#: admin-frontend-settings.php:103
+#: admin-jobs-settings.php:36
+msgid "Sort Order"
+msgstr "Sortierungs-Reihenfolge"
+
+#: admin-application-form.php:39
+#: admin-application-form.php:101
+#: admin-application-form.php:128
+#: admin-applications.php:474
+#: admin-jobs-settings.php:37
+#: admin-jobs-settings.php:67
+#: admin-jobs-settings.php:83
+#: admin-jobs.php:77
+#: admin-settings.php:111
+#: admin-settings.php:129
+#: admin-settings.php:140
+#: admin-settings.php:188
+#: admin-settings.php:205
+#: admin-settings.php:214
+msgid "Delete"
+msgstr "Löschen"
+
+#: admin-application-form.php:72
+#: admin-application-form.php:115
+msgid "Show this field in the Application List?"
+msgstr "Dieses Feld in der Anwendungsliste zeigen?"
+
+#: admin-application-form.php:96
+#: admin-application-form.php:124
+msgid "Mandatory field?"
+msgstr "Pflichtfeld?"
+
+#: admin-application-form.php:98
+msgid "error"
+msgstr "Fehler"
+
+#: admin-application-form.php:100
+#: admin-application-form.php:127
+#: admin-jobs-settings.php:66
+#: admin-jobs-settings.php:82
+msgid "Up"
+msgstr "Nach Oben"
+
+#: admin-application-form.php:100
+#: admin-application-form.php:127
+#: admin-jobs-settings.php:66
+#: admin-jobs-settings.php:82
+msgid "Down"
+msgstr "Nach Unten"
+
+#: admin-application-form.php:140
+#: admin-jobs-settings.php:90
+msgid "Add New Field"
+msgstr "Neues Feld hinzufügen"
+
+#: admin-application-form.php:144
+msgid "Update Application Form"
+msgstr "Anwendungsformular aktualisieren"
+
+#: admin-applications.php:36
+#: admin-applications.php:616
+msgid "Job Manager: Applications"
+msgstr "Job Manager: Anwendungen"
+
+#: admin-applications.php:39
+msgid "Selected applications have been deleted."
+msgstr "Die ausgewählten Anwendungen wurden gelöscht."
+
+#: admin-applications.php:41
+msgid "The mailout has been sent."
+msgstr "Informationen wurden gesendet."
+
+#: admin-applications.php:50
+msgid "Standard Filters"
+msgstr "Standard Filter"
+
+#: admin-applications.php:53
+#: admin-jobs.php:194
+msgid "Job ID"
+msgstr "Job-Kennung"
+
+#: admin-applications.php:60
+msgid "Registered Applicant"
+msgstr "Registrierter Bewerber"
+
+#: admin-applications.php:62
+msgid "All Applicants"
+msgstr "Alle Bewerber"
+
+#: admin-applications.php:106
+msgid "Minimum Rating"
+msgstr "Nachrichtenfilter (Minimum Rating)"
+
+#: admin-applications.php:116
+msgid "Custom Filters"
+msgstr "Standardfilter"
+
+#: admin-applications.php:170
+msgid "This field cannot be filtered."
+msgstr "Dieses Feld kann nicht gefiltert werden."
+
+#: admin-applications.php:180
+msgid "Filter Applications"
+msgstr "Filteranwendungen"
+
+#: admin-applications.php:184
+msgid "Show Filter Options"
+msgstr "Filteroptionen zeigen"
+
+#: admin-applications.php:185
+msgid "Hide Filter Options"
+msgstr "Filteroptionen verbergen"
+
+#: admin-applications.php:195
+#: admin-applications.php:224
+#: admin-applications.php:539
+#: frontend-application.php:576
+#: setup.php:68
+#: setup.php:219
+msgid "Job"
+msgstr "Job"
+
+#: admin-applications.php:199
+#: admin-applications.php:228
+msgid "User"
+msgstr "Benutzer"
+
+#: admin-applications.php:215
+#: admin-applications.php:244
+#: admin-applications.php:430
+msgid "View Details"
+msgstr "Details anzeigen"
+
+#: admin-applications.php:216
+#: admin-applications.php:245
+#: admin-emails.php:120
+msgid "Emails"
+msgstr "E-Mails"
+
+#: admin-applications.php:217
+#: admin-applications.php:246
+#: admin-applications.php:543
+msgid "Rating"
+msgstr "Bewertung"
+
+#: admin-applications.php:377
+msgid "No job"
+msgstr "Kein Job"
+
+#: admin-applications.php:384
+msgid "Unregistered Applicant"
+msgstr "Nicht registrierter Bewerber"
+
+#: admin-applications.php:419
+#: admin-applications.php:575
+#: admin-settings.php:383
+#: admin-settings.php:414
+msgid "Download"
+msgstr "Download"
+
+#: admin-applications.php:456
+msgid "There were no applications that matched your search."
+msgstr "Keine Bewerbungen vorhanden, die Ihrer Suche entsprechen."
+
+#: admin-applications.php:458
+msgid "There are currently no applications in the system."
+msgstr "Momentan sind keine Bewerbungen im System."
+
+#: admin-applications.php:472
+#: admin-jobs.php:76
+msgid "Bulk Actions"
+msgstr "Sammelbearbeitung"
+
+#: admin-applications.php:473
+#: admin-applications.php:594
+#: admin-settings.php:96
+#: admin-settings.php:109
+msgid "Email"
+msgstr "E-Mail"
+
+#: admin-applications.php:475
+msgid "Export as CSV file"
+msgstr "Als CSV-Datei exportieren"
+
+#: admin-applications.php:477
+#: admin-jobs.php:79
+msgid "Apply"
+msgstr "Anmelden"
+
+#: admin-applications.php:487
+msgid "No rating"
+msgstr "Keine Bewertung"
+
+#: admin-applications.php:519
+msgid "Job Manager: Application Details"
+msgstr "Job Manager: Anwendungsdetails"
+
+#: admin-applications.php:521
+#: admin-applications.php:597
+msgid "Back to Application List"
+msgstr "Zurück zur Anwendungsliste"
+
+#: admin-applications.php:541
+#: frontend-application.php:580
+msgid "Timestamp"
+msgstr "Zeitmarke"
+
+#: admin-applications.php:587
+msgid "Email Application"
+msgstr "E-Mail-Anwendung"
+
+#: admin-applications.php:588
+msgid "Use this form to email the application to a new email address."
+msgstr "Nutzen Sie dieses Formular, um die Anwendung an eine neue E-mail Adresse zu senden."
+
+#: admin-applications.php:601
+msgid "No such application."
+msgstr "Keine entsprechende Anwendung vorhanden."
+
+#: admin-applications.php:617
+msgid "This will permanently delete all of the selected applications. Please confirm that you want to continue."
+msgstr "Hiermit werden alle ausgewählten Anwendungen dauerhaft gelöscht. Bitte bestätigen Sie, dass Sie fortfahren möchten."
+
+#: admin-applications.php:618
+msgid "Delete Applications"
+msgstr "Anwendungen löschen"
+
+#: admin-emails.php:10
+msgid "Job Manager: Emails"
+msgstr "Job Manager: E-Mails"
+
+#: admin-emails.php:12
+msgid "In the \"Applications Sent To\" column, click the number to go to that application, or click the asterisk (*) next to it to see other emails sent to that application."
+msgstr "Klicken Sie unter unter der Rubrik \"Anwendungen Senden An\" auf die Nummer der gewünschten Anwendung oder auf das nebenstehende Sternchen (*), um andere E-mails zu sehen."
+
+#: admin-emails.php:17
+#: admin-emails.php:25
+msgid "Date"
+msgstr "Datum"
+
+#: admin-emails.php:18
+#: admin-emails.php:26
+#: admin-emails.php:96
+#: admin-emails.php:181
+#: admin-settings.php:329
+msgid "Subject"
+msgstr "Betreff"
+
+#: admin-emails.php:19
+#: admin-emails.php:27
+msgid "Applications Sent To"
+msgstr "Anwendungen: Senden An"
+
+#: admin-emails.php:68
+msgid "There are currently no emails in the system."
+msgstr "Momentan sind keine E-mails im System vorhanden."
+
+#: admin-emails.php:85
+msgid "No such email."
+msgstr "Keine entsprechende  E-Mail vorhanden."
+
+#: admin-emails.php:90
+msgid "Job Manager: Email"
+msgstr "Job Manager: E-Mail"
+
+#: admin-emails.php:92
+msgid "In the \"Applications\" field, click the number to go to that application, or click the asterisk (*) next to it to see other emails sent to that application."
+msgstr "Klicken Sie im \"Anwendungsfeld\" auf die Nummer der gewünschten Anwendung oder auf das nebenstehende Sternchen (*), um andere E-Mails zu sehen."
+
+#: admin-emails.php:112
+#: admin-jobs.php:57
+#: admin-settings.php:456
+msgid "Applications"
+msgstr "Anwendungen"
+
+#: admin-emails.php:128
+#: admin-emails.php:185
+msgid "Message"
+msgstr "Nachricht"
+
+#: admin-emails.php:163
+msgid "Job Manager: Application Email"
+msgstr "Job Manager: E-Mail-Anwendung"
+
+#: admin-emails.php:173
+msgid "From"
+msgstr "Von"
+
+#: admin-emails.php:177
+msgid "To"
+msgstr "An"
+
+#: admin-emails.php:190
+msgid "Send Email"
+msgstr "E-Mail senden"
+
+#: admin-frontend-settings.php:25
+msgid "Job Manager: Display Settings"
+msgstr "Job Manager: Anzeigeeinstellungen"
+
+#: admin-frontend-settings.php:34
+#: admin-frontend-settings.php:45
+#: admin.php:25
+msgid "Display Settings"
+msgstr "Anzeigeeinstellungen"
+
+#: admin-frontend-settings.php:34
+#: admin-frontend-settings.php:46
+msgid "Job List Sorting"
+msgstr "Anordung der Jobliste"
+
+#: admin-frontend-settings.php:34
+#: admin-frontend-settings.php:46
+msgid "Job Templates"
+msgstr "Job Entwürfe"
+
+#: admin-frontend-settings.php:34
+#: admin-frontend-settings.php:45
+msgid "Miscellaneous Text"
+msgstr "Sonstiger Text"
+
+#: admin-frontend-settings.php:34
+#: admin-frontend-settings.php:45
+msgid "Page Text"
+msgstr "Seitentext"
+
+#: admin-frontend-settings.php:35
+#: admin-settings.php:45
+msgid "Donate"
+msgstr "Spenden"
+
+#: admin-frontend-settings.php:35
+#: admin-settings.php:45
+msgid "About This Plugin"
+msgstr "Über dieses Plugin"
+
+#: admin-frontend-settings.php:62
+msgid "Job Manager Page Template"
+msgstr "Job Manager Seiten-Template"
+
+#: admin-frontend-settings.php:63
+msgid "You can edit the page template used by Job Manager, by editing the Template Attribute of <a href=\"%s\">this page</a>."
+msgstr "Sie können das Seiten-Template von Job Manager ändern, indem Sie die Template Eigenschaften <a href=\"%s\">dieser Seite</a> editieren."
+
+#: admin-frontend-settings.php:69
+msgid "Hide \"Powered By\" link?"
+msgstr "\"Powered By\" - Link verbergen?"
+
+#: admin-frontend-settings.php:71
+msgid "If you're unable to donate, I would appreciate it if you left this unchecked."
+msgstr "Falls Sie nicht spenden können, bitten wir Sie diese Funktion nicht zu nutzen."
+
+#: admin-frontend-settings.php:78
+msgid "Update Display Settings"
+msgstr "Anzeigeeinstellungen aktualisieren"
+
+#: admin-frontend-settings.php:93
+msgid "Sort By:"
+msgstr "Sortieren nach:"
+
+#: admin-frontend-settings.php:95
+#: admin-frontend-settings.php:105
+msgid "Default"
+msgstr "Voreinstellung (Default)"
+
+#: admin-frontend-settings.php:96
+msgid "Job Title"
+msgstr "Jobtitel"
+
+#: admin-frontend-settings.php:97
+msgid "Date Posted"
+msgstr "Erscheinungsdatum"
+
+#: admin-frontend-settings.php:98
+msgid "Closing Date"
+msgstr "Anzeigenschluss"
+
+#: admin-frontend-settings.php:100
+msgid "Select the criteria you'd like to have job lists sorted by."
+msgstr "Wählen Sie das Kriterium, nach dem die Reihenfolge der Anzeige erfolgen soll."
+
+#: admin-frontend-settings.php:106
+msgid "Ascending"
+msgstr "Aufsteigend"
+
+#: admin-frontend-settings.php:107
+msgid "Descending"
+msgstr "Absteigend"
+
+#: admin-frontend-settings.php:110
+msgid "Ascending: Lowest value to highest value, alphabetical or chronological order"
+msgstr "Aufsteigend: vom niedrigsten zum höchsten Wert, in alphabetischer oder chronologischer Reihenfolge."
+
+#: admin-frontend-settings.php:111
+msgid "Descending: Highest value to lowest value, reverse alphabetical or chronological order"
+msgstr "Absteigend: vom höchsten zum niedrigsten Wert, in umgekehrter alphabetischer oder chronologischer Reihenfolge."
+
+#: admin-frontend-settings.php:115
+msgid "Highlighted jobs behaviour"
+msgstr "Hervorgehobene Profilanforderungen des Jobs"
+
+#: admin-frontend-settings.php:117
+msgid "Sticky"
+msgstr "Sticky"
+
+#: admin-frontend-settings.php:118
+msgid "Inline"
+msgstr "Reihenfolge"
+
+#: admin-frontend-settings.php:121
+msgid "Sticky: Put highlighted jobs at the top of the jobs list."
+msgstr "Sticky: Hervorgehobene Jobs an den Anfang der Jobliste setzen."
+
+#: admin-frontend-settings.php:122
+msgid "Inline: Leave highlighted jobs in their normal place in the jobs list."
+msgstr "Reihenfolge: Hervorgehobene Jobs an ihrem normalen Platz in der Jobliste lassen."
+
+#: admin-frontend-settings.php:127
+msgid "Update Sort Settings"
+msgstr "Reihenfolge aktualisieren"
+
+#: admin-frontend-settings.php:180
+msgid "Job List Template"
+msgstr "Joblistenvorlage"
+
+#: admin-frontend-settings.php:184
+msgid "Individual Job Template"
+msgstr "Individuelle Joblistenvorlage"
+
+#: admin-frontend-settings.php:188
+msgid "Update Template Settings"
+msgstr "Einstellungen zum Aktualisieren der Vorlage"
+
+#: admin-frontend-settings.php:196
+msgid "These text options will be displayed in various places around your job listings."
+msgstr "Diese Textoptionen werden wiederholt im Rahmen der Jobauflistung angezeigt."
+
+#: admin-frontend-settings.php:204
+msgid "Job Title Prefix"
+msgstr "Jobtitel vorangestellt "
+
+#: admin-frontend-settings.php:205
+msgid "text"
+msgstr "Text"
+
+#: admin-frontend-settings.php:206
+msgid "This text is displayed before the Job Name in the page title."
+msgstr "Der Text wird vor dem Jobnamen im Seitentitel angezeigt. "
+
+#: admin-frontend-settings.php:209
+msgid "Application Acceptance"
+msgstr "Anwendung bestätigen "
+
+#: admin-frontend-settings.php:211
+msgid "This text is displayed after an application has been accepted. If it is not filled in, the default text will be used."
+msgstr "Text wird nach dem Bestätigen einer Anwendung angezeigt. Wird nichts eingetragen, erscheint der voreingestellte Text."
+
+#: admin-frontend-settings.php:214
+#: admin-frontend-settings.php:252
+msgid "Update Text Settings"
+msgstr "Texteinstellungen aktualisieren"
+
+#: admin-frontend-settings.php:222
+msgid "This text will be displayed before or after the lists/job/forms on the respective pages. You can enter HTML in these boxes."
+msgstr "Dieser Text erscheint vor oder nach Listen/Jobs/Formulare der betreffenden Seiten. Sie können in die Kästchen HTML-Befehle eingeben."
+
+#: admin-frontend-settings.php:231
+msgid "Before the Main Jobs List"
+msgstr "Vor der Hauptjobliste"
+
+#: admin-frontend-settings.php:231
+msgid "After the Main Jobs List"
+msgstr "Nach der Hauptjobliste"
+
+#: admin-frontend-settings.php:232
+msgid "Before any Category Jobs Lists"
+msgstr "Vor jeder Jobliste einer Kategorie"
+
+#: admin-frontend-settings.php:232
+msgid "After any Category Jobs Lists"
+msgstr "Nach jeder Jobliste einer Kategorie"
+
+#: admin-frontend-settings.php:233
+msgid "Before a Job"
+msgstr "Vor einem Job"
+
+#: admin-frontend-settings.php:233
+msgid "After a Job"
+msgstr "Nach einem Job"
+
+#: admin-frontend-settings.php:234
+msgid "Before the Application Form"
+msgstr "Vor dem Anwendungsformular"
+
+#: admin-frontend-settings.php:234
+msgid "After the Application Form"
+msgstr "Nach dem Anwendungsformular"
+
+#: admin-jobs-settings.php:94
+msgid "Update Jobs Form"
+msgstr "Jobformular aktualisieren"
+
+#: admin-jobs.php:26
+msgid "Job Manager: Jobs List"
+msgstr "Job Manager: Jobliste"
+
+#: admin-jobs.php:29
+msgid "New Job"
+msgstr "Neuer Job"
+
+#: admin-jobs.php:34
+msgid "There is no job associated with that Job ID"
+msgstr "Zu dieser Job-Kennung ist kein Job vorhanden "
+
+#: admin-jobs.php:37
+msgid "New job created"
+msgstr "Neuer Job erstellt"
+
+#: admin-jobs.php:40
+msgid "Job updated"
+msgstr "Job aktualisiert"
+
+#: admin-jobs.php:54
+#: admin-jobs.php:251
+#: admin-settings.php:94
+#: admin-settings.php:107
+#: admin-settings.php:174
+#: admin-settings.php:186
+#: frontend-application.php:102
+#: widgets.php:94
+#: widgets.php:237
+#: widgets.php:308
+msgid "Title"
+msgstr "Titel"
+
+#: admin-jobs.php:56
+msgid "Display Dates"
+msgstr "Anzeigedaten"
+
+#: admin-jobs.php:68
+msgid "There are currently no jobs in the system."
+msgstr "Momentan sind keine Jobs im System vorhanden."
+
+#: admin-jobs.php:121
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: admin-jobs.php:121
+msgid "View"
+msgstr "Anzeigen"
+
+#: admin-jobs.php:123
+msgid "End of Time"
+msgstr "Zeit abgelaufen"
+
+#: admin-jobs.php:124
+msgid "Live/Upcoming"
+msgstr "Aktuell/Kommend"
+
+#: admin-jobs.php:124
+msgid "Expired"
+msgstr "Abgelaufen"
+
+#: admin-jobs.php:150
+msgid "Job Manager: New Job"
+msgstr "Job Manager: Neuer Job"
+
+#: admin-jobs.php:151
+msgid "Create Job"
+msgstr "Job erstellen"
+
+#: admin-jobs.php:155
+msgid "Job Manager: Edit Job"
+msgstr "Job Manager: Job bearbeiten"
+
+#: admin-jobs.php:156
+msgid "Update Job"
+msgstr "Job aktualisieren"
+
+#: admin-jobs.php:221
+msgid "Categories that this job belongs to. It will be displayed in the job list for each category selected."
+msgstr "Katergorien zu denen dieser Job gehört, werden einzeln in der Jobliste angezeigt."
+
+#: admin-jobs.php:224
+#: admin-settings.php:173
+#: admin-settings.php:185
+msgid "Icon"
+msgstr "Icon"
+
+#: admin-jobs.php:246
+msgid "No Icon"
+msgstr "Kein Icon"
+
+#: admin-jobs.php:248
+msgid "Icon to display for this job in the Job List"
+msgstr "Icon das für diesen Job in der Jobliste angezeigt werden soll."
+
+#: admin-jobs.php:349
+msgid "Delete File?"
+msgstr "Datei löschen?"
+
+#: admin-jobs.php:376
+msgid "Display Start Date"
+msgstr "Anfangsdatum zeigen"
+
+#: admin-jobs.php:378
+msgid "The date this job should start being displayed on the site. To start displaying immediately, leave blank."
+msgstr "Anfangsdatum dieses Jobs wird auf der Seite angezeigt. Für sofortige Anzeige bitte frei lassen."
+
+#: admin-jobs.php:381
+msgid "Display End Date"
+msgstr "Abschlussdatum anzeigen"
+
+#: admin-jobs.php:383
+msgid "The date this job should stop being displayed on the site. To display indefinitely, leave blank."
+msgstr "Abschlussdatum des Jobs wird auf dieser Seite angezeigt. Falls unbestimmt, bitte frei lassen."
+
+#: admin-jobs.php:386
+msgid "Application Email"
+msgstr "E-Mail-Anwendung"
+
+#: admin-jobs.php:388
+msgid "The email address to notify when an application is submitted for this job. For default behaviour (category email or global email), leave blank."
+msgstr "E-Mail-Adresse, die benachricht wird, wenn für den Job eine Bewerbung eingeht. Für Standard (Kategorie E-Mail oder globale E-Mail) bitte frei lassen."
+
+#: admin-jobs.php:396
+msgid "Highlighted?"
+msgstr "Hervorgehoben?"
+
+#: admin-jobs.php:398
+msgid "Mark this job as highlighted? For the behaviour of highlighted jobs, see the Display Settings admin page."
+msgstr "Diesen Job hervorheben? Für weitere Informationen zu hervorgehobenen Jobs sehen Sie auf der \"Display Settings admin page\" nach."
+
+#: admin-jobs.php:549
+msgid "Job Manager: Jobs"
+msgstr "Job Manager: Jobs"
+
+#: admin-jobs.php:550
+msgid "This will permanently delete all of the selected jobs. Please confirm that you want to continue."
+msgstr "Hiermit löschen Sie alle ausgewählten Jobs. Bitte bestätigen Sie, dass Sie fortfahren möchten."
+
+#: admin-jobs.php:551
+msgid "Delete Jobs"
+msgstr "Jobs löschen"
+
+#: admin-settings.php:35
+msgid "Job Manager: Admin Settings"
+msgstr "Job Manager: Administratoreinstellungen"
+
+#: admin-settings.php:44
+#: admin-settings.php:55
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: admin-settings.php:44
+#: admin-settings.php:56
+msgid "Icons"
+msgstr "Icons"
+
+#: admin-settings.php:44
+#: admin-settings.php:56
+msgid "User Settings"
+msgstr "Benutzereinstellungen"
+
+#: admin-settings.php:44
+#: admin-settings.php:56
+msgid "Application Email Settings"
+msgstr "Einstellung zur E-Mail-Anwendung"
+
+#: admin-settings.php:44
+#: admin-settings.php:55
+msgid "Other Plugins"
+msgstr "Andere Plugins"
+
+#: admin-settings.php:44
+#: admin-settings.php:55
+msgid "Uninstall Settings"
+msgstr "Einstellungen deinstallieren"
+
+#: admin-settings.php:72
+msgid "URL path"
+msgstr "URL Pfad"
+
+#: admin-settings.php:75
+msgid "edit"
+msgstr "Bearbeiten"
+
+#: admin-settings.php:79
+msgid "Default email"
+msgstr "E-Mail Voreinstellungen (Default)"
+
+#: admin-settings.php:84
+msgid "Update Settings"
+msgstr "Einstellungen aktualisieren"
+
+#: admin-settings.php:92
+msgid "Similar to the normal WordPress Categories, Job Manager categories can be used to split jobs into different groups. They can also be used to customise how the Application Form appears for jobs in different categories."
+msgstr "Ähnlich wie andere WordPress-Kategorien, können auch Job Manager-Kategorien Jobs in verschiedene Gruppe unterteilen. Sie können auch dazu verwendet werden, die Formularanzeige benutzerdefiniert an verschiedene Kategorien anzupassen."
+
+#: admin-settings.php:94
+msgid "The display name of the category"
+msgstr "Angezeigter Name der Kategorie"
+
+#: admin-settings.php:95
+#: admin-settings.php:108
+msgid "Slug"
+msgstr "Slug"
+
+#: admin-settings.php:95
+msgid "The URL of the category"
+msgstr "URL der Kategorie"
+
+#: admin-settings.php:96
+msgid "The address to notify when new applications are submitted in this category"
+msgstr "Adresse zum Erkennen neuer Anwendungen in dieser Kategorie"
+
+#: admin-settings.php:97
+#: admin-settings.php:110
+#: admin-settings.php:128
+msgid "Link"
+msgstr "Link"
+
+#: admin-settings.php:97
+msgid "The URL of the list of jobs in this category"
+msgstr "URL der in dieser Kategorie angezeigten Jobs"
+
+#: admin-settings.php:147
+msgid "Add New Category"
+msgstr "Neue Kategorie hinzufügen"
+
+#: admin-settings.php:153
+msgid "Show related categories?"
+msgstr "Ähnliche Kategorien anzeigen?"
+
+#: admin-settings.php:155
+msgid "This will show a list of categories that any jobs in a given job list belong to."
+msgstr "Zeigt die Kategorien, zu denen die Jobs einer Jobliste gehören."
+
+#: admin-settings.php:158
+msgid "Update Categories"
+msgstr "Kategorien aktualisieren"
+
+#: admin-settings.php:171
+msgid "Icons can be assigned to jobs that you want to draw attention to. These icons will only be displayed when using the \"Summary\" jobs list type."
+msgstr "Jobs, auf die aufmerksam gemacht werden soll, können mit Icons versehen werden. Diese Icons erscheinen nur, wenn die Jobliste des Typs \"Summary\" benutzt wird."
+
+#: admin-settings.php:173
+msgid "The current icon"
+msgstr "Aktuelles Icon"
+
+#: admin-settings.php:174
+msgid "The display name of the icon"
+msgstr "Anzeige des Icon-Namens"
+
+#: admin-settings.php:175
+#: admin-settings.php:187
+msgid "File"
+msgstr "Datei"
+
+#: admin-settings.php:175
+msgid "The icon file"
+msgstr "Icon-Datei"
+
+#: admin-settings.php:221
+msgid "Add New Icon"
+msgstr "Neues Icon hinzufügen"
+
+#: admin-settings.php:224
+msgid "Update Icons"
+msgstr "Icons aktualisieren"
+
+#: admin-settings.php:237
+msgid "Allowing users to register means that they and you can more easily keep track of jobs they've applied for."
+msgstr "Erlauben Sie Benutzern sich zu registrieren, können diese und Sie bestimmte Jobs leichter verfolgen."
+
+#: admin-settings.php:245
+msgid "Enable User Registration"
+msgstr "Benutzerregistrierung ermöglichen"
+
+#: admin-settings.php:247
+msgid "This will allow users to register for the Jobs system, even if user registration is disabled for your blog."
+msgstr "Benutzer können sich im Jobsystem registrieren, auch wenn dies für Ihren Blog nicht möglich ist."
+
+#: admin-settings.php:250
+msgid "Require User Registration"
+msgstr "Benutzeregistrierung verlangen"
+
+#: admin-settings.php:252
+msgid "If the previous option is checked, this option will require users to login before they can complete the application form."
+msgstr "Wenn die vorherige Option aktiviert ist, müssen sich Benutzer einloggen, bevor sie das Bewerbungsformular ausfüllen können. "
+
+#: admin-settings.php:255
+msgid "Which pages should the login form be displayed on?"
+msgstr "Auf welchen Seiten soll die Loginfunktion angezeigt werden?"
+
+#: admin-settings.php:257
+msgid "The main jobs list"
+msgstr "Hauptjobliste"
+
+#: admin-settings.php:258
+msgid "Category jobs lists"
+msgstr "Joblisten der Kategorien"
+
+#: admin-settings.php:259
+msgid "Individual jobs"
+msgstr "Individuelle Jobs"
+
+#: admin-settings.php:260
+msgid "The application form"
+msgstr "Bewerbungsformular"
+
+#: admin-settings.php:264
+msgid "Update User Settings"
+msgstr "Aktualisierung der Benutzereinstellungen"
+
+#: admin-settings.php:274
+msgid "When an applicant successfully submits an application, an email will be sent to the appropriate user. These options allow you to customise that email."
+msgstr "Wurde eine Bewerbung erfolgreich versendet, erhält der Benutzer eine E-Mail. Diese Option erlaubt eine Anpassung der E-Mail."
+
+#: admin-settings.php:282
+#: frontend-user.php:102
+msgid "Email Address"
+msgstr "E-Mail Adresse"
+
+#: admin-settings.php:284
+#: admin-settings.php:308
+#: admin-settings.php:333
+msgid "None"
+msgstr "Keine"
+
+#: admin-settings.php:302
+msgid "The application field to use as the email address. This will be the \"From\" address in the initial application, and the field used for emailing applicants."
+msgstr "Dieses Anwenungdfeld kann als E-Mail-Adresse verwendet werden. Es ist die Absenderadresse für die erste Anwendung und wird für weitere E-Mail-Anwendungen genutzt."
+
+#: admin-settings.php:305
+msgid "From Name"
+msgstr "Von Name"
+
+#: admin-settings.php:327
+msgid "The name that will appear with the \"From\" email address."
+msgstr "Name, der mit der \"Von\" E-Mail Adresse erscheint "
+
+#: admin-settings.php:352
+msgid "The email subject, and any fields to include in the subject."
+msgstr "Betreff und alle eingeschlossen Felder."
+
+#: admin-settings.php:356
+msgid "Update Email Settings"
+msgstr "E-Mail-Einstellungen aktualisieren"
+
+#: admin-settings.php:364
+msgid "Job Manager provides extra functionality through the use of other plugins available for WordPress. These plugins are not required for Job Manager to function, but do provide enhancements."
+msgstr "Job Manager ermöglicht zusätzliche Funktionen, wenn sie weitere Plugins für WordPress nutzen. Diese Plugins erfordern nicht, dass Job Manager funktioniert, stellen aber dennoch eine Verbesserung dar."
+
+#: admin-settings.php:372
+#: admin-settings.php:403
+#: admin-settings.php:408
+msgid "Installed"
+msgstr "Installiert"
+
+#: admin-settings.php:377
+msgid "Not Installed"
+msgstr "Nicht installiert"
+
+#: admin-settings.php:380
+msgid "Google XML Sitemaps"
+msgstr "Google XML Sitemaps"
+
+#: admin-settings.php:381
+msgid "Allows you to automatically add all your job listing and job detail pages to your sitemap. By default, only the main job list is added."
+msgstr "Erlaubt Ihnen alle Jobauflistungen und Seiten für Jobdetails automatisch zu ihrer Sitemap hinzuzufügen. Standardmäßig wird nur die Hauptjobliste zugefügt."
+
+#: admin-settings.php:384
+#: admin-settings.php:415
+msgid "Status"
+msgstr "Status"
+
+#: admin-settings.php:385
+msgid "Version"
+msgstr "Version"
+
+#: admin-settings.php:386
+msgid "Job Manager requires Google XML Sitemaps version 3.2 or later."
+msgstr "Job Manager benötigt Google XML Sitemaps Version 3.2 oder höher."
+
+#: admin-settings.php:391
+#: admin-settings.php:420
+#: admin-settings.php:446
+msgid "Options"
+msgstr "Optionen"
+
+#: admin-settings.php:394
+msgid "Add Job pages to your Sitemap?"
+msgstr "Jobseiten zur Sitemap hinzufügen?"
+
+#: admin-settings.php:411
+msgid "SI Captcha"
+msgstr "SI Captcha"
+
+#: admin-settings.php:412
+msgid "Allows you to add a Captcha to your Application submission form."
+msgstr "Erlaubt Ihnen ein Captcha zum Anmeldeformular hinzu zufügen."
+
+#: admin-settings.php:423
+msgid "Add a captcha to the application form?"
+msgstr "Dem Anmeldeformular ein Captcha hinzufügen?"
+
+#: admin-settings.php:430
+msgid "Update Plugin Settings"
+msgstr "Einstellungen für Plugins aktualisieren"
+
+#: admin-settings.php:438
+msgid "If you ever choose to uninstall Job Manager, you can select what parts should be deleted from the database."
+msgstr "Falls Sie Job Manager deinstallieren, können sie die Komponenten auswählen, die aus der Datenbank gelöscht werden sollen."
+
+#: admin-settings.php:448
+msgid "The options selected on the Admin Settings and Display Settings pages. This includes any icons uploaded."
+msgstr "Ausgewählte Optionen auf den Seiten der Administratoreinstellunegn und Anzeigeistellungen. Dies schließt alle hochgeladenen Icons mit ein."
+
+#: admin-settings.php:451
+msgid "Jobs"
+msgstr "Jobs"
+
+#: admin-settings.php:453
+msgid "Jobs that have been created."
+msgstr "Erstellte Jobs."
+
+#: admin-settings.php:458
+msgid "Applications that have been submitted. This includes any files uploaded (resumes, etc)."
+msgstr "Anwendungen, die verwendet wurden. Eingeschlossen aller hochgeladenen Dateien (Lebenslauf, etc.)"
+
+#: admin-settings.php:463
+msgid "Job Manager Categories that have been created."
+msgstr "Job Manager: erstellte Kategorien."
+
+#: admin-settings.php:466
+msgid "Update Uninstall Settings"
+msgstr "Einstellungen zur Deinstallierung aktualisieren"
+
+#: admin.php:23
+#: admin.php:24
+#: admin.php:25
+#: admin.php:26
+#: admin.php:27
+#: admin.php:28
+#: admin.php:29
+#: admin.php:30
+#: admin.php:31
+msgid "Job Manager"
+msgstr "Job Manager"
+
+#: admin.php:24
+msgid "Admin Settings"
+msgstr "Administratoreinstellungen"
+
+#: admin.php:26
+msgid "App. Form Settings"
+msgstr "Einstellungen des Bewerbungsformulars"
+
+#: admin.php:27
+msgid "Job Form Settings"
+msgstr "Einstellungen des Jobformulars"
+
+#: admin.php:28
+msgid "Add Job"
+msgstr "Job hinzufügen"
+
+#: admin.php:29
+msgid "List Jobs"
+msgstr "Jobs aufführen"
+
+#: admin.php:30
+msgid "List Applications"
+msgstr "Anwendung zum Aufführen"
+
+#: admin.php:31
+msgid "List Emails"
+msgstr "E-Mails aufführen"
+
+#: admin.php:43
+#: admin.php:124
+msgid "My Amazon Wish List"
+msgstr "Meine Wunschliste bei Amazon"
+
+#: admin.php:44
+#: admin.php:125
+msgid "Donate with PayPal"
+msgstr "Mit PayPal spenden"
+
+#: admin.php:122
+msgid "If this plugin helps you find that perfect new employee, I'd appreciate it if you shared the love, by way of my Donate or Amazon Wish List links below."
+msgstr "Falls sie mit Hilfe dieses Plugins den idealen Mitarbeiter gefunden haben, danken wir Ihnen für die Beachung des Spendenlinks oder der Amazon Wunschliste."
+
+#: admin.php:133
+msgid "Gary Pendergast's Blog"
+msgstr "Gary Pendergast's Blog"
+
+#: admin.php:134
+msgid "Follow me on Twitter!"
+msgstr "Folge mir auf Twitter"
+
+#: admin.php:135
+msgid "Plugin Homepage"
+msgstr "Plugin Homepage"
+
+#: admin.php:136
+msgid "Submit a Bug/Feature Request"
+msgstr "Fehler melden/ Feature Anfrage"
+
+#: db.php:223
+#: db.php:672
+msgid "The date that the job starts. For positions available immediately, leave blank."
+msgstr "Anfangsdatum des Jobs. Freilassen bei zeitlich unbestimmten Positionen oder Positionen, die sofort frei sind."
+
+#: db.php:231
+#: db.php:680
+msgid "The date that the job finishes. For ongoing positions, leave blank."
+msgstr "Enddatum des Jobs. Falls unbestimmt, bitte frei lassen."
+
+#: db.php:258
+#: db.php:332
+#: frontend-jobs.php:17
+msgid "Jobs Listing"
+msgstr "Jobs auflisten"
+
+#: db.php:259
+#: db.php:333
+msgid "Hi! This page is used by your Job Manager plugin as a base. Feel free to change settings here, but please do not delete this page. Also note that any content you enter here will not show up when this page is displayed on your site."
+msgstr "Hallo. Diese Seite wird von Ihrem Job Manager als Basis genutzt. Ändern Sie die Einstellungen, aber bitte löschen Sie die Seite nicht. Beachten Sie auch, dass der eingegebene Inhalt nicht erscheint, wenn Sie Ihre Seite aufrufen."
+
+#: db.php:274
+#: db.php:545
+#: frontend-application.php:44
+#: frontend-application.php:74
+#: frontend-application.php:86
+#: frontend.php:285
+msgid "Job Application"
+msgstr "Job Bewerbung"
+
+#: db.php:288
+#: db.php:605
+#: frontend-user.php:32
+#: frontend-user.php:107
+msgid "Register"
+msgstr "Registrieren"
+
+#: db.php:487
+#: frontend-application.php:274
+msgid "Application"
+msgstr "Bewerbung"
+
+#: frontend-application.php:39
+msgid "Thank you for your application. While your application doesn't fit our current requirements, please contact us directly to see if we have other positions available."
+msgstr "Vielen Dank für Ihre Bewerbung. Leider entspricht sie nicht unseren momentanen Anforderungen. Bitte setzen Sie sich direkt mit uns in Verbindung und informieren Sie sich über andere offenen Stellen."
+
+#: frontend-application.php:56
+msgid "Before completing your application, please login using the form above, or register using the form below."
+msgstr "Bevor Sie Ihre Bewerbung abschließen, loggen Sie sich bitte ein oder nutzen Sie das untere Formular zur Registrierung."
+
+#: frontend-application.php:108
+msgid "Fields marked with an asterisk (*) must be filled out before submitting."
+msgstr "Mit * markierte Felder müssen ausgefüllt werden. "
+
+#: frontend-application.php:237
+msgid "Submit Your Application"
+msgstr "Bewerbung abschicken"
+
+#: frontend-application.php:572
+msgid "Application Link"
+msgstr "Bewerbungslink"
+
+#: frontend-jobs.php:82
+#: frontend-shortcodes.php:94
+msgid "Jobs for %s"
+msgstr "Jobs für %s"
+
+#: frontend-jobs.php:85
+msgid "Related Categories"
+msgstr "Ähnliche Kategorien"
+
+#: frontend-jobs.php:113
+msgid "We currently don't have any jobs available. Please check back regularly, as we frequently post new jobs. In the meantime, you can also <a href='%s'>send through your rsum</a>, which we'll keep on file."
+msgstr "Momentan haben wir keine offenen Stellen. Bitte rufen Sie die Seite später wieder auf, da wir regelmäßig offenen Stellen anführen. In der Zwischenzeit können <a href='%s'> Sie uns gerne Ihren Lebenslauf zusenden.</a>"
+
+#: frontend-jobs.php:127
+msgid "We currently don't have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href='%s'>send through your rsum</a>, which we'll keep on file, and you can check out the <a href='%s'>jobs we have available in other areas</a>."
+msgstr "Momentan haben wir in diesem Bereich keine offenen Stellen zu besetzen. Bitte rufen Sie diese Seite aber regelmäßig auf, da wir ständig neue Stellen anbieten. In der Zwischenzeit können Sie uns gerne <a\"href='%s'> Ihren Lebenslauf zusenden </a> oder nach Stellenangeboten <a href='%s'> in anderen Bereichen suchen </a>. "
+
