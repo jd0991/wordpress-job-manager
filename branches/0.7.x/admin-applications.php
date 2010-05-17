@@ -416,7 +416,7 @@ function jobman_list_applications() {
 				$parentstr = array();
 				foreach( $parents as $parent ) {
 					$data = get_post( $parent );
-					$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->post_title</a>";
+					$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->ID - $data->post_title</a>";
 				}
 				
 				$jobstr = implode( ', ', $parentstr );

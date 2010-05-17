@@ -119,6 +119,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 == Changelog ==
 
 = 0.7.5 =
+* CHANGED: Application list now shows Job ID with Job Title
 * FIXED: JS bug in application form check
 
 = 0.7.4 =
