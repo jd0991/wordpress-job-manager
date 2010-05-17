@@ -11,7 +11,7 @@ function jobman_apply_filter() {
 	
 	if( empty.length > 0 ) {
 		var error = jobman_strings['apply_submit_mandatory_warning'] + ":\n";
-		for( ii = 0; empty.length; ii++ ) {
+		for( ii = 0; ii < empty.length; ii++ ) {
 			error += empty[ii] + "\n";
 		}
 		alert( error );
