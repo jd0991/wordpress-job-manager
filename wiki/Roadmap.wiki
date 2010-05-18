@@ -64,7 +64,7 @@ Stable: Early August 2010
   * Allow Hierarchical Categories: Issue #112
   * Attach uploads to Application emails: Issue #123
   * Improve New Job Interface: Issue #178
-
+  * Support Private/Password Posts for Jobs: Issue #180
 ----
 
 = 1.0 =
