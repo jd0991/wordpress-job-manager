@@ -55,7 +55,7 @@ function jobman_display_jobs_list( $cat ) {
 		$args['posts_per_page'] = $options['jobs_per_page'];
 
 		if( array_key_exists( 'page', $wp_query->query_vars ) && $wp_query->query_vars['page'] > 1 )
-			$args['offset'] = $wp_query->query_vars['page'] - 1;
+			$args['offset'] = ( $wp_query->query_vars['page'] - 1 ) * $options['jobs_per_page'];
 	}
 	else {
 		$args['numberposts'] = -1;

@@ -21,6 +21,7 @@ require_once( JOBMAN_DIR . '/admin-comments.php' );
 
 function jobman_admin_setup() {
 	$options = get_option( 'jobman_options' );
+
 	// Setup the admin menu item
 	$pages = array();
 	add_menu_page( __( 'Job Manager', 'jobman' ), __( 'Job Manager', 'jobman' ), 'publish_posts', 'jobman-conf', 'jobman_conf' );

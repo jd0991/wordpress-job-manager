@@ -118,6 +118,13 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7.6 =
+* CHANGED: Pages are now owned by the installing user, rather than superadmin
+* FIXED: Frontend JS being loaded in wp-admin
+* FIXED: Wrong offset for jobs list when limiting number of jobs per page
+* FIXED: Wrong job count for last page of jobs
+* FIXED: Single job not being selected in job dropdown on application form
+
 = 0.7.5 =
 * CHANGED: Application list now shows Job ID with Job Title
 * FIXED: JS bug in application form check

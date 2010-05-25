@@ -295,7 +295,7 @@ function jobman_shortcode( $atts, $content, $tag ) {
 			else
 				$page = 1;
 
-			return $page * $options['jobs_per_page'];
+			return ( $page - 1 ) * $options['jobs_per_page'] + count( $jobman_shortcode_jobs );
 		case 'job_page_current_number':
 			if( array_key_exists( 'page', $wp_query->query_vars ) )
 				$page = $wp_query->query_vars['page'];
