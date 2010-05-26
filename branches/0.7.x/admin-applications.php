@@ -679,7 +679,9 @@ function jobman_application_display_details( $appid ) {
 						echo $item;
 						break;
 					case 'file':
-						echo "<a href='" . wp_get_attachment_url( $item ) . "'>" . __( 'Download', 'jobman' ) . "</a>";
+						$fileurl = wp_get_attachment_url( $item );
+						if( ! empty( $fileurl ) )
+							echo "<a href='$fileurl'>" . __( 'Download', 'jobman' ) . "</a>";
 						break;
 					case 'geoloc':
 						echo '<a href="http://maps.google.com/maps?q=' . urlencode( $item ) . '">' . $appdata['data-display'.$fid] . ' (' . $item . ')</a>';

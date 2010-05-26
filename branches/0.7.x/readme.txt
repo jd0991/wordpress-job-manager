@@ -126,6 +126,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Single job not being selected in job dropdown on application form
 * FIXED: Applications not working if wp-admin is moved
 * FIXED: `<title>` having incorrect information
+* FIXED: File download link in job details displaying when no file was uploaded
 
 = 0.7.5 =
 * CHANGED: Application list now shows Job ID with Job Title
