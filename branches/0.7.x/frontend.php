@@ -361,40 +361,6 @@ function jobman_display_template() {
 	}
 }
 
-function jobman_display_title( $title, $sep, $seploc ) {
-	global $jobman_displaying, $wp_query;
-
-	if( ! $jobman_displaying )
-		return $title;
-
-	$post = $wp_query->post;
-	
-	switch( $post->post_type ) {
-		case 'jobman_job':
-			$newtitle = $post->post_title;
-			break;
-		case 'jobman_app_form':
-			$newtitle = __( 'Job Application', 'jobman' );
-			break;
-		case 'jobman_joblist':
-			$newtitle = __( 'Job Listing', 'jobman' ) . ': ' . $post->post_title;
-			break;
-		default:
-			$newtitle = __( 'Job Listing', 'jobman' );
-			break;
-	}
-	
-	if( '' == $newtitle )
-		return $title;
-
-	if( 'right' == $seploc )
-		$title = "$newtitle $sep ";
-	else
-		$title = " $sep $newtitle";
-	
-	return $title;
-}
-
 function jobman_display_head() {
 	global $jobman_displaying, $jobman_geoloc;
 	

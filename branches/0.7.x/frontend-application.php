@@ -481,6 +481,9 @@ function jobman_store_application( $jobid, $cat ) {
 
 	$dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
+	if( ! file_exists( "$dir/wp-admin/includes/file.php" ) )
+		$dir = WP_CONTENT_DIR . '/..';
+	
 	require_once( "$dir/wp-admin/includes/file.php" );
 	require_once( "$dir/wp-admin/includes/image.php" );
 	require_once( "$dir/wp-admin/includes/media.php" );

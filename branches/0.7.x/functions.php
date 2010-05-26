@@ -94,7 +94,7 @@ function jobman_page_taxonomy_setup() {
 	
 	$root = get_page( $options['main_page'] );
 	$url = get_page_uri( $root->ID );
-
+	
 	register_taxonomy( 'jobman_category', array( 'jobman_job', 'jobman_app' ), array( 'hierarchical' => false, 'label' => __( 'Category', 'series' ), 'query_var' => 'jcat', 'rewrite' => array( 'slug' => $url ) ) );
 }
 

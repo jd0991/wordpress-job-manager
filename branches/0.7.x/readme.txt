@@ -124,6 +124,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Wrong offset for jobs list when limiting number of jobs per page
 * FIXED: Wrong job count for last page of jobs
 * FIXED: Single job not being selected in job dropdown on application form
+* FIXED: Applications not working if wp-admin is moved
+* FIXED: `<title>` having incorrect information
 
 = 0.7.5 =
 * CHANGED: Application list now shows Job ID with Job Title
