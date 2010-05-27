@@ -104,7 +104,7 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
 * Dutch Translation (0.7.x, 95% complete), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
-* French Translation (0.7.x, 90% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
+* French Translation (0.7.x), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
 * German Translation (0.6.x), provided by [tolingo translations](http://www.tolingo.com/)
 * Spanish Translation (0.7.x), provided by [TradiArt](http://www.tradiart.com)
 
@@ -117,6 +117,9 @@ Notice the version number in brackets. This is the version series that the trans
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
+
+= 0.7.7 =
+* UPDATED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)
 
 = 0.7.6 =
 * CHANGED: Pages are now owned by the installing user, rather than superadmin
