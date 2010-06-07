@@ -23,6 +23,7 @@ Stable: Early July 2010
   * Email Formatting and Templates: Issue #155
   * Attach Uploads to Emails: Issue #153
   * Editable Application page `<title>`: Issue #168
+  * Email Applicants on Submission: Issue #186
 
 == Changes to Existing Features ==
 
