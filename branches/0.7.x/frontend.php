@@ -149,8 +149,8 @@ function jobman_display_jobs( $posts ) {
 
 	// Hack to kill WPML on Job Manager pages. Need to add proper support later.
 	if( defined( 'ICL_SITEPRESS_VERSION' ) && ! empty( $sitepress ) ) {
-		remove_filter('posts_join', array($sitepress,'posts_join_filter'));
-		remove_filter('posts_where', array($sitepress,'posts_where_filter'));
+		remove_filter( 'posts_join', array( $sitepress, 'posts_join_filter' ) );
+		remove_filter( 'posts_where', array( $sitepress, 'posts_where_filter' ) );
 	}
 	
 	if( NULL != $post ) {

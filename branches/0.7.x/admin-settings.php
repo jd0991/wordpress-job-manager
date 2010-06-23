@@ -186,7 +186,7 @@ function jobman_print_categories_box() {
 	$template .= '<td><input class="regular-text code" type="text" name="slug[]" /></td>';
 	$template .= '<td><input class="regular-text code" type="text" name="email[]" /></td>';
 	$template .= '<td>&nbsp;</td>';
-	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-category-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td>';
+	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-category-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td></tr>';
 	
 	$display_template = str_replace( "\\'", "'", $template );
 	
@@ -262,7 +262,7 @@ function jobman_print_icons_box() {
 	$template = '<tr><td><input type="hidden" name="id[]" value="-1" /></td>';
 	$template .= '<td><input class="regular-text code" type="text" name="title[]" /></td>';
 	$template .= '<td><input class="regular-text code" type="file" name="icon[]" /></td>';
-	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-icon-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td>';
+	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-icon-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td></tr>';
 	
 	echo $template;
 ?>

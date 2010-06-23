@@ -145,7 +145,7 @@ function jobman_application_mailout() {
 	$emails = array();
 	$appids = array();
 	foreach( $apps as $app ) {
-		$email = get_post_meta( $app, "data$fromid", true );
+		$email = get_post_meta( $app->ID, "data$fromid", true );
 		if( empty( $email ) )
 			// No email for this application
 			continue;
