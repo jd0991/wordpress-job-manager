@@ -123,6 +123,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Danish translation, provided by [Caspar Lange](http://www.lithin.com/)
 * FIXED: Some bad HTML in admin area
 * FIXED: Application Email not working
+* FIXED: Application count in admin job list limited to 5
 
 = 0.7.7 =
 * UPDATED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)

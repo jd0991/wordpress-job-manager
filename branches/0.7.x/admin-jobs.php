@@ -157,7 +157,7 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 			if( strtotime( $job->post_date ) > time() )
 				$future = true;
 			
-			$children = get_posts( "post_type=jobman_app&meta_key=job&meta_value=$job->ID&post_status=publish,private" );
+			$children = get_posts( "post_type=jobman_app&meta_key=job&meta_value=$job->ID&post_status=publish,private&numberposts=-1" );
 			if( count( $children ) > 0 )
 				$applications = '<a href="' . admin_url( "admin.php?page=jobman-list-applications&amp;jobman-jobid=$job->ID" ) . '">' . count( $children ) . '</a>';
 			else
