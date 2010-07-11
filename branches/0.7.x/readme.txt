@@ -81,9 +81,13 @@ For a full description of how to use the application form customization features
 
 Apache's `mod_mime_magic` doesn't recognise docx file type properly, and older versions of Apache don't have docx in their mime.types file. You should update your copy of Apache to something more recent, or (if you're unable to update or turn off `mod_mime_magic`) create a .htaccess file as [described here](http://www.webdeveloper.com/forum/showpost.php?p=898935&postcount=2).
 
-= I can't upload DOC files in WordPress MU =
+= I can't upload DOC files in WordPress MultiSite =
 
-In your WordPress MU admin, go to Site Admin->Options. Update the "Upload File Types" option to include the various extensions (doc, docx, pdf, odt) that people are likely to upload their resume with.
+In your WordPress MultiSite admin, go to Site Admin->Options. Update the "Upload File Types" option to include the various extensions (doc, docx, pdf, odt) that people are likely to upload their resume with.
+
+= When I create a new site in WordPress MultiSite, Job Manager doesn't work on the new site =
+
+This is a known problem with WordPress not activating plugins correctly when a new site is created. Please install the [Proper Network Activation plugin](http://wordpress.org/extend/plugins/proper-network-activation/) as a workaround.
 
 == Other Plugin Support ==
 
@@ -124,6 +128,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Some bad HTML in admin area
 * FIXED: Application Email not working
 * FIXED: Application count in admin job list limited to 5
+* FIXED: Incompatibility with Proper Network Activation plugin
 
 = 0.7.7 =
 * UPDATED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)
