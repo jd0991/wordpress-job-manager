@@ -107,7 +107,7 @@ function jobman_print_settings_box() {
 				<th scope="row"><?php _e( 'URL path', 'jobman' ) ?></th>
 				<td colspan="2">
 					<a href="<?php echo get_page_link( $options['main_page'] ) ?>"><?php echo get_page_link( $options['main_page'] ) ?></a> 
-					(<a href="<?php echo admin_url("page.php?action=edit&post={$options['main_page']}" ) ?>"><?php _e( 'edit', 'jobman' ) ?></a>)
+					(<a href="<?php echo get_edit_post_link( $options['main_page'] ) ?>"><?php _e( 'edit', 'jobman' ) ?></a>)
 				</td>
 			</tr>
 			<tr>

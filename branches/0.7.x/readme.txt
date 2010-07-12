@@ -133,6 +133,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Category links not working in one case
 * FIXED: Restricted height of category lists in admin, for really long lists
 * FIXED: Flushing rewrite rules is expensive, only do it when we must
+* FIXED: Bad main page edit link
 
 = 0.7.7 =
 * UPDATED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)
