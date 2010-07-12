@@ -123,6 +123,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7.10 =
+* FIXED: Silly bug in activation
+
 = 0.7.9 = 
 * FIXED: Some activations could fail with the new rewrite rules code
 * FIXED: Dutch translation also provided by [Christian Olesen](http://www.lithin.com/)

@@ -53,7 +53,7 @@ function jobman_create_default_settings() {
 					'loginform_job' => 1,
 					'loginform_apply' => 1,
 					'related_categories' => 1,
-					'rewrite_rules' = array(),
+					'rewrite_rules' => array(),
 					'sort_by' => '',
 					'sort_order' => '',
 					'highlighted_behaviour' => 'sticky',
