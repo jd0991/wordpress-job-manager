@@ -375,7 +375,7 @@ EOT;
 		update_option( 'jobman_options', $options );
 	}
 
-	if( $oldversion < 18 ) {
+	if( $oldversion < 19 ) {
 		$options = get_option( 'jobman_options' );
 
 		if( ! array_key_exists( 'rewrite_rules', $options ) )
