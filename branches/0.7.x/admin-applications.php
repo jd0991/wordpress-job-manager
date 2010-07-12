@@ -67,7 +67,7 @@ function jobman_list_applications() {
 ?>
 					<tr>
 						<th scope="row"><?php _e( 'Categories', 'jobman' ) ?>:</th>
-						<td>
+						<td><div class="jobman-categories-list">
 <?php
 		$ii = 0;
 		foreach( $categories as $cat ) {
@@ -79,7 +79,7 @@ function jobman_list_applications() {
 <?php
 		}
 ?>
-						</td>
+						</div></td>
 					</tr>
 <?php
 	}

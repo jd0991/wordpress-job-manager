@@ -11,8 +11,8 @@ require_once( JOBMAN_DIR . '/frontend-rss.php' );
 // Shortcode magic
 require_once( JOBMAN_DIR . '/frontend-shortcodes.php' );
 
-global $jobman_displaying, $jobman_finishedpage, $jobman_geoloc;
-$jobman_finishedpage = $jobman_displaying = $jobman_geoloc = false;
+global $jobman_displaying, $jobman_finishedpage, $jobman_geoloc, $jobman_rewrite_rules_changed;
+$jobman_finishedpage = $jobman_displaying = $jobman_geoloc = $jobman_rewrite_rules_changed = false;
 
 function jobman_queryvars( $qvars ) {
 	$qvars[] = 'j';
@@ -29,6 +29,7 @@ function jobman_queryvars( $qvars ) {
 }
 
 function jobman_add_rewrite_rules( $wp_rewrite ) {
+	global $jobman_rewrite_rules_changed;
 	$options = get_option( 'jobman_options' );
 	
 	$root = get_page( $options['main_page'] );
@@ -79,12 +80,22 @@ function jobman_add_rewrite_rules( $wp_rewrite ) {
 							'&page=' . $wp_rewrite->preg_index(5),
 					);
 	}
+	
+	if( ! array_key_exists( 'rewrite_rules', $options ) || $options['rewrite_rules'] != $new_rules || 1 ) {
+		$jobman_rewrite_rules_changed = true;
+		$options['rewrite_rules'] = $new_rules;
+		update_option( 'jobman_options', $options );
+	}
 
 	$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 }
 
 function jobman_flush_rewrite_rules() {
-	global $wp_rewrite;
+	global $wp_rewrite, $jobman_rewrite_rules_changed;
+	echo 1;
+	if( ! $jobman_rewrite_rules_changed )
+		return;
+echo 2;
 	$wp_rewrite->flush_rules( false );
 }
 

@@ -129,6 +129,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Application Email not working
 * FIXED: Application count in admin job list limited to 5
 * FIXED: Incompatibility with Proper Network Activation plugin
+* FIXED: Category links not working in one case
+* FIXED: Restricted height of category lists in admin, for really long lists
+* FIXED: Flushing rewrite rules is expensive, only do it when we must
 
 = 0.7.7 =
 * UPDATED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)
