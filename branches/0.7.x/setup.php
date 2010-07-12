@@ -81,9 +81,6 @@ function jobman_create_default_settings() {
 									'gxs' => 1,
 									'sicaptcha' => 0
 								),
-					'api_keys' => array(
-									'google_maps' => ''
-								)
 				);
 
 	$titletext = __( 'Title', 'jobman' );

@@ -125,6 +125,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.7.8 =
 * ADDED: Danish translation, provided by [Caspar Lange](http://www.lithin.com/)
+* CHANGED: Updated Google Maps API to v3, removed API key settings box
 * FIXED: Some bad HTML in admin area
 * FIXED: Application Email not working
 * FIXED: Application count in admin job list limited to 5
