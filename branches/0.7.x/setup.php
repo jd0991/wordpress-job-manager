@@ -53,6 +53,7 @@ function jobman_create_default_settings() {
 					'loginform_job' => 1,
 					'loginform_apply' => 1,
 					'related_categories' => 1,
+					'rewrite_rules' = array(),
 					'sort_by' => '',
 					'sort_order' => '',
 					'highlighted_behaviour' => 'sticky',
@@ -370,6 +371,15 @@ EOT;
 
 		if( ! array_key_exists( 'jobs_per_page', $options ) )
 			$options['jobs_per_page'] = 0;
+		
+		update_option( 'jobman_options', $options );
+	}
+
+	if( $oldversion < 18 ) {
+		$options = get_option( 'jobman_options' );
+
+		if( ! array_key_exists( 'rewrite_rules', $options ) )
+			$options['rewrite_rules'] = array();
 		
 		update_option( 'jobman_options', $options );
 	}
