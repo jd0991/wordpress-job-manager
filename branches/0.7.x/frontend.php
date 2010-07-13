@@ -61,31 +61,31 @@ function jobman_flush_rewrite_rules() {
 	if( empty( $lang ) ) {
 		$new_rules = array( 
 							"$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
-							'&page=' . $wp_rewrite->preg_index(2),
+							'&page=$matches[2]',
 							"$url/apply/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-							"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(1),
+							'&jobman_page=apply&jobman_data=$matches[1]',
 							"$url/register/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-							"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(1),
+							'&jobman_page=register&jobman_data=$matches[1]',
 							"$url/feed/?" => "index.php?feed=jobman",
-							"$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(1) .
-							'&page=' . $wp_rewrite->preg_index(3),
+							"$url/([^/]+)/?(page/(\d+)/?)?$" => 'index.php?jobman_data=$matches[1]'.
+							'&page=$matches[3]',
 					);
 	}
 	else {
 		$new_rules = array( 
 							"($lang)?$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
-							'&lang=' . $wp_rewrite->preg_index(2) . 
-							'&page=' . $wp_rewrite->preg_index(4),
+							'&lang=$matches[2]' . 
+							'&page=$matches[4]',
 							"($lang)?$url/apply/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-							'&lang=' . $wp_rewrite->preg_index(2) . 
-							"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(3),
+							'&lang=$matches[2]' . 
+							'&jobman_page=apply&jobman_data=$matches[3]',
 							"($lang)?$url/register/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-							'&lang=' . $wp_rewrite->preg_index(2) . 
-							"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(3),
-							"($lang)?$url/feed/?" => 'index.php?feed=jobman&lang=' . $wp_rewrite->preg_index(2),
-							"($lang)?$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(3) .
-							'&lang=' . $wp_rewrite->preg_index(2) . 
-							'&page=' . $wp_rewrite->preg_index(5),
+							'&lang=$matches[2]' . 
+							'&jobman_page=register&jobman_data=$matches[3]',
+							"($lang)?$url/feed/?" => 'index.php?feed=jobman&lang=$matches[2]',
+							"($lang)?$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=$matches[3]" .
+							'&lang=$matches[2]' . 
+							'&page=$matches[5]',
 					);
 	}
 	
