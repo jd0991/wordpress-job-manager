@@ -5,8 +5,6 @@ function jobman_display_jobs_list( $cat ) {
 
 	$content = '';
 	
-	$list_type = $options['list_type'];
-	
 	$page = get_post( $options['main_page'] );
 
 	if( 'all' != $cat ) {
@@ -195,7 +193,7 @@ function jobman_display_job( $job ) {
 	if( is_string( $job ) || is_int( $job ) )
 		$job = get_post( $job );
 	
-	if( $options['user_registration'] && $options['loginform_job'] && 'summary' == $options['list_type'] )
+	if( $options['user_registration'] && $options['loginform_job'] )
 		$content .= jobman_display_login();
 
 	if( NULL != $job ) {

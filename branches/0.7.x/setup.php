@@ -34,34 +34,34 @@ function jobman_activate() {
 
 function jobman_create_default_settings() {
 	$options = array(
-					'default_email' => get_option( 'admin_email' ),
-					'date_format' => '',
 					'application_email_from' => 4,
 					'application_email_from_fields' => array( 2, 3 ),
 					'application_email_subject_text' => __( 'Job Application', 'jobman' ) . ':',
 					'application_email_subject_fields' => array( 2, 3 ),
+					'date_format' => '',
+					'default_email' => get_option( 'admin_email' ),
+					'highlighted_behaviour' => 'sticky',
 					'interviews' => 1,
 					'interview_default_view' => 'month',
 					'interview_title_text' => '',
 					'interview_title_fields' => array( 2, 3 ),
 					'jobs_per_page' => 0,
-					'promo_link' => 0,
-					'user_registration' => 0,
-					'user_registration_required' => 0,
-					'loginform_main' => 1,
+					'loginform_apply' => 1,
 					'loginform_category' => 1,
 					'loginform_job' => 1,
-					'loginform_apply' => 1,
+					'loginform_main' => 1,
+					'multi_applications' => 0,
+					'plugins' => array(
+									'gxs' => 1,
+									'sicaptcha' => 0
+								),
+					'promo_link' => 0,
 					'related_categories' => 1,
 					'rewrite_rules' => array(),
 					'sort_by' => '',
 					'sort_order' => '',
-					'highlighted_behaviour' => 'sticky',
-					'uninstall' => array(
-									'options' => 1,
-									'jobs' => 1,
-									'applications' => 1,
-									'categories' => 1
+					'templates' => array( 
+									'application_form' => ''
 								),
 					'text' => array( 
 								'main_before' => '',
@@ -75,13 +75,14 @@ function jobman_create_default_settings() {
 								'job_title_prefix' => __( 'Job', 'jobman' ) . ': ',
 								'application_acceptance' => __( 'Thank you for your application! We\'ll check it out, and get back to you soon!', 'jobman' )
 							),
-					'templates' => array( 
-									'application_form' => ''
+					'uninstall' => array(
+									'options' => 1,
+									'jobs' => 1,
+									'applications' => 1,
+									'categories' => 1
 								),
-					'plugins' => array(
-									'gxs' => 1,
-									'sicaptcha' => 0
-								),
+					'user_registration' => 0,
+					'user_registration_required' => 0,
 				);
 
 	$titletext = __( 'Title', 'jobman' );

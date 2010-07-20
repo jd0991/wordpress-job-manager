@@ -339,7 +339,7 @@ function jobman_edit_job( $jobid ) {
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Icon', 'jobman' ) ?></th>
-				<td>
+				<td><div class="jobman-icons-list">
 <?php
 	if( count( $icons ) > 0 ) {
 		foreach( $icons as $icon ) {
@@ -361,7 +361,7 @@ function jobman_edit_job( $jobid ) {
 		$checked = '';
 ?>
 					<input type="radio" name="jobman-icon"<?php echo $checked ?> value="" /> <?php _e( 'No Icon', 'jobman' ) ?><br/>
-				</td>
+				</div></td>
 				<td><span class="description"><?php _e( 'Icon to display for this job in the Job List', 'jobman' ) ?></span></td>
 			</tr>
 			<tr>

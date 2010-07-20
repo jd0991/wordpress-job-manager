@@ -256,6 +256,9 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL, $cat = 
 
 function jobman_generate_job_select( $cat, $type = 'select' ) {
 	$options = get_option( 'jobman_options' );
+
+	if( is_object( $cat ) )
+		$cat = $cat->slug;
 	
 	$sortby = '';
 	switch( $options['sort_by'] ) {
@@ -307,7 +310,7 @@ function jobman_generate_job_select( $cat, $type = 'select' ) {
 	$inputarray = '';
 	$selectsize = 1;
 	$selectmultiple = '';
-	if( $options['multi_applications'] ) {
+	if( array_key_exists( 'multi_applications', $options ) && $options['multi_applications'] ) {
 		$inputtype = 'checkbox';
 		$inputarray = '[]';
 		$selectsize = 5;
