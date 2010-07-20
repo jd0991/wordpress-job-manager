@@ -252,7 +252,6 @@ function jobman_create_db() {
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
 				'post_status' => 'publish',
-				'post_author' => 1,
 				'post_content' => '',
 				'post_name' => 'jobs',
 				'post_title' => __( 'Jobs Listing', 'jobman' ),
@@ -268,7 +267,6 @@ function jobman_create_db() {
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
 				'post_status' => 'publish',
-				'post_author' => 1,
 				'post_content' => '',
 				'post_name' => 'apply',
 				'post_title' => __( 'Job Application', 'jobman' ),
@@ -282,7 +280,6 @@ function jobman_create_db() {
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
 				'post_status' => 'publish',
-				'post_author' => 1,
 				'post_content' => '',
 				'post_name' => 'register',
 				'post_title' => __( 'Register', 'jobman' ),
@@ -805,6 +802,18 @@ function jobman_upgrade_db( $oldversion ) {
 		// Add the 'email block' field option
 		foreach( $options['fields'] as $id => $field ) {
 			$options['fields'][$id]['emailblock'] = 0;
+		}
+	}
+	
+	if( $oldversion < 18 ) {
+		// Fix the GMT timestamp on existing jobs
+		$jobs = get_posts( 'post_type=jobman_job&numberposts=-1&post_status=publish,private' );
+		foreach( $jobs as $job ) {
+			$data = array(
+						'ID' => $job->ID,
+						'post_date_gmt' => $job->post_date
+					);
+			wp_update_post( $data );
 		}
 	}
 	

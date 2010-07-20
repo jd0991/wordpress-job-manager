@@ -29,7 +29,7 @@ function jobman_display_login() {
 		$login_html .= '<label class="password" for="jobman_password">' . __( 'Password', 'jobman' ) . '</label>: ';
 		$login_html .= '<input type="password" name="jobman_password" id="jobman_password" class="password" />';
 		$login_html .= '<input class="submit" type="submit" name="submit" value="' . __( 'Login', 'jobman' ) . '" />';
-		$login_html .= '<span><a href="' . get_page_link( $options['register_page'] ) . '">' . __( 'Register', 'jobman' ) . '</a> | <a href="' . wp_lostpassword_url( jobman_current_url() ) . '">' . __( 'Forgot your password?', 'jobman' ) . '</a></span></div>';
+		$login_html .= '<span><a href="' . get_page_link( $options['register_page'] ) . '">' . __( 'Register', 'jobman' ) . '</a> | <a href="' . wp_lostpassword_url( urlencode( jobman_current_url() ) ) . '">' . __( 'Forgot your password?', 'jobman' ) . '</a></span></div>';
 		$login_html .= '</form>';
 		
 		$content .= apply_filters( 'jobman_login_html', $login_html );

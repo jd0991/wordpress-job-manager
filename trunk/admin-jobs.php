@@ -50,9 +50,12 @@ function jobman_list_jobs() {
 		case 3:
 			echo '<div class="updated">' . __( 'Job updated', 'jobman' ) . '</div>';
 			break;
+		case 4:
+			echo '<div class="error">' . __( 'You do not have permission to edit that Job', 'jobman' ) . '</div>';
+			break;
 	}
 	
-	$jobs = get_posts( 'post_type=jobman_job&numberposts=-1&post_status=publish,draft' );
+	$jobs = get_posts( 'post_type=jobman_job&numberposts=-1&post_status=publish,draft,future' );
 ?>
 		<form action="" method="post">
 <?php 
@@ -118,11 +121,15 @@ function jobman_list_jobs() {
 }
 
 function jobman_list_jobs_data( $jobs, $showexpired = false ) {
+		global $current_user;
+		
 		if( ! is_array( $jobs ) || count( $jobs ) <= 0 )
 			return;
 			
 		$options = get_option( 'jobman_options' );
 		$fields = $options['job_fields'];
+		
+		wp_get_current_user();
 
 		$expiredjobs = array();
 		foreach( $jobs as $job ) {
@@ -150,9 +157,9 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 			if( strtotime( $job->post_date ) > time() )
 				$future = true;
 			
-			$children = get_posts( "post_type=jobman_app&meta_key=job&meta_value=$job->ID&post_status=publish,private" );
+			$children = get_posts( "post_type=jobman_app&meta_key=job&meta_value=$job->ID&post_status=publish,private&numberposts=-1" );
 			if( count( $children ) > 0 )
-				$applications = '<a href="' . admin_url("admin.php?page=jobman-list-applications&amp;jobman-jobid=$job->ID") . '">' . count( $children ) . '</a>';
+				$applications = '<a href="' . admin_url( "admin.php?page=jobman-list-applications&amp;jobman-jobid=$job->ID" ) . '">' . count( $children ) . '</a>';
 			else
 				$applications = 0;
 				
@@ -163,9 +170,40 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 				$class = "expired";
 ?>
 			<tr class="<?php echo $class ?>">
-				<th scope="row" class="check-column"><input type="checkbox" name="job[]" value="<?php echo $job->ID ?>" /></th>
+				<th scope="row" class="check-column">
+<?php
+			if( current_user_can( 'edit_others_posts' ) || $job->post_author == $current_user->ID ) {
+?>
+				<input type="checkbox" name="job[]" value="<?php echo $job->ID ?>" />
+<?php
+			}
+?>
+				</th>
 				<td class="post-title page-title column-title"><strong><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php echo $job->post_title ?></a></strong>
-				<div class="row-actions"><a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php _e( 'Edit', 'jobman' ) ?></a> | <a href="<?php echo get_page_link( $job->ID ) ?>"><?php _e( 'View', 'jobman' ) ?></a></div></td>
+				<div class="row-actions">
+<?php
+			if( current_user_can( 'edit_others_posts' ) || $job->post_author == $current_user->ID ) {
+?>
+				<a href="?page=jobman-list-jobs&amp;jobman-jobid=<?php echo $job->ID ?>"><?php _e( 'Edit', 'jobman' ) ?></a> | 
+<?php
+			}
+?>
+				<a href="<?php echo get_page_link( $job->ID ) ?>"><?php _e( 'View', 'jobman' ) ?></a>
+<?php
+			if( current_user_can( 'edit_others_posts' ) || $job->post_author == $current_user->ID ) {
+				if( $display ) {
+?>
+				| <a href="<?php echo wp_nonce_url( admin_url( "admin.php?page=jobman-list-jobs&amp;jobman-mass-edit-jobs=archive&amp;job[]=$job->ID" ), 'jobman-mass-edit-jobs' ) ?>"><?php _e( 'Archive', 'jobman' ) ?></a>
+<?php
+				}
+				else {
+?>
+				| <a href="<?php echo wp_nonce_url( admin_url( "admin.php?page=jobman-list-jobs&amp;jobman-mass-edit-jobs=unarchive&amp;job[]=$job->ID" ), 'jobman-mass-edit-jobs' ) ?>"><?php _e( 'Unarchive', 'jobman' ) ?></a>
+<?php
+				}
+			}
+?>
+				</div></td>
 				<td><?php echo $catstring ?></td>
 <?php
 			if( count( $fields ) ) {
@@ -184,9 +222,14 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 					}
 				}
 			}
+			$status = __( 'Live', 'jobman' );
+			if( $future )
+				$status = __( 'Future', 'jobman' );
+			else if( ! $display )
+				$status = __( 'Expired', 'jobman' );
 ?>
 				<td><?php echo date( 'Y-m-d', strtotime( $job->post_date ) ) ?> - <?php echo ( '' == $displayenddate )?( __( 'End of Time', 'jobman' ) ):( $displayenddate ) ?><br/>
-				<?php echo ( $display )?( ( $future )?( __( 'Future', 'jobman' ) ):( __( 'Live', 'jobman' ) ) ):( __( 'Expired', 'jobman' ) ) ?></td>
+				<?php echo $status ?></td>
 				<td><?php echo $applications ?></td>
 			</tr>
 <?php
@@ -204,8 +247,11 @@ function jobman_edit_job( $jobid ) {
 	if( array_key_exists( 'jobmansubmit', $_REQUEST ) ) {
 		// Job form has been submitted. Update the database.
 		check_admin_referer( "jobman-edit-job-$jobid" );
-		jobman_updatedb();
-		if( 'new' == $jobid )
+		$error = jobman_updatedb();
+		
+		if( $error )
+			return $error;
+		else if ( 'new' == $jobid )
 			return 2;
 		else
 			return 3;
@@ -248,6 +294,9 @@ function jobman_edit_job( $jobid ) {
 		else
 			$jobdata[$key] = $value;
 	}
+	
+	if( user_can_richedit() )
+		wp_tiny_mce( false, array( 'editor_selector' => 'jobman-editor' ) );
 ?>
 	<form action="<?php echo admin_url('admin.php?page=jobman-list-jobs') ?>" enctype="multipart/form-data" method="post">
 	<input type="hidden" name="jobmansubmit" value="1" />
@@ -265,7 +314,7 @@ function jobman_edit_job( $jobid ) {
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Categories', 'jobman' ) ?></th>
-				<td>
+				<td><div class="jobman-categories-list">
 <?php
 	$categories = get_terms( 'jobman_category', 'hide_empty=0' );
 	if( count( $categories ) > 0 ) {
@@ -285,12 +334,12 @@ function jobman_edit_job( $jobid ) {
 		}
 	}
 ?>
-				</td>
+				</div></td>
 				<td><span class="description"><?php _e( 'Categories that this job belongs to. It will be displayed in the job list for each category selected.', 'jobman' ) ?></span></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Icon', 'jobman' ) ?></th>
-				<td>
+				<td><div class="jobman-icons-list">
 <?php
 	if( count( $icons ) > 0 ) {
 		foreach( $icons as $icon ) {
@@ -312,7 +361,7 @@ function jobman_edit_job( $jobid ) {
 		$checked = '';
 ?>
 					<input type="radio" name="jobman-icon"<?php echo $checked ?> value="" /> <?php _e( 'No Icon', 'jobman' ) ?><br/>
-				</td>
+				</div></td>
 				<td><span class="description"><?php _e( 'Icon to display for this job in the Job List', 'jobman' ) ?></span></td>
 			</tr>
 			<tr>
@@ -398,11 +447,16 @@ function jobman_edit_job( $jobid ) {
 						$content .= '<td class="th"></td>';
 
 					if( '' == $field['description'] ) {
-						$content .= "<td colspan='2'><textarea class='large-text code' name='jobman-field-$id' rows='7'>$data</textarea></td></tr>";
+						$content .= "<td colspan='2'>";
+						if( user_can_richedit() )
+							$content .= "<p id='field-toolbar-$id' class='jobman-editor-toolbar'><a class='toggleHTML'>" . __( 'HTML', 'jobman' ) . '</a><a class="active toggleVisual">' . __( 'Visual', 'jobman' ) . '</a></p>';
+						$content .= "<textarea class='large-text code jobman-editor jobman-field-$id' name='jobman-field-$id' id='jobman-field-$id' rows='7'>$data</textarea></td></tr>";
 					}
 					else {
-						$content .= "<td><textarea class='large-text code' name='jobman-field-$id' rows='7'>$data</textarea></td>";
-						$content .= "<td><span class='description'>{$field['description']}</span></td></tr>";
+						$content .= '<td>';
+						if( user_can_richedit() )
+							$content .= "<p id='field-toolbar-$id' class='jobman-editor-toolbar'><a class='toggleHTML'>" . __( 'HTML', 'jobman' ) . '</a><a class="active toggleVisual">' . __( 'Visual', 'jobman' ) . '</a></p>';
+						$content .= "<textarea class='large-text code jobman-editor jobman-field-$id' name='jobman-field-$id' id='jobman-field-$id' rows='7'>$data</textarea></td>";
 					}
 					break;
 				case 'date':
@@ -447,6 +501,8 @@ function jobman_edit_job( $jobid ) {
 					$content .= '<td colspan="3">&nbsp;</td></tr>';
 					break;
 			}
+			
+			$previd = "jobman-field-$id";
 		}
 	}
 	
@@ -486,10 +542,12 @@ function jobman_edit_job( $jobid ) {
 }
 
 function jobman_updatedb() {
-	global $wpdb;
+	global $wpdb, $current_user;
 	$options = get_option( 'jobman_options' );
 	
-	$displaystartdate = stripslashes( $_REQUEST['jobman-displaystartdate'] );
+	wp_get_current_user();
+	
+	$displaystartdate = date( 'Y-m-d H:i:s', strtotime( stripslashes( $_REQUEST['jobman-displaystartdate'] ) ) );
 	if( empty( $displaystartdate ) )
 		$displaystartdate = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
 
@@ -502,6 +560,7 @@ function jobman_updatedb() {
 				'post_title' => stripslashes( $_REQUEST['jobman-title'] ),
 				'post_type' => 'jobman_job',
 				'post_date' => $displaystartdate,
+				'post_date_gmt' => $displaystartdate,
 				'post_parent' => $options['main_page']);
 	
 	if( 'new' == $_REQUEST['jobman-jobid'] ) {
@@ -556,6 +615,11 @@ function jobman_updatedb() {
 			add_post_meta( $id, 'highlighted', 0, true );
 	}
 	else {
+		$data = get_post( $_REQUEST['jobman-jobid'] );
+		
+		if( ! current_user_can( 'edit_others_posts' ) && $data->post_author != $current_user->ID )
+			return 4;
+
 		$page['ID'] = $_REQUEST['jobman-jobid'];
 		$id = wp_update_post( $page );
 		
@@ -625,6 +689,8 @@ function jobman_updatedb() {
 
 	if( $options['plugins']['gxs'] )
 		do_action( 'sm_rebuild' );
+		
+	return 0;
 }
 
 function jobman_job_delete_confirm() {
@@ -683,6 +749,8 @@ function jobman_job_unarchive() {
 	$data = array( 'post_status' => 'publish' );
 	foreach( $jobs as $job ) {
 		$data['ID'] = $job;
+		$data['post_date'] = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
+		$data['post_date_gmt'] = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
 		wp_update_post( $data );
 		
 		update_post_meta( $job, 'displayenddate', '' );

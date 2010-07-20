@@ -1,37 +1,35 @@
 <?php //encoding: utf-8
 
 // Admin Settings
-require_once( dirname( __FILE__ ) . '/admin-settings.php' );
+require_once( JOBMAN_DIR . '/admin-settings.php' );
 // Frontend Display Settings
-require_once( dirname( __FILE__ ) . '/admin-frontend-settings.php' );
+require_once( JOBMAN_DIR . '/admin-frontend-settings.php' );
 // Job Form Setup
-require_once( dirname( __FILE__ ) . '/admin-jobs-settings.php' );
+require_once( JOBMAN_DIR . '/admin-jobs-settings.php' );
 // Job management
-require_once( dirname( __FILE__ ) . '/admin-jobs.php' );
+require_once( JOBMAN_DIR . '/admin-jobs.php' );
 // Application form setup
-require_once( dirname( __FILE__ ) . '/admin-application-form.php' );
+require_once( JOBMAN_DIR . '/admin-application-form.php' );
 // Applications
-require_once( dirname( __FILE__ ) . '/admin-applications.php' );
+require_once( JOBMAN_DIR . '/admin-applications.php' );
 // Emails
-require_once( dirname( __FILE__ ) . '/admin-emails.php' );
+require_once( JOBMAN_DIR . '/admin-emails.php' );
 // Interview Scheduling
-require_once( dirname( __FILE__ ) . '/admin-interviews.php' );
+require_once( JOBMAN_DIR . '/admin-interviews.php' );
 // Comment handling functions
-require_once( dirname( __FILE__ ) . '/admin-comments.php' );
+require_once( JOBMAN_DIR . '/admin-comments.php' );
 
 function jobman_admin_setup() {
 	$options = get_option( 'jobman_options' );
+
 	// Setup the admin menu item
 	$pages = array();
 	add_menu_page( __( 'Job Manager', 'jobman' ), __( 'Job Manager', 'jobman' ), 'publish_posts', 'jobman-conf', 'jobman_conf' );
-	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Admin Settings', 'jobman' ), 'manage_options', 'jobman-conf', 'jobman_conf' );
-	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Display Settings', 'jobman' ), 'manage_options', 'jobman-display-conf', 'jobman_display_conf' );
-	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'App. Form Settings', 'jobman' ), 'manage_options', 'jobman-application-setup', 'jobman_application_setup' );
-	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Job Form Settings', 'jobman' ), 'manage_options', 'jobman-job-setup', 'jobman_job_setup' );
+	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Settings', 'jobman' ), 'manage_options', 'jobman-conf', 'jobman_conf' );
 	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Add Job', 'jobman' ), 'publish_posts', 'jobman-add-job', 'jobman_add_job' );
-	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'List Jobs', 'jobman' ), 'publish_posts', 'jobman-list-jobs', 'jobman_list_jobs' );
-	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'List Applications', 'jobman' ), 'read_private_pages', 'jobman-list-applications', 'jobman_list_applications' );
-	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'List Emails', 'jobman' ), 'read_private_pages', 'jobman-list-emails', 'jobman_list_emails' );
+	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Jobs', 'jobman' ), 'publish_posts', 'jobman-list-jobs', 'jobman_list_jobs' );
+	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Applications', 'jobman' ), 'read_private_pages', 'jobman-list-applications', 'jobman_list_applications' );
+	$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Emails', 'jobman' ), 'read_private_pages', 'jobman-list-emails', 'jobman_list_emails' );
 	
 	if( $options['interviews'] )
 		$pages[] = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), __( 'Interviews', 'jobman' ), 'read_private_pages', 'jobman-interviews', 'jobman_interviews' );
@@ -66,6 +64,14 @@ function jobman_admin_print_scripts() {
 }
 
 function jobman_admin_header() {
+	$options = get_option( 'jobman_options' );
+
+	$textareas = array();
+	foreach( $options['job_fields'] as $id => $field ) {
+		if( 'textarea' == $field['type'] ) {
+			$textareas[] = $id;
+		}
+	}
 ?>
 <script type="text/javascript"> 
 //<![CDATA[
@@ -111,6 +117,31 @@ addLoadEvent(function() {
 		var count = jQuery(this).parent().parent().find("input[name=jobman-rating]").attr("value");
 		jQuery(this).parent().parent().find("div.star-rating").css("width", (count * 19) + "px");
 	});
+	
+<?php
+	if( user_can_richedit() ) {
+?>
+	var jobman_textareas = <?php echo json_encode( $textareas ) ?>;
+
+	for( ii in jobman_textareas ) {
+		fieldid = 'jobman-field-' + jobman_textareas[ii];
+		jQuery('#field-toolbar-' + jobman_textareas[ii] + ' a.toggleVisual').click(function() {
+			tinyMCE.execCommand('mceAddControl', false, jQuery(this).parent().parent().find('textarea').attr('id'));
+			jQuery(this).parent().find('a.toggleHTML').removeClass('active');
+			jQuery(this).parent().find('a').removeClass('cssadjust');
+			jQuery(this).addClass('active');
+		});
+		
+		jQuery('#field-toolbar-' + jobman_textareas[ii] + ' a.toggleHTML').click(function() {
+			tinyMCE.execCommand('mceRemoveControl', false, jQuery(this).parent().parent().find('textarea').attr('id'));
+			jQuery(this).parent().find('a.toggleVisual').removeClass('active');
+			jQuery(this).parent().find('a').addClass('cssadjust');
+			jQuery(this).addClass('active');
+		});
+	}
+<?php
+	}
+?>
 });
 
 function jobman_reset_rating( id, func ) {
@@ -129,6 +160,30 @@ function jobman_reset_rating( id, func ) {
 }
 //]]>
 </script> 
+<?php
+}
+
+function jobman_print_settings_tabs() {
+	$tabs = array(
+				'admin' => __( 'Admin Settings', 'jobman' ),
+				'display' => __('Display Settings', 'jobman'),
+				'appform' => __('App. Form Settings', 'jobman'),
+				'jobform' => __('Job Form Settings', 'jobman'),
+			);
+
+	if( ! array_key_exists( 'tab', $_REQUEST ) )
+		$_REQUEST['tab'] = 'admin';
+?>
+		<h2 class="jobman-tabs">
+<?php
+	foreach( $tabs as $key => $title ) {
+		$class = '';
+		if( $key != $_REQUEST['tab'] )
+			$class = ' menu-tab-inactive';
+		echo "<a href='" . admin_url( "admin.php?page=jobman-conf&amp;tab=$key" ) . "' class='menu-tabs$class'>$title</a>";
+	}
+?>
+		</h2>
 <?php
 }
 

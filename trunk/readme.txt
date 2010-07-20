@@ -3,7 +3,7 @@ Contributors: pento
 Donate link: http://pento.net/donate/
 Tags: jobs, job, manager, list, listing, employer, application, board
 Requires at least: 2.9
-Tested up to: 3.0-beta1
+Tested up to: 3.0
 Stable tag: trunk
 
 A job listing and job application management plugin for WordPress.
@@ -11,8 +11,6 @@ A job listing and job application management plugin for WordPress.
 == Description ==
 
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
-
-***WARNING:*** this is a **BETA** release of Job Manager, and it may contain bugs that will eat your data. **DO NOT** use it in a production environment. There will be a stable release of 0.7 in mid April, please wait until then before upgrading production. If you have time to test it in your development environment, please do so, and [let me know any bugs you run into](http://code.google.com/p/wordpress-job-manager/issues/list). You can download the current stable release, [version 0.6.6, here](http://wordpress.org/extend/plugins/job-manager/download/)!
 
 Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
 
@@ -45,6 +43,7 @@ Related links:
 * [Report Bugs and Request Features](http://code.google.com/p/wordpress-job-manager/issues/list)
 * [Development Roadmap](http://code.google.com/p/wordpress-job-manager/wiki/Roadmap)
 * [Translations](http://translations.pento.net/)
+* [Mailing List](http://groups.google.com/group/wordpress-job-manager)
 
 == Installation ==
 
@@ -82,9 +81,13 @@ For a full description of how to use the application form customization features
 
 Apache's `mod_mime_magic` doesn't recognise docx file type properly, and older versions of Apache don't have docx in their mime.types file. You should update your copy of Apache to something more recent, or (if you're unable to update or turn off `mod_mime_magic`) create a .htaccess file as [described here](http://www.webdeveloper.com/forum/showpost.php?p=898935&postcount=2).
 
-= I can't upload DOC files in WordPress MU =
+= I can't upload DOC files in WordPress MultiSite =
 
-In your WordPress MU admin, go to Site Admin->Options. Update the "Upload File Types" option to include the various extensions (doc, docx, pdf, odt) that people are likely to upload their resume with.
+In your WordPress MultiSite admin, go to Site Admin->Options. Update the "Upload File Types" option to include the various extensions (doc, docx, pdf, odt) that people are likely to upload their resume with.
+
+= When I create a new site in WordPress MultiSite, Job Manager doesn't work on the new site =
+
+This is a known problem with WordPress not activating plugins correctly when a new site is created. Please install the [Proper Network Activation plugin](http://wordpress.org/extend/plugins/proper-network-activation/) as a workaround.
 
 == Other Plugin Support ==
 
@@ -104,24 +107,104 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
+* Danish Translation (0.7.x), provided by [Christian Olesen](http://www.lithin.com/) and [Caspar Lange](http://www.lithin.com/)
 * Dutch Translation (0.7.x, 95% complete), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
-* French Translation (0.7.x, 90% complete), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
+* French Translation (0.7.x), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
 * German Translation (0.6.x), provided by [tolingo translations](http://www.tolingo.com/)
 * Spanish Translation (0.7.x), provided by [TradiArt](http://www.tradiart.com)
 
 = Special Thanks =
 
 * [EuroPlacements](http://europlacements.it/), for their input and support of the initial development of Job Manager.
-* [Automattic](http://automattic.com/), for their support and continued feedback on features, design and usability.
+* [Automattic](http://automattic.com/), for their support and feedback on features, design and usability.
 * All the wonderful people who've submitted bugs, feedback and feature requests - you're the people who keep me with things to work on!
 
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
 
+= 0.7.12 =
+* FIXED: Category list on application form could fail with fatal error
+* FIXED: Some PHP warnings
+* FIXED: Some undefined default settings
+* FIXED: Icon list is ugly when there are many icons
+
+= 0.7.11 =
+* FIXED: New rewrite rules caused category lists to fail
+
+= 0.7.10 =
+* FIXED: Silly bug in activation
+
+= 0.7.9 = 
+* FIXED: Some activations could fail with the new rewrite rules code
+* FIXED: Dutch translation also provided by [Christian Olesen](http://www.lithin.com/)
+
+= 0.7.8 =
+* ADDED: Danish translation, provided by [Caspar Lange](http://www.lithin.com/)
+* CHANGED: Updated Google Maps API to v3, removed API key settings box
+* FIXED: Some bad HTML in admin area
+* FIXED: Application Email not working
+* FIXED: Application count in admin job list limited to 5
+* FIXED: Incompatibility with Proper Network Activation plugin
+* FIXED: Category links not working in one case
+* FIXED: Restricted height of category lists in admin, for really long lists
+* FIXED: Flushing rewrite rules is expensive, only do it when we must
+* FIXED: Bad main page edit link
+
+= 0.7.7 =
+* UPDATED: French Translation, provided by [Fabrice Fotso](http://www.procure-smart.com/)
+
+= 0.7.6 =
+* CHANGED: Pages are now owned by the installing user, rather than superadmin
+* FIXED: Frontend JS being loaded in wp-admin
+* FIXED: Wrong offset for jobs list when limiting number of jobs per page
+* FIXED: Wrong job count for last page of jobs
+* FIXED: Single job not being selected in job dropdown on application form
+* FIXED: Applications not working if wp-admin is moved
+* FIXED: `<title>` having incorrect information
+* FIXED: File download link in job details displaying when no file was uploaded
+
+= 0.7.5 =
+* CHANGED: Application list now shows Job ID with Job Title
+* FIXED: JS bug in application form check
+
+= 0.7.4 =
+* FIXED: Application email not sending to individual job addresses
+* FIXED: Job select dropdown not having a job selected when an individual job was being applied for
+* FIXED: Possible performance issued caused by `dirname()`
+
+= 0.7.3 =
+* FIXED: Application email not sending if no email set for the categories
+* FIXED: Application form required field check sometimes failing
+* FIXED: Authors being able to archive or delete other users posts
+* FIXED: Category widget breaking WP < 3.0
+
+= 0.7.2 =
+* FIXED: PHP Warning showing on job pages
+
+= 0.7.1 =
+* ADDED: 'category-foo-job.php' template, which overrides 'category-foo.php' when viewing a job in the category 'foo'
+* ADDED: ref attribute to [job_apply_link] shortcode
+* ADDED: Link to individually archive/unarchive jobs
+* ADDED: Reverse GeoLoc lookup for browsers that don't do it be default
+* ADDED: Gravatar support in applications
+* CHANGED: Job editor now uses TinyMCE for editing textareas
+* CHANGED: Applications filter box now displays quicker
+* CHANGED: Settings now on one page, with tabs
+* CHANGED: Tweaked applications list layout
+* FIXED: Job multi-select popout now has `<label>` tags
+* FIXED: JavaScript error with Geoloc code in Chrome Dev Channel
+* FIXED: RSS feed showing wrong publication dates
+* FIXED: Authors could edit jobs created by other Authors
+* FIXED: Using ASCII instead of &larr; on Application Details page
+* FIXED: Application filter not working on un-rated applications
+* FIXED: Forgot password link not working under some circumstances
+* FIXED: Future jobs not displaying in admin job list
+* FIXED: Unable to unarchive future jobs
+
 = 0.7 =
 * ADDED: Optional template for application form
-* ADDED: <select> type to application forms
+* ADDED: `<select>` type to application forms
 * ADDED: Ability to apply for multiple jobs at once
 * ADDED: Job selector in application form
 * ADDED: Geolocation field to application form

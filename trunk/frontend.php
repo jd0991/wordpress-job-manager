@@ -1,15 +1,15 @@
 <?php //encoding: utf-8
 
 // Job lists and individual jobs
-require_once( dirname( __FILE__ ) . '/frontend-jobs.php' );
+require_once( JOBMAN_DIR . '/frontend-jobs.php' );
 // Application form, application filtering and storage
-require_once( dirname( __FILE__ ) . '/frontend-application.php' );
+require_once( JOBMAN_DIR . '/frontend-application.php' );
 // User registration and login
-require_once( dirname( __FILE__ ) . '/frontend-user.php' );
+require_once( JOBMAN_DIR . '/frontend-user.php' );
 // RSS Feeds
-require_once( dirname( __FILE__ ) . '/frontend-rss.php' );
+require_once( JOBMAN_DIR . '/frontend-rss.php' );
 // Shortcode magic
-require_once( dirname( __FILE__ ) . '/frontend-shortcodes.php' );
+require_once( JOBMAN_DIR . '/frontend-shortcodes.php' );
 
 global $jobman_displaying, $jobman_finishedpage, $jobman_geoloc;
 $jobman_finishedpage = $jobman_displaying = $jobman_geoloc = false;
@@ -31,8 +31,17 @@ function jobman_queryvars( $qvars ) {
 function jobman_add_rewrite_rules( $wp_rewrite ) {
 	$options = get_option( 'jobman_options' );
 	
+	$wp_rewrite->rules = $options['rewrite_rules'] + $wp_rewrite->rules;
+}
+
+function jobman_flush_rewrite_rules() {
+	global $wp_rewrite;
+
+	$options = get_option( 'jobman_options' );
+	
 	$root = get_page( $options['main_page'] );
 	$url = get_page_uri( $root->ID );
+
 	if( ! $url )
 		return;
 
@@ -52,39 +61,40 @@ function jobman_add_rewrite_rules( $wp_rewrite ) {
 	if( empty( $lang ) ) {
 		$new_rules = array( 
 							"$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
-							'&page=' . $wp_rewrite->preg_index(2),
+							'&page=$matches[2]',
 							"$url/apply/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-							"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(1),
+							'&jobman_page=apply&jobman_data=$matches[1]',
 							"$url/register/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-							"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(1),
+							'&jobman_page=register&jobman_data=$matches[1]',
 							"$url/feed/?" => "index.php?feed=jobman",
-							"$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(1) .
-							'&page=' . $wp_rewrite->preg_index(3),
+							"$url/([^/]+)/?(page/(\d+)/?)?$" => 'index.php?jobman_data=$matches[1]'.
+							'&page=$matches[3]',
 					);
 	}
 	else {
 		$new_rules = array( 
 							"($lang)?$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
-							'&lang=' . $wp_rewrite->preg_index(2) . 
-							'&page=' . $wp_rewrite->preg_index(4),
+							'&lang=$matches[2]' . 
+							'&page=$matches[4]',
 							"($lang)?$url/apply/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-							'&lang=' . $wp_rewrite->preg_index(2) . 
-							"&jobman_page=apply&jobman_data=" . $wp_rewrite->preg_index(3),
+							'&lang=$matches[2]' . 
+							'&jobman_page=apply&jobman_data=$matches[3]',
 							"($lang)?$url/register/?([^/]+)?/?$" => "index.php?jobman_root_id=$root->ID" .
-							'&lang=' . $wp_rewrite->preg_index(2) . 
-							"&jobman_page=register&jobman_data=" . $wp_rewrite->preg_index(3),
-							"($lang)?$url/feed/?" => 'index.php?feed=jobman&lang=' . $wp_rewrite->preg_index(2),
-							"($lang)?$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=" . $wp_rewrite->preg_index(3) .
-							'&lang=' . $wp_rewrite->preg_index(2) . 
-							'&page=' . $wp_rewrite->preg_index(5),
+							'&lang=$matches[2]' . 
+							'&jobman_page=register&jobman_data=$matches[3]',
+							"($lang)?$url/feed/?" => 'index.php?feed=jobman&lang=$matches[2]',
+							"($lang)?$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=$matches[3]" .
+							'&lang=$matches[2]' . 
+							'&page=$matches[5]',
 					);
 	}
+	
+	if( array_key_exists( 'rewrite_rules', $options ) && $options['rewrite_rules'] == $new_rules )
+		return;
 
-	$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
-}
+	$options['rewrite_rules'] = $new_rules;
+	update_option( 'jobman_options', $options );
 
-function jobman_flush_rewrite_rules() {
-	global $wp_rewrite;
 	$wp_rewrite->flush_rules( false );
 }
 
@@ -149,8 +159,8 @@ function jobman_display_jobs( $posts ) {
 
 	// Hack to kill WPML on Job Manager pages. Need to add proper support later.
 	if( defined( 'ICL_SITEPRESS_VERSION' ) && ! empty( $sitepress ) ) {
-		remove_filter('posts_join', array($sitepress,'posts_join_filter'));
-		remove_filter('posts_where', array($sitepress,'posts_where_filter'));
+		remove_filter( 'posts_join', array( $sitepress, 'posts_join_filter' ) );
+		remove_filter( 'posts_where', array( $sitepress, 'posts_where_filter' ) );
 	}
 	
 	if( NULL != $post ) {
@@ -281,9 +291,17 @@ function jobman_display_jobs( $posts ) {
 }
 
 function jobman_display_init() {
+	$options = get_option( 'jobman_options' );
+	
+	if( defined( 'WP_ADMIN' ) && WP_ADMIN )
+		return;
+	
 	wp_enqueue_script( 'jquery-ui-datepicker', JOBMAN_URL . '/js/jquery-ui-datepicker.js', array( 'jquery-ui-core' ), JOBMAN_VERSION );
 	wp_enqueue_script( 'google-gears', JOBMAN_URL . '/js/gears_init.js', false, JOBMAN_VERSION );
-	wp_enqueue_script( 'jquery-display', JOBMAN_URL . '/js/display.js', false, JOBMAN_VERSION );
+	wp_enqueue_script( 'jobman-display', JOBMAN_URL . '/js/display.js', false, JOBMAN_VERSION );
+	
+	wp_enqueue_script( 'google-maps', "http://maps.google.com/maps/api/js?sensor=true", false );
+	
 	wp_enqueue_style( 'jobman-display', JOBMAN_URL . '/css/display.css', false, JOBMAN_VERSION );
 }
 
@@ -294,8 +312,6 @@ function jobman_display_template() {
 	if( ! $jobman_displaying )
 		return;
 	
-	// Code gleefully copied from wp-includes/theme.php
-
 	$root = get_page( $options['main_page'] );
 	$id = $root->ID;
 	$template = get_post_meta( $id, '_wp_page_template', true );
@@ -328,6 +344,8 @@ function jobman_display_template() {
 		$templates[] = "category-$category.php";
 	if( ! empty( $job_cats ) ) {
 		foreach( $job_cats as $jcat ) {
+		if( ! empty( $post ) && 'jobman_job' == $post->post_type )
+			$templates[] = "category-$jcat-job.php";
 			$templates[] = "category-$jcat.php";
 		}
 	}
@@ -348,40 +366,6 @@ function jobman_display_template() {
 		// The exit tells WP to not try to load any more templates
 		exit;
 	}
-}
-
-function jobman_display_title( $title, $sep, $seploc ) {
-	global $jobman_displaying, $wp_query;
-
-	if( ! $jobman_displaying )
-		return $title;
-
-	$post = $wp_query->post;
-	
-	switch( $post->post_type ) {
-		case 'jobman_job':
-			$newtitle = $post->post_title;
-			break;
-		case 'jobman_app_form':
-			$newtitle = __( 'Job Application', 'jobman' );
-			break;
-		case 'jobman_joblist':
-			$newtitle = __( 'Job Listing', 'jobman' ) . ': ' . $post->post_title;
-			break;
-		default:
-			$newtitle = __( 'Job Listing', 'jobman' );
-			break;
-	}
-	
-	if( '' == $newtitle )
-		return $title;
-
-	if( 'right' == $seploc )
-		$title = "$newtitle $sep ";
-	else
-		$title = " $sep $newtitle";
-	
-	return $title;
 }
 
 function jobman_display_head() {
@@ -472,13 +456,13 @@ jQuery(document).ready(function() {
 	if( navigator.geolocation ) {
 		// HTML5
 		geo = navigator.geolocation;
-		geo.getCurrentPosition( jobman_html5_geo_success );
+		geo.getCurrentPosition( jobman_geo_success, jobman_geo_error );
 	}
 	else if( google.gears ) {
 		// Google Gears
 		geo = google.gears.factory.create('beta.geolocation');
-		geo.getCurrentPosition( jobman_gears_geo_success, 
-								jobman_gears_geo_error,
+		geo.getCurrentPosition( jobman_geo_success, 
+								jobman_geo_error,
 								{ enableHighAccuracy: true,
                                      gearsRequestAddress: true } );
 	}
@@ -532,25 +516,47 @@ function jobman_update_selected_cats() {
 }
 
 <?php if( $jobman_geoloc ) { ?>
-function jobman_html5_geo_success( pos ) {
-	var description = pos.address.city + ", " + pos.address.region + ", " + pos.address.country;
-	jobman_geo_set_values( description, pos.coords.latitude, pos.coords.longitude );
-}
+function jobman_geo_success( pos ) {
+	var description = "";
 
-function jobman_gears_geo_success( pos ) {
-	var description = pos.gearsAddress.city + ", " + pos.gearsAddress.region + ", " + pos.gearsAddress.country;
-	jobman_geo_set_values( description, pos.latitude, pos.longitude );
-}
+	if( pos.address ) {
+		description = pos.address.city + ", " + pos.address.region + ", " + pos.address.country;
+	}
+	else if( pos.gearsAddress ) {
+		description = pos.gearsAddress.city + ", " + pos.gearsAddress.region + ", " + pos.gearsAddress.country;
+	}
+	else {
+		var latlng = new google.maps.LatLng(40.730885,-73.997383);
+		var myOptions = {
+		  zoom: 8,
+		  center: latlng,
+		  mapTypeId: 'roadmap'
+		}
+		map = new google.maps.Map(document.getElementById("jobman-map"), myOptions);
+		var geocoder = google.maps.Geocoder();
+		var latLng = new google.maps.LatLng( pos.coords.latitude, pos.coords.longitude );
 
-function jobman_gears_geo_error( err ) {
-	return;
-}
-
-function jobman_geo_set_values( description, latitude, longitude ) {
-	jQuery(".jobman-geoloc-data").val( latitude + "," + longitude );
+		if( geocoder ) {
+			geocoder.geocode( { 'latLng': latLng },
+				function( results, status ) {
+					if( status == google.maps.GeocoderStatus.OK && results[1] ) {
+						jQuery(".jobman-geoloc-original-display").val( results[1].formatted_address );
+						jQuery(".jobman-geoloc-display").val( results[1].formatted_address );
+					}
+				}
+			);
+		}
+	}
+	
+	jQuery(".jobman-geoloc-data").val( pos.coords.latitude + "," + pos.coords.longitude );
 	jQuery(".jobman-geoloc-original-display").val( description );
 	jQuery(".jobman-geoloc-display").val( description );
 }
+
+function jobman_geo_error( err ) {
+	return;
+}
+
 <?php } ?>
 //]]>
 </script> 

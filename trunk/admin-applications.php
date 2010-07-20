@@ -62,12 +62,13 @@ function jobman_list_applications() {
 					</tr>
 <?php
 	}
+
+	if( count( $categories ) > 0 ) {
 ?>
 					<tr>
 						<th scope="row"><?php _e( 'Categories', 'jobman' ) ?>:</th>
-						<td>
+						<td><div class="jobman-categories-list">
 <?php
-	if( count( $categories ) > 0 ) {
 		$ii = 0;
 		foreach( $categories as $cat ) {
 			$checked = '';
@@ -77,11 +78,12 @@ function jobman_list_applications() {
 							<input type="checkbox" name="jobman-categories[]" value="<?php echo $cat->term_id ?>"<?php echo $checked ?> /> <?php echo $cat->name ?><br/>
 <?php
 		}
-	}
 ?>
-						</td>
+						</div></td>
 					</tr>
 <?php
+	}
+	
 	$rating = 0;
 	if( array_key_exists( 'jobman-rating', $_REQUEST ) )
 	    $rating = $_REQUEST['jobman-rating'];
@@ -182,8 +184,8 @@ function jobman_list_applications() {
 			
 		</form>
 		</div>
-		<div id="jobman-filter-link-show"><a href="#" onclick="jQuery('#jobman-filter').show('slow'); jQuery('#jobman-filter-link-show').hide(); jQuery('#jobman-filter-link-hide').show(); return false;"><?php _e( 'Show Filter Options', 'jobman' ) ?></a></div>
-		<div id="jobman-filter-link-hide" class="hidden"><a href="#" onclick="jQuery('#jobman-filter').hide('slow'); jQuery('#jobman-filter-link-hide').hide(); jQuery('#jobman-filter-link-show').show(); return false;"><?php _e( 'Hide Filter Options', 'jobman' ) ?></a></div>
+		<div id="jobman-filter-link-show"><a href="#" onclick="jQuery('#jobman-filter').show('fast'); jQuery('#jobman-filter-link-show').hide(); jQuery('#jobman-filter-link-hide').show(); return false;"><?php _e( 'Show Filter Options', 'jobman' ) ?></a></div>
+		<div id="jobman-filter-link-hide" class="hidden"><a href="#" onclick="jQuery('#jobman-filter').hide('fast'); jQuery('#jobman-filter-link-hide').hide(); jQuery('#jobman-filter-link-show').show(); return false;"><?php _e( 'Hide Filter Options', 'jobman' ) ?></a></div>
 		
 		<form action="" method="post">
 <?php 
@@ -193,15 +195,7 @@ function jobman_list_applications() {
 			<thead>
 			<tr>
 				<th scope="col" id="cb" class="column-cb check-column"><input type="checkbox"></th>
-				<th scope="col"><?php _e( 'Job', 'jobman' ) ?></th>
-<?php
-	if( $options['user_registration'] ) {
-?>
-				<th scope="col"><?php _e( 'User', 'jobman' ) ?></th>
-<?php
-	}
-?>
-				<th scope="col"><?php _e( 'Categories', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Application', 'jobman' ) ?></th>
 <?php
 	if( count( $fields ) > 0 ) {
 		foreach( $fields as $field ) {
@@ -213,31 +207,14 @@ function jobman_list_applications() {
 		}
 	}
 ?>
-				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
-				<th scope="col"><?php _e( 'Emails', 'jobman' ) ?></th>
-<?php
-	if( $options['interviews'] ) {
-?>
-				<th scope="col"><?php _e( 'Interviews', 'jobman' ) ?></th>
-<?php
-	}
-?>
-				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Information', 'jobman' ) ?></th>
 			</tr>
 			</thead>
 
 			<tfoot>
 			<tr>
 				<th scope="col" class="column-cb check-column"><input type="checkbox"></th>
-				<th scope="col"><?php _e( 'Job', 'jobman' ) ?></th>
-<?php
-	if( $options['user_registration'] ) {
-?>
-				<th scope="col"><?php _e( 'User', 'jobman' ) ?></th>
-<?php
-	}
-?>
-				<th scope="col"><?php _e( 'Categories', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Application', 'jobman' ) ?></th>
 <?php
 	if( count( $fields ) > 0 ) {
 		foreach( $fields as $field ) {
@@ -249,16 +226,7 @@ function jobman_list_applications() {
 		}
 	}
 ?>
-				<th scope="col"><?php _e( 'View Details', 'jobman' ) ?></th>
-				<th scope="col"><?php _e( 'Emails', 'jobman' ) ?></th>
-<?php
-	if( $options['interviews'] ) {
-?>
-				<th scope="col"><?php _e( 'Interviews', 'jobman' ) ?></th>
-<?php
-	}
-?>
-				<th scope="col"><?php _e( 'Rating', 'jobman' ) ?></th>
+				<th scope="col"><?php _e( 'Information', 'jobman' ) ?></th>
 			</tr>
 			</tfoot>
 <?php
@@ -284,15 +252,8 @@ function jobman_list_applications() {
 		}
 	}*/
 	
-	// Add star rating filter
-	if( array_key_exists( 'jobman-rating', $_REQUEST ) && is_numeric( $_REQUEST['jobman-rating'] ) ) {
-	    $args['meta_key'] = 'rating';
-	    $args['meta_value'] = $_REQUEST['jobman-rating'];
-	    $args['meta_compare'] = '>=';
-	}
-
 	$applications = get_posts( $args );
-	
+
 	$app_displayed = false;
 	if( count( $applications ) > 0 ) {
 		foreach( $applications as $app ) {
@@ -312,6 +273,13 @@ function jobman_list_applications() {
 					$appdata[$key] = $value[0];
 				else
 					$appdata[$key] = $value;
+			}
+			
+			if( array_key_exists( 'jobman-rating', $_REQUEST ) && is_numeric( $_REQUEST['jobman-rating'] ) && $_REQUEST['jobman-rating'] > 0 ) {
+				if( array_key_exists( 'rating', $appdata ) && $appdata['rating'] < $_REQUEST['jobman-rating'] ) {
+					// App is underrated. Skip it.
+					continue;
+				}
 			}
 			
 			// Workaround for WP_Query not supporting *__in for custom taxonomy.
@@ -437,41 +405,26 @@ function jobman_list_applications() {
 				}
 			}
 			$app_displayed = true;
-?>
-			<tr>
-				<th scope="row" class="check-column"><input type="checkbox" name="application[]" value="<?php echo $app->ID ?>" /></th>
-<?php
+			
+			$fromid = $options['application_email_from'];
+			$email = $appdata["data$fromid"];
+			$grav_url = 'http://www.gravatar.com/avatar/' . md5( strtolower( $email ) ) . '?size=45';
+
 			$parents = get_post_meta( $app->ID, 'job', false );
+			$jobstr = '';
 			if( ! empty( $parents ) ) {
 				$parentstr = array();
 				foreach( $parents as $parent ) {
 					$data = get_post( $parent );
-					$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->post_title</a>";
+					$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->ID - $data->post_title</a>";
 				}
-?>
-				<td><strong><?php echo implode( ', ', $parentstr ) ?></strong></td>
-<?php
+				
+				$jobstr = implode( ', ', $parentstr );
 			}
 			else {
-?>
-				<td><?php _e( 'No job', 'jobman' ) ?></td>
-<?php
+				$jobstr = __( 'No job', 'jobman' );
 			}
 
-			if( $options['user_registration'] ) {
-				$name = '';
-				if( 0 == $app->post_author ) {
-					$name = __( 'Unregistered Applicant', 'jobman' );
-				}
-				else {
-					$author = get_userdata( $app->post_author );
-					$name = $author->display_name;
-				}
-?>
-				<td><?php echo $name ?></td>
-<?php
-			}
-			
 			$cats = wp_get_object_terms( $app->ID, 'jobman_category' );
 			$cats_arr = array();
 			if( count( $cats ) > 0 ) {
@@ -479,8 +432,32 @@ function jobman_list_applications() {
 					$cats_arr[] = $cat->name;
 				}
 			}
+			
+			$cats_str = '';
+			if( !empty( $cats_arr ) )
+				$cats_str = implode( ', ', $cats_arr ) . '<br/>';
+			
+			$name = '';
+			if( $options['user_registration'] ) {
+				if( 0 == $app->post_author ) {
+					$name = __( 'Unregistered Applicant', 'jobman' );
+				}
+				else {
+					$author = get_userdata( $app->post_author );
+					$name = __( 'User', 'jobman' ) . ": $author->display_name";
+				}
+				$name .= '<br/>';
+			}
 ?>
-				<td><?php echo implode( ', ', $cats_arr ) ?></td>
+			<tr>
+				<th scope="row" class="check-column"><input type="checkbox" name="application[]" value="<?php echo $app->ID ?>" /></th>
+				<td>
+				<img src="<?php echo $grav_url; ?>" alt="" class="jobman-gravatar-list" />
+				<strong><?php echo $jobstr ?></strong><br/>
+				<?php echo $cats_str ?>
+				<?php echo $name ?>
+				<strong><a href="?page=jobman-list-applications&amp;appid=<?php echo $app->ID ?>"><?php _e( 'View Details', 'jobman' ) ?></a></strong>
+				</td>
 <?php
 			if( count( $fields ) ) {
 				foreach( $fields as $id => $field ) {
@@ -511,31 +488,26 @@ function jobman_list_applications() {
 				}
 			}
 ?>
-				<td><a href="?page=jobman-list-applications&amp;appid=<?php echo $app->ID ?>"><?php _e( 'View Details', 'jobman' ) ?></a></td>
 				<td>
 <?php
+			echo __( 'Emails', 'jobman' ) . ': ';
 			$emailids = get_post_meta( $app->ID, 'contactmail', false );
 			if( count( $emailids ) > 0 )
 			    echo "<a href='?page=jobman-list-emails&amp;appid=$app->ID'>" . count( $emailids ) . '</a>';
 			else
 			    echo '0';
-?>
-				</td>
-<?php
-			if( $options['interviews'] ) {
-				echo '<td>';
-				$iids = get_post_meta( $app->ID, 'interview', false );
-				echo "<a href='?page=jobman-interviews&amp;display=application&filter=$app->ID'>" . count( $iids ) . '</a>';
-				echo '</td>';
-			}
-?>
-				<td>
-<?php
-	$rating = 0;
-	if( array_key_exists( 'rating', $appdata ) )
-    	$rating = $appdata['rating'];
+			echo '<br/>';
 
-	jobman_print_rating_stars( $app->ID, $rating );
+			if( $options['interviews'] ) {
+				$iids = get_post_meta( $app->ID, 'interview', false );
+				echo __( 'Interviews', 'jobman' ) . ": <a href='?page=jobman-interviews&amp;display=application&filter=$app->ID'>" . count( $iids ) . '</a><br/>';
+			}
+
+			$rating = 0;
+			if( array_key_exists( 'rating', $appdata ) )
+				$rating = $appdata['rating'];
+
+			jobman_print_rating_stars( $app->ID, $rating );
 ?>
 				</td>
 			</tr>
@@ -548,8 +520,6 @@ function jobman_list_applications() {
 		else
 			$msg = __( 'There are currently no applications in the system.', 'jobman' );
 			
-		if( $options['user_registration'] )
-			$fieldcount++;
 ?>
 			<tr>
 				<td colspan="<?php echo 3 + $fieldcount ?>"><?php echo $msg ?></td>
@@ -599,7 +569,7 @@ function jobman_application_details_layout( $appid ) {
 	<div id="jobman-application" class="wrap">
 		<h2><?php _e( 'Job Manager: Application Details', 'jobman' ) ?></h2>
 		<div class="printicon"><a href="javascript:window.print()"><img src="<?php echo JOBMAN_URL ?>/images/print-icon.png" /></a></div>
-		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
+		<a href="?page=jobman-list-applications" class="backlink">&larr;<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 <?php
 
 	$widths = array( '59%', '39%' );
@@ -609,7 +579,7 @@ function jobman_application_details_layout( $appid ) {
 				);
 	$titles = array(
 				array( __( 'Application', 'jobman' ) ),
-				array( __( 'Application Comments', 'jobman' ), __( 'Email Application', 'jobman' ) )
+				array( __( 'Application Comments', 'jobman' ), __( 'Share Application', 'jobman' ) )
 			);
 	$params = array(
 					array( array( $appid ) ),
@@ -623,7 +593,7 @@ function jobman_application_details_layout( $appid ) {
 	}
 	jobman_create_dashboard( $widths, $functions, $titles, $params );
 ?>
-		<a href="?page=jobman-list-applications" class="backlink">&lt;--<?php _e( 'Back to Application List', 'jobman' ) ?></a>
+		<a href="?page=jobman-list-applications" class="backlink">&larr;<?php _e( 'Back to Application List', 'jobman' ) ?></a>
 	</div>
 <?php
 }
@@ -645,22 +615,35 @@ function jobman_application_display_details( $appid ) {
 		}
 	}
 	
+	$fromid = $options['application_email_from'];
+	$email = $appdata["data$fromid"];
+	$grav_url = 'http://www.gravatar.com/avatar/' . md5( strtolower( $email ) ) . '?size=120';
+	echo "<img src='$grav_url' alt='' class='jobman-gravatar' />";
+
 	if( NULL != $app ) {
-		echo '<table class="form-table">';
+		echo '<table class="form-table jobman-form-table">';
 		
 		$parents = get_post_meta( $app->ID, 'job', false );
 		if( ! empty( $parents ) ) {
 			$parentstr = array();
 			foreach( $parents as $parent ) {
 				$data = get_post( $parent );
-				$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->post_title</a>";
+				
+				$children = get_posts( "post_type=jobman_app&meta_key=job&meta_value=$data->ID&post_status=publish,private" );
+				if( count( $children ) > 0 )
+					$applications = '<a href="' . admin_url("admin.php?page=jobman-list-applications&amp;jobman-jobid=$data->ID") . '">' . count( $children ) . '</a>';
+				else
+					$applications = 0;
+				
+				$parentstr[] = "<a href='?page=jobman-list-jobs&amp;jobman-jobid=$data->ID'>$data->post_title</a> ($applications)";
 			}
 			$title = __( 'Job', 'jobman' );
 			if( count( $parentstr ) > 1 )
 				$title = __( 'Jobs', 'jobman' );
 			echo "<tr><th scope='row'><strong>$title</strong></th><td><strong>" . implode( ', ', $parentstr ) . '</strong></td></tr>';
 		}
-		echo '<tr><th scope="row"><strong>' . __( 'Timestamp', 'jobman' ) . "</strong></th><td>$app->post_date</td></tr>";
+		$post_date = date_i18n( 'l, d F Y, H:i:s', strtotime( $app->post_date ) );
+		echo '<tr><th scope="row"><strong>' . __( 'Timestamp', 'jobman' ) . "</strong></th><td>$post_date</td></tr>";
 		
 		echo '<tr><th scope="row"><strong>' . __( 'Rating', 'jobman' ) . '</strong></th>';
 		echo '<td>';
@@ -696,7 +679,9 @@ function jobman_application_display_details( $appid ) {
 						echo $item;
 						break;
 					case 'file':
-						echo "<a href='" . wp_get_attachment_url( $item ) . "'>" . __( 'Download', 'jobman' ) . "</a>";
+						$fileurl = wp_get_attachment_url( $item );
+						if( ! empty( $fileurl ) )
+							echo "<a href='$fileurl'>" . __( 'Download', 'jobman' ) . "</a>";
 						break;
 					case 'geoloc':
 						echo '<a href="http://maps.google.com/maps?q=' . urlencode( $item ) . '">' . $appdata['data-display'.$fid] . ' (' . $item . ')</a>';

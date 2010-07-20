@@ -30,8 +30,9 @@ function jobman_display_conf() {
 	}
 ?>
 	<div class="wrap">
-		<h2><?php _e( 'Job Manager: Display Settings', 'jobman' ) ?></h2>
 <?php
+	jobman_print_settings_tabs();
+	
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(
@@ -68,7 +69,7 @@ function jobman_print_display_settings_box() {
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e( 'Job Manager Page Template', 'jobman' ) ?></th>
-				<td colspan="2"><?php printf( __( 'You can edit the page template used by Job Manager, by editing the Template Attribute of <a href="%s">this page</a>.', 'jobman' ), admin_url( 'page.php?action=edit&post=' . $options['main_page'] ) ) ?></td>
+				<td colspan="2"><?php printf( __( 'You can edit the page template used by Job Manager, by editing the Template Attribute of <a href="%s">this page</a>.', 'jobman' ), get_edit_post_link( $options['main_page'] ) ) ?></td>
 			</tr>
 			<tr>
 				<th scope="row"><?php _e( 'Jobs Per Page', 'jobman' ) ?></th>

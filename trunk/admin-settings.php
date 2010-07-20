@@ -4,6 +4,20 @@ function jobman_conf() {
 	
 	$options = get_option( 'jobman_options' );
 	
+	if( array_key_exists( 'tab', $_REQUEST ) ) {
+		switch( $_REQUEST['tab'] ) {
+			case 'display':
+				jobman_display_conf();
+				return;
+			case 'appform':
+				jobman_application_setup();
+				return;
+			case 'jobform':
+				jobman_job_setup();
+				return;
+		}
+	}
+	
 	if( array_key_exists( 'jobmanconfsubmit', $_REQUEST ) ) {
 		// Configuration form as been submitted. Updated the database.
 		check_admin_referer( 'jobman-conf-updatedb' );
@@ -29,10 +43,6 @@ function jobman_conf() {
 		check_admin_referer( 'jobman-interview-updatedb' );
 		jobman_interview_updatedb();
 	}
-	else if( array_key_exists( 'jobmanapikeyssubmit', $_REQUEST ) ) {
-		check_admin_referer( 'jobman-api-keys-updatedb' );
-		jobman_api_keys_updatedb();
-	}
 	else if( array_key_exists( 'jobmanotherpluginssubmit', $_REQUEST ) ) {
 		check_admin_referer( 'jobman-other-plugins-updatedb' );
 		jobman_other_plugins_updatedb();
@@ -43,16 +53,17 @@ function jobman_conf() {
 	}
 ?>
 	<div class="wrap">
-		<h2><?php _e( 'Job Manager: Admin Settings', 'jobman' ) ?></h2>
 <?php
+	jobman_print_settings_tabs();
+	
 	if( ! get_option( 'pento_consulting' ) ) {
 		$widths = array( '78%', '20%' );
 		$functions = array(
-						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_api_keys_box', 'jobman_print_other_plugins_box', 'jobman_print_uninstall_box' ),
+						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_other_plugins_box', 'jobman_print_uninstall_box' ),
 						array( 'jobman_print_donate_box', 'jobman_print_about_box', 'jobman_print_translators_box' )
 					);
 		$titles = array(
-					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __( 'API Keys', 'jobman' ), __( 'Other Plugins', 'jobman' ), __( 'Uninstall Settings', 'jobman' ) ),
+					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __( 'Other Plugins', 'jobman' ), __( 'Uninstall Settings', 'jobman' ) ),
 					array( __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ), __( 'Translators', 'jobman' ) )
 				);
 				
@@ -64,11 +75,11 @@ function jobman_conf() {
 	else {
 		$widths = array( '49%', '49%' );
 		$functions = array(
-						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_api_keys_box', 'jobman_print_other_plugins_box' ),
+						array( 'jobman_print_settings_box', 'jobman_print_categories_box', 'jobman_print_other_plugins_box' ),
 						array( 'jobman_print_icons_box', 'jobman_print_user_box', 'jobman_print_application_email_box', 'jobman_print_uninstall_box' )
 					);
 		$titles = array(
-					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'API Keys', 'jobman' ), __( 'Other Plugins', 'jobman' ) ),
+					array( __( 'Settings', 'jobman' ), __( 'Categories', 'jobman' ), __( 'Other Plugins', 'jobman' ) ),
 					array( __( 'Icons', 'jobman' ), __( 'User Settings', 'jobman' ), __( 'Application Email Settings', 'jobman' ), __( 'Uninstall Settings', 'jobman' ) )
 				);
 
@@ -96,7 +107,7 @@ function jobman_print_settings_box() {
 				<th scope="row"><?php _e( 'URL path', 'jobman' ) ?></th>
 				<td colspan="2">
 					<a href="<?php echo get_page_link( $options['main_page'] ) ?>"><?php echo get_page_link( $options['main_page'] ) ?></a> 
-					(<a href="<?php echo admin_url("page.php?action=edit&post={$options['main_page']}" ) ?>"><?php _e( 'edit', 'jobman' ) ?></a>)
+					(<a href="<?php echo get_edit_post_link( $options['main_page'] ) ?>"><?php _e( 'edit', 'jobman' ) ?></a>)
 				</td>
 			</tr>
 			<tr>
@@ -171,7 +182,7 @@ function jobman_print_categories_box() {
 	$template .= '<td><input class="regular-text code" type="text" name="slug[]" /></td>';
 	$template .= '<td><input class="regular-text code" type="text" name="email[]" /></td>';
 	$template .= '<td>&nbsp;</td>';
-	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-category-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td>';
+	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-category-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td></tr>';
 	
 	$display_template = str_replace( "\\'", "'", $template );
 	
@@ -247,7 +258,7 @@ function jobman_print_icons_box() {
 	$template = '<tr><td><input type="hidden" name="id[]" value="-1" /></td>';
 	$template .= '<td><input class="regular-text code" type="text" name="title[]" /></td>';
 	$template .= '<td><input class="regular-text code" type="file" name="icon[]" /></td>';
-	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-icon-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td>';
+	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-icon-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td></tr>';
 	
 	echo $template;
 ?>
@@ -458,27 +469,6 @@ function jobman_print_interview_box() {
 		</table>
 		
 		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update Interview Settings', 'jobman' ) ?>" /></p>
-		</form>
-<?php
-}
-
-function jobman_print_api_keys_box() {
-	$options = get_option( 'jobman_options' );
-?>
-		<form action="" method="post">
-		<input type="hidden" name="jobmanapikeyssubmit" value="1" />
-<?php 
-	wp_nonce_field( 'jobman-api-keys-updatedb' ); 
-?>
-		<table class="form-table">
-			<tr>
-				<th scope="row"><?php _e( 'Google Maps API', 'jobman' ) ?></th>
-				<td><input class="regular-text code" type="text" name="google-maps" value="<?php echo $options['api_keys']['google_maps'] ?>" /></td>
-				<td><span class="description"><?php printf( __( 'Job Manager uses Google Maps for the Geolocation application field. Functionality of this field will be severely hampered without a Google Maps key. You can register for a Google Maps key <a href="%1s">here</a>.', 'jobman' ), 'http://code.google.com/apis/maps/signup.html' ) ?></span></td>
-			</tr>
-		</table>
-		
-		<p class="submit"><input type="submit" name="submit"  class="button-primary" value="<?php _e( 'Update API Keys', 'jobman' ) ?>" /></p>
 		</form>
 <?php
 }

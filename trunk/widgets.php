@@ -244,7 +244,7 @@ class JobmanCategoriesWidget extends WP_Widget {
 	var jobman_dropdown = document.getElementById("jobman-catlist");
 	function onJobmanCatChange() {
 		if ( jobman_dropdown.options[jobman_dropdown.selectedIndex].value != '' ) {
-			location.href = "<?php echo home_url() ?>/?jcat="+jobman_dropdown.options[jobman_dropdown.selectedIndex].value;
+			location.href = "<?php echo get_option( 'home' ) ?>/?jcat="+jobman_dropdown.options[jobman_dropdown.selectedIndex].value;
 		}
 	}
 	jobman_dropdown.onchange = onJobmanCatChange;
