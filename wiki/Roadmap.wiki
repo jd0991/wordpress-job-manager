@@ -32,6 +32,10 @@ Stable: Early July 2010
   * Paging on Applications list: Issue #175
   * More Application filter options: Issue #176
 
+== Bugs to Fix == 
+
+  * Incorrect Placeholders in a string: Issue #206
+
 ----
 
 = 0.9 =
