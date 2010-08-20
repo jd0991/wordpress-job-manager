@@ -1,6 +1,37 @@
 <?php //encoding: utf-8
 
 function jobman_activate() {
+	global $wpdb;
+ 
+	if( function_exists( 'is_multisite' ) && is_multisite() ) {
+		// check if it is a network activation - if so, run the activation function for each blog id
+		if ( isset( $_GET['networkwide'] ) && ( 1 == $_GET['networkwide'] ) ) {
+	                $old_blog = $wpdb->blogid;
+			// Get all blog ids
+			$blogids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs" ) );
+			foreach ( $blogids as $blog_id ) {
+				switch_to_blog( $blog_id );
+				_jobman_activate();
+			}
+			switch_to_blog( $old_blog );
+			return;
+		}	
+	} 
+	_jobman_activate();		
+}
+
+function jobman_new_blog( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
+	global $wpdb;
+ 
+	if ( is_plugin_active_for_network( JOBMAN_BASENAME ) ) {
+		$old_blog = $wpdb->blogid;
+		switch_to_blog( $blog_id );
+		_jobman_activate();
+		switch_to_blog( $old_blog );
+	}
+}
+
+function _jobman_activate() {
 	$options = get_option( 'jobman_options' );
 	if( is_array( $options ) ) {
 		$version = $options['version'];
@@ -386,7 +417,38 @@ EOT;
 	}
 }
 
+function jobman_delete_blog( $blog_id ) {
+	global $wpdb;
+ 
+	if ( is_plugin_active_for_network( JOBMAN_BASENAME ) ) {
+		$old_blog = $wpdb->blogid;
+		switch_to_blog( $blog_id );
+		_jobman_uninstall();
+		switch_to_blog( $old_blog );
+	}
+}
+
 function jobman_uninstall() {
+	global $wpdb;
+ 
+	if( function_exists( 'is_multisite' ) && is_multisite() ) {
+		// check if it is a network activation - if so, run the activation function for each blog id
+		if ( isset( $_GET['networkwide'] ) && ( 1 == $_GET['networkwide'] ) ) {
+			$old_blog = $wpdb->blogid;
+			// Get all blog ids
+			$blogids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs" ) );
+			foreach ( $blogids as $blog_id ) {
+				switch_to_blog( $blog_id );
+				_jobman_uninstall();
+			}
+			switch_to_blog( $old_blog );
+			return;
+		}	
+	} 
+	_jobman_uninstall();		
+}
+
+function _jobman_uninstall() {
 	jobman_drop_db();
 	
 	$options = get_option( 'jobman_options' );

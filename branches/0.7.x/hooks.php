@@ -6,6 +6,9 @@ register_activation_hook( JOBMAN_FOLDER . '/job-manager.php', 'jobman_activate' 
 // Huh. Upgrades.
 add_filter( 'upgrader_post_install', 'jobman_activate' );
 
+// New blog!
+add_action( 'wpmu_new_blog', 'jobman_new_blog', 10, 6); 
+
 // Translation hook
 add_action( 'init', 'jobman_load_translation_file' );
 
@@ -63,6 +66,9 @@ add_action( 'wp_ajax_jobman_rate_interview', 'jobman_rate_interview' );
 //
 // Google XML Sitemap
 add_action( 'sm_buildmap', 'jobman_gxs_buildmap' );
+
+// Fare thee well, blog
+add_action( 'delete_blog', 'jobman_delete_blog', 10, 2 );
 
 // Uninstall function
 if( function_exists( 'register_uninstall_hook' ) )

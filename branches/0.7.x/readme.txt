@@ -85,10 +85,6 @@ Apache's `mod_mime_magic` doesn't recognise docx file type properly, and older v
 
 In your WordPress MultiSite admin, go to Site Admin->Options. Update the "Upload File Types" option to include the various extensions (doc, docx, pdf, odt) that people are likely to upload their resume with.
 
-= When I create a new site in WordPress MultiSite, Job Manager doesn't work on the new site =
-
-This is a known problem with WordPress not activating plugins correctly when a new site is created. Please install the [Proper Network Activation plugin](http://wordpress.org/extend/plugins/proper-network-activation/) as a workaround.
-
 == Other Plugin Support ==
 
 Job Manager supports added functionality when other plugins are installed. If you think your plugin could add some functionality to Job Manager, please [submit a feature request](http://code.google.com/p/wordpress-job-manager/issues/list).
@@ -128,6 +124,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * ADDED: Portuguese (Brazil) translation, provided by [Alex Ferreira](http://www.alexfj.com.br/)
 * FIXED: User registration page not working under some circumstances
 * FIXED: Job fields not being sorted correctly
+* FIXED: Play nicely with Multisite
 
 = 0.7.12 =
 * FIXED: Category list on application form could fail with fatal error
