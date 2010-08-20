@@ -129,7 +129,10 @@ function jobman_shortcode( $atts, $content, $tag ) {
 			
 			return implode( ', ', $cats );
 		case 'job_field_loop':
-			foreach( $options['job_fields'] as $fid => $field ) {
+			$fields = $options['job_fields'];
+			uasort( $fields, 'jobman_sort_fields' );
+			
+			foreach( $fields as $fid => $field ) {
 				$jobman_shortcode_field_id = $fid;
 				$jobman_shortcode_field = $field;
 				$return .= do_shortcode( $content );
