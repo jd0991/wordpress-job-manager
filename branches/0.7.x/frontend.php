@@ -148,7 +148,7 @@ function jobman_display_jobs( $posts ) {
 		else if( isset( $wp_query->query_vars['page_id'] ) )
 			$post = get_post( $wp_query->query_vars['page_id'] );
 
-		if( $post == NULL || ( ! isset( $wp_query->query_vars['jobman_page'] ) && $post->ID != $options['main_page'] && ! in_array( $post->post_type, array( 'jobman_job', 'jobman_app_form', 'jobman-register' ) ) ) )
+		if( $post == NULL || ( ! isset( $wp_query->query_vars['jobman_page'] ) && $post->ID != $options['main_page'] && ! in_array( $post->post_type, array( 'jobman_job', 'jobman_app_form', 'jobman_register' ) ) ) )
 			return $posts;
 	}
 
@@ -222,7 +222,7 @@ function jobman_display_jobs( $posts ) {
 					$postdata[$key] = $value;
 			}
 			
-			if( $post->post_type == 'jobman_job' ) {
+			if( 'jobman_job' == $post->post_type ) {
 				// We're looking at a job
 				$posts = jobman_display_job( $post->ID );
 				if( count( $posts ) > 0 )
