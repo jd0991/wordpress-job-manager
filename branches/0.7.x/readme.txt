@@ -125,6 +125,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: User registration page not working under some circumstances
 * FIXED: Job fields not being sorted correctly
 * FIXED: Play nicely with Multisite
+* FIXED: Applications incorrectly failing mandatory field checks
+* FIXED: A few PHP warnings
 
 = 0.7.12 =
 * FIXED: Category list on application form could fail with fatal error

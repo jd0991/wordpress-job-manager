@@ -476,6 +476,8 @@ function jobman_store_application( $jobid, $cat ) {
 	global $current_user;
 	get_currentuserinfo();
 
+	$cat = get_term_by( 'slug', $cat, 'jobman_category' );
+
 	$filter_err = jobman_check_filters( $jobid, $cat );
 	if($filter_err != -1) {
 		// Failed filter rules
@@ -647,7 +649,7 @@ function jobman_check_filters( $jobid, $cat ) {
 	$options = get_option( 'jobman_options' );
 	
 	$fields = $options['fields'];
-	
+
 	$matches = array();
 	if( count( $fields ) > 0 ) {
 		foreach( $fields as $id => $field ) {
@@ -655,6 +657,12 @@ function jobman_check_filters( $jobid, $cat ) {
 				// No filter for this field, not mandatory
 				continue;
 			
+			if( array_key_exists( 'categories', $field ) && count( $field['categories'] ) > 0 ) {
+				// If there are cats defined for this field, check that either the job has one of those categories, or we're submitting to that category
+				if( empty( $cat ) || ! in_array( $cat->term_id, $field['categories'] ) )
+					continue;
+			}
+
 			$used_eq = false;
 			$eqflag = false;
 			
