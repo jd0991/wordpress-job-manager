@@ -65,6 +65,8 @@ function _jobman_activate() {
 
 function jobman_create_default_settings() {
 	$options = array(
+					'app_cat_select' => '',
+					'app_job_select' => '',
 					'application_email_from' => 4,
 					'application_email_from_fields' => array( 2, 3 ),
 					'application_email_subject_text' => __( 'Job Application', 'jobman' ) . ':',
@@ -103,6 +105,8 @@ function jobman_create_default_settings() {
 								'job_after' => '',
 								'apply_before' => '',
 								'apply_after' => '',
+								'registration_before' => '',
+								'registration_after' => '',
 								'job_title_prefix' => __( 'Job', 'jobman' ) . ': ',
 								'application_acceptance' => __( 'Thank you for your application! We\'ll check it out, and get back to you soon!', 'jobman' )
 							),

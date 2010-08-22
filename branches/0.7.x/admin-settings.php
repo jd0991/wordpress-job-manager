@@ -515,7 +515,7 @@ function jobman_print_other_plugins_box() {
 	
 	$sicaptcha = false;
 	$class = 'pluginwarning';
-	$sistatus = __( 'Installed', 'jobman' );
+	$sistatus = __( 'Not Installed', 'jobman' );
 
 	if( class_exists( 'siCaptcha' ) ) {
 		$sicaptcha = true;
