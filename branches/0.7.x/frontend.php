@@ -83,7 +83,7 @@ function jobman_flush_rewrite_rules() {
 							'&lang=$matches[2]' . 
 							'&jobman_page=register&jobman_data=$matches[3]',
 							"($lang)?$url/feed/?" => 'index.php?feed=jobman&lang=$matches[2]',
-							"($lang)?$url/([^/]+)/?(page/(\d+)/?)?$" => "index.php?jobman_data=$matches[3]" .
+							"($lang)?$url/([^/]+)/?(page/(\d+)/?)?$" => 'index.php?jobman_data=$matches[3]' .
 							'&lang=$matches[2]' . 
 							'&page=$matches[5]',
 					);
@@ -116,9 +116,13 @@ function jobman_page_link( $link, $page = NULL ) {
 }
 
 function jobman_display_jobs( $posts ) {
-	global $wp_query, $wpdb, $jobman_displaying, $jobman_finishedpage, $sitepress;
+	global $wp_query, $wpdb, $jobman_displaying, $jobman_finishedpage, $sitepress, $wp_rewrite;
 
 	if( $jobman_finishedpage || $jobman_displaying )
+		return $posts;
+		
+	// Hack to fix Mystique theme CSS
+	if( array_key_exists( 'mystique', $wp_query->query_vars ) && 'css' == $wp_query->query_vars['mystique'] )
 		return $posts;
 	
 	$options = get_option( 'jobman_options' );
@@ -393,7 +397,10 @@ function jobman_display_head() {
 	foreach( $options['fields'] as $id => $field ) {
 		if( $field['mandatory'] ) {
 			$mandatory_ids[] = $id;
-			$mandatory_labels[] = $field['label'];
+			if( !empty( $field['label'] ) )
+				$mandatory_labels[] = $field['label'];
+			else
+				$mandatory_labels[] = $field['data'];
 		}
 	}
 ?>

@@ -220,6 +220,7 @@ function jobman_print_translators_box() {
 			<li><strong><?php _e( 'German', 'jobman' ) ?></strong> - <a href="http://www.tolingo.com/">tolingo translations</a></li>
 			<li><strong><?php _e( 'Portuguese (Brazil)', 'jobman' ) ?></strong> - <a href="http://www.alexfj.com.br/">Alex Ferreira</a></li>
 			<li><strong><?php _e( 'Spanish', 'jobman' ) ?></strong> - <a href="http://www.tradiart.com">TradiArt</a></li>
+			<li><strong><?php _e( 'Swedish', 'jobman' ) ?></strong> - <a href="http://www.saxekon.se/">Berndt Axelsson</a></li>
 		</ul>
 <?php
 }

@@ -260,7 +260,8 @@ function jobman_print_icons_box() {
 	$template .= '<td><input class="regular-text code" type="file" name="icon[]" /></td>';
 	$template .= '<td><a href="#" onclick="jobman_delete( this, \\\'id\\\', \\\'jobman-delete-icon-list\\\' ); return false;">' . __( 'Delete', 'jobman' ) . '</a></td></tr>';
 	
-	echo $template;
+	$print_template = str_replace( "\\'", "'", $template );
+	echo $print_template;
 ?>
 		<tr id="jobman-iconnew">
 				<td colspan="4" style="text-align: right;">

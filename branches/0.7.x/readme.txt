@@ -110,6 +110,7 @@ Notice the version number in brackets. This is the version series that the trans
 * German Translation (0.6.x), provided by [tolingo translations](http://www.tolingo.com/)
 * Portuguese (Brazil) Translation (0.7.x), provided by [Alex Ferreira](http://www.alexfj.com.br/)
 * Spanish Translation (0.7.x), provided by [TradiArt](http://www.tradiart.com)
+* Swedish Translation (0.7.x), provided by [Berndt Axelsson](http://www.saxekon.se/)
 
 = Special Thanks =
 
@@ -120,6 +121,16 @@ Notice the version number in brackets. This is the version series that the trans
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
+
+= 0.7.14 =
+* ADDED: Swedish Translation, provided by [Berndt Axelsson](http://www.saxekon.se/)
+* FIXED: Fields with no label not showing mandatory asterisk
+* FIXED: Checkboxes being skipped in mandatory field check
+* FIXED: Fields with no label not showing nicely in mandatory field check
+* FIXED: Stop overriding Mystique theme CSS
+* FIXED: Don't check Heading, HTML or Blank fields for Mandatory or Filter rules
+* FIXED: Admin JS error in IE7
+* FIXED: Jobs not displaying if WPML is enabled
 
 = 0.7.13 =
 * ADDED: Estonian Translation, provided by Robert Jakobson

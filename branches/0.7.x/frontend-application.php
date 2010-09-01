@@ -215,7 +215,7 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL, $cat = 
 					else
 						$content .= '<td class="th"></td>';
 
-					$content .= '<td>' . jobman_app_field_input_html( $id, $field, $data ) . '</td></tr>';
+					$content .= '<td>' . jobman_app_field_input_html( $id, $field, $data, $mandatory ) . '</td></tr>';
 					break;
 				case 'heading':
 					if( ! $start )
@@ -412,11 +412,14 @@ function jobman_generate_cat_select( $cat, $type ) {
 	return $content;
 }
 
-function jobman_app_field_input_html( $id, $field, $data ) {
+function jobman_app_field_input_html( $id, $field, $data, $mandatory = '' ) {
 	global $jobman_geoloc;
 	$content = '';
 	
 	$data = esc_attr( $data );
+	
+	if( ! empty( $field['label'] ) )
+		$mandatory = '';
 
 	switch( $field['type'] ) {
 		case 'text':
@@ -426,7 +429,7 @@ function jobman_app_field_input_html( $id, $field, $data ) {
 			$display_values = split( "\n", $field['data'] );
 			
 			foreach( $values as $key => $value ) {
-				$content .= "<input type='radio' name='jobman-field-$id' value='" . trim( $value ) . "' /> {$display_values[$key]}";
+				$content .= "$mandatory <input type='radio' name='jobman-field-$id' value='" . trim( $value ) . "' /> {$display_values[$key]}";
 				if( count( $values ) > 1 )
 					$content .= '<br/>';
 			}
@@ -436,7 +439,7 @@ function jobman_app_field_input_html( $id, $field, $data ) {
 			$display_values = split( "\n", $field['data'] );
 			
 			foreach( $values as $key => $value ) {
-				$content .= "<input type='checkbox' name='jobman-field-{$id}[]' value='" . trim( $value ) . "' /> {$display_values[$key]}";
+				$content .= "$mandatory <input type='checkbox' name='jobman-field-{$id}[]' value='" . trim( $value ) . "' /> {$display_values[$key]}";
 				if( count( $values ) > 1 )
 					$content .= '<br/>';
 			}
@@ -445,23 +448,23 @@ function jobman_app_field_input_html( $id, $field, $data ) {
 			$values = split( "\n", $data );
 			$display_values = split( "\n", $field['data'] );
 			
-			$content .= "<select name='jobman-field-{$id}[]'>";
+			$content .= "$mandatory <select name='jobman-field-{$id}[]'>";
 			foreach( $values as $key => $value ) {
 				$content .= "<option value='" . trim( $value ) . "' /> {$display_values[$key]}</option>";
 			}
 			$content .= "</select>";
 			return $content;
 		case 'textarea':
-			return "<textarea name='jobman-field-$id'>{$field['data']}</textarea>";
+			return "$mandatory <textarea name='jobman-field-$id'>{$field['data']}</textarea>";
 		case 'date':
-			return "<input type='text' class='datepicker' name='jobman-field-$id' value='$data' />";
+			return "$mandatory <input type='text' class='datepicker' name='jobman-field-$id' value='$data' />";
 		case 'file':
-			return "<input type='file' name='jobman-field-$id' />";
+			return "$mandatory <input type='file' name='jobman-field-$id' />";
 		case 'geoloc':
 			$jobman_geoloc = true;
 			$content .= "<input type='hidden' class='jobman-geoloc-data' name='jobman-field-$id' />";
 			$content .= "<input type='hidden' class='jobman-geoloc-original-display' name='jobman-field-original-display-$id' />";
-			$content .= "<input type='text' class='jobman-geoloc-display' name='jobman-field-display-$id' />";
+			$content .= "$mandatory <input type='text' class='jobman-geoloc-display' name='jobman-field-display-$id' />";
 			return $content;
 		case 'html':
 			return $field['data'];
@@ -655,6 +658,10 @@ function jobman_check_filters( $jobid, $cat ) {
 		foreach( $fields as $id => $field ) {
 			if( '' == $field['filter'] && ! $field['mandatory'] )
 				// No filter for this field, not mandatory
+				continue;
+				
+			if( in_array( $field['type'], array( 'html', 'heading', 'blank' ) ) )
+				// Not a field that we should be checking
 				continue;
 			
 			if( array_key_exists( 'categories', $field ) && count( $field['categories'] ) > 0 ) {
