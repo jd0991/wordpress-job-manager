@@ -1,21 +1,140 @@
-# Translation of the WordPress plugin Job Manager 0.7 by Gary Pendergast.
-# Copyright (C) 2010 Gary Pendergast
-# This file is distributed under the same license as the Job Manager package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
-#
+# Translation of 0.7 Series in Portuguese (Brazil)
+# This file is distributed under the same license as the 0.7 Series package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Job Manager 0.7\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/job-manager\n"
-"POT-Creation-Date: 2010-04-21 20:31+0000\n"
-"PO-Revision-Date: 2010-07-26 21:02+1000\n"
-"Last-Translator: Gary Pendergast <gary@pento.net>\n"
-"Language-Team: Alex <contato@alexfj.com.br>\n"
+"PO-Revision-Date: 2010-09-02 11:55+1000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: BRAZIL\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: GlotPress/0.1\n"
+"Project-Id-Version: 0.7 Series\n"
+"POT-Creation-Date: \n"
+"Last-Translator: Gary Pendergast <gary@pento.net>\n"
+"Language-Team: \n"
+
+#: admin-jobs.php:424
+#: admin-jobs.php:430
+msgid "HTML"
+msgstr "HTML"
+
+#: admin-jobs.php:424
+#: admin-jobs.php:430
+msgid "Visual"
+msgstr "Visual"
+
+#: admin-jobs.php:54
+msgid "You do not have permission to edit that Job"
+msgstr "Você não tem permissão para editar esta Vaga"
+
+#: admin-applications.php:612
+msgid "Share Application"
+msgstr "Compartilhar Perfil de Candidato"
+
+#: db.php:145
+msgid "No"
+msgstr "Não"
+
+#: admin-jobs.php:236
+msgid "New"
+msgstr "Novo (a)"
+
+#: db.php:145
+msgid "Yes"
+msgstr "Sim"
+
+#: db.php:235
+#: db.php:684
+msgid "Location"
+msgstr "Localização"
+
+#: db.php:227
+#: db.php:676
+msgid "End Date"
+msgstr "Data do Fim"
+
+#: db.php:219
+#: db.php:668
+msgid "Start Date"
+msgstr "Data de início"
+
+#: db.php:211
+#: db.php:660
+msgid "Salary"
+msgstr "Salário"
+
+#: db.php:203
+msgid "You need to read and agree to our privacy policy before we can accept your application. Please click the 'Back' button in your browser, read our privacy policy, and confirm that you accept."
+msgstr "Você deve ler e aceitar nossa política de privacidade antes de submeter sua inscrição. Por favor, clique no Botão de Voltar do seu Navegador, leia nossa política de privacidade e confirme que você a aceita para continuar."
+
+#: db.php:200
+#: db.php:202
+msgid "I have read and understood the privacy policy."
+msgstr "Eu li e entendi a política de privacidade."
+
+#: db.php:175
+msgid "Upload your CV"
+msgstr "Envie seu CV (Curriculum Vitae)"
+
+#: db.php:164
+msgid "Title of your degree"
+msgstr "Título do curso de Nível Superior"
+
+#: db.php:153
+msgid "Where did you complete your degree?"
+msgstr "Em que instituição você cursou o nível superior?"
+
+#: db.php:142
+msgid "Do you have a degree?"
+msgstr "Você possui algum curso de nível superior?"
+
+#: db.php:131
+msgid "Qualifications"
+msgstr "Qualificações"
+
+#: db.php:120
+msgid "Cell phone"
+msgstr "Celular"
+
+#: db.php:109
+msgid "Telephone"
+msgstr "Telefone"
+
+#: db.php:98
+msgid "Country"
+msgstr "País"
+
+#: db.php:87
+msgid "Post code"
+msgstr "CEP"
+
+#: db.php:76
+msgid "City"
+msgstr "Cidade"
+
+#: db.php:65
+msgid "Address"
+msgstr "Endereço"
+
+#: db.php:54
+msgid "Contact Details"
+msgstr "Informações para contato"
+
+#: db.php:32
+msgid "Surname"
+msgstr "Sobrenome"
+
+#: db.php:21
+msgid "Name"
+msgstr "Nome"
+
+#: db.php:10
+msgid "Personal Details"
+msgstr "Informações Pessoais"
+
+#: admin.php:218
+msgid "Spanish"
+msgstr "Espanhol"
 
 #: admin-application-form.php:11
 #: admin-jobs-settings.php:11
@@ -195,7 +314,6 @@ msgid "Custom Filters"
 msgstr "Filtros customizados"
 
 #: admin-applications.php:155
-#, php-format
 msgid "Up to %1s km from %2s"
 msgstr "De %2s km até %1s km"
 
@@ -326,10 +444,6 @@ msgstr "Candidato"
 #: admin-interviews.php:317
 msgid "Application Comments"
 msgstr "Comentários do candidato"
-
-#: admin-applications.php:612
-msgid "Share Application"
-msgstr "Compartilhar Perfil de Candidato"
 
 #: admin-applications.php:667
 #: admin-settings.php:591
@@ -483,7 +597,6 @@ msgid "Job Manager Page Template"
 msgstr "Modelo de Página do Gestor de Vagas"
 
 #: admin-frontend-settings.php:72
-#, php-format
 msgid "You can edit the page template used by Job Manager, by editing the Template Attribute of <a href=\"%s\">this page</a>."
 msgstr "Você pode editar o modelo da página usada pelo Gestor de Vagas, editando o Atributo do Modelo <a href=\"%s\">desta página</a>."
 
@@ -500,7 +613,6 @@ msgid "Date Format"
 msgstr "Formato de Data"
 
 #: admin-frontend-settings.php:82
-#, php-format
 msgid "The format to use for Job date fields. Leave blank to use the dates as they're entered. See the <a href='%1s'>documentation on date formatting</a> for further details."
 msgstr "O formato a ser utilizado em campos de data. Deixe em branco para utilizar as datas da mesma forma que são submetidas. Veja a  <a href='%1s'>documentação da formatação de datas</a> para maiores detalhes."
 
@@ -538,7 +650,6 @@ msgid "Closing Date"
 msgstr "Data de Fechamento"
 
 #: admin-frontend-settings.php:123
-#, php-format
 msgid "Custom Field: %1s"
 msgstr "Campo Customizado: %1s"
 
@@ -967,7 +1078,6 @@ msgstr "Depois do Formulário de Registro"
 #: admin-interviews.php:70
 #: admin-interviews.php:161
 #: admin-interviews.php:226
-#, php-format
 msgid "Job Manager: %1s Interviews"
 msgstr "Gestor de Vagas: %1s Entrevistas"
 
@@ -1057,10 +1167,6 @@ msgstr "Nova vaga criada"
 msgid "Job updated"
 msgstr "Vaga atualizada"
 
-#: admin-jobs.php:54
-msgid "You do not have permission to edit that Job"
-msgstr "Você não tem permissão para editar esta Vaga"
-
 #: admin-jobs.php:68
 #: admin-jobs.php:340
 #: admin-settings.php:143
@@ -1114,9 +1220,8 @@ msgid "Future"
 msgstr "Futuro"
 
 #: admin-jobs.php:204
-#, fuzzy
 msgid "Live"
-msgstr "Vivo"
+msgstr "Publicada"
 
 #: admin-jobs.php:204
 msgid "Expired"
@@ -1129,10 +1234,6 @@ msgstr "Gestor de Vagas: Nova Vaga"
 #: admin-jobs.php:234
 msgid "Create Job"
 msgstr "Criar Vaga"
-
-#: admin-jobs.php:236
-msgid "New"
-msgstr "Novo (a)"
 
 #: admin-jobs.php:239
 msgid "Job Manager: Edit Job"
@@ -1159,16 +1260,6 @@ msgstr "Sem Ícone"
 #: admin-jobs.php:337
 msgid "Icon to display for this job in the Job List"
 msgstr "Ícone a ser exibido para esta vaga na Lista de vagas"
-
-#: admin-jobs.php:424
-#: admin-jobs.php:430
-msgid "HTML"
-msgstr "HTML"
-
-#: admin-jobs.php:424
-#: admin-jobs.php:430
-msgid "Visual"
-msgstr "Visual"
 
 #: admin-jobs.php:455
 msgid "Delete File?"
@@ -1487,7 +1578,6 @@ msgid "Google Maps API"
 msgstr "API dos Mapas Google"
 
 #: admin-settings.php:492
-#, php-format
 msgid "Job Manager uses Google Maps for the Geolocation application field. Functionality of this field will be severely hampered without a Google Maps key. You can register for a Google Maps key <a href=\"%1s\">here</a>."
 msgstr "O Gestor de Vagas utiliza o Google Maps para o campo da Geolocalização no formulário de inscrição. As funcionalidades deste campo serão severamente prejudicadas sem uma Chave (Key) do Google Maps. Você pode se registrar para obter uma Chave do Google Maps <a href=\"%1s\">aqui</a>."
 
@@ -1580,8 +1670,6 @@ msgstr "Categorias do Gestor de Vagas que foram criadas."
 msgid "Update Uninstall Settings"
 msgstr "Atualizar Configurações de Desinstalação"
 
-#. #-#-#-#-#  plugin.pot (Job Manager 0.7)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
 #: admin.php:26
 #: admin.php:27
 #: admin.php:28
@@ -1591,6 +1679,18 @@ msgstr "Atualizar Configurações de Desinstalação"
 #: admin.php:34
 msgid "Job Manager"
 msgstr "Gestor de Vagas"
+
+#: admin.php:167
+msgid "Admin Settings"
+msgstr "Configurações"
+
+#: admin.php:169
+msgid "App. Form Settings"
+msgstr "Formulário"
+
+#: admin.php:170
+msgid "Job Form Settings"
+msgstr "Formulário de Vaga"
 
 #: admin.php:28
 msgid "Add Job"
@@ -1605,18 +1705,6 @@ msgstr "Minha lista de desejos na Amazon.com"
 #: admin.php:194
 msgid "Donate with PayPal"
 msgstr "Doar com PayPal"
-
-#: admin.php:167
-msgid "Admin Settings"
-msgstr "Configurações"
-
-#: admin.php:169
-msgid "App. Form Settings"
-msgstr "Formulário"
-
-#: admin.php:170
-msgid "Job Form Settings"
-msgstr "Formulário de Vaga"
 
 #: admin.php:191
 msgid "If this plugin helps you find that perfect new employee, I'd appreciate it if you shared the love, by way of my Donate or Amazon Wish List links below."
@@ -1643,7 +1731,6 @@ msgid "If you're using Job Manager in a language other than English, you have so
 msgstr "Caso você esteja usando o Gestor de Vagas em uma linguagem que não seja o Inglês, você deve ser grato a alguns dos meus maravilhosos tradutores!"
 
 #: admin.php:213
-#, php-format
 msgid "If you're fluent in a language not listed here, and would like to appear on this list, please <a href='%1s'>contact me</a>!"
 msgstr "Caso você seja fluente em uma linguagem listada aqui e gostasse de aparecer nesta lista, por favor <a href='%1s'>entre em contato</a>!"
 
@@ -1659,116 +1746,15 @@ msgstr "Francês"
 msgid "German"
 msgstr "Alemão"
 
-#: admin.php:218
-msgid "Spanish"
-msgstr "Espanhol"
-
-#: db.php:10
-msgid "Personal Details"
-msgstr "Informações Pessoais"
-
-#: db.php:21
-msgid "Name"
-msgstr "Nome"
-
-#: db.php:32
-msgid "Surname"
-msgstr "Sobrenome"
-
-#: db.php:54
-msgid "Contact Details"
-msgstr "Informações para contato"
-
-#: db.php:65
-msgid "Address"
-msgstr "Endereço"
-
-#: db.php:76
-msgid "City"
-msgstr "Cidade"
-
-#: db.php:87
-msgid "Post code"
-msgstr "CEP"
-
-#: db.php:98
-msgid "Country"
-msgstr "País"
-
-#: db.php:109
-msgid "Telephone"
-msgstr "Telefone"
-
-#: db.php:120
-msgid "Cell phone"
-msgstr "Celular"
-
-#: db.php:131
-msgid "Qualifications"
-msgstr "Qualificações"
-
-#: db.php:142
-msgid "Do you have a degree?"
-msgstr "Você possui algum curso de nível superior?"
-
-#: db.php:145
-msgid "Yes"
-msgstr "Sim"
-
-#: db.php:145
-msgid "No"
-msgstr "Não"
-
-#: db.php:153
-msgid "Where did you complete your degree?"
-msgstr "Em que instituição você cursou o nível superior?"
-
-#: db.php:164
-msgid "Title of your degree"
-msgstr "Título do curso de Nível Superior"
-
-#: db.php:175
-msgid "Upload your CV"
-msgstr "Envie seu CV (Curriculum Vitae)"
-
-#: db.php:200
-#: db.php:202
-msgid "I have read and understood the privacy policy."
-msgstr "Eu li e entendi a política de privacidade."
-
-#: db.php:203
-msgid "You need to read and agree to our privacy policy before we can accept your application. Please click the 'Back' button in your browser, read our privacy policy, and confirm that you accept."
-msgstr "Você deve ler e aceitar nossa política de privacidade antes de submeter sua inscrição. Por favor, clique no Botão de Voltar do seu Navegador, leia nossa política de privacidade e confirme que você a aceita para continuar."
-
-#: db.php:211
-#: db.php:660
-msgid "Salary"
-msgstr "Salário"
-
-#: db.php:219
-#: db.php:668
-msgid "Start Date"
-msgstr "Data de início"
-
 #: db.php:223
 #: db.php:672
 msgid "The date that the job starts. For positions available immediately, leave blank."
 msgstr "A data em que o emprego começa. Para empregos que começam logo após o contrato, deixe em branco."
 
-#: db.php:227
-#: db.php:676
-msgid "End Date"
-msgstr "Data do Fim"
-
 #: db.php:231
 #: db.php:680
 msgid "The date that the job finishes. For ongoing positions, leave blank."
 msgstr "A data em que o trabalho termina. Para empregos que não tem data prevista para terminar, deixe em branco."
-
-#: db.php:235
-#: db.php:684
-msgid "Location"
-msgstr "Localização"
 
 #: db.php:258
 #: db.php:332
@@ -1837,7 +1823,6 @@ msgstr "Link do perfil"
 
 #: frontend-jobs.php:108
 #: frontend-shortcodes.php:128
-#, php-format
 msgid "Jobs for %s"
 msgstr "Vabas para %s"
 
@@ -1846,12 +1831,10 @@ msgid "Related Categories"
 msgstr "Categorias Relacionadas"
 
 #: frontend-jobs.php:150
-#, php-format
 msgid "We currently don't have any jobs available. Please check back regularly, as we frequently post new jobs. In the meantime, you can also <a href='%s'>send through your résumé</a>, which we'll keep on file."
 msgstr "No momento não temos nenhuma vaga disponível. Por favor, procure visitar o site regularmente para verificar a postagem de novas vagas. Enquanto não há vagas, você pode também <a href='%s'>enviar seu CV (Currículo Vitae)</a>, para que possamos manter em nosso banco de dados."
 
 #: frontend-jobs.php:164
-#, php-format
 msgid "We currently don't have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href='%s'>send through your résumé</a>, which we'll keep on file, and you can check out the <a href='%s'>jobs we have available in other areas</a>."
 msgstr "No momento não temos nenhuma vaga disponível nesta área. Por favor, procure visitar o site regularmente para verificar a postagem de novas vagas. Enquanto não há vagas, você pode também <a href='%s'>enviar seu CV (Currículo Vitae)</a>, para que possamos manter em nosso banco de dados e você pode verificar as <a href='%s'>vagas disponíveis em outras áreas</a>."
 
@@ -1860,7 +1843,6 @@ msgid "This job doesn't exist"
 msgstr "Esta vaga não existe"
 
 #: frontend-jobs.php:225
-#, php-format
 msgid "Perhaps you followed an out-of-date link? Please check out the <a href=\"%s\">jobs we have currently available</a>."
 msgstr "Talvez você tentou abrir uma vaga expirada. Por favor, veja nossas <a href=\"%s\">vagas disponíveis</a>."
 
@@ -1870,7 +1852,6 @@ msgid "more"
 msgstr "mais"
 
 #: frontend-user.php:15
-#, php-format
 msgid "Welcome, %1s!"
 msgstr "Bem vindo, %1s!"
 
@@ -1913,12 +1894,10 @@ msgid "Password Again"
 msgstr "Digite sua senha novamente"
 
 #: frontend-user.php:102
-#, php-format
 msgid "This email address has already been registered. If you've previously registered but don't remember your password, please visit the <a href='%1s'>password reset page</a>."
 msgstr "Este endereço de e-mail já foi registrado antes. Caso você se tenha se registrado, mas não lembra a senha, visite a <a href='%1s'>página de recuperação de senhas</a>."
 
 #: frontend.php:277
-#, php-format
 msgid "This job listing was created using <a href=\"%s\" title=\"%s\">Job Manager</a> for WordPress, by <a href=\"%s\">Gary Pendergast</a>."
 msgstr "Esta listagem de vagas foi criada utilizando-se o plugin <a href=\"%s\" title=\"%s\">Gestor de Vagas</a> para sistemas WordPress, por <a href=\"%s\">Gary Pendergast</a>."
 
@@ -1969,13 +1948,11 @@ msgstr "Inscrever-se Agora"
 #: setup.php:94
 #: setup.php:353
 #: setup.php:354
-#, php-format
 msgid "Page %1s"
 msgstr "Página %1s"
 
 #: setup.php:95
 #: setup.php:355
-#, php-format
 msgid "Jobs %1s-%2s of %3s"
 msgstr "Vagas %1s-%2s de %3s"
 
@@ -2065,23 +2042,18 @@ msgstr "Uma lista customizada de vagas postadas no seu site"
 msgid "Comma separated list of Job IDs"
 msgstr "Lista de números de identificação de Vagas separadas por vírgula"
 
-#. Plugin URI of the plugin/theme
 msgid "http://pento.net/projects/wordpress-job-manager-plugin/"
 msgstr "http://pento.net/projects/wordpress-job-manager-plugin/"
 
-#. Description of the plugin/theme
 msgid "A job listing and job application management plugin for WordPress."
 msgstr "Um plugin para WordPress para Listagem de Vagas e Gerenciamento de inscrições de Empregos"
 
-#. Author of the plugin/theme
 msgid "Gary Pendergast"
 msgstr "Gary Pendergast"
 
-#. Author URI of the plugin/theme
 msgid "http://pento.net/"
 msgstr "http://pento.net/"
 
-#. Tags of the plugin/theme
 msgid "job, jobs, manager, list, listing, employment, employer, career"
 msgstr "vaga, vagas, gestor, lista, listagem, emprego, empregador, carreira"
 

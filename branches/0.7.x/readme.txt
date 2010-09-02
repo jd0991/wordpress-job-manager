@@ -124,6 +124,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.7.14 =
 * ADDED: Swedish Translation, provided by [Berndt Axelsson](http://www.saxekon.se/)
+* UPDATED: Portuguese (Brazil) Translation, provided by [Alex Ferreira](http://www.alexfj.com.br/)
+* UPDATED: Spanish Translation, provided by [TradiArt](http://www.tradiart.com)
 * FIXED: Fields with no label not showing mandatory asterisk
 * FIXED: Checkboxes being skipped in mandatory field check
 * FIXED: Fields with no label not showing nicely in mandatory field check
@@ -131,6 +133,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Don't check Heading, HTML or Blank fields for Mandatory or Filter rules
 * FIXED: Admin JS error in IE7
 * FIXED: Jobs not displaying if WPML is enabled
+* FIXED: Applications not printing properly in IE7
 
 = 0.7.13 =
 * ADDED: Estonian Translation, provided by Robert Jakobson
