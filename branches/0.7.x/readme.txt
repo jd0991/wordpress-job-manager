@@ -104,10 +104,10 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
 * Danish Translation (0.7.x), provided by [Christian Olesen](http://www.lithin.com/) and [Caspar Lange](http://www.lithin.com/)
-* Dutch Translation (0.7.x, 95% complete), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
+* Dutch Translation (0.7.x, 93% complete), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
 * Estonian Translation (0.7.x), provided by Robert Jakobson
 * French Translation (0.7.x), provided by [Fabrice Fotso](http://www.procure-smart.com/) and Vincent Clady
-* German Translation (0.6.x), provided by [tolingo translations](http://www.tolingo.com/)
+* German Translation (0.7.x, 95% complete), provided by [tolingo translations](http://www.tolingo.com/) and [Joachim Richter](http://www.la-palma-diving.com/)
 * Portuguese (Brazil) Translation (0.7.x), provided by [Alex Ferreira](http://www.alexfj.com.br/)
 * Spanish Translation (0.7.x), provided by [TradiArt](http://www.tradiart.com)
 * Swedish Translation (0.7.x), provided by [Berndt Axelsson](http://www.saxekon.se/)
@@ -124,6 +124,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.7.14 =
 * ADDED: Swedish Translation, provided by [Berndt Axelsson](http://www.saxekon.se/)
+* CHANGED: If no Sort Order is selected in Job List Sorting, it will default to ASC, rather than random
+* UPDATED: German Translation, provided by [Joachim Richter](http://www.la-palma-diving.com/)
 * UPDATED: Portuguese (Brazil) Translation, provided by [Alex Ferreira](http://www.alexfj.com.br/)
 * UPDATED: Spanish Translation, provided by [TradiArt](http://www.tradiart.com)
 * FIXED: Fields with no label not showing mandatory asterisk

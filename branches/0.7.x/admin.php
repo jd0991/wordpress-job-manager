@@ -222,7 +222,7 @@ function jobman_print_translators_box() {
 			<li><strong><?php _e( 'Dutch', 'jobman' ) ?></strong> - <a href="http://www.centrologic.nl/">Patrick Tessels</a>, <a href="http://webtaurus.nl/">Henk van den Bor</a></li>
 			<li><strong><?php _e( 'Estonian', 'jobman' ) ?></strong> - Robert Jakobson</li>
 			<li><strong><?php _e( 'French', 'jobman' ) ?></strong> - <a href="http://www.procure-smart.com/">Fabrice Fotso</a>, Vincent Clady</li>
-			<li><strong><?php _e( 'German', 'jobman' ) ?></strong> - <a href="http://www.tolingo.com/">tolingo translations</a></li>
+			<li><strong><?php _e( 'German', 'jobman' ) ?></strong> - <a href="http://www.tolingo.com/">tolingo translations</a>, <a href="http://www.la-palma-diving.com/">Joachim Richter</a></li>
 			<li><strong><?php _e( 'Portuguese (Brazil)', 'jobman' ) ?></strong> - <a href="http://www.alexfj.com.br/">Alex Ferreira</a></li>
 			<li><strong><?php _e( 'Spanish', 'jobman' ) ?></strong> - <a href="http://www.tradiart.com">TradiArt</a></li>
 			<li><strong><?php _e( 'Swedish', 'jobman' ) ?></strong> - <a href="http://www.saxekon.se/">Berndt Axelsson</a></li>

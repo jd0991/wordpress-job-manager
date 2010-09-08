@@ -1,6 +1,6 @@
 <?php // encoding: UTF-8
 function jobman_display_jobs_list( $cat ) {
-	global $jobman_shortcode_jobs, $jobman_shorcode_all_jobs, $jobman_shortcode_category, $jobman_shortcodes, $jobman_field_shortcodes, $wp_query;
+	global $jobman_shortcode_jobs, $jobman_shortcode_all_jobs, $jobman_shortcode_category, $jobman_shortcodes, $jobman_field_shortcodes, $wp_query;
 	$options = get_option( 'jobman_options' );
 
 	$content = '';
@@ -47,7 +47,7 @@ function jobman_display_jobs_list( $cat ) {
 				break;
 		}
 	}
-	
+
 	if( $options['jobs_per_page'] > 0 ) {
 		$args['numberposts'] = $options['jobs_per_page'];
 		$args['posts_per_page'] = $options['jobs_per_page'];
@@ -61,6 +61,8 @@ function jobman_display_jobs_list( $cat ) {
 	
 	if( in_array( $options['sort_order'], array( 'asc', 'desc' ) ) )
 		$args['order'] = $options['sort_order'];
+	else
+		$args['order'] = 'asc';
 	
 	if( 'all' != $cat )
 		$args['jcat'] = $category->slug;
@@ -73,7 +75,7 @@ function jobman_display_jobs_list( $cat ) {
 	$args['posts_per_page'] = '';
 	$args['offset'] = '';
 	$args['numberposts'] = -1;
-	$jobman_shorcode_all_jobs = get_posts( $args );
+	$jobman_shortcode_all_jobs = get_posts( $args );
 	
 	remove_filter( 'posts_where', 'jobman_job_live_where' );
 	remove_filter( 'posts_join', 'jobman_job_live_join' );

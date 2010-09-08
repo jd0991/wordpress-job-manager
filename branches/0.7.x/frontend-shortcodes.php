@@ -65,7 +65,7 @@ function jobman_add_app_field_shortcodes( $array ) {
 global $jobman_shortcode_row_number, $jobman_shortcode_field_id, $jobman_shortcode_field;
 							
 function jobman_shortcode( $atts, $content, $tag ) {
-	global $jobman_shortcode_jobs, $jobman_shorcode_all_jobs, $jobman_shortcode_category, $jobman_shortcode_job, $jobman_shortcode_row_number, $jobman_shortcode_field_id, $jobman_shortcode_field, $wp_query;
+	global $jobman_shortcode_jobs, $jobman_shortcode_all_jobs, $jobman_shortcode_category, $jobman_shortcode_job, $jobman_shortcode_row_number, $jobman_shortcode_field_id, $jobman_shortcode_field, $wp_query;
 	$options = get_option( 'jobman_options' );
 
 	$return = '';
@@ -254,7 +254,7 @@ function jobman_shortcode( $atts, $content, $tag ) {
 			else
 				$page = 1;
 				
-			if( $page * $options['jobs_per_page'] >= count( $jobman_shorcode_all_jobs ) )
+			if( $page * $options['jobs_per_page'] >= count( $jobman_shortcode_all_jobs ) )
 				return NULL;
 				
 			return $page + 1;
@@ -264,7 +264,7 @@ function jobman_shortcode( $atts, $content, $tag ) {
 			else
 				$page = 1;
 				
-			if( $page * $options['jobs_per_page'] >= count( $jobman_shorcode_all_jobs ) )
+			if( $page * $options['jobs_per_page'] >= count( $jobman_shortcode_all_jobs ) )
 				return NULL;
 				
 			if( array_key_exists( 'jcat', $wp_query->query_vars ) )
@@ -307,7 +307,7 @@ function jobman_shortcode( $atts, $content, $tag ) {
 
 			return $page;
 		case 'job_total':
-			return count( $jobman_shorcode_all_jobs );
+			return count( $jobman_shortcode_all_jobs );
 		case 'current_category_name':
 			if( empty( $jobman_shortcode_category ) )
 				return NULL;
