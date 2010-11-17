@@ -8,7 +8,7 @@ M-m-m-multi-user!
 
 == Due ==
 
-Beta: Unknown
+Beta: Unknown<br>
 Stable: Beta + 1 month
 
 == New Features ==
@@ -46,7 +46,7 @@ Polish v2
 
 == Due ==
 
-Beta: Unknown
+Beta: Unknown<br>
 Stable: Beta + 1 month
 
 == New Features ==
