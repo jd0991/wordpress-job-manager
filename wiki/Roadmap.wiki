@@ -8,8 +8,8 @@ M-m-m-multi-user!
 
 == Due ==
 
-Beta: Late June 2010<br>
-Stable: Early July 2010
+Beta: Unknown
+Stable: Beta + 1 month
 
 == New Features ==
 
@@ -46,8 +46,8 @@ Polish v2
 
 == Due ==
 
-Beta: Late July 2010<br>
-Stable: Early August 2010
+Beta: Unknown
+Stable: Beta + 1 month
 
 == New Features ==
 
@@ -80,7 +80,7 @@ Advanced Features
 
 == Due ==
 
-September 2010
+Unknown
 
 == New Features ==
 
@@ -100,7 +100,7 @@ More advanced features
 
 == Due ==
 
-October 2010
+Unknown
 
 == New Features ==
 
