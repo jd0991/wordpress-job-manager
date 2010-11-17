@@ -1,5 +1,6 @@
 <?php
 function jobman_display_apply( $jobid, $cat = NULL ) {
+	global $si_image_captcha;
 	get_currentuserinfo();
 
 	$options = get_option( 'jobman_options' );
@@ -142,7 +143,7 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 }
 
 function jobman_display_apply_generated( $foundjob = false, $job = NULL, $cat = NULL ) {
-	global $current_user, $si_image_captcha;
+	global $current_user, $si_image_captcha, $wp_version;
 	$options = get_option( 'jobman_options' );
 	
 	$content = '';
@@ -244,7 +245,10 @@ function jobman_display_apply_generated( $foundjob = false, $job = NULL, $cat = 
 	if( isset( $si_image_captcha ) && $options['plugins']['sicaptcha'] ) {
 		// SI CAPTCHA echos directly to screen. We need to redirect that to our $content buffer.
 		ob_start();
-		$si_image_captcha->si_captcha_comment_form();
+		if( $wp_version[0] > 2 )
+			$si_image_captcha->si_captcha_comment_form_wp3();
+		else
+			$si_image_captcha->si_captcha_comment_form();
 		$content .= '<tr><td colspan="2">' . ob_get_contents() . '</td></tr>';
 		ob_end_clean();
 	}
