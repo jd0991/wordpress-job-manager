@@ -88,7 +88,7 @@ function jobman_create_default_settings() {
 									'gxs' => 1,
 									'sicaptcha' => 0
 								),
-					'promo_link' => 0,
+					'promo_link' => 1,
 					'related_categories' => 1,
 					'rewrite_rules' => array(),
 					'sort_by' => '',
