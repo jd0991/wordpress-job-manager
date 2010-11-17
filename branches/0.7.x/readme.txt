@@ -130,6 +130,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Compatibility with SI CAPTCHA plugin
 * FIXED: compatibility with FeedWordPress plugin
 * FIXED: Sanity checking on some shortcodes
+* FIXED: Checking for sane values when deleting applications
 
 = 0.7.14 =
 * ADDED: Swedish Translation, provided by [Berndt Axelsson](http://www.saxekon.se/)

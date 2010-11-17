@@ -747,11 +747,13 @@ function jobman_application_delete() {
 	foreach( $apps as $app ) {
 		$appmeta = get_post_custom( $app );
 		$appdata = array();
-		foreach( $appmeta as $key => $value ) {
-			if( is_array( $value ) )
-				$appdata[$key] = $value[0];
-			else
-				$appdata[$key] = $value;
+		if( is_array( $appmeta ) ) {
+			foreach( $appmeta as $key => $value ) {
+				if( is_array( $value ) )
+					$appdata[$key] = $value[0];
+				else
+					$appdata[$key] = $value;
+			}
 		}
 
 		// Delete any files uploaded

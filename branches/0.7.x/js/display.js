@@ -7,6 +7,10 @@ function jobman_apply_filter() {
 		if( ( field.length > 0 && '' == field.attr('value') ) || ( field.attr('type') == 'checkbox' && !field.attr('checked') ) ) {
 			empty.push( jobman_mandatory_labels[ii] );
 		}
+		
+		if( field.attr('type') == 'radio' && ! jQuery("[name^=jobman-field-" + jobman_mandatory_ids[ii] + "] input:radio:checked").val() ) {
+			empty.push( jobman_mandatory_labels[ii] );
+		}
 	}
 	
 	if( empty.length > 0 ) {
