@@ -120,7 +120,7 @@ function jobman_display_register() {
 function jobman_register() {
 	global $jobman_register_failed, $wp_query;
 	
-	require ( ABSPATH . WPINC . '/registration.php' );
+	require_once( ABSPATH . WPINC . '/registration.php' );
 	
 	$vars = array( 'jobman_username', 'jobman_password', 'jobman_password2', 'jobman_email' );
 	
