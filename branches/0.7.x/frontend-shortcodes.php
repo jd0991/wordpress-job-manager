@@ -271,6 +271,9 @@ function jobman_shortcode( $atts, $content, $tag ) {
 				$url = get_term_link( $wp_query->query_vars['jcat'], 'jobman_category' );
 			else
 				$url = get_page_link( $options['main_page'] );
+				
+			if( is_a( $url, 'WP_Error' ) )
+				return NULL;
 			
 			$structure = get_option( 'permalink_structure' );
 			

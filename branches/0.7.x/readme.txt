@@ -127,6 +127,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: `<title>` text not displaying in Hybrid theme
 * FIXED: Some HTML errors on the frontend
 * FIXED: Page could error out with MS and no fancy URLS
+* FIXED: Compatibility with SI CAPTCHA plugin
+* FIXED: compatibility with FeedWordPress plugin
+* FIXED: Sanity checking on some shortcodes
 
 = 0.7.14 =
 * ADDED: Swedish Translation, provided by [Berndt Axelsson](http://www.saxekon.se/)
