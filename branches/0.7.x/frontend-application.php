@@ -105,12 +105,12 @@ function jobman_display_apply( $jobid, $cat = NULL ) {
 	}
 	
 	$content .= '<form action="" enctype="multipart/form-data" onsubmit="return jobman_apply_filter()" method="post">';
-	$content .= '<input type="hidden" name="jobman-apply" value="1">';
-	$content .= '<input type="hidden" name="jobman-jobid" value="' . $jobid . '">';
-	$content .= '<input type="hidden" name="jobman-categoryid" value="' . implode( ',', $cat_arr ) . '">';
+	$content .= '<input type="hidden" name="jobman-apply" value="1" />';
+	$content .= '<input type="hidden" name="jobman-jobid" value="' . $jobid . '" />';
+	$content .= '<input type="hidden" name="jobman-categoryid" value="' . implode( ',', $cat_arr ) . '" />';
 	
 	if( array_key_exists( 'jobman-joblist', $_REQUEST ) )
-		$content .= '<input type="hidden" name="jobman-joblist" value="' . implode( ',', $_REQUEST['jobman-joblist'] ) . '">';
+		$content .= '<input type="hidden" name="jobman-joblist" value="' . implode( ',', $_REQUEST['jobman-joblist'] ) . '" />';
 	
 	if( empty( $options['templates']['application_form'] ) ) {
 		$gencat = NULL;

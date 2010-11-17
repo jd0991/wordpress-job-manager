@@ -547,9 +547,10 @@ function jobman_updatedb() {
 	
 	wp_get_current_user();
 	
-	$displaystartdate = date( 'Y-m-d H:i:s', strtotime( stripslashes( $_REQUEST['jobman-displaystartdate'] ) ) );
-	if( empty( $displaystartdate ) )
-		$displaystartdate = date( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
+	if( array_key_exists( 'jobman-displaystartdate', $_REQUEST ) && ! empty( $_REQUEST['jobman-displaystartdate'] ) )
+		$displaystartdate = date( 'Y-m-d H:i:s', strtotime( stripslashes( $_REQUEST['jobman-displaystartdate'] ) ) );
+	else
+		$displaystartdate = date( 'Y-m-d H:i:s' );
 
 	$page = array(
 				'comment_status' => 'closed',

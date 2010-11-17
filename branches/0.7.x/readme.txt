@@ -122,6 +122,12 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7.15 =
+* FIXED: Wrong date being set on Jobs when no date is entered
+* FIXED: `<title>` text not displaying in Hybrid theme
+* FIXED: Some HTML errors on the frontend
+* FIXED: Page could error out with MS and no fancy URLS
+
 = 0.7.14 =
 * ADDED: Swedish Translation, provided by [Berndt Axelsson](http://www.saxekon.se/)
 * CHANGED: If no Sort Order is selected in Job List Sorting, it will default to ASC, rather than random

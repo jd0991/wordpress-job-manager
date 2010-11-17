@@ -164,6 +164,7 @@ function jobman_display_jobs_list( $cat ) {
 			$content .= sprintf( __( "We currently don't have any jobs available in this area. Please check back regularly, as we frequently post new jobs. In the mean time, you can also <a href='%s'>send through your résumé</a>, which we'll keep on file, and you can check out the <a href='%s'>jobs we have available in other areas</a>.", 'jobman' ), $url, get_page_link( $options['main_page'] ) );
 		}
 	}
+	$content .= '</p>';
 	
 	if( $applyform )
 		$content .= '</form>';

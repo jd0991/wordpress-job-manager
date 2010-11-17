@@ -135,7 +135,7 @@ function jobman_current_url() {
 
 function jobman_job_live_where( $where = '' ) {
 	global $wpdb;
-	$where .= " AND $wpdb->posts.post_date <= NOW() AND jobman_postmeta.meta_key='displayenddate' AND ( jobman_postmeta.meta_value='' OR jobman_postmeta.meta_value >= NOW() ) ";
+	$where .= " AND $wpdb->posts.post_date_gmt <= UTC_TIMESTAMP() AND jobman_postmeta.meta_key='displayenddate' AND ( jobman_postmeta.meta_value='' OR jobman_postmeta.meta_value >= UTC_TIMESTAMP() ) ";
 	return $where;
 }
 
