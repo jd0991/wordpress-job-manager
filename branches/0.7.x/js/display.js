@@ -4,12 +4,23 @@ function jobman_apply_filter() {
 	for( ii = 0; ii < jobman_mandatory_ids.length; ii++ ) {
 		field = jQuery("[name^=jobman-field-" + jobman_mandatory_ids[ii] + "]");
 		
-		if( ( field.length > 0 && '' == field.attr('value') ) || ( field.attr('type') == 'checkbox' && !field.attr('checked') ) ) {
+		if( field.length == 1 && '' == field.attr('value') ) {
 			empty.push( jobman_mandatory_labels[ii] );
 		}
 		
-		if( field.attr('type') == 'radio' && ! jQuery("[name^=jobman-field-" + jobman_mandatory_ids[ii] + "] input:radio:checked").val() ) {
-			empty.push( jobman_mandatory_labels[ii] );
+		if( field.attr('type') == 'radio' || field.attr('type') == 'checkbox' ) {
+			var checked = false;
+			
+			for( var jj = 0; jj < field.length; jj++ ) {
+				if( field[jj].checked ) {
+					checked = true;
+					break;
+				}
+			}
+			
+			if( ! checked ) {
+				empty.push( jobman_mandatory_labels[ii] );
+			}
 		}
 	}
 	
