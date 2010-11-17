@@ -512,7 +512,7 @@ function jobman_store_application( $jobid, $cat ) {
 	$_POST['jd_tweet_this'] = 'no';
 	
 	// Check for recent applications for the same job by the same user
-	if( ! empty( $current_user ) && -1 != $jobid ) {
+	if( ! empty( $current_user ) && $current_user->ID > 0 && -1 != $jobid ) {
 		$args = array(
 					'post_status' => 'private',
 					'post_type' => 'jobman_app',
