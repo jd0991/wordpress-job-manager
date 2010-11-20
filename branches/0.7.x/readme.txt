@@ -136,6 +136,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Radio buttons not being checked for the mandatory field popup
 * FIXED: Checkboxes not being checked properly for the mandatory field popup
 * FIXED: Duplication application check could be triggered by anonymous users
+* FIXED: Category pages not showing if main job page was set to front page
 
 = 0.7.14 =
 * ADDED: Swedish Translation, provided by [Berndt Axelsson](http://www.saxekon.se/)
