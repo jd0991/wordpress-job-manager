@@ -30,6 +30,7 @@ Stable: Beta + 1 month
   * Add Job Reference as a default Job Field: Issue #68
   * More Shortcodes: Issue #170
   * Paging on Applications list: Issue #175
+  * Paging on Jobs list: Issue #231
   * More Application filter options: Issue #176
 
 == Bugs to Fix == 
