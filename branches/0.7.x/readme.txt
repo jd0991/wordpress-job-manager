@@ -124,6 +124,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.7.15 =
 * CHANGED: "Powered By" line now defaults to off
+* CHANGED: Geoloc JS only loads if it might be needed
 * FIXED: Wrong date being set on Jobs when no date is entered
 * FIXED: `<title>` text not displaying in Hybrid theme
 * FIXED: Some HTML errors on the frontend

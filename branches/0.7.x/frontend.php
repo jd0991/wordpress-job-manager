@@ -301,12 +301,25 @@ function jobman_display_init() {
 	
 	if( defined( 'WP_ADMIN' ) && WP_ADMIN )
 		return;
+		
+	// Check for a geoloc field, so we can decide if we maybe need to include the geoloc JS
+	$include_geoloc = false;
+	if( ! empty( $options['fields'] ) ) {
+		foreach( $options['fields'] as $field ) {
+			if( 'geoloc' == $field['type'] ) {
+				$include_geoloc = true;
+				break;
+			}
+		}
+	}
 	
 	wp_enqueue_script( 'jquery-ui-datepicker', JOBMAN_URL . '/js/jquery-ui-datepicker.js', array( 'jquery-ui-core' ), JOBMAN_VERSION );
-	wp_enqueue_script( 'google-gears', JOBMAN_URL . '/js/gears_init.js', false, JOBMAN_VERSION );
 	wp_enqueue_script( 'jobman-display', JOBMAN_URL . '/js/display.js', false, JOBMAN_VERSION );
-	
-	wp_enqueue_script( 'google-maps', "http://maps.google.com/maps/api/js?sensor=true", false );
+
+	if( $include_geoloc ) {	
+		wp_enqueue_script( 'google-gears', JOBMAN_URL . '/js/gears_init.js', false, JOBMAN_VERSION );
+		wp_enqueue_script( 'google-maps', "http://maps.google.com/maps/api/js?sensor=true", false );
+	}
 	
 	wp_enqueue_style( 'jobman-display', JOBMAN_URL . '/css/display.css', false, JOBMAN_VERSION );
 }
@@ -469,6 +482,7 @@ jQuery(document).ready(function() {
 	}
 	else if( google.gears ) {
 		// Google Gears
+		
 		geo = google.gears.factory.create('beta.geolocation');
 		geo.getCurrentPosition( jobman_geo_success, 
 								jobman_geo_error,
