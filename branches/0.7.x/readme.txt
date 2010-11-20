@@ -128,14 +128,14 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Wrong date being set on Jobs when no date is entered
 * FIXED: `<title>` text not displaying in Hybrid theme
 * FIXED: Some HTML errors on the frontend
-* FIXED: Page could error out with MS and no fancy URLS
+* FIXED: Page could error out with MultiSite and no fancy URLS
 * FIXED: Compatibility with SI CAPTCHA plugin
-* FIXED: compatibility with FeedWordPress plugin
+* FIXED: Compatibility with FeedWordPress plugin
 * FIXED: Sanity checking on some shortcodes
 * FIXED: Checking for sane values when deleting applications
 * FIXED: Radio buttons not being checked for the mandatory field popup
 * FIXED: Checkboxes not being checked properly for the mandatory field popup
-* FIXED: Duplication application check could be triggered by anonymous users
+* FIXED: Duplicate application check could be triggered by anonymous users
 * FIXED: Category pages not showing if main job page was set to front page
 
 = 0.7.14 =
