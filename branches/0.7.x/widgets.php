@@ -25,11 +25,13 @@ class JobmanLatestJobsWidget extends WP_Widget {
 					
 		add_filter( 'posts_where', 'jobman_job_live_where' );
 		add_filter( 'posts_join', 'jobman_job_live_join' );
+		add_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 		
 		$jobs = get_posts( $args );
 		
 		remove_filter( 'posts_where', 'jobman_job_live_where' );
 		remove_filter( 'posts_join', 'jobman_job_live_join' );
+		remove_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 
 		foreach( $jobs as $id => $job ) {
 			// Remove jobs not in selected categories
@@ -214,11 +216,13 @@ class JobmanCategoriesWidget extends WP_Widget {
 					$count_args['jcat'] = $cat->slug;
 					add_filter( 'posts_where', 'jobman_job_live_where' );
 					add_filter( 'posts_join', 'jobman_job_live_join' );
+					add_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 					
 					$jobs = get_posts( $count_args );
 					
 					remove_filter( 'posts_where', 'jobman_job_live_where' );
 					remove_filter( 'posts_join', 'jobman_job_live_join' );
+					remove_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 				}
 				
 				if( $hide_empty && empty( $jobs ) )
@@ -330,11 +334,13 @@ class JobmanHighlightedJobsWidget extends WP_Widget {
 				);
 		add_filter( 'posts_where', 'jobman_job_live_where' );
 		add_filter( 'posts_join', 'jobman_job_live_join' );
+		add_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 		
 		$jobs = get_posts( $args );
 		
 		remove_filter( 'posts_where', 'jobman_job_live_where' );
 		remove_filter( 'posts_join', 'jobman_job_live_join' );
+		remove_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 
 		foreach( $jobs as $id => $job ) {
 			// Remove expired jobs
@@ -412,11 +418,13 @@ class JobmanJobsWidget extends WP_Widget {
 				);
 		add_filter( 'posts_where', 'jobman_job_live_where' );
 		add_filter( 'posts_join', 'jobman_job_live_join' );
+		add_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 		
 		$jobs = get_posts( $args );
 		
 		remove_filter( 'posts_where', 'jobman_job_live_where' );
 		remove_filter( 'posts_join', 'jobman_job_live_join' );
+		remove_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 
 		if( count( $jobs ) > 0 ) {
 			echo '<ul>';

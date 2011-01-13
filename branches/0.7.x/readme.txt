@@ -126,7 +126,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 = 0.7.16 =
 * ADDED: Czech Translation, provided by [Lukas](mailto:prdlik@centrum.cz)
 * FIXED: Jobs names starting with "register" weren't displaying
-* FIXED: WordPress Import could cause duplicate entries in the job list
+* FIXED: WordPress Import could cause duplicate entries in the job list and widgets
+* FIXED: Category lists weren't displaying properly for some users
 
 = 0.7.15 =
 * CHANGED: "Powered By" line now defaults to off
