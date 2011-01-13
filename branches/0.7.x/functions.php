@@ -145,6 +145,10 @@ function jobman_job_live_join( $join = '' ) {
 	return $join;
 }
 
+function jobman_job_live_distinct( $distinct = '' ) {
+	return 'distinct';
+}
+
 if( ! function_exists( 'array_insert' ) ) {
 	function array_insert( $array, $pos, $val )	{
 		$array2 = array_splice( $array, $pos );

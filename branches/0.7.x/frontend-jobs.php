@@ -70,9 +70,10 @@ function jobman_display_jobs_list( $cat ) {
 		
 	add_filter( 'posts_where', 'jobman_job_live_where' );
 	add_filter( 'posts_join', 'jobman_job_live_join' );
+	add_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 	
 	$jobs = get_posts( $args );
-	
+
 	$args['posts_per_page'] = '';
 	$args['offset'] = '';
 	$args['numberposts'] = -1;
@@ -80,6 +81,7 @@ function jobman_display_jobs_list( $cat ) {
 	
 	remove_filter( 'posts_where', 'jobman_job_live_where' );
 	remove_filter( 'posts_join', 'jobman_job_live_join' );
+	remove_filter( 'posts_distinct', 'jobman_job_live_distinct' );
 		
 	if( $options['user_registration'] ) {
 		if( 'all' == $cat && $options['loginform_main'] )

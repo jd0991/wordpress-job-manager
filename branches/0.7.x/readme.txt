@@ -124,6 +124,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.7.16 =
 * FIXED: Jobs names starting with "register" weren't displaying
+* FIXED: WordPress Import could cause duplicate entries in the job list
 
 = 0.7.15 =
 * CHANGED: "Powered By" line now defaults to off
