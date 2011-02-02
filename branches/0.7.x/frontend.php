@@ -31,8 +31,8 @@ function jobman_queryvars( $qvars ) {
 function jobman_add_rewrite_rules( $wp_rewrite ) {
 	$options = get_option( 'jobman_options' );
 	
-	if( ! empty( $wp_rewrite->rules ) && is_array( $wp_rewrite->rules ) )
-		$wp_rewrite->rules = $options['rewrite_rules'] + $wp_rewrite->rules;
+	if( ! empty( $wp_rewrite->rules ) && is_array( $wp_rewrite->rules ) && is_array( $options ) && array_key_exists( 'rewrite_rules', $options ) && is_array($options['rewrite_rules'] ) )
+		$wp_rewrite->rules = array_merge( $options['rewrite_rules'], $wp_rewrite->rules );
 }
 
 function jobman_flush_rewrite_rules() {

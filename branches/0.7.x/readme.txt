@@ -131,6 +131,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: WordPress Import could cause duplicate entries in the job list and widgets
 * FIXED: Category lists weren't displaying properly for some users
 * FIXED: HTML Calendar in the frontend job select
+* FIXED: (Hopefully) Activation error in WordPress Multi Site
 
 = 0.7.15 =
 * CHANGED: "Powered By" line now defaults to off
