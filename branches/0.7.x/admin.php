@@ -218,6 +218,7 @@ function jobman_print_translators_box() {
 		<p><?php _e( "If you're using Job Manager in a language other than English, you have some of my wonderful translators to thank for it!", 'jobman' ) ?></p>
 		<p><?php printf( __( "If you're fluent in a language not listed here, and would like to appear on this list, please <a href='%1s'>contact me</a>!", 'jobman' ), 'http://pento.net/contact/' ) ?>
 		<ul>
+			<li><strong><?php _e( 'Arabic', 'jobman' ) ?></strong> - Ali Al-Ghalebi</li>
 			<li><strong><?php _e( 'Czech', 'jobman' ) ?></strong> - <a href="mailto:prdlik@centrum.cz">Lukas</a></li>
 			<li><strong><?php _e( 'Danish', 'jobman' ) ?></strong> - <a href="http://www.lithin.com/">Christian Olesen</a>, <a href="http://www.lithin.com/">Caspar Lange</a></li>
 			<li><strong><?php _e( 'Dutch', 'jobman' ) ?></strong> - <a href="http://www.centrologic.nl/">Patrick Tessels</a>, <a href="http://webtaurus.nl/">Henk van den Bor</a></li>
