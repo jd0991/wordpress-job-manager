@@ -130,6 +130,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Jobs names starting with "register" weren't displaying
 * FIXED: WordPress Import could cause duplicate entries in the job list and widgets
 * FIXED: Category lists weren't displaying properly for some users
+* FIXED: HTML Calendar in the frontend job select
 
 = 0.7.15 =
 * CHANGED: "Powered By" line now defaults to off

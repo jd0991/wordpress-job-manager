@@ -353,7 +353,7 @@ function jobman_generate_job_select( $cat, $type = 'select' ) {
 		case 'select':
 		default:
 			$content .= "<select name='jobman-jobselect$inputarray'$selectmultiple>";
-			$content .= '<option value="">' . _e( 'None', 'jobman' ) . '</option>';
+			$content .= '<option value="">' . __( 'None', 'jobman' ) . '</option>';
 			foreach( $jobs as $job ) {
 				$selected = '';
 				if( array_key_exists( 'jobman-joblist', $_REQUEST ) && in_array( $job->ID, $_REQUEST['jobman-joblist'] ) )
