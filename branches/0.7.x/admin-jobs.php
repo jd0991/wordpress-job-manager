@@ -71,7 +71,7 @@ function jobman_list_jobs() {
 	$fieldcount = 0;
 	if( count( $fields ) > 0 ) {
 		foreach( $fields as $field ) {
-			if( $field['listdisplay'] ) {
+			if( array_key_exists( 'listdisplay', $field ) && $field['listdisplay'] ) {
 			$fieldcount++;
 ?>
 				<th scope="col"><?php echo $field['label'] ?></th>
@@ -208,7 +208,7 @@ function jobman_list_jobs_data( $jobs, $showexpired = false ) {
 <?php
 			if( count( $fields ) ) {
 				foreach( $fields as $id => $field ) {
-					if( $field['listdisplay'] ) {
+					if( array_key_exists( 'listdisplay', $field ) && $field['listdisplay'] ) {
 						$data = get_post_meta( $job->ID, "data$id", true );
 						if( ! empty( $data ) ) {
 							if( 'file' == $field['type'] )
