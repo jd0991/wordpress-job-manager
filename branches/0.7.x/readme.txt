@@ -103,7 +103,7 @@ If you want a [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) on your Applicatio
 
 Notice the version number in brackets. This is the version series that the translation is up-to-date with. If that version series is lower than the current release, you can still use the translation, there just may be some strings that still show in English. If you'd like to add your own language, or help keep an existing language up-to-date, please [contact me](http://pento.net/contact/)!
 
-* Arabic Translation (0.7.x), provided by Ali Al-Ghalebi
+* Arabic Translation (0.7.x), provided by [Ali Al-Ghalebi](http://www.ghalebi.info/)
 * Czech Translation (0.7.x), provided by [Lukas](mailto:prdlik@centrum.cz)
 * Danish Translation (0.7.x), provided by [Christian Olesen](http://www.lithin.com/) and [Caspar Lange](http://www.lithin.com/)
 * Dutch Translation (0.7.x, 93% complete), provided by [Patrick Tessels](http://www.centrologic.nl/) and [Henk van den Bor](http://webtaurus.nl/)
@@ -125,7 +125,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 == Changelog ==
 
 = 0.7.16 =
-* ADDED: Arabic Translation, provided by Ali Al-Ghalebi
+* ADDED: Arabic Translation, provided by [Ali Al-Ghalebi](http://www.ghalebi.info/)
 * ADDED: Czech Translation, provided by [Lukas](mailto:prdlik@centrum.cz)
 * FIXED: Jobs names starting with "register" weren't displaying
 * FIXED: WordPress Import could cause duplicate entries in the job list and widgets
