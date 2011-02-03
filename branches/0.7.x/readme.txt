@@ -133,6 +133,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: HTML Calendar in the frontend job select
 * FIXED: (Hopefully) Activation error in WordPress Multi Site
 * FIXED: Some PHP warnings on the Admin Jobs List page
+* FIXED: File fields being filter on application submit
 
 = 0.7.15 =
 * CHANGED: "Powered By" line now defaults to off

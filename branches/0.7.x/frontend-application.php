@@ -699,6 +699,10 @@ function jobman_check_filters( $jobid, $cat ) {
 			if( '' == $field['filter'] )
 				// No filter for this field, and mandatory check has passed
 				continue;
+
+			if( 'file' == $field['type'] )
+				// We can't filter files, so ignore any filter on it.
+				continue;
 				
 			$filters = split( "\n", $field['filter'] );
 			
