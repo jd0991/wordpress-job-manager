@@ -235,7 +235,6 @@ function jobman_display_jobs( $posts ) {
 			}
 			else if( 'jobman_app_form' == $post->post_type ) {
 				// We're looking at an application form
-				echo $jobman_data;
 				$jobid = (int) $jobman_data;
 				if( '' == $jobman_data )
 					$posts = jobman_display_apply( -1 );
