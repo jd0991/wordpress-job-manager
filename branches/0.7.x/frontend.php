@@ -64,9 +64,9 @@ function jobman_flush_rewrite_rules() {
 							"$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
 							'&page=$matches[2]',
 							"$url/apply(/([^/]+))?/?$" => "index.php?jobman_root_id=$root->ID" .
-							'&jobman_page=apply&jobman_data=$matches[1]',
+							'&jobman_page=apply&jobman_data=$matches[2]',
 							"$url/register(/([^/]+))?/?$" => "index.php?jobman_root_id=$root->ID" .
-							'&jobman_page=register&jobman_data=$matches[1]',
+							'&jobman_page=register&jobman_data=$matches[2]',
 							"$url/feed/?" => "index.php?feed=jobman",
 							"$url/([^/]+)/?(page/(\d+)/?)?$" => 'index.php?jobman_data=$matches[1]'.
 							'&page=$matches[3]',
@@ -75,18 +75,18 @@ function jobman_flush_rewrite_rules() {
 	else {
 		$new_rules = array( 
 							"($lang)?$url/?(page/(\d+)/?)?$" => "index.php?jobman_root_id=$root->ID" . 
-							'&lang=$matches[2]' . 
-							'&page=$matches[4]',
+							'&lang=$matches[1]' . 
+							'&page=$matches[3]',
 							"($lang)?$url/apply(/([^/]+))?/?$" => "index.php?jobman_root_id=$root->ID" .
-							'&lang=$matches[2]' . 
+							'&lang=$matches[1]' . 
 							'&jobman_page=apply&jobman_data=$matches[3]',
 							"($lang)?$url/register(/([^/]+))?/?$" => "index.php?jobman_root_id=$root->ID" .
-							'&lang=$matches[2]' . 
+							'&lang=$matches[1]' . 
 							'&jobman_page=register&jobman_data=$matches[3]',
-							"($lang)?$url/feed/?" => 'index.php?feed=jobman&lang=$matches[2]',
-							"($lang)?$url/([^/]+)/?(page/(\d+)/?)?$" => 'index.php?jobman_data=$matches[3]' .
+							"($lang)?$url/feed/?" => 'index.php?feed=jobman&lang=$matches[1]',
+							"($lang)?$url/([^/]+)/?(page/(\d+)/?)?$" => 'index.php?jobman_data=$matches[1]' .
 							'&lang=$matches[2]' . 
-							'&page=$matches[5]',
+							'&page=$matches[4]',
 					);
 	}
 	
@@ -235,6 +235,7 @@ function jobman_display_jobs( $posts ) {
 			}
 			else if( 'jobman_app_form' == $post->post_type ) {
 				// We're looking at an application form
+				echo $jobman_data;
 				$jobid = (int) $jobman_data;
 				if( '' == $jobman_data )
 					$posts = jobman_display_apply( -1 );

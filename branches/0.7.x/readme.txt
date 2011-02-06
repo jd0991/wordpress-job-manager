@@ -124,6 +124,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7.17 =
+* FIXED: Job Title not displaying on application page
+
 = 0.7.16 =
 * ADDED: Arabic Translation, provided by [Ali Al-Ghalebi](http://www.ghalebi.info/)
 * ADDED: Czech Translation, provided by [Lukas](mailto:prdlik@centrum.cz)
