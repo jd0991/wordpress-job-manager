@@ -558,7 +558,7 @@ function jobman_updatedb() {
 				'post_status' => 'publish',
 				'post_content' => '',
 				'post_name' => strtolower( str_replace( ' ', '-', $_REQUEST['jobman-title'] ) ),
-				'post_title' => stripslashes( $_REQUEST['jobman-title'] ),
+				'post_title' => stripslashes( html_entity_decode( $_REQUEST['jobman-title'] ) ),
 				'post_type' => 'jobman_job',
 				'post_date' => $displaystartdate,
 				'post_date_gmt' => $displaystartdate,
