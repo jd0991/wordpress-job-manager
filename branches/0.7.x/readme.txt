@@ -126,6 +126,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 = 0.7.18 =
 * FIXED: HTML entities not being encoded properly in job titles
+* FIXED: Could get a warning when submitting applications
 
 = 0.7.17 =
 * FIXED: Job Title not displaying on application page
