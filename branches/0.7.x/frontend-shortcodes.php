@@ -150,7 +150,7 @@ function jobman_shortcode( $atts, $content, $tag ) {
 			switch( $jobman_shortcode_field['type'] ) {
 				case 'date':
 					if( ! empty( $options['date_format'] ) )
-						return date( $options['date_format'], strtotime( $data ) );
+						return date_i18n( $options['date_format'], strtotime( $data ) );
 					else
 						return $data;
 				case 'textarea':
@@ -351,7 +351,7 @@ function jobman_field_shortcode( $atts, $content, $tag ) {
 	switch( $options['job_fields'][$matches[1]]['type'] ) {
 		case 'date':
 			if( ! empty( $options['date_format'] ) )
-				return date( $options['date_format'], strtotime( $data ) );
+				return date_i18n( $options['date_format'], strtotime( $data ) );
 			else
 				return $data;
 		case 'textarea':

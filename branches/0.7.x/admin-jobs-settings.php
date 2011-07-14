@@ -65,7 +65,7 @@ function jobman_job_setup() {
 ?>
 					</select><br />
 <?php
-			if( 1 == $field['listdisplay'] )
+			if( array_key_exists( 'listdisplay', $field ) && 1 == $field['listdisplay'] )
 				$checked = ' checked="checked"';
 			else
 				$checked = '';

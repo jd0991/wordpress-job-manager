@@ -192,6 +192,13 @@ function jobman_print_settings_tabs() {
 <?php
 }
 
+function jobman_print_other_projects_box() {
+?>
+		<a href="http://ponyedit.com/?utm_source=jobman&utm_medium=banner&utm_campaign=Job%2BManager"><strong>PonyEdit</strong></a>
+		<p><?php _e( 'If you like Job Manager and WordPress, but hate working on remote servers, you\'ll want to check out PonyEdit - a fast new text editor that plays nicely with the cloud!', 'jobman' ) ?></p>
+<?php
+}
+
 function jobman_print_donate_box() {
 ?>
 		<p><?php _e( "If this plugin helps you find that perfect new employee, I'd appreciate it if you shared the love, by way of my Donate or Amazon Wish List links below.", 'jobman' ) ?></p>

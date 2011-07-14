@@ -129,6 +129,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Could get a warning when submitting applications
 * FIXED: Unable to download the CSV of Applications when MultiSite is enabled
 * FIXED: Incorrect page numbers could show when dividing the jobs list into pages
+* FIXED: Frontend job dates weren't being translated
+* FIXED: A PHP warning in the settings
 
 = 0.7.17 =
 * FIXED: Job Title not displaying on application page
