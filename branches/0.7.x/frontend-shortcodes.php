@@ -249,7 +249,7 @@ function jobman_shortcode( $atts, $content, $tag ) {
 			
 			return "<a href='$url'>". do_shortcode( $content ) . '</a>';
 		case 'job_page_next_number':
-			if( array_key_exists( 'page', $wp_query->query_vars ) )
+			if( array_key_exists( 'page', $wp_query->query_vars ) && $wp_query->query_vars['page'] > 1 )
 				$page = $wp_query->query_vars['page'];
 			else
 				$page = 1;
@@ -259,7 +259,7 @@ function jobman_shortcode( $atts, $content, $tag ) {
 				
 			return $page + 1;
 		case 'job_page_next_link':
-			if( array_key_exists( 'page', $wp_query->query_vars ) )
+			if( array_key_exists( 'page', $wp_query->query_vars ) && $wp_query->query_vars['page'] > 1 )
 				$page = $wp_query->query_vars['page'];
 			else
 				$page = 1;
@@ -289,21 +289,21 @@ function jobman_shortcode( $atts, $content, $tag ) {
 			
 			return "<a href='$url'>". do_shortcode( $content ) . '</a>';
 		case 'job_page_minimum':
-			if( array_key_exists( 'page', $wp_query->query_vars ) )
+			if( array_key_exists( 'page', $wp_query->query_vars ) && $wp_query->query_vars['page'] > 1 )
 				$page = $wp_query->query_vars['page'];
 			else
 				$page = 1;
 
 			return ( $page - 1 ) * $options['jobs_per_page'] + 1;
 		case 'job_page_maximum':
-			if( array_key_exists( 'page', $wp_query->query_vars ) )
+			if( array_key_exists( 'page', $wp_query->query_vars ) && $wp_query->query_vars['page'] > 1 )
 				$page = $wp_query->query_vars['page'];
 			else
 				$page = 1;
 
 			return ( $page - 1 ) * $options['jobs_per_page'] + count( $jobman_shortcode_jobs );
 		case 'job_page_current_number':
-			if( array_key_exists( 'page', $wp_query->query_vars ) )
+			if( array_key_exists( 'page', $wp_query->query_vars ) && $wp_query->query_vars['page'] > 1 )
 				$page = $wp_query->query_vars['page'];
 			else
 				$page = 1;
