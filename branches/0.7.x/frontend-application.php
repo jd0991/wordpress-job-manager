@@ -932,8 +932,6 @@ function jobman_email_application( $appid, $sendto = '' ) {
 	
 	$fields = $options['fields'];
 	
-	$attachments = array();
-	
 	if( count( $fields ) > 0 ) {
 		uasort( $fields, 'jobman_sort_fields' );
 		foreach( $fields as $id => $field ) {
@@ -958,7 +956,6 @@ function jobman_email_application( $appid, $sendto = '' ) {
 					break;
 				case 'file':
 					$msg .= $field['label'] . ': ' . wp_get_attachment_url( $appdata["data$id"] ) . PHP_EOL;
-					$attachments[] = get_attached_file( $appdata["data$id"] );
 					break;
 				case 'geoloc':
 					$msg .= $field['label'] . ': ' . $appdata['data-display'.$id] . ' (' . $appdata['data'.$id] . ')' . PHP_EOL;
@@ -973,7 +970,7 @@ function jobman_email_application( $appid, $sendto = '' ) {
 	$header .= "Return-Path: $from" . PHP_EOL;
 	$header .= 'Content-type: text/plain; charset='. get_option( 'blog_charset' ) . PHP_EOL;
 	
-	wp_mail( $to, $subject, $msg, $header, $attachments );
+	wp_mail( $to, $subject, $msg, $header );
 }
 
 ?>
