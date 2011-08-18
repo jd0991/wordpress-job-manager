@@ -9,7 +9,7 @@ function jobman_change_loggedin_html( $html ) {
 }
 
 function jobman_change_login_html( $html ) {
-	if( 'automattic' == JOBMAN_VIP_SITE )
+	if( 'automattic-2011' == JOBMAN_VIP_SITE )
 		$loginurl = 'http://automattic.wordpress.com/wp-login.php?redirect_to=';
 	
 	$registerurl = 'http://en.wordpress.com/signup/?redirect_to=';
@@ -41,7 +41,7 @@ add_filter( 'jobman_login_html', 'jobman_change_login_html' );
 add_filter( 'jobman_register_html', 'jobman_change_register_html' );
 add_filter( 'jobman_pleaseregister_html', 'jobman_change_pleaseregister_html' );
 
-if( 'automattic' == JOBMAN_VIP_SITE ) {
+if( 'automattic-2011' == JOBMAN_VIP_SITE ) {
 	add_action( 'wp_head', 'jobman_automattic_display_head' );
 	add_action( 'admin_head-job-manager_page_jobman-list-applications', 'jobman_automattic_display_admin_head' );
 	add_filter( 'wp_get_attachment_url', 'jobman_automattic_filter_attachment_url', 10, 2 );
