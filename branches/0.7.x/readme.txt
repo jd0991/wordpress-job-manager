@@ -131,7 +131,8 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Incorrect page numbers could show when dividing the jobs list into pages
 * FIXED: Frontend job dates weren't being translated
 * FIXED: A PHP warning in the settings
-* FIXED: JS error with newer versions of jQuery
+* FIXED: Possible JS error with jQuery 1.5
+* FIXED: Incompatibility with jQuery 1.6
 
 = 0.7.17 =
 * FIXED: Job Title not displaying on application page
