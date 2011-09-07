@@ -2,7 +2,7 @@ function jobman_apply_filter() {
 	var ii, field;
 	var empty = new Array();
 	for( ii = 0; ii < jobman_mandatory_ids.length; ii++ ) {
-		field = jQuery("[name^=jobman-field-" + jobman_mandatory_ids[ii] + "]");
+		field = jQuery('[name^="jobman-field-' + jobman_mandatory_ids[ii] + '"]');
 		
 		if( field.length == 1 && '' == field.attr('value') ) {
 			empty.push( jobman_mandatory_labels[ii] );

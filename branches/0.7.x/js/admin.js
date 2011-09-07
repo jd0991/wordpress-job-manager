@@ -10,7 +10,7 @@ function jobman_sort_field_down(div) {
 }
 
 function jobman_delete(div, idname, delete_list) {
-	var id = jQuery(div).parent().parent().find('[name^=' + idname + ']').attr('value');
+	var id = jQuery(div).parent().parent().find('[name^="' + idname + '"]').attr('value');
 	
 	if(id == '-1') {
 		jQuery(div).parent().parent().remove();
