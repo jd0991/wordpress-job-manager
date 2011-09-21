@@ -713,7 +713,16 @@ function jobman_job_delete_confirm() {
 }
 
 function jobman_job_delete() {
+	$options = get_option( 'jobman_options' );
+	
 	$jobs = explode( ',', $_REQUEST['jobman-job-ids'] );
+	
+	// Get the file fields
+	$file_fields = array();
+	foreach( $options['job_fields'] as $id => $field ) {
+		if( 'file' == $field['type'] )
+			$file_fields[] = $id;
+	}
 	
 	foreach( $jobs as $job ) {
 		// Remove reference from applications
@@ -722,6 +731,23 @@ function jobman_job_delete() {
 			foreach( $apps as $app ) {
 				delete_post_meta( $app->ID, 'job', $job );
 			}
+		}
+
+		$jobmeta = get_post_custom( $job );
+		$jobdata = array();
+		if( is_array( $jobmeta ) ) {
+			foreach( $jobmeta as $key => $value ) {
+				if( is_array( $value ) )
+					$jobdata[$key] = $value[0];
+				else
+					$jobdata[$key] = $value;
+			}
+		}
+
+		// Delete any files uploaded
+		foreach( $file_fields as $fid ) {
+			if( array_key_exists( "data$fid", $jobdata )  && '' != $jobdata["data$fid"] )
+				wp_delete_post( $jobdata["data$fid"] );
 		}
 		// Delete the job
 		wp_delete_post( $job );

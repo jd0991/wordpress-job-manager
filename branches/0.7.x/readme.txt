@@ -133,6 +133,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: A PHP warning in the settings
 * FIXED: Possible JS error with jQuery 1.5
 * FIXED: Incompatibility with jQuery 1.6
+* FIXED: Files attached to jobs are now deleted when the job is deleted
 
 = 0.7.17 =
 * FIXED: Job Title not displaying on application page
