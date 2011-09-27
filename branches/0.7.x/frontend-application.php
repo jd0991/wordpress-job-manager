@@ -401,7 +401,7 @@ function jobman_generate_cat_select( $cat, $type ) {
 		case 'select':
 		default:
 			$content .= "<select name='jobman-catselect[]' multiple='multiple'>";
-			$content .= '<option value="">' . _e( 'None', 'jobman' ) . '</option>';
+			$content .= '<option value="">' . __( 'None', 'jobman' ) . '</option>';
 			foreach( $categories as $category ) {
 				$selected = '';
 				if( $category->slug == $cat )
