@@ -404,6 +404,8 @@ function jobman_display_head() {
 		$url = get_option( 'home' ) . '?feed=jobman';
 	}
 	else {
+		if( '/' != substr( $url, -1 ) )
+			$url .= '/';
 		$url .= 'feed/';
 	}
 
