@@ -55,11 +55,13 @@ function jobman_admin_print_styles() {
 	global $wp_styles;
 	
 	wp_enqueue_style( 'jobman-admin', JOBMAN_URL . '/css/admin.css', false, JOBMAN_VERSION, 'all' );
+	wp_enqueue_style( 'jobman-admin-ie7', JOBMAN_URL . '/css/admin-ie7.css', false, JOBMAN_VERSION, 'all' );
 	wp_enqueue_style( 'jobman-admin-print', JOBMAN_URL . '/css/admin-print.css', false, JOBMAN_VERSION, 'print' );
 	wp_enqueue_style( 'jobman-admin-print-ie7', JOBMAN_URL . '/css/admin-print-ie7.css', false, JOBMAN_VERSION, 'print' );
 	wp_enqueue_style( 'dashboard' );
 	
 	$wp_styles->add_data( 'jobman-admin-print-ie7', 'conditional', 'lte IE 7' );
+	$wp_styles->add_data( 'jobman-admin-ie7', 'conditional', 'lte IE 7' );
 }
 
 function jobman_admin_print_scripts() {
