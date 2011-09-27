@@ -3,7 +3,7 @@ Contributors: pento
 Donate link: http://pento.net/donate/
 Tags: jobs, job, manager, list, listing, employer, application, board
 Requires at least: 2.9
-Tested up to: 3.2
+Tested up to: 3.3
 Stable tag: trunk
 
 A job listing and job application management plugin for WordPress.
@@ -125,6 +125,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 == Changelog ==
 
 = 0.7.18 =
+* FIXED: Now compatible with WordPress 3.3!
 * FIXED: HTML entities not being encoded properly in job titles
 * FIXED: Could get a warning when submitting applications
 * FIXED: Unable to download the CSV of Applications when MultiSite is enabled

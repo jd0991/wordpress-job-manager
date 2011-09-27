@@ -1,13 +1,14 @@
 <?php
 function jobman_create_dashboard( $widths, $functions, $titles, $params = array() ) {
 ?>
+<input type="hidden" id="wp_auto_columns" />
 <div id="dashboard-widgets-wrap">
 	<div id='dashboard-widgets' class='metabox-holder'>
 <?php
 	$ii = 0;
 	foreach( $widths as $width ) {
 ?>
-		<div class='postbox-container' style='width:<?php echo $width ?>'>
+		<div id='postbox-container-<?php echo $ii + 1; ?>' class='postbox-container' style='width:<?php echo $width ?>'>
 			<div id='normal-sortables' class='meta-box-sortables'>
 <?php
 		$jj = 0;

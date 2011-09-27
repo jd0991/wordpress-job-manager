@@ -124,7 +124,7 @@ addLoadEvent(function() {
 	});
 	
 <?php
-	if( user_can_richedit() ) {
+	if( user_can_richedit()  && version_compare( $wp_version, '3.3-aortic-dissection', '<' ) ) {
 ?>
 	var jobman_textareas = <?php echo json_encode( $textareas ) ?>;
 

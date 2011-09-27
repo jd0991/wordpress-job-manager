@@ -37,11 +37,11 @@ function jobman_display_conf() {
 		$widths = array( '78%', '20%' );
 		$functions = array(
 						array( 'jobman_print_display_settings_box', 'jobman_print_sort_box', 'jobman_print_template_box', 'jobman_print_app_settings_box', 'jobman_print_app_template_box', 'jobman_print_misc_text_box', 'jobman_print_wrap_text_box' ),
-						array( 'jobman_print_other_projects_box', 'jobman_print_donate_box', 'jobman_print_about_box' )
+						array( /*'jobman_print_other_projects_box',*/ 'jobman_print_donate_box', 'jobman_print_about_box' )
 					);
 		$titles = array(
 					array( __( 'Display Settings', 'jobman' ), __( 'Job List Sorting', 'jobman' ), __( 'Job Templates', 'jobman' ), __( 'Application Form Settings', 'jobman' ), __( 'Application Form Template', 'jobman' ), __( 'Miscellaneous Text', 'jobman' ), __( 'Page Text', 'jobman' ) ),
-					array( __( 'My Other Projects', 'jobman' ), __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
+					array( /*__( 'My Other Projects', 'jobman' ),*/ __( 'Donate', 'jobman' ), __( 'About This Plugin', 'jobman' ))
 				);
 	}
 	else {
