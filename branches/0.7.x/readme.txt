@@ -137,6 +137,7 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 * FIXED: Files attached to jobs are now deleted when the job is deleted
 * FIXED: Incorrectly placed text in the category dropdown on the application form
 * FIXED: Select boxes not displaying properly in IE7
+* FIXED: RSS feed not loading correctly
 
 = 0.7.17 =
 * FIXED: Job Title not displaying on application page

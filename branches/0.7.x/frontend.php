@@ -38,6 +38,8 @@ function jobman_add_rewrite_rules( $wp_rewrite ) {
 function jobman_flush_rewrite_rules() {
 	global $wp_rewrite;
 
+	$wp_rewrite->feeds[] = 'jobman';
+
 	$options = get_option( 'jobman_options' );
 	
 	$root = get_page( $options['main_page'] );
