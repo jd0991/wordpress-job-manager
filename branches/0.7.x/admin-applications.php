@@ -51,14 +51,14 @@ function jobman_list_applications() {
 				<table>
 					<tr>
 						<th scope="row"><?php _e( 'Job ID', 'jobman' ) ?>:</th>
-						<td><input type="text" name="jobman-jobid" value="<?php echo ( array_key_exists( 'jobman-jobid', $_REQUEST ) )?( $_REQUEST['jobman-jobid'] ):( '' ) ?>" /></td>
+						<td><input type="text" name="jobman-jobid" value="<?php echo ( array_key_exists( 'jobman-jobid', $_REQUEST ) )?( htmlspecialchars($_REQUEST['jobman-jobid']) ):( '' ) ?>" /></td>
 					</tr>
 <?php
 	if( $options['user_registration'] ) {
 ?>
 					<tr>
 						<th scope="row"><?php _e( 'Registered Applicant', 'jobman' ) ?>:</th>
-						<td><input type="text" name="jobman-applicant" value="<?php echo ( array_key_exists( 'jobman-applicant', $_REQUEST ) )?( $_REQUEST['jobman-applicant'] ):( '' ) ?>" /></td>
+						<td><input type="text" name="jobman-applicant" value="<?php echo ( array_key_exists( 'jobman-applicant', $_REQUEST ) )?( htmlspecialchars($_REQUEST['jobman-applicant']) ):( '' ) ?>" /></td>
 					</tr>
 <?php
 	}
@@ -133,10 +133,10 @@ function jobman_list_applications() {
 			switch( $field['type'] ) {
 				case 'text':
 				case 'textarea':
-						echo "<td><input type='text' name='jobman-field-$id' value='$req_value' /></td>";
+						echo "<td><input type='text' name='jobman-field-$id' value='".htmlspecialchars($req_value)."' /></td>";
 					break;
 				case 'date':
-					echo "<td><input type='text' class='datepicker' name='jobman-field-$id' value='$req_value' /></td>";
+					echo "<td><input type='text' class='datepicker' name='jobman-field-$id' value='".htmlspecialchars($req_value)."' /></td>";
 					break;
 				case 'radio':
 				case 'checkbox':
@@ -482,7 +482,7 @@ function jobman_list_applications() {
 							}
 						}
 ?>
-				<td><?php echo $data ?></td>
+				<td><?php echo htmlspecialchars($data) ?></td>
 <?php
 					}
 				}
@@ -676,7 +676,7 @@ function jobman_application_display_details( $appid ) {
 					case 'date':
 					case 'textarea':
 					case 'select':
-						echo $item;
+						echo htmlspecialchars($item);
 						break;
 					case 'file':
 						$fileurl = wp_get_attachment_url( $item );
@@ -684,7 +684,7 @@ function jobman_application_display_details( $appid ) {
 							echo "<a href='$fileurl'>" . __( 'Download', 'jobman' ) . "</a>";
 						break;
 					case 'geoloc':
-						echo '<a href="http://maps.google.com/maps?q=' . urlencode( $item ) . '">' . $appdata['data-display'.$fid] . ' (' . $item . ')</a>';
+						echo '<a href="http://maps.google.com/maps?q=' . urlencode( $item ) . '">' . htmlspecialchars($appdata['data-display'.$fid]) . ' (' . htmlspecialchars($item) . ')</a>';
 						break;
 				}
 				if( $fid == $fromid ) {
