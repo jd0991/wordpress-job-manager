@@ -12,8 +12,6 @@ A job listing and job application management plugin for WordPress.
 
 A plugin for managing job lists and job applications on your WordPress site. It supports all the features you need to manage your organisation's job openings.
 
-Do you speak a language other than English? Do you have time to translate some strings? If so, I'd love to [hear from you](http://pento.net/contact/)!
-
 *    *Job Listing*
     *    Categories to create multiple job boards
     *    Jobs can be filed under multiple categories
@@ -42,8 +40,6 @@ Related links:
 * [Support Forum](http://wordpress.org/tags/job-manager?forum_id=10)
 * [Report Bugs and Request Features](http://code.google.com/p/wordpress-job-manager/issues/list)
 * [Development Roadmap](http://code.google.com/p/wordpress-job-manager/wiki/Roadmap)
-* [Translations](http://translations.pento.net/)
-* [Mailing List](http://groups.google.com/group/wordpress-job-manager)
 
 == Installation ==
 
@@ -123,6 +119,9 @@ Notice the version number in brackets. This is the version series that the trans
 Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC BY-ND](http://creativecommons.org/licenses/by-nd/3.0/) license.
 
 == Changelog ==
+
+= 0.7.19 =
+* FIXED: A bunch of XSS vulnerabilities. Props to [devbliss](devbliss.de).
 
 = 0.7.18 =
 * FIXED: Now compatible with WordPress 3.3!
