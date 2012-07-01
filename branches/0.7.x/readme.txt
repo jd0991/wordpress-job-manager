@@ -120,8 +120,11 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7.20 =
+* FIXED: Compatibility with Yoast SEO plugin. Props to [Joost](http://yoast.com).
+
 = 0.7.19 =
-* FIXED: A bunch of XSS vulnerabilities. Props to [devbliss](devbliss.de).
+* FIXED: A bunch of XSS vulnerabilities. Props to [devbliss](http://devbliss.de/).
 
 = 0.7.18 =
 * FIXED: Now compatible with WordPress 3.3!

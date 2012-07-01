@@ -82,7 +82,7 @@ function jobman_load_translation_file() {
 
 function jobman_page_taxonomy_setup() {
 	// Create our new page types
-	register_post_type( 'jobman_job', array( 'exclude_from_search' => false ) );
+	register_post_type( 'jobman_job', array( 'exclude_from_search' => false, 'public' => true, 'show_ui' => false, 'singular_name' => __( 'Job', 'jobman' ), 'label' => __( 'Jobs', 'jobman' ) ) );
 	register_post_type( 'jobman_joblist', array( 'exclude_from_search' => true ) );
 	register_post_type( 'jobman_app_form', array( 'exclude_from_search' => true ) );
 	register_post_type( 'jobman_app', array( 'exclude_from_search' => true ) );
