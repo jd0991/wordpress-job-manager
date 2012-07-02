@@ -1,5 +1,7 @@
 #summary The entire codebase needs to be re-written. This here is the plan.
 
+<wiki:toc max_depth="3" />
+
 = Introduction =
 
 Job Manager was first written around the time of !WordPress 2.8/2.9, and makes extensive use of features that weren't yet fully formed. As one of my earliest plugins, it also contains much gode that is written using sub-optimal methods, or just plain ugly hacks.
