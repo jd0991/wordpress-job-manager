@@ -12,6 +12,8 @@ This plan involves the following:
 
 As this is a fairly large milestone, I've decided to bump the version number to 1.0.
 
+All code shall follow the [http://codex.wordpress.org/WordPress_Coding_Standards WordPress Coding Standard].
+
 = Current Functionality =
 
 This is an in-depth look at the current functionality of Job Manager, including what needs to be kept, improved or discarded.
