@@ -8,7 +8,7 @@ Job Manager was first written around the time of !WordPress 2.8/2.9, and makes e
 
 This plan involves the following:
   * Re-create current functionality, though there may be parts that are deprecated.
-  * Roll in the features currently slated for version 0.8.
+  * Roll in some new features that would particularly benefit this release.
 
 As this is a fairly large milestone, I've decided to bump the version number to 1.0.
 
@@ -19,6 +19,9 @@ All code shall follow the [http://codex.wordpress.org/WordPress_Coding_Standards
 This is an in-depth look at the current functionality of Job Manager, including what needs to be kept, improved or discarded.
 
 == Settings ==
+
+The good news is that WordPress now provides functions for creating meta boxes, instead of having to generate the HTML ourselves.
+[http://codex.wordpress.org/Function_Reference/do_meta_boxes]
 
 === Admin Settings ===
 
@@ -59,3 +62,38 @@ Contextual help would be a really good idea, especially for explaining how filte
 === Job Form Settings ===
 
 Same kind of thing as *App. Form Settings* - remove _Show this field in the Admin Job List?_, add contextual help. 
+
+== Add Job / Jobs ==
+
+The listing and editing code will need to be completely re-written to use the custom post type API.
+
+== Applications ==
+
+Again, this will need to be rewritten using the custom post type API.
+
+For the filtering functionality, it looks like it can be implemented in a similar manner to these snippets:
+[http://yoast.com/custom-post-type-snippets/]
+
+== Emails ==
+
+I don't remember what this does.
+
+== Interviews ==
+
+This can stand alone fairly well, but it could probably do with a design refresh.
+
+= New Functionality =
+
+== Pluggable Field Types ==
+
+I'm cool with not exposing this anywhere, but I would like all the field types to be pluggable, as this will be a public feature in the future. It just needs to be a standard class that all field types inherit from, with appropriate functions for: 
+  * Output in:
+    * Front end HTML/Javascript
+    * Admin editor HTMLJavascript
+    * Admin list view HTML/Javascript
+    * Admin full view HTML/Javascript
+  * Filters:
+    * Javascript for checking input against filters
+    * PHP for checking input against filters
+    * PHP for sanity checking filters
+    * HTML help for filters
