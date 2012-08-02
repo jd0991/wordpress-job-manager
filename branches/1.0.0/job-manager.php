@@ -44,13 +44,16 @@ define( 'JOBMAN_BASENAME', plugin_basename( __FILE__ ) );
 // Define the complete directory path
 define( 'JOBMAN_DIR', dirname( __FILE__ ) );
 
-// Load scbFramework
-require dirname( __FILE__ ) . '/scb/load.php';
+// Load core Job Manager libraries
+require dirname( __FILE__ ) . '/class-custom-field.php';
+require dirname( __FILE__ ) . '/class-custom-field-set.php';
+require dirname( __FILE__ ) . '/class-job.php';
+require dirname( __FILE__ ) . '/class-options.php';
+require dirname( __FILE__ ) . '/setup.php';
 
-function jobman_init() {
-	$options = new scbOptions( 'my_plugin', __FILE__ );
+function test() {
+	\jobman\create_default_fields();
+	return \jobman\Job::get_field_set()->get_fields();
 }
-
-scb_init( 'jobman_init' );
 
 ?>
