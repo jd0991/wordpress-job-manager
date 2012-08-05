@@ -42,5 +42,11 @@ function render_radio_list( $name, $selected_option, $options ) {
 	}
 }
 
+// Render a text field
+function render_text_field( $name, $value = '' ) {
+	?>
+		<input type="text" name="<?php echo $name ?>" value="<?php echo $value ?>" />
+	<?php
+}
 
 ?>

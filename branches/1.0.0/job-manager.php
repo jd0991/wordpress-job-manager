@@ -55,9 +55,8 @@ require dirname( __FILE__ ) . '/class-admin-page-edit-job.php';
 require dirname( __FILE__ ) . '/setup.php';
 require dirname( __FILE__ ) . '/hooks.php';
 
-function test() {
-	\jobman\create_default_fields();
-	return \jobman\Job::get_field_set()->get_fields();
+function setup() {
+	\jobman\setup();
 }
 
 ?>

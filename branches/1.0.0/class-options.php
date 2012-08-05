@@ -39,6 +39,12 @@ class Options {
 		self::$changed = true;
 	}
 	
+	// Returns true if the given option name is set
+	static function is_set( $key ) {
+		self::load();
+		return array_key_exists( $key, self::$opts );
+	}
+	
 	// ************ Private members ************
 
 	// Make sure any unsaved changes to options are saved during singleton destruction (end of HTTP request)	

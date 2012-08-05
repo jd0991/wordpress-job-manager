@@ -34,6 +34,16 @@ class Custom_Field_Set {
 	
 	// Renders this field-set into a form
 	function render() {
+		$this->load_fields();
+		if ( count( $this->fields ) == 0 )
+			return;
+
+		// Sort by 'sortorder'
+		uasort( $this->fields, function( $a, $b ) {
+			return $a->sortorder == $b->sortorder ? 0 : ( $a->sortorder < $b->sortorder ? -1 : 1 );
+		} );
+
+		// Render each field
 		foreach ($this->get_fields() as $field) {
 			$field->render();
 		}

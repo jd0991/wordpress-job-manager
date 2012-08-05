@@ -1,5 +1,10 @@
 <?php namespace jobman;
 
+function setup() {
+	setup_database();
+	create_default_fields();
+}
+
 function setup_database() {
 
 	// Ensure the main jobs page exists
@@ -21,50 +26,52 @@ function setup_database() {
 }
 
 function create_default_fields() {
-
-	$job_fields = Job::get_field_set();
+	// Set up default job fields if no job_fields options member found
+	if ( ! Options::is_set( 'job_fields' ) ) {
+		$job_fields = Job::get_field_set();
+		
+		Custom_Field::create( $job_fields, array(
+			'label' => 'Start Date',
+			'type' => 'date',
+			'sortorder' => 0,
+			'description' => __( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' ),
+		) );	
+		
+		Custom_Field::create( $job_fields, array(
+			'label' => __( 'Salary', 'jobman' ),
+			'type' => 'text',
+			'sortorder' => 0,
+			'description' => ''
+		) );
 	
-	Custom_Field::create( $job_fields, array(
-		'label' => 'Start Date',
-		'type' => 'date',
-		'sortorder' => 0,
-		'description' => __( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' ),
-	) );	
+		Custom_Field::create( $job_fields, array(
+			'label' => __( 'Start Date', 'jobman' ),
+			'type' => 'date',
+			'sortorder' => 1,
+			'description' => __( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' )
+		) );
 	
-	Custom_Field::create( $job_fields, array(
-		'label' => __( 'Salary', 'jobman' ),
-		'type' => 'text',
-		'sortorder' => 0,
-		'description' => ''
-	) );
-
-	Custom_Field::create( $job_fields, array(
-		'label' => __( 'Start Date', 'jobman' ),
-		'type' => 'date',
-		'sortorder' => 1,
-		'description' => __( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' )
-	) );
-
-	Custom_Field::create( $job_fields, array(
-		'label' => __( 'End Date', 'jobman' ),
-		'type' => 'date',
-		'sortorder' => 2,
-		'description' =>  __( 'The date that the job finishes. For ongoing positions, leave blank.', 'jobman' )
-	) );
-
-	Custom_Field::create( $job_fields, array(
-		'label' => __( 'Location', 'jobman' ),
-		'type' => 'text',
-		'sortorder' => 3,
-		'description' => ''
-	) );
-
-	Custom_Field::create( $job_fields, array(
-		'label' => __( 'Job Information', 'jobman' ),
-		'type' => 'textarea',
-		'sortorder' => 4,
-		'description' => ''
-	) );
+		Custom_Field::create( $job_fields, array(
+			'label' => __( 'End Date', 'jobman' ),
+			'type' => 'date',
+			'sortorder' => 2,
+			'description' =>  __( 'The date that the job finishes. For ongoing positions, leave blank.', 'jobman' )
+		) );
+	
+		Custom_Field::create( $job_fields, array(
+			'label' => __( 'Location', 'jobman' ),
+			'type' => 'text',
+			'sortorder' => 3,
+			'description' => ''
+		) );
+	
+		Custom_Field::create( $job_fields, array(
+			'label' => __( 'Job Information', 'jobman' ),
+			'type' => 'textarea',
+			'sortorder' => 4,
+			'description' => ''
+		) );
+	}
 }
 
 ?>
