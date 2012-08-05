@@ -50,19 +50,30 @@ class Custom_Field {
 	
 	// Renders this field
 	function render() {
-		$field_name = 'jobman-field-' . $this->definition['id'];
+		$name = 'jobman-field-' . $this->definition['id'];
+		$type = $this->definition['type'];
+		$description = $this->definition['description'];
+		$col_span = ( 'textarea' == $type && '' == $description ) ? 2 : 1;
 	
-		field_open( $this->definition['label'] );
-		switch ( $this->definition['type'] ) {
+		field_open( $this->definition['label'], '', $col_span );
+		switch ( $type ) {
 			case 'text': 
-				render_text_field( $field_name );
+				render_text_field( $name );
+				break;
+				
+			case 'date':
+				render_date_picker( $name );
+				break;
+				
+			case 'textarea':
+				render_text_area( $name );
 				break;
 			
 			default:
-				echo 'OH NOES!';
+				echo 'OH NOES! Unknown: ' . $type;
 				break;
 		}
-		field_close( $this->definition['description'] );
+		field_close( $description );
 	}
 	
 }

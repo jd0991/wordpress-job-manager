@@ -12,19 +12,27 @@ function form_open( $action, $nonce ) {
 }
 
 // Echoes the opening table row line appropriate for an admin form	
-function field_open( $label, $div_class = '' ) {
+function field_open( $label, $div_class = '', $col_span = 1 ) {
 	?>
 		<tr>
 			<th scope="row"><?php echo $label ?></th>
-			<td><div class="<?php echo $div_class ?>">
+			<td colspan="<?php echo $col_span ?>">
+				<div class="<?php echo $div_class ?>">
 	<?php
 }
 
 // Echoes the closing table row line appropriate for an admin form
 function field_close( $description = '' ) {
 	?>
-			</div></td>
-			<td class="description"><?php echo $description ?></td>
+				</div>
+			</td>
+			<?php if ( '' != $description ) { ?>
+				<td>
+					<span class="description">
+						<?php echo $description ?>
+					</span>
+				</td>
+			<?php } ?>
 		</tr>
 	<?php
 }	
@@ -49,4 +57,32 @@ function render_text_field( $name, $value = '' ) {
 	<?php
 }
 
-?>
+// Render a date picker
+function render_date_picker( $name, $value = '' ) {
+	?>
+		<input type="text" class="datepicker" name="<?php echo $name ?>" value="<?php echo $value ?>" />
+	<?php
+}
+
+// Render a textarea
+function render_text_area( $name, $value = '' ) {
+	if( user_can_richedit() && version_compare( $wp_version, '3.3-aortic-dissection', '<' )) {
+		?>
+			<p id="field-toolbar-<?php echo $name ?>" class="jobman-editor-toolbar">
+				<a class="toggleHTML">
+					<?php _e( 'HTML', 'jobman' ) ?>
+				</a>
+				<a class="active toggleVisual">
+					<?php _e( 'Visual', 'jobman' ) ?>
+				</a>
+			</p>
+			<textarea class="large-text code jobman-editor <?php echo $name ?>" name="<?php echo $name ?>" id="<?php echo $name ?>" rows="7"><?php echo $value ?></textarea>
+		<?php
+	}
+	else {
+		wp_editor( $value, $name, array(
+			'editor_class' => "large-text code jobman-editor $name"
+		) );
+	}
+}
+
