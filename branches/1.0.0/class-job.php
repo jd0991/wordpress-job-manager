@@ -4,11 +4,10 @@
 class Job {
 
 	private static $custom_fields;
-	static function init_class() {
-		self::$custom_fields = new Custom_Field_Set( 'job_fields' );
-	}
 
 	static function get_field_set() {
+		if ( is_null( self::$custom_fields ) )
+			self::$custom_fields = new Custom_Field_Set( 'job_fields' );
 		return self::$custom_fields;
 	}
 
@@ -30,6 +29,5 @@ class Job {
 */	
 
 }
-Job::init_class();
 
 ?>

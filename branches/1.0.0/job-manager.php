@@ -45,11 +45,15 @@ define( 'JOBMAN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'JOBMAN_DIR', dirname( __FILE__ ) );
 
 // Load core Job Manager libraries
+require dirname( __FILE__ ) . '/form-helpers.php';
 require dirname( __FILE__ ) . '/class-custom-field.php';
 require dirname( __FILE__ ) . '/class-custom-field-set.php';
 require dirname( __FILE__ ) . '/class-job.php';
 require dirname( __FILE__ ) . '/class-options.php';
+require dirname( __FILE__ ) . '/class-admin-page.php';
+require dirname( __FILE__ ) . '/class-admin-page-edit-job.php';
 require dirname( __FILE__ ) . '/setup.php';
+require dirname( __FILE__ ) . '/hooks.php';
 
 function test() {
 	\jobman\create_default_fields();

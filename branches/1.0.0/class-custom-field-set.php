@@ -32,6 +32,13 @@ class Custom_Field_Set {
 		Options::save_later();
 	}
 	
+	// Renders this field-set into a form
+	function render() {
+		foreach ($this->get_fields() as $field) {
+			$field->render();
+		}
+	}
+	
 	// ************ Private members ************
 	
 	// Lazy-load custom fields the first time they're needed.
@@ -41,11 +48,11 @@ class Custom_Field_Set {
 			
 		//	Load the raw configuration data
 		$this->definitions = &Options::get( $this->option_key, array() );
-		
+
 		//	Generate a nice array of Custom_Fields to play with later
 		$this->fields = array();
-		foreach ($this->definitions as $id => $definition) {
-			$field = new Custom_Field( $definition );
+		foreach ($this->definitions as $id => &$definition) {
+			$field = Custom_Field::wrap_existing( $this, $definition );
 			$field->id = $id;
 			$this->fields[ $id ] = $field;
 		}
