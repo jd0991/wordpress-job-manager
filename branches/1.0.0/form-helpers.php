@@ -22,12 +22,17 @@ function field_open( $label, $div_class = '', $col_span = 1 ) {
 }
 
 // Echoes the closing table row line appropriate for an admin form
-function field_close( $description = '' ) {
+function field_close( $description = '', $error = null ) {
 	?>
 				</div>
 			</td>
-			<?php if ( '' != $description ) { ?>
+			<?php if ( '' != $description || ! is_null( $error ) ) { ?>
 				<td>
+					<?php if ( ! is_null( $error ) ) { ?>
+						<span class="error">
+							<?php echo $error ?>
+						</span>
+					<?php } ?>
 					<span class="description">
 						<?php echo $description ?>
 					</span>

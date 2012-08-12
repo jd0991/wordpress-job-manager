@@ -52,6 +52,7 @@ require dirname( __FILE__ ) . '/class-job.php';
 require dirname( __FILE__ ) . '/class-options.php';
 require dirname( __FILE__ ) . '/class-admin-page.php';
 require dirname( __FILE__ ) . '/class-admin-page-edit-job.php';
+require dirname( __FILE__ ) . '/class-admin-page-jobs.php';
 require dirname( __FILE__ ) . '/setup.php';
 require dirname( __FILE__ ) . '/hooks.php';
 

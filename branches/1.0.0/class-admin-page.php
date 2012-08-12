@@ -3,29 +3,41 @@
 
 class Admin_Page {
 
-	protected $menu_slug;
+	protected $details;
+	private static $pages;
+
+	// Called during admin initialization -- check for POSTs, to have a chance to redirect early. 
+	static function admin_init() {
+		self::create_pages();
+		
+		if ( array_key_exists( 'jobmansubmit', $_REQUEST ) ) {
+			self::$pages[$_REQUEST['page']]->handle_submit();
+		}
+	}
 
 	// Hook callback to setup all admin menus
 	static function setup_menus() {
+		self::create_pages();
+
 		// Setup the root admin menu page
 		add_menu_page( __( 'Job Manager', 'jobman' ), __( 'Job Manager', 'jobman' ), 'publish_posts', 'jobman-conf', 'jobman_conf' );
 	
-		// Setup the sub-pages
-		new Admin_Page_Edit_Job();
+		// Setup the sub-page menus
+		foreach ( self::$pages as $key => $page ) {
+			$details = $page->get_details();
+			$page->details = $details;
+			$page_name = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), $details['menu_title'], $details['capability'], $details['menu_slug'], array( $page, 'request_page' ) );
+			
+			// Set hooks to load JS and CSS for the page.
+			add_action( "admin_print_styles-$page_name", array( $page, 'enqueue_styles' ) );
+			add_action( "admin_print_scripts-$page_name", array( $page, 'enqueue_scripts' ) );
+			add_action( "admin_head-$page_name", array( $page, 'print_header' ) );
+		}
 	}
 	
-	// Default implementation of get_submenu_options; returns null for no submenu
-	function get_submenu_options() {
-		return null;
-	}
-
 	// Called every time this Admin page is hit; work out whether submitting a form or rendering a page, and call appropriate subclass methods
 	function request_page() {
-		if ( array_key_exists( 'jobmansubmit', $_REQUEST ) ) {
-			$this->handle_submit();
-		} else {
-			$this->render();
-		}
+		$this->render();
 	}
 	
 	// Callback to specify which JS scripts need to be rendered in the page's headers
@@ -62,22 +74,23 @@ class Admin_Page {
 		<?php
 	}
 
-	// ************ Private members ************
+	// ************ Protected members ************
 	
-	// Constructor adds the page to the admin menu, if applicable
-	private function __construct() {
-		$submenu = $this->get_submenu_options();
-		if ( null != $submenu ) {
-			$menu_slug = $submenu['menu_slug'];
-			$page = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), $submenu['menu_title'], $submenu['capability'], $submenu['menu_slug'], array( $this, 'request_page' ) );
-			
-			// Set hooks to load JS and CSS for the page.
-			add_action( "admin_print_styles-$page", array( $this, 'enqueue_styles' ) );
-			add_action( "admin_print_scripts-$page", array( $this, 'enqueue_scripts' ) );
-			add_action( "admin_head-$page", array( $this, 'print_header' ) );
+	// Default behaviour for register_menu; actually does nothing.
+	protected function register_menu() {}
+	
+	// Default implementation of get_submenu_options; returns null for no submenu
+	protected function get_details() {}
+	
+	private static function create_pages() {
+		if ( is_null( self::$pages ) ) {
+			self::$pages = array(
+				'jobman-edit-job' => new Admin_Page_Edit_Job(),
+				'jobman-jobs' => new Admin_Page_Jobs()
+			);
 		}
 	}
-
+	
 };
 
 ?>

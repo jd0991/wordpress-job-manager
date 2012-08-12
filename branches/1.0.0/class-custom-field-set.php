@@ -33,7 +33,7 @@ class Custom_Field_Set {
 	}
 	
 	// Renders this field-set into a form
-	function render() {
+	function render( $values, $errors ) {
 		$this->load_fields();
 		if ( count( $this->fields ) == 0 )
 			return;
@@ -45,8 +45,27 @@ class Custom_Field_Set {
 
 		// Render each field
 		foreach ($this->get_fields() as $field) {
-			$field->render();
+			$field_id = 'jobman-field-' . $field->id;
+			$field->render( $values[$field_id], $errors[$field_id] );
 		}
+	}
+	
+	// Validates a set of field values for this field set
+	function validate( $values ) {
+		$this->load_fields();		
+		$errors = array();	
+	
+		// Only check fields that start with 'jobman-field-'
+		foreach ( $values as $key => $value ) {
+			if ( preg_match( '/^jobman-field-([0-9]+)$/', $key, $matches ) ) {
+				$field_id = $matches[1];
+				$error = $this->fields[$field_id]->validate( $value );
+				if ( ! is_null( $error ) )
+					$errors[$key] = $error;
+			}
+		}
+		
+		return $errors;
 	}
 	
 	// ************ Private members ************
@@ -61,7 +80,7 @@ class Custom_Field_Set {
 
 		//	Generate a nice array of Custom_Fields to play with later
 		$this->fields = array();
-		foreach ($this->definitions as $id => &$definition) {
+		foreach ( $this->definitions as $id => &$definition ) {
 			$field = Custom_Field::wrap_existing( $this, $definition );
 			$field->id = $id;
 			$this->fields[ $id ] = $field;

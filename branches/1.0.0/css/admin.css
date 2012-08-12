@@ -1,3 +1,7 @@
+span.error {
+	color: red;
+}
+
 #ui-datepicker-div {	background-color: #fff;	border: 1px solid #000;}div.ui-datepicker-header a {	cursor: pointer;}a.ui-datepicker-next {	float: right;}div.ui-datepicker-title {	text-align: center;}td.ui-datepicker-current-day {	border: 1px solid #111;}table.ui-datepicker-calendar td {	text-align: center;	width: 25px;	height: 25px;}th.jobman-fieldsortorder {	width: 80px;}th.jobman-fielddelete {	width: 60px;}.form-table input.regular-text, .widefat input.regular-text {	min-width: 130px;	width: 95%;}#wpcontent select {	width: 100%;	min-width: 100px;}.form-table th {	width: 100px;	vertical-align: middle;}#jobman-jobs-list tr.live {	background-color: #e9ffd8;}#jobman-jobs-list tr.future {	background-color: #ffffc2;}#jobman-jobs-list tr.expired {	background-color: #fee4f8;}tr.jobman-expired-jobs td {	background: url("../../../../wp-admin/images/gray-grad.png") repeat-x scroll left top #DFDFDF;	height: 40px;	font-weight: bold;	text-align: center;	vertical-align: middle;}th.jobman-icon {	width: 80px;}div.star-holder {	height: 38px;	width: 95px;	cursor: pointer;}div.star-holder-readonly {	height: 19px;	width: 95px;}div.star-rating {	height: 19px;	background-color: #FC0;	z-index: 1;}
 
 div.star-holder a {

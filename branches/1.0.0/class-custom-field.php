@@ -49,7 +49,7 @@ class Custom_Field {
 	}
 	
 	// Renders this field
-	function render() {
+	function render( $value, $error ) {
 		$name = 'jobman-field-' . $this->definition['id'];
 		$type = $this->definition['type'];
 		$description = $this->definition['description'];
@@ -58,22 +58,34 @@ class Custom_Field {
 		field_open( $this->definition['label'], '', $col_span );
 		switch ( $type ) {
 			case 'text': 
-				render_text_field( $name );
+				render_text_field( $name, $value );
 				break;
 				
 			case 'date':
-				render_date_picker( $name );
+				render_date_picker( $name, $value );
 				break;
 				
 			case 'textarea':
-				render_text_area( $name );
+				render_text_area( $name, $value );
 				break;
 			
 			default:
 				echo 'OH NOES! Unknown: ' . $type;
 				break;
 		}
-		field_close( $description );
+		field_close( $description, $error );
+	}
+	
+	// Validate a single value against this field type
+	function validate( $value ) {
+		switch( $type ) {
+			case 'date':
+				if ( '' != $value && ! preg_match( '/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $value ) )
+					return 'Invalid date!';
+				break;
+		}	
+	
+		return null;
 	}
 	
 }
