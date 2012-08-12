@@ -67,17 +67,10 @@ function render_date_picker( $name, $value = '' ) {
 // Render a textarea
 function render_text_area( $name, $value = '' ) {
 	if( user_can_richedit() && version_compare( $wp_version, '3.3-aortic-dissection', '<' )) {
-		?>
-			<p id="field-toolbar-<?php echo $name ?>" class="jobman-editor-toolbar">
-				<a class="toggleHTML">
-					<?php _e( 'HTML', 'jobman' ) ?>
-				</a>
-				<a class="active toggleVisual">
-					<?php _e( 'Visual', 'jobman' ) ?>
-				</a>
-			</p>
-			<textarea class="large-text code jobman-editor <?php echo $name ?>" name="<?php echo $name ?>" id="<?php echo $name ?>" rows="7"><?php echo $value ?></textarea>
-		<?php
+		wp_editor( $value, 'tester', array(
+			'textarea_name' => $name,
+			'textarea_rows' => 7
+		) );
 	}
 	else {
 		wp_editor( $value, $name, array(

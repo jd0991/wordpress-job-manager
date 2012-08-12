@@ -2,7 +2,7 @@ $ = jQuery;
 
 $('document').ready(function() {
 
-	//	Set up Date Pickers
+	// Set up Date Pickers
 	$('.datepicker').datepicker({
 		dateFormat: 'yy-mm-dd', 
 		changeMonth: true, 
@@ -12,6 +12,8 @@ $('document').ready(function() {
 		buttonImage: jobman_config.url + '/images/calendar.gif',
 		buttonImageOnly: true
 	});
-
+	
 });
+
+
 
