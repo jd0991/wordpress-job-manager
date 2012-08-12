@@ -20,24 +20,19 @@ class Admin_Page {
 		self::create_pages();
 
 		// Setup the root admin menu page
-		add_menu_page( __( 'Job Manager', 'jobman' ), __( 'Job Manager', 'jobman' ), 'publish_posts', 'jobman-conf', 'jobman_conf' );
+		add_menu_page( __( 'Job Manager', 'jobman' ), __( 'Settings', 'jobman' ), 'publish_posts', 'jobman-conf', array( self::$pages[0], 'render' ) );
 	
 		// Setup the sub-page menus
 		foreach ( self::$pages as $key => $page ) {
 			$details = $page->get_details();
 			$page->details = $details;
-			$page_name = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), $details['menu_title'], $details['capability'], $details['menu_slug'], array( $page, 'request_page' ) );
+			$page_name = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), $details['menu_title'], $details['capability'], $details['menu_slug'], array( $page, 'render' ) );
 			
 			// Set hooks to load JS and CSS for the page.
 			add_action( "admin_print_styles-$page_name", array( $page, 'enqueue_styles' ) );
 			add_action( "admin_print_scripts-$page_name", array( $page, 'enqueue_scripts' ) );
 			add_action( "admin_head-$page_name", array( $page, 'print_header' ) );
 		}
-	}
-	
-	// Called every time this Admin page is hit; work out whether submitting a form or rendering a page, and call appropriate subclass methods
-	function request_page() {
-		$this->render();
 	}
 	
 	// Callback to specify which JS scripts need to be rendered in the page's headers
@@ -85,6 +80,7 @@ class Admin_Page {
 	private static function create_pages() {
 		if ( is_null( self::$pages ) ) {
 			self::$pages = array(
+				'jobman-settings' => new Admin_Page_Settings(),
 				'jobman-edit-job' => new Admin_Page_Edit_Job(),
 				'jobman-jobs' => new Admin_Page_Jobs()
 			);
