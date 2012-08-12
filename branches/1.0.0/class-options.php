@@ -3,7 +3,6 @@
 class Options {
 
 	private static $opts = null;
-	private static $instance;
 	private static $changed = false;
 	
 	// Tell the options that they need to save themselves at the end of the current HTTP request	
@@ -45,27 +44,24 @@ class Options {
 		return array_key_exists( $key, self::$opts );
 	}
 	
-	// ************ Private members ************
-
-	// Make sure any unsaved changes to options are saved during singleton destruction (end of HTTP request)	
-	function __destruct() {
+	static function save_if_needed() {
 		if (self::$changed)
 			Options::save();
 	}
 	
+	// ************ Private members ************
+
 	// Lazy-load options hash on first use
 	private static function load() {
 		if ( self::$opts != null )
 			return;
 
-		// Instance is used to auto-save on destruct.
-		self::$instance = new Options();
 		self::$opts = get_option( 'jobman_options', array() );
 	}
 	
 	// Actually save the options hash. Generally called during the destructor.
 	private static function save() {
-		update_option( 'jobman_options', self::$opts );
+//		update_option( 'jobman_options', self::$opts );
 	}
 
 }
