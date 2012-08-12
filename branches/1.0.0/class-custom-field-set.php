@@ -54,7 +54,7 @@ class Custom_Field_Set {
 	function validate( $values ) {
 		$this->load_fields();		
 		$errors = array();	
-	
+		
 		// Only check fields that start with 'jobman-field-'
 		foreach ( $values as $key => $value ) {
 			if ( preg_match( '/^jobman-field-([0-9]+)$/', $key, $matches ) ) {

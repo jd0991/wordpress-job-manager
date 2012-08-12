@@ -78,7 +78,7 @@ class Custom_Field {
 	
 	// Validate a single value against this field type
 	function validate( $value ) {
-		switch( $type ) {
+		switch( $this->definition['type'] ) {
 			case 'date':
 				if ( '' != $value && ! preg_match( '/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $value ) )
 					return 'Invalid date!';
