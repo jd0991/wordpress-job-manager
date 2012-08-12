@@ -51,6 +51,11 @@ class Admin_Page_Edit_Job extends Admin_Page {
 						) );
 						field_close( __( 'Icon to display for this job in the Job List', 'jobman' ) );
 						
+						// Title
+						field_open( __( 'Title', 'jobman' ) );
+						render_text_field( 'jobman-title', '' );
+						field_close();
+						
 						// Custom Fields
 						$field_set = Job::get_field_set();
 						$field_set->render();
