@@ -48,9 +48,14 @@ class Custom_Field {
 		return $this->definition;
 	}
 	
+	// Returns true if this field should show up in job lists
+	function list_display() {
+		return array_key_exists( 'listdisplay', $this->definition ) ? $this->definition['listdisplay'] : false;
+	}
+	
 	// Renders this field
 	function render( $value, $error ) {
-		$name = 'jobman-field-' . $this->definition['id'];
+		$name = 'data' . $this->definition['id'];
 		$type = $this->definition['type'];
 		$description = $this->definition['description'];
 		$col_span = ( 'textarea' == $type && '' == $description ) ? 2 : 1;

@@ -81,13 +81,26 @@ class Admin_Page_Edit_Job extends Admin_Page {
 		$jobid = $_REQUEST['jobid'];
 		check_admin_referer( "jobman-edit-job-$jobid" );		
 		
+		// Clean up some properties...
+		$job = $_REQUEST;
+		if( array_key_exists( 'jobman-displaystartdate', $job ) && ! empty( $job['jobman-displaystartdate'] ) )
+			$job['jobman-displaystartdate'] = date( 'Y-m-d H:i:s', strtotime( stripslashes( $job['jobman-displaystartdate'] ) ) );
+		else
+			$job['jobman-displaystartdate'] = date( 'Y-m-d H:i:s' );	
+			
 		if ( 'new' == $jobid ) {
+
 			// Create a new job
-			if ( Job::create( $_REQUEST ) ) {
+			if ( Job::create( $job ) ) {
+
 				// On successful creation, redirect to main jobs list with a created message.
 				wp_redirect( admin_url( 'admin.php?page=jobman-list-jobs&created=1' ) );
 				exit;
-			}	// Fall through to default rendering behaviour on failure
+			} else {
+				// Fall through to default rendering behaviour on failure
+				return;
+			}
+
 		} else {
 			//	TODO: Code to update exiating jobs goes here.
 		}
