@@ -97,7 +97,6 @@ class Admin_Page_Edit_Job extends Admin_Page {
 
 			// Create a new job
 			if ( Job::create( $job ) ) {
-
 				// On successful creation, redirect to main jobs list with a created message.
 				wp_redirect( admin_url( 'admin.php?page=jobman-list-jobs&created=1' ) );
 				exit;

@@ -45,8 +45,9 @@ class Options {
 	}
 	
 	static function save_if_needed() {
-		if (self::$changed)
+		if ( self::$changed ) {
 			Options::save();
+		}
 	}
 	
 	// ************ Private members ************
@@ -61,7 +62,7 @@ class Options {
 	
 	// Actually save the options hash. Generally called during the destructor.
 	private static function save() {
-//		update_option( 'jobman_options', self::$opts );
+		update_option( 'jobman_options', self::$opts );
 	}
 
 }

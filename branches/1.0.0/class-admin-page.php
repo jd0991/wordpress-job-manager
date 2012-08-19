@@ -81,7 +81,8 @@ class Admin_Page {
 			self::$pages = array(
 				'jobman-settings' => new Admin_Page_Settings(),
 				'jobman-edit-job' => new Admin_Page_Edit_Job(),
-				'jobman-jobs' => new Admin_Page_Jobs()
+				'jobman-jobs' => new Admin_Page_Jobs(),
+				'jobman-debug' => new Admin_Page_Debug()
 			);
 		}
 	}

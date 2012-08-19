@@ -31,13 +31,6 @@ function create_default_fields() {
 		$job_fields = Job::get_field_set();
 		
 		Custom_Field::create( $job_fields, array(
-			'label' => 'Start Date',
-			'type' => 'date',
-			'sortorder' => 0,
-			'description' => __( 'The date that the job starts. For positions available immediately, leave blank.', 'jobman' ),
-		) );	
-		
-		Custom_Field::create( $job_fields, array(
 			'label' => __( 'Salary', 'jobman' ),
 			'type' => 'text',
 			'sortorder' => 0,
