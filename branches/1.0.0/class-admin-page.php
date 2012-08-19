@@ -1,6 +1,5 @@
 <?php namespace jobman;
 
-
 class Admin_Page {
 
 	protected $details;
@@ -20,13 +19,13 @@ class Admin_Page {
 		self::create_pages();
 
 		// Setup the root admin menu page
-		add_menu_page( __( 'Job Manager', 'jobman' ), __( 'Settings', 'jobman' ), 'publish_posts', 'jobman-conf', array( self::$pages[0], 'render' ) );
+		add_menu_page( __( 'Job Manager', 'jobman' ), __( 'Job Manager', 'jobman' ), 'publish_posts', 'jobman-settings', array( self::$pages['jobman-settings'], 'render' ) );
 	
 		// Setup the sub-page menus
 		foreach ( self::$pages as $key => $page ) {
-			$details = $page->get_details();
+		$details = $page->get_details();
 			$page->details = $details;
-			$page_name = add_submenu_page( 'jobman-conf', __( 'Job Manager', 'jobman' ), $details['menu_title'], $details['capability'], $details['menu_slug'], array( $page, 'render' ) );
+			$page_name = add_submenu_page( 'jobman-settings', __( 'Job Manager', 'jobman' ), $details['menu_title'], $details['capability'], $details['menu_slug'], array( $page, 'render' ) );
 			
 			// Set hooks to load JS and CSS for the page.
 			add_action( "admin_print_styles-$page_name", array( $page, 'enqueue_styles' ) );

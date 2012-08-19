@@ -7,13 +7,15 @@ class Admin_Page_Settings extends Admin_Page {
 		return array(
 			'menu_title' => __( 'Settings', 'jobman' ), 
 			'capability' => 'manage_options',
-			'menu_slug' => 'jobman-conf'
+			'menu_slug' => 'jobman-settings'
 		);
 	}	
 	
 	function render() {
 		?>
-			<h3>I AM A BANANA.</h3>
+			<div class="wrap">
+				<h3>I AM A BANANA.</h3>
+			</div>
 		<?php	
 	}
 	
