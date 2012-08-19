@@ -17,19 +17,23 @@ class Admin_Page_Edit_Job extends Admin_Page {
 		if ( 'new' == $jobid ) {
 			$page_title = __( 'Job Manager : Add Job', 'jobman' );
 			$submit = __( 'Create Job', 'jobman' );
-			$job = array();
+			$job_details = array();
 			$display_jobid = __( 'New', 'jobman' );
 		} else {
+			$job = Job::get($jobid);
+			if ( is_null( $job ) )
+				return $this->unknown_job_error();
+			
+			$job_details = $job->get_properties();
 			$page_title = __( 'Job Manager : Edit Job', 'jobman' );
 			$submit = __( 'Update Job', 'jobman' );
 			$display_jobid = $jobid;
-			// TODO get job details			
 		}
 
 		// See if there's a failed job submit to report
 		$errors = Job::get_errors();
 		if ( ! is_null( $errors ) )
-			$job = $_REQUEST;	// re-render the request parameters
+			$job_details = $_REQUEST;	// re-render the request parameters
 
 		if ( array_key_exists( 'message', $_REQUEST ) ) {
 			echo $_REQUEST['message'];
@@ -55,7 +59,7 @@ class Admin_Page_Edit_Job extends Admin_Page {
 	
 							// Icon
 							field_open( __( 'Icon', 'jobman' ), 'jobman-icons-list' ); 
-							render_radio_list( 'jobman-icon', $job['jobman-icon'], array(
+							render_radio_list( 'jobman-icon', $job_details['jobman-icon'], array(
 								array( '', __( 'No icon', 'jobman' ) ),
 								// More icons get inserted in this array later.
 							) );
@@ -63,12 +67,12 @@ class Admin_Page_Edit_Job extends Admin_Page {
 							
 							// Title
 							field_open( __( 'Title', 'jobman' ) );
-							render_text_field( 'jobman-title', $job['jobman-title'] );
+							render_text_field( 'jobman-title', $job_details['jobman-title'] );
 							field_close( '', $errors['jobman-title'] );
 							
 							// Custom Fields
 							$field_set = Job::get_field_set();
-							$field_set->render( $job, $errors );
+							$field_set->render( $job_details, $errors );
 						?>					
 					</table>				
 					
@@ -105,6 +109,16 @@ class Admin_Page_Edit_Job extends Admin_Page {
 		} else {
 			//	TODO: Code to update exiating jobs goes here.
 		}
+	}
+	
+	private function unknown_job_error() {
+		?>
+			<h2>Job Manager: Unknown Job ID :(</h2>
+			The specified job doesn't seem to exist. 
+			<a href="<?php echo admin_url( 'admin.php?page=jobman-list-jobs' ) ?>">
+				Return to the Jobs list.
+			</a>
+		<?php
 	}
 
 };

@@ -52,13 +52,28 @@ class Job {
 		return $jobs;
 	}
 	
+	static function get( $jobid ) {
+		$post = get_post( $jobid );
+		if ( is_null( $post ) )
+			return null;
+		return Job::from_post( $post );
+	}
+	
 	function is_highlighted() {
 		return array_key_exists( 'highlighted', $this->properties ) ? $this->properties['highlighted'] : false;
 	}
 	
 	function get_title() {
 		return $this->properties['jobman-title'];
-	}	
+	}
+	
+	function get_id() {
+		return $this->post_id;
+	}
+	
+	function get_properties() {
+		return $this->properties;
+	}
 	
 	// ************ Private members ************
 	

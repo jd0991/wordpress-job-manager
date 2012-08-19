@@ -55,7 +55,11 @@ class Admin_Page_Jobs extends Admin_Page {
 								?>
 									<tr>
 										<td><input type="checkbox"></td>
-										<td><?php echo $job->get_title() ?></td>
+										<td>
+											<a href="<?php echo admin_url( 'admin.php?page=jobman-edit-job&jobid=' . $job->get_id() ) ?>">
+												<?php echo $job->get_title() ?>
+											</a>
+										</td>
 									</tr>
 								<?php
 							}
