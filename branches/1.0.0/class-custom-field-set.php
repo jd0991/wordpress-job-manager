@@ -45,7 +45,7 @@ class Custom_Field_Set {
 
 		// Render each field
 		foreach ($this->get_fields() as $field) {
-			$field_id = 'jobman-field-' . $field->id;
+			$field_id = 'data' . $field->id;
 			$field->render( $values[$field_id], $errors[$field_id] );
 		}
 	}

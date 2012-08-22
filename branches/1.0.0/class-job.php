@@ -89,6 +89,21 @@ class Job {
 			'jobman-displaystartdate' => $post->post_date
 		) );
 		$job->post_id = $post->ID;
+
+		// Slurp in post metadata
+		$meta = get_post_meta( $post->ID );
+		$job->properties['jobman-displayenddate'] = array_key_exists( 'displayenddate', $meta ) ? $meta['displayenddate'][0] : '';
+		$job->properties['icon'] = array_key_exists( 'iconid', $meta ) ? $meta['iconid'][0] : '';
+		$job->properties['email'] = array_key_exists( 'email', $meta ) ? $meta['email'][0] : '';
+		$job->properties['highlighted'] = array_key_exists( 'highlighted', $meta ) ? $meta['email'][0] : 0;
+		
+		// Process custom field data		
+		$field_set = self::get_field_set();
+		foreach ( $field_set->get_fields() as $field ) {
+			$key = 'data' . $field->id;
+			$job->properties[$key] = array_key_exists( $key, $meta ) ? $meta[$key][0] : '';
+		}
+		
 		return $job;
 	}
 	
@@ -118,7 +133,7 @@ class Job {
 		//	Custom data
 		foreach ( $this->properties as $key => $value ) {
 			if ( preg_match( '/^data[0-9]+$/', $key ) ) {
-				$this->upsert_meta( $key, $data );
+				$this->upsert_meta( $key, $value );
 			}
 		}
 	}
