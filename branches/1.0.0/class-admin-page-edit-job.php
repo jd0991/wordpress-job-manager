@@ -98,7 +98,7 @@ class Admin_Page_Edit_Job extends Admin_Page {
 			// Create a new job
 			if ( Job::create( $job ) ) {
 				// On successful creation, redirect to main jobs list with a created message.
-				wp_redirect( admin_url( 'admin.php?page=jobman-list-jobs&created=1' ) );
+				wp_redirect( admin_url( 'admin.php?page=jobman-list-jobs&message=created' ) );
 				exit;
 			} else {
 				// Fall through to default rendering behaviour on failure
@@ -106,7 +106,23 @@ class Admin_Page_Edit_Job extends Admin_Page {
 			}
 
 		} else {
-			//	TODO: Code to update exiating jobs goes here.
+		
+			$target_job = Job::get( $jobid );
+			if ( is_null( $target_job ) ) {
+				// No job found: Show an error and return to main job list.
+				wp_redirect( admin_url( 'admin.php?page=jobman-list-jobs&message=job_not_found' ) );
+				exit;
+			}
+			
+			if ( $target_job->update( $job ) ) {
+				// On successful creation, redirect to main jobs list with a created message.
+				wp_redirect( admin_url( 'admin.php?page=jobman-list-jobs&message=updated' ) );
+				exit;
+			} else {
+				// Fall through to default rendering behaviour on error
+				return;
+			}
+			
 		}
 	}
 	

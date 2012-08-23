@@ -7,6 +7,16 @@ p.notification {
 	text-align: center;
 }
 
+p.error_notification {
+	border: 1px solid #AA0000;
+	background-color: #FF0000;
+	border-radius:2px;
+	padding: 8px;
+	margin: 5px;
+	text-align: center;
+	color: white;
+}
+
 span.error {
 	color: red;
 }

@@ -20,19 +20,7 @@ class Job {
 	}
 	
 	static function create( $args ) {
-		// TODO: MOAR VALIDATION
-		self::$errors = array();
-		
-		// Validate job title.
-		$title = array_key_exists( 'jobman-title', $args ) ? $args['jobman-title'] : '';
-		if ( '' == $title )
-			self::$errors['jobman-title'] = 'Must not be blank!';
-			
-		// Validate custom fields		
-		self::$errors = array_merge( self::$errors, self::get_field_set()->validate( $args ) );
-
-		// Return false if any validation errors
-		if ( count( self::$errors ) )
+		if ( ! self::validate_args( $args ) )
 			return false;
 
 		// Actually create the post...
@@ -75,6 +63,20 @@ class Job {
 		return $this->properties;
 	}
 	
+	// Takes an array of new values to set in the job, then saves it.
+	function update( $args ) {
+		if ( ! self::validate_args( $args ) ) {
+			file_put_contents('php://stderr', "Error count: " . count( self::$errors ));
+			return false;
+		}
+
+		$this->properties = array_merge( $this->properties, $args );
+		wp_update_post( $this->get_post_array() );
+		$this->save_meta_data();
+		
+		return true;
+	}
+	
 	// ************ Private members ************
 	
 	// Construct a Job object from a hash describing one. To get a job externally, use a static method from above.
@@ -107,9 +109,25 @@ class Job {
 		return $job;
 	}
 	
+	private static function validate_args( $args ) {
+		// TODO: MOAR VALIDATION
+		self::$errors = array();
+		
+		// Validate job title.
+		$title = array_key_exists( 'jobman-title', $args ) ? $args['jobman-title'] : '';
+		if ( '' == $title )
+			self::$errors['jobman-title'] = 'Must not be blank!';
+			
+		// Validate custom fields
+		self::$errors = array_merge( self::$errors, self::get_field_set()->validate( $args ) );
+
+		// Return false if any validation errors
+		return count( self::$errors ) == 0;
+	}
+	
 	// Get an array describing the basic post properties for this Job.
 	private function get_post_array() {
-		return array(
+		$post = array(
 			'comment_status' => 'closed',
 			'ping_status' => 'closed',
 			'post_status' => 'publish',
@@ -121,6 +139,9 @@ class Job {
 			'post_date_gmt' => $this->propeties['jobman-displaystartdate'],
 			'post_parent' => Options::get( 'main_page' )
 		);
+		if ( ! is_null( $this->post_id ) )
+			$post['ID'] = $this->post_id;
+		return $post;
 	}
 	
 	// Save the metadata with this job's post. Includes custom fields and a fistful of properties.

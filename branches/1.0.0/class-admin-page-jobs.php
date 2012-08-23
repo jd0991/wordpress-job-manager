@@ -12,12 +12,28 @@ class Admin_Page_Jobs extends Admin_Page {
 	}	
 	
 	function render() {
-		if ( array_key_exists( 'created', $_REQUEST ) ) {
+		if ( array_key_exists( 'message', $_REQUEST ) ) {
+			$class = 'notification';
+			switch ( $_REQUEST['message'] ) {
+				case 'created':
+					$message = __( 'Hooray! You created a job!', 'jobman' );
+					break;
+
+				case 'updated':
+					$message = __( 'Hooray! You updated a job!', 'jobman' );
+					break;
+					
+				case 'job_not_found':
+					$message = __( 'Job not found!', 'jobman' );
+					$class = 'error_notification';
+					break;
+			}
+			
 			?>
-				<p class="notification"><b>YAY</b> You've created a job. GOOD FOR YOU!</p>
-			<?php
+				<p class="<?php echo $class ?>"><?php echo $message ?></p>
+			<?php			
 		}
-		
+	
 		$jobs = Job::get_all();
 		$field_set = Job::get_field_set();
 		$field_count = 0;
