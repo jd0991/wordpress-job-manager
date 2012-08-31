@@ -7,6 +7,7 @@ class Admin_Page_Settings extends Admin_Page {
 		return array(
 			'menu_title' => __( 'Settings', 'jobman' ), 
 			'capability' => 'manage_options',
+			'custom_render' => true,
 			'menu_slug' => 'jobman-settings'
 		);
 	}	

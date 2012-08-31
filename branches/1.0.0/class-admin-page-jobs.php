@@ -7,6 +7,7 @@ class Admin_Page_Jobs extends Admin_Page {
 		return array(
 			'menu_title' => __( 'Jobs', 'jobman' ), 
 			'capability' => 'publish_posts',
+			'custom_render' => false,
 			'menu_slug' => 'jobman-list-jobs'
 		);
 	}	

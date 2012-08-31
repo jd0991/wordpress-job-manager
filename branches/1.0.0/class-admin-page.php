@@ -23,9 +23,13 @@ class Admin_Page {
 	
 		// Setup the sub-page menus
 		foreach ( self::$pages as $key => $page ) {
-		$details = $page->get_details();
+			$details = $page->get_details();
 			$page->details = $details;
-			$page_name = add_submenu_page( 'jobman-settings', __( 'Job Manager', 'jobman' ), $details['menu_title'], $details['capability'], $details['menu_slug'], array( $page, 'render' ) );
+			if ( $details['custom_render' ] )
+				$render = array( $page, 'render' );
+			else
+				$render = NULL;
+			$page_name = add_submenu_page( 'jobman-settings', __( 'Job Manager', 'jobman' ), $details['menu_title'], $details['capability'], $details['menu_slug'], $render );
 			
 			// Set hooks to load JS and CSS for the page.
 			add_action( "admin_print_styles-$page_name", array( $page, 'enqueue_styles' ) );
@@ -79,9 +83,8 @@ class Admin_Page {
 	private static function create_pages() {
 		if ( is_null( self::$pages ) ) {
 			self::$pages = array(
-				'jobman-settings' => new Admin_Page_Settings(),
 				'jobman-edit-job' => new Admin_Page_Edit_Job(),
-				'jobman-jobs' => new Admin_Page_Jobs()
+				'jobman-settings' => new Admin_Page_Settings(),
 			);
 			
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG )

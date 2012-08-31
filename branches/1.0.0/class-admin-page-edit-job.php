@@ -5,9 +5,10 @@ class Admin_Page_Edit_Job extends Admin_Page {
 
 	function get_details() {
 		return array(
-			'menu_title' => __( 'Add Job', 'jobman' ), 
+			'menu_title' => __( 'Add New', 'jobman' ), 
 			'capability' => 'publish_posts',
-			'menu_slug' => 'jobman-edit-job'
+			'custom_render' => false,
+			'menu_slug' => 'post-new.php?post_type=jobman_job'
 		);
 	}	
 	
