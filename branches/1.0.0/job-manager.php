@@ -58,6 +58,7 @@ if ( is_admin() ) {
 	require dirname( __FILE__ ) . '/class-admin-page-debug.php';
 }
 require dirname( __FILE__ ) . '/setup.php';
+require dirname( __FILE__ ) . '/init.php';
 require dirname( __FILE__ ) . '/hooks.php';
 
 ?>

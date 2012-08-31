@@ -15,7 +15,8 @@ class Admin_Page_Debug extends Admin_Page {
 		$action = $_REQUEST['action'];
 		if ( 'reset_config' == $action ) {
 			delete_option( 'jobman_options' );
-			setup();
+			Setup::database();
+			Setup::custom_fields();
 			?>
 				<p class="notification">Config reset, bitches.</p>
 			<?php
