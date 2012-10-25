@@ -120,6 +120,9 @@ Print Icon courtesy of [VisualPharm](http://www.visualpharm.com/), under a [CC B
 
 == Changelog ==
 
+= 0.7.21 =
+* FIXED: Some PHP errors that could affect translations
+
 = 0.7.20 =
 * FIXED: Compatibility with Yoast SEO plugin. Props to [Joost](http://yoast.com).
 

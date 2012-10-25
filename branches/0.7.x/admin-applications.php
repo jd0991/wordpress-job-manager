@@ -154,7 +154,7 @@ function jobman_list_applications() {
 					break;
 				case 'geoloc':
 					if( $options['api_keys']['google_maps'] ) {
-						$msg = __( 'Up to %1s km from %2s', 'jobman' );
+						$msg = __( 'Up to %1$s km from %2$s', 'jobman' );
 						
 						$km_value = '';
 						if( array_key_exists( "jobman-field2-$id", $_REQUEST ) )

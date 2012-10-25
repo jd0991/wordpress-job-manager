@@ -79,7 +79,7 @@ function jobman_print_display_settings_box() {
 			<tr>
 				<th scope="row"><?php _e( 'Date Format', 'jobman' ) ?></th>
 				<td><input type="text" name="date-format" class="small-text" value="<?php echo $options['date_format'] ?>" /></td>
-				<td><span class="description"><?php printf( __( "The format to use for Job date fields. Leave blank to use the dates as they're entered. See the <a href='%1s'>documentation on date formatting</a> for further details.", 'jobman' ), 'http://codex.wordpress.org/Formatting_Date_and_Time' ) ?></span></td>
+				<td><span class="description"><?php printf( __( "The format to use for Job date fields. Leave blank to use the dates as they're entered. See the <a href='%s'>documentation on date formatting</a> for further details.", 'jobman' ), 'http://codex.wordpress.org/Formatting_Date_and_Time' ) ?></span></td>
 			</tr>
 <?php
 	if( ! get_option( 'pento_consulting' ) ) {
@@ -120,7 +120,7 @@ function jobman_print_sort_box() {
 	uasort( $fields, 'jobman_sort_fields' );
 	foreach( $fields as $fid => $field ) {
 ?>
-					<option value="data<?php echo $fid ?>"<?php echo ( "data$fid" == $options['sort_by'] )?( ' selected="selected"' ):( '' ) ?>><?php printf( __( 'Custom Field: %1s', 'jobman' ), $field['label'] ) ?></option>
+					<option value="data<?php echo $fid ?>"<?php echo ( "data$fid" == $options['sort_by'] )?( ' selected="selected"' ):( '' ) ?>><?php printf( __( 'Custom Field: %s', 'jobman' ), $field['label'] ) ?></option>
 <?php
 	}
 ?>

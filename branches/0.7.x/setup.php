@@ -124,9 +124,9 @@ function jobman_create_default_settings() {
 	$cattext = __( 'Categories', 'jobman' );
 	$applynowtext = __( 'Apply Now', 'jobman' );
 	
-	$navprevious = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_previous_number]' );
-	$navnext = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_next_number]' );
-	$navdesc = sprintf( __( 'Jobs %1s-%2s of %3s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_total]' );
+	$navprevious = sprintf( __( 'Page %s', 'jobman' ), '[job_page_previous_number]' );
+	$navnext = sprintf( __( 'Page %s', 'jobman' ), '[job_page_next_number]' );
+	$navdesc = sprintf( __( 'Jobs %1$s-%2$s of %3$s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_total]' );
 	
 	$options['templates']['job'] = <<<EOT
 <table class="job-table[if_job_highlighted] highlighted[/if_job_highlighted]">
@@ -384,9 +384,9 @@ EOT;
 		$options['interview_title_fields'] = array();
 		$options['date_format'] = '';
 
-		$navprevious = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_previous_number]' );
-		$navnext = sprintf( __( 'Page %1s', 'jobman' ), '[job_page_next_number]' );
-		$navdesc = sprintf( __( 'Jobs %1s-%2s of %3s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_total]' );
+		$navprevious = sprintf( __( 'Page %s', 'jobman' ), '[job_page_previous_number]' );
+		$navnext = sprintf( __( 'Page %s', 'jobman' ), '[job_page_next_number]' );
+		$navdesc = sprintf( __( 'Jobs %1$s-%2$s of %3$s', 'jobman' ), '[job_page_minimum]', '[job_page_maximum]', '[job_total]' );
 		
 		$options['templates']['job_list'] .= <<<EOT
 

@@ -12,7 +12,7 @@ function jobman_display_login() {
 	
 	if( is_user_logged_in() ) {
 		$loggedin_html = '<div id="jobman_loggedin"><span class="message">';
-		$loggedin_html .= apply_filters( 'jobman_loggedin_msg', sprintf( __( 'Welcome, %1s!', 'jobman' ), $current_user->display_name ) );
+		$loggedin_html .= apply_filters( 'jobman_loggedin_msg', sprintf( __( 'Welcome, %s!', 'jobman' ), $current_user->display_name ) );
 		$loggedin_html .= '</span>';
 		$loggedin_html .= '</div>';
 		
@@ -99,7 +99,7 @@ function jobman_display_register() {
 	$register_html .= '<td><input class="password" type="password" name="jobman_password2" id="jobman_password2" /></td></tr>';
 	
 	if( 3 == $jobman_register_failed )
-		$register_html .= '<tr><td>&nbsp;</td><td class="error">' . sprintf( __( "This email address has already been registered. If you've previously registered but don't remember your password, please visit the <a href='%1s'>password reset page</a>.", 'jobman' ), wp_lostpassword_url( jobman_current_url() ) ) . '</td></tr>';
+		$register_html .= '<tr><td>&nbsp;</td><td class="error">' . sprintf( __( "This email address has already been registered. If you've previously registered but don't remember your password, please visit the <a href='%s'>password reset page</a>.", 'jobman' ), wp_lostpassword_url( jobman_current_url() ) ) . '</td></tr>';
 	
 	$register_html .= '<tr><th scope="row"><label class="email" for="jobman_email">' . __( 'Email Address', 'jobman' ) . '</label>:</th>';
 	$register_html .= '<td><input class="email" type="text" name="jobman_email" id="jobman_email" value="';

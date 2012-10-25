@@ -67,7 +67,7 @@ function jobman_interview_month( $filter, $caltype = 'full' ) {
 <?php
 	if( 'full' == $caltype ) {
 ?>
-		<h2><?php printf( __( 'Job Manager: %1s Interviews', 'jobman' ), date_i18n( 'F Y', strtotime( $filter ) ) ) ?></h2>
+		<h2><?php printf( __( 'Job Manager: %s Interviews', 'jobman' ), date_i18n( 'F Y', strtotime( $filter ) ) ) ?></h2>
 		<form action="" method="post">
 		<div class="jobman-interview-nav">
 			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=month&amp;filter=' . date( 'Y-m', strtotime( "$filter -1 month" ) ) ) ?>">&lt;&lt;-- <?php echo date_i18n( 'F Y', strtotime( "$filter -1 month" ) ) ?></a>
@@ -158,7 +158,7 @@ function jobman_interview_year( $filter ) {
 	$year = $filter;
 ?>
 	<div class="wrap">
-		<h2><?php printf( __( 'Job Manager: %1s Interviews', 'jobman' ), $year ) ?></h2>
+		<h2><?php printf( __( 'Job Manager: %s Interviews', 'jobman' ), $year ) ?></h2>
 		<form action="" method="post">
 		<div class="jobman-interview-nav">
 			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=year&amp;filter=' . ( $year - 1 ) ) ?>">&lt;&lt;-- <?php echo $year - 1 ?></a>
@@ -223,7 +223,7 @@ function jobman_interview_day( $filter ) {
 	$day = date( 'j', strtotime( $filter ) );
 ?>
 	<div class="wrap">
-		<h2><?php printf( __( 'Job Manager: %1s Interviews', 'jobman' ), date_i18n( 'l jS F Y', strtotime( $filter ) ) ) ?></h2>
+		<h2><?php printf( __( 'Job Manager: %s Interviews', 'jobman' ), date_i18n( 'l jS F Y', strtotime( $filter ) ) ) ?></h2>
 		<form action="" method="post">
 		<div class="jobman-interview-nav">
 			<a href="<?php echo admin_url( 'admin.php?page=jobman-interviews&amp;display=day&amp;filter=' . date( 'Y-m-d', strtotime( "$filter -1 day" ) ) ) ?>">&lt;&lt;-- <?php echo date_i18n( 'l jS F Y', strtotime( "$filter -1 day" ) ) ?></a>
