@@ -8,7 +8,7 @@ function jobman_activate() {
 		if ( isset( $_GET['networkwide'] ) && ( 1 == $_GET['networkwide'] ) ) {
 	                $old_blog = $wpdb->blogid;
 			// Get all blog ids
-			$blogids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs" ) );
+			$blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
 			foreach ( $blogids as $blog_id ) {
 				switch_to_blog( $blog_id );
 				_jobman_activate();
@@ -440,7 +440,7 @@ function jobman_uninstall() {
 		if ( isset( $_GET['networkwide'] ) && ( 1 == $_GET['networkwide'] ) ) {
 			$old_blog = $wpdb->blogid;
 			// Get all blog ids
-			$blogids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs" ) );
+			$blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
 			foreach ( $blogids as $blog_id ) {
 				switch_to_blog( $blog_id );
 				_jobman_uninstall();
